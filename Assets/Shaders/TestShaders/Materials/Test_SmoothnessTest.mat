@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Test_SmoothnessTest
+  m_Shader: {fileID: 4800000, guid: 30a465e58a85bd845935b88794c3c5cd, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 21588f40ad536fb4a94aeacba2b743a2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BlendFactor: 0.5
+    - _FlowSpeed: 1
+    - _Glossiness: 0.6
+    - _Metallic: 0
+    - _Scale: 4.6
+    - _SmoothnessState: 0.8796672
+    - _SpecularExpo: 54
+    m_Colors:
+    - _BotColor: {r: 0.5104331, g: 0.5566038, b: 0.023104284, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _TopColor: {r: 0.45817652, g: 0.6313726, b: 0.031372532, a: 1}
+  m_BuildTextureStacks: []
