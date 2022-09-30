@@ -698,7 +698,7 @@ AnimatorStateTransition:
     m_EventTreshold: 0.1
   - m_ConditionMode: 4
     m_ConditionEvent: swim
-    m_EventTreshold: 0.1
+    m_EventTreshold: 0.03
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -5014322562189324430}
   m_Solo: 0
@@ -909,7 +909,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 3
     m_ConditionEvent: swim
-    m_EventTreshold: 0.1
+    m_EventTreshold: 0.05
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7926956446329621721}
   m_Solo: 0

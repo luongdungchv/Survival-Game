@@ -53,11 +53,11 @@ public class InputReader : MonoBehaviour
     }
     public bool SprintPress()
     {
-        return Input.GetKeyDown(sprintKey);
+        return Input.GetKeyDown(sprintKey) || Input.GetMouseButtonDown(1);
     }
     public bool SprintRelease()
     {
-        return Input.GetKeyUp(sprintKey);
+        return Input.GetKeyUp(sprintKey) || Input.GetMouseButtonUp(1);
     }
     public bool ShowCursorKeyPress()
     {
