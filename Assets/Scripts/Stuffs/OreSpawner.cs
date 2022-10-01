@@ -37,18 +37,27 @@ public class OreSpawner : MonoBehaviour
 
                 for (int j = 0; j < i.orePerRegion; j++)
                 {
-                    float randX = randObj.NextFloat((float)randPos.x, (float)randPos.x + i.minSize);
-                    float randY = randObj.NextFloat((float)randPos.y, (float)randPos.y + i.minSize);
+                    float randSize = randObj.NextFloat(i.minSize, i.maxSize);
+                    float randX = randObj.NextFloat((float)randPos.x, (float)randPos.x + randSize);
+                    float randY = randObj.NextFloat((float)randPos.y, (float)randPos.y + randSize);
                     var castPos = new Vector3(randX, castHeight, randY);
                     if (Physics.Raycast(castPos, Vector3.down, out hit, 500, mask))
                     {
                         sumY += hit.point.y;
                         if (hit.point.y < skipHeight) continue;
+
                         var randomAngle = randObj.NextFloat(0f, 360f);
                         var randomRotation = Quaternion.Euler(0, randomAngle, 0);
-                        var tree = Instantiate(i.prefab[0], hit.point, randomRotation);
+                        var rotateToSlope = Quaternion.FromToRotation(Vector3.up, hit.normal);
+
+                        var randomPrefab = i.prefab[randObj.Next(0, i.prefab.Count)];
+                        var rock = Instantiate(randomPrefab, hit.point, rotateToSlope);
+
                         var scale = randObj.NextFloat(i.minScale, i.maxScale);
-                        tree.transform.localScale = Vector3.one * scale;
+                        rock.transform.localScale = Vector3.one * scale;
+
+                        rock.transform.Rotate(0, randomAngle, 0);
+                        rock.transform.Translate(-rock.transform.up * scale / 4);
                     }
                 }
             }
@@ -79,7 +88,7 @@ public class OreSpawner : MonoBehaviour
     {
         public string name;
         public List<GameObject> prefab;
-        public float maxScale, minScale, minSize, maxSize;
+        public float minScale, maxScale, minSize, maxSize;
         public float regionCount, orePerRegion;
 
     }
