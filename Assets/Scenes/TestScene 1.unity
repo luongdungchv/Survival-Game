@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 67844147}
-  m_IndirectSpecularColor: {r: 0.87445176, g: 0.92576706, b: 0.8526461, a: 1}
+  m_IndirectSpecularColor: {r: 0.32993346, g: 0.29809386, b: 0.4984309, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5606,6 +5606,7 @@ GameObject:
   - component: {fileID: 466576391}
   - component: {fileID: 466576386}
   - component: {fileID: 466576390}
+  - component: {fileID: 466576392}
   m_Layer: 13
   m_Name: Terrain
   m_TagString: Untagged
@@ -5828,6 +5829,33 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 8487
+--- !u!114 &466576392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466576384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77479b10c51edbd468d71ce7849de284, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellDist: 15
+  oreTypes:
+  - name: Rock
+    prefab:
+    - {fileID: 5187144802308264230, guid: e8283e5e73c1e49479df6922a84b094d, type: 3}
+    maxScale: 1
+    minScale: 2
+    minSize: 10
+    maxSize: 10
+    regionCount: 50
+    orePerRegion: 10
+  castHeight: 400
+  mask:
+    serializedVersion: 2
+    m_Bits: 8192
 --- !u!1 &486210356
 GameObject:
   m_ObjectHideFlags: 0
