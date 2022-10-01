@@ -57,7 +57,7 @@ public class TreeSpawner : MonoBehaviour
                 Vector2 centerPos = new Vector2(randPos.x + CELL_DIST / 2, randPos.y + CELL_DIST / 2);
                 Vector3 petalSpawnPos = new Vector3(centerPos.x, sumY, centerPos.y);
                 Vector3 randRotationTo = new Vector3(randObj.NextFloat(-1, 1), -1, randObj.NextFloat(-1, 1));
-                var petalRotation = Quaternion.FromToRotation(Vector3.forward, randRotationTo);
+                var petalRotation = Quaternion.FromToRotation(Vector3.forward, Vector3.down);
                 var petal = Instantiate(i.petalParticlePrefab, petalSpawnPos, petalRotation);
             }
         }
