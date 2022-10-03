@@ -20,6 +20,7 @@ public class MapGenerator : MonoBehaviour
     public float falloff;
     public List<TerrainType> terrainTypes;
     public Material terrainMat;
+    [SerializeField] private Material mapMat;
     [Range(0, 1)]
     public List<float> blends;
     // Start is called before the first frame update
@@ -39,7 +40,21 @@ public class MapGenerator : MonoBehaviour
     public void UpdateTexture(float[,] noiseMap)
     {
 
+        int width = noiseMap.GetLength(0);
+        int length = noiseMap.GetLength(1);
+        Texture2D mapColor = new Texture2D(width, length);
+        for (int i = 0; i < noiseMap.GetLength(0); i++)
+        {
+            for (int j = 0; j < noiseMap.GetLength(1); j++)
+            {
+                float noiseVal = noiseMap[i, j];
+                if (noiseVal * heightCurve.Evaluate(noiseVal) <= 0.1125f) mapColor.SetPixel(i, j, Color.cyan);
+                else mapColor.SetPixel(i, j, Color.green);
 
+            }
+        }
+        mapColor.Apply();
+        mapMat.mainTexture = mapColor;
         var baseColors = terrainTypes.Select(n => n.color).ToArray();
         var baseHeights = terrainTypes.Select(n => n.height).ToArray();
 
