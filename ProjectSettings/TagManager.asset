@@ -19,8 +19,8 @@ TagManager:
   - BothMap
   - Tree
   - Terrain
-  - 
-  - 
+  - PostProcess
+  - MainCamera
   - 
   - 
   - 

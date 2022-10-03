@@ -7,6 +7,7 @@ public class FPSSetter : MonoBehaviour
     {
         //QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = fps;
+        Debug.Log(Application.targetFrameRate);
     }
 
     // Update is called once per frame

@@ -28,7 +28,7 @@
 
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
-            #include "../Headers/WorleyNoise.cginc"
+            #include "../../Headers/WorleyNoise.cginc"
             //#include "../Headers/PerlinNoise.cginc"
 
             struct appdata
@@ -80,7 +80,7 @@
                 float3 delta = float3(lightPos.x, sunPos.x, sunPos.y) - worldPos;
                 float dist = length(delta);
                 float spot = 1 - smoothstep(0.0, _SunSize, dist);
-                return spot * spot;
+                return spot * spot ;
             }
 
             fixed4 frag (v2f i) : SV_Target
@@ -90,7 +90,7 @@
                 float4 lightPos = -_WorldSpaceLightPos0;
                 float t = smoothstep(-_BlendFactor + 0.33, _BlendFactor + 0.33, i.uv.y);
                 float4 col = lerp(_GroundColor, _SkyColor, t);
-                col += float4(pow(_LightColor0.xyz, 0.2) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0);
+                col += float4(pow(_LightColor0.xyz, 0.1) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0);
                 
                 float part1 = atan2(i.worldPos.x, i.worldPos.z) / ( PI );
                 float part2 = asin(i.worldPos.y) * 2 / PI;

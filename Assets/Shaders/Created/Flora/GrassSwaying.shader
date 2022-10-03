@@ -25,7 +25,7 @@ Shader "Environment/Flora/Grass Swaying"
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0 
         
-        #include "../Headers/PerlinNoise.cginc"
+        #include "../../Headers/PerlinNoise.cginc"
         #include "UnityCG.cginc"
 
         sampler2D _MainTex;
@@ -59,9 +59,7 @@ Shader "Environment/Flora/Grass Swaying"
             float2 offsetX = worldPos.xy / _Scale + float2(_Time.y, 0);
             float perlinVal = perlinNoise(offsetX) - 0.5;
             float4 newPos = data.vertex + float4(perlinVal * data.texcoord1.y, 0, 0, 0);
-            //data.vertex = lerp(data.vertex, newPos, data.texcoord1.y);
             data.vertex = newPos;
-            //o.localPos = data.texcoord;
         }
         
         void surf (Input i, inout SurfaceOutputStandard o)
@@ -76,14 +74,10 @@ Shader "Environment/Flora/Grass Swaying"
             
             
             o.Albedo = lerp(_BotColor, _TopColor, i.uv_MainTex.y);
-            //o.Albedo = i.localPos.y;
-            // Metallic and smoothness come from slider variables 
+            
             o.Metallic = _Metallic;
             o.Smoothness = lerp(0.1, _Glossiness, _SmoothnessState);
-            //o.Smoothness = _Glossiness;
-            //o.Normal = abs(mul((float3x3)unity_WorldToObject, float3(0,0,1)).xyz);
-            //o.Normal = abs(mul(float3(0,0,1), (float3x3)unity_ObjectToWorld).xyz);
-            //o.Normal = float3(0,0,1);
+            
             o.Alpha = c.a;
         }
         ENDCG

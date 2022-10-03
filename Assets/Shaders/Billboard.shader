@@ -30,11 +30,13 @@
             {
                 float4 vertex : POSITION;
                 float2 tex : TEXCOORD0;
+                float3 normal: NORMAL;
             };
             struct vertexOutput
             {
                 float4 pos : SV_POSITION;
                 float2 tex : TEXCOORD0;
+                float3 normal: NORMAL;
             };
 
             vertexOutput vert(vertexInput input)
@@ -47,13 +49,17 @@
                 * float4(_ScaleX, _ScaleY, 1.0, 1.0));
                 
                 output.tex = TRANSFORM_TEX(input.tex, _MainTex);
+                output.normal = input.normal;
 
                 return output;
             }
 
-            float4 frag(vertexOutput input) : COLOR
+            float4 frag(vertexOutput i) : COLOR
             {
-                return tex2D(_MainTex, float2(input.tex.xy));
+                float4 col = tex2D(_MainTex, float2(i.tex.xy));
+                float3 lightDir = ObjSpaceLightDir(i.pos);
+                float intensity = round(dot(i.normal, lightDir) / 2 + 0.5);
+                return col * intensity;
             }
 
             ENDCG
