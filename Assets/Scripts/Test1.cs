@@ -11,13 +11,7 @@ public class Test1 : MonoBehaviour
     public Material mat;
     private void Start()
     {
-        // for (int x = 0; x < 5; x++)
-        // {
-        //     for (int y = 0; y < 5; x++)
-        //     {
-        //         Debug.Log($"{diffuseTex.GetPixel(x, y)} || {normalTex.GetPixel(x, y)}");
-        //     }
-        // }
+
         Debug.Log($"{diffuseTex.GetPixel(0, 0)} || {normalTex.GetPixel(0, 0)}");
         Debug.Log($"{diffuseTex.GetPixel(789, 908)} || {normalTex.GetPixel(789, 908)}");
         Debug.Log($"{diffuseTex.GetPixel(134, 456)} || {normalTex.GetPixel(134, 456)}");

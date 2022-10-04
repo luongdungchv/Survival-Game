@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class DamageDealer : MonoBehaviour
 {
-    BoxCollider detector;
+    [SerializeField] private BoxCollider detector;
     private void Start()
     {
-        detector = GetComponent<BoxCollider>();
+        //detector = GetComponent<BoxCollider>();
     }
 
     public void EnableWeapon()
     {
         detector.enabled = true;
+        //transform.parent.gameObject.SetActive(true);
     }
     public void DisableWeapon()
     {
         detector.enabled = false;
+        //transform.parent.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)

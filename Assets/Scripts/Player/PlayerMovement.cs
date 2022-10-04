@@ -164,9 +164,9 @@ public class PlayerMovement : MonoBehaviour
     void PerformRotation()
     {
 
-        xRotation += -Input.GetAxis("Mouse Y") * mouseSensitivity.x;
+        xRotation += -inputReader.MouseY() * mouseSensitivity.x;
         xRotation = Mathf.Clamp(xRotation, -85, 85);
-        yRotation += Input.GetAxis("Mouse X") * mouseSensitivity.y;
+        yRotation += inputReader.MouseX() * mouseSensitivity.y;
         camHolder.transform.rotation = Quaternion.Euler(xRotation, yRotation, camHolder.transform.rotation.z);
     }
 

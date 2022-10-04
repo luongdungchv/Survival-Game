@@ -48,6 +48,7 @@ public class PlayerAttack : MonoBehaviour
         attackIndex = -1;
         animator.SetFloat("attack", attackIndex);
         animator.SetBool("slash", false);
+        attacker.transform.parent.gameObject.SetActive(false);
     }
     public void PerformAttack(InputReader inputReader, StateInitializer init)
     {
@@ -71,6 +72,7 @@ public class PlayerAttack : MonoBehaviour
             //movementSystem.StopMoving();
             //movementSystem.isStartMove = true;
 
+            attacker.transform.parent.gameObject.SetActive(true);
             attacker.EnableWeapon();
 
             yield return new WaitForSeconds(duration);

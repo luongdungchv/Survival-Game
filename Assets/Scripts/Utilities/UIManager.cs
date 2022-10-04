@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager ins;
     [SerializeField] private GameObject mapObj;
+    public bool isMapOpen => mapObj.activeSelf;
 
     private void Start()
     {

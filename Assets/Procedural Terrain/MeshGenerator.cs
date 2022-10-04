@@ -45,7 +45,6 @@ public class MeshGenerator
             }
         }
         var trisArray = tris.ToArray();
-        //tris.ForEach(n => Debug.Log(n));
         mesh.vertices = verts;
         mesh.uv = uv;
         mesh.triangles = trisArray;
@@ -57,7 +56,6 @@ public class MeshGenerator
     public static Mesh GenerateMeshNoLOD(float[,] noiseMap, float maxHeight, AnimationCurve heightCurve, int worldWidth)
     {
         int width = noiseMap.GetLength(0);
-        //int height = noiseMap.GetLength(1);
 
         float unit = (float)worldWidth / (float)width;
         //unit = 1;
@@ -101,7 +99,6 @@ public class MeshGenerator
 
         Mesh mesh = new Mesh();
         var trisArray = tris.ToArray();
-        //tris.ForEach(n => Debug.Log(n));
         mesh.vertices = verts;
         mesh.uv = uv;
         mesh.triangles = trisArray;

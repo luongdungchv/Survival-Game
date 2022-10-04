@@ -26,6 +26,11 @@ public class InputReader : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            UIManager.ins.ToggleMap();
+        }
+        if (UIManager.ins.isMapOpen) return;
         moveDirections[0] = Input.GetKey(moveForwardKey) ? Vector2.up : Vector2.zero;
         moveDirections[1] = Input.GetKey(moveBackWardKey) ? Vector2.down : Vector2.zero;
         moveDirections[2] = Input.GetKey(moveRightKey) ? Vector2.right : Vector2.zero;
@@ -38,42 +43,47 @@ public class InputReader : MonoBehaviour
         //Debug.Log(movementInputVector);
         if (SprintPress()) sprint = true;
         if (SprintRelease()) sprint = false;
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            UIManager.ins.ToggleMap();
-        }
+
     }
     public bool SlashPress()
     {
-        return Input.GetKeyDown(slashKey);
+        return Input.GetKeyDown(slashKey) && !UIManager.ins.isMapOpen;
     }
     public bool SlashRelease()
     {
-        return Input.GetKeyUp(slashKey);
+        return Input.GetKeyUp(slashKey) && !UIManager.ins.isMapOpen;
     }
     public bool SprintPress()
     {
-        return Input.GetKeyDown(sprintKey) || Input.GetMouseButtonDown(1);
+        return (Input.GetKeyDown(sprintKey) || Input.GetMouseButtonDown(1)) && !UIManager.ins.isMapOpen;
     }
     public bool SprintRelease()
     {
-        return Input.GetKeyUp(sprintKey) || Input.GetMouseButtonUp(1);
+        return (Input.GetKeyUp(sprintKey) || Input.GetMouseButtonUp(1)) && !UIManager.ins.isMapOpen;
     }
     public bool ShowCursorKeyPress()
     {
-        return Input.GetKeyDown(showCursorKey);
+        return Input.GetKeyDown(showCursorKey) && !UIManager.ins.isMapOpen;
     }
     public bool ShowCursorKeyRelease()
     {
-        return Input.GetKeyUp(showCursorKey);
+        return Input.GetKeyUp(showCursorKey) && !UIManager.ins.isMapOpen;
     }
     public bool JumpPress()
     {
-        return Input.GetKeyDown(jumpKey);
+        return Input.GetKeyDown(jumpKey) && !UIManager.ins.isMapOpen;
     }
-    public bool jumpRelease()
+    public bool JumpRelease()
     {
-        return Input.GetKeyUp(jumpKey);
+        return Input.GetKeyUp(jumpKey) && !UIManager.ins.isMapOpen;
+    }
+    public float MouseX()
+    {
+        return UIManager.ins.isMapOpen ? 0 : Input.GetAxis("Mouse X");
+    }
+    public float MouseY()
+    {
+        return UIManager.ins.isMapOpen ? 0 : Input.GetAxis("Mouse Y");
     }
 
 }
