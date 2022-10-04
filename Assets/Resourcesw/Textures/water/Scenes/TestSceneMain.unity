@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 67844147}
-  m_IndirectSpecularColor: {r: 0.8230971, g: 0.9919488, b: 0.8819586, a: 1}
+  m_IndirectSpecularColor: {r: 0.18543395, g: 0.062399723, b: 0.37174588, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5959,6 +5959,10 @@ PrefabInstance:
     - target: {fileID: 3431378233174800760, guid: 97f3a2da805902346a8e6992630ef5f9, type: 3}
       propertyPath: m_Name
       value: grass2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3431378233174800760, guid: 97f3a2da805902346a8e6992630ef5f9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97f3a2da805902346a8e6992630ef5f9, type: 3}
@@ -12280,6 +12284,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EM_Rock01b_PRE
       objectReference: {fileID: 0}
+    - target: {fileID: 5187144802308264230, guid: e8283e5e73c1e49479df6922a84b094d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5528063107972811676, guid: e8283e5e73c1e49479df6922a84b094d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 206.13077
@@ -14196,7 +14204,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &2885570499084327150
 GameObject:
   m_ObjectHideFlags: 0

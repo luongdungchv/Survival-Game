@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4794044585273864213}
   - component: {fileID: 7305728579737928927}
   - component: {fileID: 508162485150137185}
+  - component: {fileID: -7609779149907704161}
   m_Layer: 0
   m_Name: iron_ore_3
   m_TagString: Untagged
@@ -109,3 +110,17 @@ LODGroup:
     renderers:
     - renderer: {fileID: 7305728579737928927}
   m_Enabled: 0
+--- !u!64 &-7609779149907704161
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9107357203313812746}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6335525881191089967, guid: 3243e891e38949a438d5bb369b97c427, type: 3}

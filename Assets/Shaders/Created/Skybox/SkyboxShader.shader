@@ -3,6 +3,13 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        
+        _CloudTex("Cloud Texture", 2D) = "white"{}
+        _CloudDensity("Cloud Density", float) = 1
+        _CloudOpacity("Cloud Opacity", float) = 1
+        _CloudScatter("Cloud Scatter", float) = 1
+        _CloudSpeed("Cloud Speed", float) = 1
+        
         _SunSize ("Sun Size", Range(0,1)) = 0.2
         _SkyColor ("Sky Color", Color) = (0,0,0,0)  
         _SkyColor1 ("Sky Color1", Color) = (0,0,0,0)
@@ -49,6 +56,11 @@
             };
 
             sampler2D _MainTex;
+            sampler2D _CloudTex;
+            float _CloudDensity;
+            float _CloudOpacity;
+            float _CloudScatter;
+            float _CloudSpeed;
             float4 _MainTex_ST;
             fixed4 _SkyColor;
             fixed4 _GroundColor;
@@ -86,15 +98,23 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 float PI = 3.14159265;
-                float4 color = tex2D(_MainTex, i.uv);
-                float4 lightPos = -_WorldSpaceLightPos0;
-                float t = smoothstep(-_BlendFactor + 0.33, _BlendFactor + 0.33, i.uv.y);
-                float4 col = lerp(_GroundColor, _SkyColor, t);
-                col += float4(pow(_LightColor0.xyz, 0.1) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0);
                 
                 float part1 = atan2(i.worldPos.x, i.worldPos.z) / ( PI );
                 float part2 = asin(i.worldPos.y) * 2 / PI;
                 float2 uv0 = float2(part1, part2);
+                
+                float2 cloudUV = uv0 * _CloudScatter + float2(_Time.y * _CloudSpeed, 0) ;
+                float4 cloudCol = tex2D(_CloudTex, cloudUV);
+                cloudCol = pow(cloudCol, _CloudDensity) * _CloudOpacity;
+                cloudCol *= 1 - smoothstep(0.8,1, i.uv.y);
+                
+                float4 lightPos = -_WorldSpaceLightPos0;
+                float t = smoothstep(-_BlendFactor + 0.33, _BlendFactor + 0.33, i.uv.y);
+                float4 col = lerp(_GroundColor, _SkyColor, t);
+                col += float4(pow(_LightColor0.xyz, 0.1) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0);
+                col += cloudCol;
+                
+                
                 
                 float worleyVal = saturate(worleyNoise(uv0 * _StarScale));
                 float starrySky = pow(1 - worleyVal, _Power); 
