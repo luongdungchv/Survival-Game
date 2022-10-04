@@ -47,7 +47,6 @@ public class OreSpawner : MonoBehaviour
                         if (hit.point.y < skipHeight) continue;
 
                         var randomAngle = randObj.NextFloat(0f, 360f);
-                        var randomRotation = Quaternion.Euler(0, randomAngle, 0);
                         var rotateToSlope = Quaternion.FromToRotation(Vector3.up, hit.normal);
 
                         var randomPrefab = i.prefab[randObj.Next(0, i.prefab.Count)];

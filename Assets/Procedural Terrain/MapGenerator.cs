@@ -24,7 +24,7 @@ public class MapGenerator : MonoBehaviour
     [Range(0, 1)]
     public List<float> blends;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         ins = this;
         var mesh = GetComponent<MeshFilter>().mesh;
