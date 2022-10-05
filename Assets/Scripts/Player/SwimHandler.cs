@@ -42,7 +42,7 @@ public class SwimHandler : MonoBehaviour
                 var rb = GetComponent<Rigidbody>();
                 rb.useGravity = false;
                 GetComponent<StateInitializer>().InAir.lockState = false;
-                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                rb.velocity = new Vector3(0, 0, 0);
                 animSystem.CancelJump();
                 fsm.ChangeState("SwimIdle");
             }

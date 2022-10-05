@@ -50,10 +50,7 @@ public class StateInitializer : MonoBehaviour
         }
         else if (inputReader.JumpPress())
         {
-
             fsm.ChangeState(InAir);
-
-
         }
 
         else if (inputReader.movementInputVector != Vector2.zero)

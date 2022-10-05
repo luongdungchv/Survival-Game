@@ -4,37 +4,30 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed;
-    public float acceleratedSpeed;
-    public float jumpSpeed;
-    public Transform camHolder;
+    public float moveSpeed, acceleratedSpeed, jumpSpeed, dashSpeed, dashDelay;
+
+    public Transform camHolder, camHolderPos;
     public Vector2 mouseSensitivity;
-    public Transform camHolderPos;
     public AnimationClip swordClip;
     public ParticleSystem slashFX;
     public int attackMoves;
     public InputReader inputReader;
-    public State stateSO;
 
-    public State moveState, idleState, inAirState;
-    public StateMachine fsm;
 
     public List<ParticleSystem> slashFXList;
 
     PlayerAttack attackSystem;
     PlayerAnimation animManager;
 
-    public bool isOnGround;
-    public bool isStartMove;
-    public bool sprint;
-    float currentSpeed;
-    float lastCurrentSpeed;
+
+    public bool sprint, isOnGround, isStartMove;
+    float currentSpeed, lastCurrentSpeed;
 
 
     Rigidbody rb;
     public Animator animator;
 
-
+    private bool canDash;
     private void Start()
     {
         //animator = GetComponent<Animator>();
@@ -47,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
         lastCurrentSpeed = 0;
         isStartMove = true;
         isOnGround = true;
-
+        canDash = true;
 
     }
     private void Update()
@@ -73,20 +66,27 @@ public class PlayerMovement : MonoBehaviour
 
         if (xMove != 0 || zMove != 0)
         {
-
-            if (inputReader.sprint && acceleratedSpeed != currentSpeed)
+            if (inputReader.SprintPress())
+            {
+                if (canDash)
+                {
+                    animManager.Dash();
+                    currentSpeed = dashSpeed;
+                    StartCoroutine(DashCooldown());
+                }
+            }
+            if (inputReader.sprint && acceleratedSpeed != currentSpeed && !animManager.animator.GetBool("dash"))
             {
                 animManager.Run();
                 currentSpeed = acceleratedSpeed;
             }
-            if (!inputReader.sprint && moveSpeed != currentSpeed)
+            if (!inputReader.sprint && moveSpeed != currentSpeed && !animManager.animator.GetBool("dash"))
             {
                 animManager.Walk();
                 currentSpeed = moveSpeed;
             }
             if (currentSpeed != lastCurrentSpeed)
             {
-
                 lastCurrentSpeed = currentSpeed;
             }
             if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
@@ -120,11 +120,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         float yMove = rb.velocity.y;
-        // if (Input.GetKey(KeyCode.Space))
-        // {
 
-        //     fsm.ChangeState("InAir");
-        // }
         rb.velocity = new Vector3(moveDir.x, yMove, moveDir.z);
     }
     public void StartMove()
@@ -158,6 +154,12 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Lerp(from, to, t);
             yield return null;
         }
+    }
+    IEnumerator DashCooldown()
+    {
+        canDash = false;
+        yield return new WaitForSeconds(dashDelay);
+        canDash = true;
     }
 
     float xRotation, yRotation;

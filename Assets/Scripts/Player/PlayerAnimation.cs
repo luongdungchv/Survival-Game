@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class PlayerAnimation : MonoBehaviour
 {
@@ -75,11 +76,12 @@ public class PlayerAnimation : MonoBehaviour
         BlendAnimation("move", 0, 0);
         BlendAnimation("swim", 0.5f, 0.2f);
     }
-    public void SwimFast()
+    public async void Dash()
     {
-
+        animator.SetBool("dash", true);
+        await Task.Delay(300);
+        animator.SetBool("dash", false);
     }
-
     IEnumerator LerpAnimationTransition(string param, float to, float duration)
     {
         float t = 0;

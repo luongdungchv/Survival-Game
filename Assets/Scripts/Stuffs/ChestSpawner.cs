@@ -33,7 +33,7 @@ public class ChestSpawner : MonoBehaviour
                 if (Physics.Raycast(castPos, Vector3.down, out hit, 400, mask))
                 {
                     if (hit.collider.tag != "Terrain") continue;
-
+                    Debug.Log("test");
                     var rotateSlope = Quaternion.FromToRotation(Vector3.up, hit.normal);
                     var chest = Instantiate(type.prefab, hit.point, rotateSlope);
                     chest.transform.Rotate(0, randObj.NextFloat(0, 360), 0);
