@@ -19,7 +19,6 @@ public class StateInitializer : MonoBehaviour
         Idle.OnUpdate.AddListener(() => { });
         Idle.OnEnter.AddListener(() =>
         {
-            Debug.Log("Idle");
             animSystem.Idle();
             movementSystem.StopMoving();
         });
@@ -47,6 +46,7 @@ public class StateInitializer : MonoBehaviour
         if (inputReader.SlashPress())
         {
             fsm.ChangeState(Attack);
+            //movementSystem.DisplaceForward(1, 0.1f);
         }
         else if (inputReader.JumpPress())
         {
@@ -68,7 +68,7 @@ public class StateInitializer : MonoBehaviour
         else
         {
             var curStateName = fsm.currentState.name;
-            if (!curStateName.Contains("Swim") || animSystem.animator.GetFloat("swim") < 0.03f)
+            if (!curStateName.Contains("Swim") || animSystem.animator.GetFloat("swim") < 0.001f)
             {
                 //Debug.Log(curStateName);
                 fsm.ChangeState(Idle);

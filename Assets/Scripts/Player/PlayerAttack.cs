@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public List<ParticleSystem> slashFXList;
-    public List<AnimationClip> clipList;
-    public DamageDealer attacker;
-    public State atkState;
+    [SerializeField] private List<ParticleSystem> slashFXList;
+    [SerializeField] private DamageDealer attacker;
 
-    public Animator animator;
     PlayerMovement movementSystem;
     PlayerAnimation animManager;
 
-    public int attackMoves;
-    public bool isAttacking;
+    [SerializeField] private int attackMoves;
+    [SerializeField] private float delayBetweenMoves, resetDelay;
+    [SerializeField] private AttackPattern pattern;
     int attackIndex = -1;
     bool isInAttackingPhase;
 
@@ -25,11 +23,8 @@ public class PlayerAttack : MonoBehaviour
     {
         animManager = GetComponent<PlayerAnimation>();
         movementSystem = GetComponent<PlayerMovement>();
-        isAttacking = false;
         attackIndex = -1;
         isInAttackingPhase = false;
-
-
     }
 
     // Update is called once per frame
@@ -46,8 +41,7 @@ public class PlayerAttack : MonoBehaviour
     public void ResetAttack()
     {
         attackIndex = -1;
-        animator.SetFloat("attack", attackIndex);
-        animator.SetBool("slash", false);
+        animManager.CancelAttack(pattern.type);
         attacker.transform.parent.gameObject.SetActive(false);
     }
     public void PerformAttack(InputReader inputReader, StateInitializer init)
@@ -55,27 +49,29 @@ public class PlayerAttack : MonoBehaviour
 
         IEnumerator AnimationCountdown()
         {
-            yield return new WaitForSeconds(1);
+            var delay = pattern.resetDelay[attackIndex == pattern.attackCount - 1 ? 0 : attackIndex + 1];
+            yield return new WaitForSeconds(delay);
             ResetAttack();
         }
-        IEnumerator attackCoroutine(float duration)
+        IEnumerator attackCoroutine()
         {
             isInAttackingPhase = true;
 
-            if (attackIndex == attackMoves) attackIndex = -1;
+            if (attackIndex == pattern.attackCount - 1) attackIndex = -1;
             attackIndex++;
 
             int fxIndex = attackIndex;
 
             animManager.PerformAttack(fxIndex);
 
-            //movementSystem.StopMoving();
-            //movementSystem.isStartMove = true;
+            var displaced = pattern.displaceForward[attackIndex];
+            movementSystem.DisplaceForward(pattern.displaceForward[attackIndex]);
 
             attacker.transform.parent.gameObject.SetActive(true);
             attacker.EnableWeapon();
 
-            yield return new WaitForSeconds(duration);
+            var delay = pattern.delayBetweenMoves[attackIndex];
+            yield return new WaitForSeconds(delay);
 
             attacker.DisableWeapon();
 
@@ -83,7 +79,6 @@ public class PlayerAttack : MonoBehaviour
 
             //slashFXList[fxIndex].Play();           
 
-            //BlendAnimation("attack", 1, 0.15f);
 
         }
         IEnumerator WaitForClick(float duration)
@@ -102,7 +97,8 @@ public class PlayerAttack : MonoBehaviour
             if (animCountdown != null) StopCoroutine(animCountdown);
             animCountdown = StartCoroutine(AnimationCountdown());
 
-            if (!isInAttackingPhase) StartCoroutine(attackCoroutine(0.28f));
+            if (!isInAttackingPhase)
+                StartCoroutine(attackCoroutine());
         }
     }
 }

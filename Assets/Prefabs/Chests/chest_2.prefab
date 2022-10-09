@@ -29,6 +29,7 @@ Transform:
   m_Children:
   - {fileID: 5925525250766593087}
   - {fileID: 5841882954704489902}
+  - {fileID: 7009940935239072154}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -41,6 +42,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5841882954704489902}
+  - component: {fileID: 8077670452760913929}
   m_Layer: 0
   m_Name: chestCover
   m_TagString: Untagged
@@ -63,6 +65,83 @@ Transform:
   m_Father: {fileID: 3167421242746894551}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &8077670452760913929
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2963240383923594636}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!1 &3350372245056621616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7009940935239072154}
+  - component: {fileID: 543134446682891013}
+  - component: {fileID: 9003677183232285816}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7009940935239072154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3350372245056621616}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.491, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3167421242746894551}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &543134446682891013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3350372245056621616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60abd526585e8441b04a2870133363f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayName: Exquisite chest
+  interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
+  interactable: 1
+  chestLid: {fileID: 2963240383923594636}
+  maxOpenAngle: 130
+  openDuration: 0.8
+--- !u!65 &9003677183232285816
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3350372245056621616}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.58, y: 1.39, z: 2.39}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5448340695344116961
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,6 +153,7 @@ GameObject:
   - component: {fileID: 3954880434061623956}
   - component: {fileID: 4075567652213581673}
   - component: {fileID: 2337066758913988509}
+  - component: {fileID: 1040674764495426700}
   m_Layer: 0
   m_Name: chestcover
   m_TagString: Untagged
@@ -144,6 +224,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1040674764495426700
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5448340695344116961}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3571851175598923565, guid: 3f70b5f078f8da9439ab307c38c42e89, type: 3}
 --- !u!1 &8038417446734051126
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,6 +249,7 @@ GameObject:
   - component: {fileID: 5925525250766593087}
   - component: {fileID: 5540173723641717606}
   - component: {fileID: 2940190764243540610}
+  - component: {fileID: 5543931655820321275}
   m_Layer: 0
   m_Name: chest
   m_TagString: Untagged
@@ -225,3 +320,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5543931655820321275
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8038417446734051126}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4016509, y: 0.6085068, z: 1.0945711}
+  m_Center: {x: -0.00000011920929, y: -0.022896186, z: 0.000000059604645}

@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
     public void StopMoving()
     {
         rb.velocity = new Vector3(0, 0, 0);
+        //        Debug.Log("stop");
     }
 
     Coroutine rotationCoroutine;
@@ -142,7 +143,9 @@ public class PlayerMovement : MonoBehaviour
     public void PerformJump(StateInitializer init)
     {
         animManager.Jump();
-        rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y + jumpSpeed, rb.velocity.z);
+        var jumpVelocity = transform.forward * currentSpeed + Vector3.up * jumpSpeed;
+        // rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y + jumpSpeed, rb.velocity.z);
+        rb.velocity = jumpVelocity;
         init.InAir.lockState = true;
     }
     IEnumerator LerpRotation(Quaternion from, Quaternion to, float duration)
@@ -172,20 +175,10 @@ public class PlayerMovement : MonoBehaviour
         camHolder.transform.rotation = Quaternion.Euler(xRotation, yRotation, camHolder.transform.rotation.z);
     }
 
-
-
-    private void HideCursor()
+    public void DisplaceForward(float magnitude)
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        Debug.Log("hide");
-    }
-    private void ShowCursor()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        Debug.Log("show");
-    }
 
+        rb.velocity = transform.forward * magnitude;
+    }
 
 }

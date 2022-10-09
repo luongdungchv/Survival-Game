@@ -8,21 +8,17 @@ public class MapGenerator : MonoBehaviour
 {
     public static MapGenerator ins;
     public int seed;
-    public int width, texSize;
-    public float scale;
-    public int octaves;
-    public float lacunarity;
-    public float persistence;
-    public Vector2 offset;
-    public AnimationCurve heightCurve;
+    [SerializeField] private int width, texSize;
+    [SerializeField] private float scale, falloff;
     public float vertMaxHeight;
-    public int lod;
-    public float falloff;
+
+    public AnimationCurve heightCurve;
+    public Vector2 offset;
+    [SerializeField] private Material mapMat, terrainMat;
+    [Range(0, 1), SerializeField]
+    private List<float> blends;
     public List<TerrainType> terrainTypes;
-    public Material terrainMat;
-    [SerializeField] private Material mapMat;
-    [Range(0, 1)]
-    public List<float> blends;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -74,7 +70,7 @@ public class MapGenerator : MonoBehaviour
     {
         var randObj = new CustomRandom(seed);
         var offsetVector = new Vector2(randObj.NextFloat(0, 1000), randObj.NextFloat(0, 1000));
-        float[,] noiseMap = Noise.GenerateNoiseBase(width, width, scale, octaves, lacunarity, persistence, offsetVector, falloff);
+        float[,] noiseMap = Noise.GenerateNoiseBase(width, width, scale, offsetVector, falloff);
         var mesh = MeshGenerator.GenerateMeshNoLOD(noiseMap, vertMaxHeight, heightCurve, 1500);
         GetComponent<MeshFilter>().mesh = mesh;
         UpdateTexture(noiseMap);

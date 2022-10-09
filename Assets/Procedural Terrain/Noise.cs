@@ -6,7 +6,7 @@ public class Noise
 {
     public static float minHeight, maxHeight;
 
-    public static float[,] GenerateNoiseBase(int width, int height, float scale, int octaves, float lacunarity, float persistence, Vector2 offset, float falloffPower)
+    public static float[,] GenerateNoiseBase(int width, int height, float scale, Vector2 offset, float falloffPower)
     {
         minHeight = float.MaxValue;
         maxHeight = float.MinValue;

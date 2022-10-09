@@ -19,7 +19,6 @@ public class StateMachine : MonoBehaviour
         OnStateChanged.AddListener((oldName, newName) =>
         {
             var rb = GetComponent<Rigidbody>();
-            Debug.Log($"{oldName} | {newName}");
             if (newName.Contains("Swim"))
             {
 
@@ -35,18 +34,15 @@ public class StateMachine : MonoBehaviour
     }
     public bool ChangeState(string name)
     {
-        //        Debug.Log(name);
         if (currentState.lockState)
         {
-            //OnStateChanged.Invoke(name, "");
             return false;
         }
+        //Debug.Log($"{currentState.name} {name}");
         if (name == currentState.name)
         {
-            //OnStateChanged.Invoke(name, "");
             return false;
         };
-        //Debug.Log(name);
         foreach (var i in currentState.transitions)
         {
             if (i.name == name)

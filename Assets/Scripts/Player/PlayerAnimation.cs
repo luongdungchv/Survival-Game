@@ -37,9 +37,10 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetBool("slash", true);
         animator.SetInteger("attack", index);
     }
-    public void CancelAttack()
+    public void CancelAttack(string attackType)
     {
-        animator.SetBool("slash", false);
+        animator.SetFloat("attack", -1);
+        animator.SetBool(attackType, false);
     }
     public void Walk()
     {
@@ -69,12 +70,13 @@ public class PlayerAnimation : MonoBehaviour
     public void SwimIdle()
     {
         BlendAnimation("move", 0, 0);
-        BlendAnimation("swim", 0.15f, 0.2f);
+        BlendAnimation("swim", 0.15f, 0.15f);
+        //animator.SetFloat("swim", 0.15f);
     }
     public void SwimNormal()
     {
         BlendAnimation("move", 0, 0);
-        BlendAnimation("swim", 0.5f, 0.2f);
+        BlendAnimation("swim", 0.5f, 0.15f);
     }
     public async void Dash()
     {

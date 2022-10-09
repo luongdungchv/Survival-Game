@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Resourcesw/Textures/water/Scenes/TestSceneMain.unity
-    guid: 8c9cf8a8d810a6e40b89410540fb1ee0
+    path: Assets/Resourcesw/Textures/water/Scenes/TestScene_RemakePlauer.unity
+    guid: 7abc201eae3a77e4f99192a88e738f8d
   m_configObjects: {}

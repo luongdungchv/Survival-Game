@@ -46,7 +46,7 @@ public class SwimHandler : MonoBehaviour
                 animSystem.CancelJump();
                 fsm.ChangeState("SwimIdle");
             }
-            if (length < threshold - 0.1f && fsm.currentState.name.Contains("Swim"))
+            if (length < threshold - 0.2f && fsm.currentState.name.Contains("Swim"))
             {
                 Debug.Log($"reach edge, start: {castPos.position} || end: {hit.point}");
                 fsm.ChangeState("Idle");
