@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
 
 public class Chest : InteractableItem
 {
     [SerializeField] private GameObject chestLid;
     [SerializeField] private float maxOpenAngle, openDuration;
-
+    public UnityEvent testEvent;
     protected override void OnInteractBtnClick(Button clicker)
     {
         StartCoroutine(LerpOpenChest());
