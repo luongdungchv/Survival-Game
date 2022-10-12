@@ -6,8 +6,7 @@ using UnityEngine.Events;
 public class InputReader : MonoBehaviour
 {
     public static InputReader ins;
-    public event UnityAction OnSlashPress;
-    public event UnityAction OnSprintPress;
+
 
     public KeyCode moveForwardKey, moveBackWardKey, moveLeftKey, moveRightKey,
         slashKey, sprintKey, showCursorKey, jumpKey, collectBtn;
