@@ -56,7 +56,7 @@ public class OreSpawner : MonoBehaviour
                         rock.transform.localScale = Vector3.one * scale;
 
                         rock.transform.Rotate(0, randomAngle, 0);
-                        rock.transform.Translate(-rock.transform.up * scale / 4);
+                        rock.transform.Translate(-rock.transform.up * scale / 8);
                     }
                 }
             }

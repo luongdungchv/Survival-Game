@@ -101,4 +101,8 @@ public class PlayerAttack : MonoBehaviour
                 StartCoroutine(attackCoroutine());
         }
     }
+    public void DetectHit(int hitIndex)
+    {
+        pattern.DetectHit(hitIndex);
+    }
 }

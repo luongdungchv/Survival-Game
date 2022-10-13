@@ -23,9 +23,20 @@ public class DamageDealer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        // if (other.CompareTag("Enemy"))
+        // {
+        //     Debug.Log("hit");
+        // }
+        if (other.CompareTag("IronOre"))
         {
-            Debug.Log("hit");
+            DamagableObject tmp;
+            var check = other.TryGetComponent<DamagableObject>(out tmp);
+            Debug.Log("touch");
+            if (check)
+            {
+
+                tmp.OnDamage(25, 3, "test");
+            }
         }
         DisableWeapon();
     }

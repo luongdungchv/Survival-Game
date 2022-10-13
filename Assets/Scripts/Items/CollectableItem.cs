@@ -14,4 +14,8 @@ public class CollectableItem : InteractableItem
         base.OnInteractBtnClick(clicker);
         Inventory.ins.Add(itemData, quantity);
     }
+    public void SetQuantity(int quantity)
+    {
+        this.quantity = quantity;
+    }
 }

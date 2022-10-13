@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 67844147}
-  m_IndirectSpecularColor: {r: 0.8230405, g: 0.9920128, b: 1.0001798, a: 1}
+  m_IndirectSpecularColor: {r: 0.986641, g: 0.7825275, b: 0.43901753, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5387,6 +5387,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapObj: {fileID: 150931520}
+  collectBtnPrefab: {fileID: 0}
+  mapCam: {fileID: 0}
+  collectBtnContainer: {fileID: 0}
 --- !u!1 &334029092
 GameObject:
   m_ObjectHideFlags: 0
@@ -5631,10 +5634,8 @@ MonoBehaviour:
   width: 200
   texSize: 512
   scale: 39.99
-  octaves: 1
-  lacunarity: 0.46
-  persistence: 0
-  offset: {x: -61.15, y: 23.2}
+  falloff: 20.97
+  vertMaxHeight: 80
   heightCurve:
     serializedVersion: 2
     m_Curve:
@@ -5668,9 +5669,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  vertMaxHeight: 80
-  lod: -26
-  falloff: 20.97
+  offset: {x: -61.15, y: 23.2}
+  mapMat: {fileID: 2100000, guid: c9b896af28782714f9714c562783d938, type: 2}
+  terrainMat: {fileID: 2100000, guid: a832e9af710a10a4b81e9b01927d0543, type: 2}
+  blends:
+  - 0.536
+  - 0.235
+  - 0
   terrainTypes:
   - label: ground
     height: 0.3
@@ -5684,12 +5689,6 @@ MonoBehaviour:
     height: 0
     color: {r: 0, g: 0.9406419, b: 1, a: 0}
     texture: {fileID: 2800000, guid: b52159cd3967b83479ed3033770fbbae, type: 3}
-  terrainMat: {fileID: 2100000, guid: a832e9af710a10a4b81e9b01927d0543, type: 2}
-  mapMat: {fileID: 2100000, guid: c9b896af28782714f9714c562783d938, type: 2}
-  blends:
-  - 0.536
-  - 0.235
-  - 0
 --- !u!64 &466576386
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5838,7 +5837,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 466576384}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77479b10c51edbd468d71ce7849de284, type: 3}
   m_Name: 
@@ -5880,7 +5879,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 466576384}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2987fe3b173049846b640bb60a113298, type: 3}
   m_Name: 
@@ -6398,6 +6397,7 @@ MonoBehaviour:
   sprintKey: 304
   showCursorKey: 122
   jumpKey: 32
+  collectBtn: 0
   sprint: 0
   movementInputVector: {x: 0, y: 0}
 --- !u!4 &927359542
@@ -6467,14 +6467,11 @@ MonoBehaviour:
   slashFXList:
   - {fileID: 39216144}
   - {fileID: 1899705809}
-  clipList:
-  - {fileID: 7400000, guid: ac4376cdd8870b44c9d36aa0e92fb1aa, type: 2}
-  - {fileID: 7400000, guid: 9b836993bf551784095d678fa01b6ac4, type: 2}
   attacker: {fileID: 1792040205}
-  atkState: {fileID: 0}
-  animator: {fileID: 8530959132799859573}
   attackMoves: 1
-  isAttacking: 0
+  delayBetweenMoves: 0
+  resetDelay: 0
+  pattern: {fileID: 0}
 --- !u!114 &1029407189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6490,24 +6487,21 @@ MonoBehaviour:
   moveSpeed: 5
   acceleratedSpeed: 10
   jumpSpeed: 7
+  dashSpeed: 0
+  dashDelay: 0
   camHolder: {fileID: 1491905420}
-  mouseSensitivity: {x: 1, y: 1}
   camHolderPos: {fileID: 1594768729}
+  mouseSensitivity: {x: 1, y: 1}
   swordClip: {fileID: 7400000, guid: ac4376cdd8870b44c9d36aa0e92fb1aa, type: 2}
   slashFX: {fileID: 39216144}
   attackMoves: 1
   inputReader: {fileID: 927359541}
-  stateSO: {fileID: 0}
-  moveState: {fileID: 0}
-  idleState: {fileID: 0}
-  inAirState: {fileID: 0}
-  fsm: {fileID: 1029407190}
   slashFXList:
   - {fileID: 39216144}
   - {fileID: 1899705809}
+  sprint: 0
   isOnGround: 1
   isStartMove: 0
-  sprint: 0
   animator: {fileID: 8530959132799859573}
 --- !u!114 &1029407190
 MonoBehaviour:
