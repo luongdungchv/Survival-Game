@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager ins;
-    [SerializeField] private GameObject mapObj, collectBtnPrefab, mapCam;
+    [SerializeField] private GameObject mapObj, interactBtnPrefab, mapCam;
     [SerializeField] private Transform collectBtnContainer;
     public bool isMapOpen => mapObj.activeSelf;
 
-    private void Start()
+    private void Awake()
     {
         if (ins == null) ins = this;
     }
@@ -24,6 +27,14 @@ public class UIManager : MonoBehaviour
         Debug.Log("enter");
 
         btn.transform.SetParent(collectBtnContainer, false);
+    }
+    public Button AddCollectBtn(string displayText)
+    {
+        var btnInstance = Instantiate(interactBtnPrefab);
+        btnInstance.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = displayText;
+        var btn = btnInstance.GetComponent<Button>();
+        //btn.onClick.AddListener(() => OnInteractBtnClick(btn));
+        return btn;
     }
 
 }

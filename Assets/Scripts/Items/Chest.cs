@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 
-public class Chest : InteractableItem
+public class Chest : InteractableObject
 {
     [SerializeField] private GameObject chestLid;
     [SerializeField] private float maxOpenAngle, openDuration;

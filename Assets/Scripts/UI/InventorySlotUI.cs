@@ -37,7 +37,6 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
     private Inventory inventory => Inventory.ins;
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("asdf");
         if (iih.isItemMoving)
         {
             var redundant = AddQuantity(iih.movingCount, iih.movingIcon);

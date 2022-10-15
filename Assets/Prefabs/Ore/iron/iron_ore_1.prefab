@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2175583540466871218}
   - component: {fileID: 8621060966360347439}
   - component: {fileID: -1123844033210218502}
-  - component: {fileID: 8908179602898937815}
+  - component: {fileID: -2041158929694713489}
   m_Layer: 16
   m_Name: iron_ore_1
   m_TagString: IronOre
@@ -125,7 +125,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2143155002707247618, guid: 904e1670144c2384287ee26a4a2700f7, type: 3}
---- !u!114 &8908179602898937815
+--- !u!114 &-2041158929694713489
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,11 +134,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 374297690627459687}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c27cbad741e7e324292f04d33929b84c, type: 3}
+  m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 50
   priority: 0
   requiredTools:
   - test
-  dropItem: {fileID: -7753236002671575355, guid: 0faf4b733c73f6742a0594a28ddf0c67, type: 3}
+  itemName: iron_ore

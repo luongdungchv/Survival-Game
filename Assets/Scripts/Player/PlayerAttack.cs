@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    public static PlayerAttack ins;
     [SerializeField] private List<ParticleSystem> slashFXList;
     [SerializeField] private DamageDealer attacker;
 
@@ -25,6 +26,11 @@ public class PlayerAttack : MonoBehaviour
         movementSystem = GetComponent<PlayerMovement>();
         attackIndex = -1;
         isInAttackingPhase = false;
+        Debug.Log(Sword.ins);
+    }
+    private void Awake()
+    {
+        if (ins == null) ins = this;
     }
 
     // Update is called once per frame
@@ -44,9 +50,10 @@ public class PlayerAttack : MonoBehaviour
         animManager.CancelAttack(pattern.type);
         attacker.transform.parent.gameObject.SetActive(false);
     }
-    public void PerformAttack(InputReader inputReader, StateInitializer init)
+    public void PerformAttack()
     {
-
+        var inputReader = InputReader.ins;
+        var init = StateInitializer.ins;
         IEnumerator AnimationCountdown()
         {
             var delay = pattern.resetDelay[attackIndex == pattern.attackCount - 1 ? 0 : attackIndex + 1];
@@ -101,8 +108,14 @@ public class PlayerAttack : MonoBehaviour
                 StartCoroutine(attackCoroutine());
         }
     }
+
+    //Used as animation event
     public void DetectHit(int hitIndex)
     {
         pattern.DetectHit(hitIndex);
+    }
+    public void SetAtkPattern(AttackPattern pattern)
+    {
+        this.pattern = pattern;
     }
 }

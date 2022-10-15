@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3385380}
   - component: {fileID: 2390562}
   - component: {fileID: -7454956314676261262}
+  - component: {fileID: -7346611295774931589}
   m_Layer: 0
   m_Name: Rock Type2 03
   m_TagString: Untagged
@@ -109,3 +110,20 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2390562}
   m_Enabled: 0
+--- !u!114 &-7346611295774931589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4f15ced0212b8c4cae25419d12cffe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 50
+  priority: 0
+  requiredTools:
+  - test
+  dropItemPrefab: {fileID: -438940788048619915, guid: 0faf4b733c73f6742a0594a28ddf0c67, type: 3}

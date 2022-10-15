@@ -16,7 +16,6 @@ public class DayNightCircle : MonoBehaviour
     {
 
         StartCoroutine(Circulate(30));
-        Debug.Log(Mathf.Atan2(1 / 2, Mathf.Sqrt(3) / 2));
     }
 
     // Update is called once per frame

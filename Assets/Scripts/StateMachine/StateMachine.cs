@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 public class StateMachine : MonoBehaviour
 {
     public static UnityEvent<string, string> OnStateChanged = new UnityEvent<string, string>();
+    public static StateMachine ins;
     public List<State> stateList;
     public State currentState;
-    private void OnEnable()
+    private void Awake()
     {
-
+        if (ins == null) ins = this;
     }
     void Start()
     {

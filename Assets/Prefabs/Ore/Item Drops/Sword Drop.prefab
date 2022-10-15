@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &174596
+--- !u!1 &8127416175118292734
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 477016}
-  - component: {fileID: 3337410}
-  - component: {fileID: 2397180}
-  - component: {fileID: -6608374545611785835}
-  - component: {fileID: 8472394576380420682}
+  - component: {fileID: 7734556697931848174}
+  - component: {fileID: 8664554663249891344}
+  - component: {fileID: 7614681672224914320}
+  - component: {fileID: 8927041685143420961}
+  - component: {fileID: -7753236002671575355}
   m_Layer: 0
-  m_Name: Rock Type2 02
+  m_Name: Sword Drop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &477016
+--- !u!4 &7734556697931848174
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174596}
-  m_LocalRotation: {x: 0.0000000218557, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 8127416175118292734}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 789.48975, y: -223.34442, z: 1187.1198}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3337410
+--- !u!33 &8664554663249891344
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174596}
-  m_Mesh: {fileID: 4300000, guid: 815ec0c049d4ec849bd4960c32e13ec2, type: 3}
---- !u!23 &2397180
+  m_GameObject: {fileID: 8127416175118292734}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &7614681672224914320
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174596}
+  m_GameObject: {fileID: 8127416175118292734}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 18ec5123ab1b37446998bf1b1228a0c0, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,47 +83,34 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!205 &-6608374545611785835
-LODGroup:
+--- !u!135 &8927041685143420961
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174596}
+  m_GameObject: {fileID: 8127416175118292734}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
   serializedVersion: 2
-  m_LocalReferencePoint: {x: 0.030299544, y: 0.59456635, z: 0.33896148}
-  m_Size: 2.821469
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.6
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 2397180}
-  - screenRelativeHeight: 0.3
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 2397180}
-  - screenRelativeHeight: 0.14973196
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 2397180}
-  m_Enabled: 0
---- !u!114 &8472394576380420682
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-7753236002671575355
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174596}
+  m_GameObject: {fileID: 8127416175118292734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4f15ced0212b8c4cae25419d12cffe1, type: 3}
+  m_Script: {fileID: 11500000, guid: cb84d9f8ab088d74abf7ec3430e6f821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 50
-  priority: 0
-  requiredTools:
-  - test
-  dropItemPrefab: {fileID: -438940788048619915, guid: 0faf4b733c73f6742a0594a28ddf0c67, type: 3}
+  displayName: Sword
+  interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
+  interactable: 1
+  quantity: 1
+  itemBase: {fileID: 0}
+  stackable: 1

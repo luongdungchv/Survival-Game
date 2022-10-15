@@ -7,7 +7,7 @@ public class StateInitializer : MonoBehaviour
     public State Idle, Move, InAir, Attack, Sprint, SwimNormal, SwimIdle, SwimFast;
     public InputReader inputReader;
     public StateMachine fsm;
-
+    public static StateInitializer ins;
 
     PlayerMovement movementSystem => GetComponent<PlayerMovement>();
     PlayerAttack attackSystem => GetComponent<PlayerAttack>();
@@ -16,6 +16,7 @@ public class StateInitializer : MonoBehaviour
 
     private void Awake()
     {
+        if (ins == null) ins = this;
         Idle.OnUpdate.AddListener(() => { });
         Idle.OnEnter.AddListener(() =>
         {
@@ -28,7 +29,7 @@ public class StateInitializer : MonoBehaviour
 
         InAir.OnEnter.AddListener(() => movementSystem.PerformJump(this));
 
-        Attack.OnUpdate.AddListener(() => attackSystem.PerformAttack(inputReader, this));
+        Attack.OnUpdate.AddListener(() => attackSystem.PerformAttack());
         Attack.OnEnter.AddListener(movementSystem.StopMoving);
 
         SwimIdle.OnEnter.AddListener(() =>
@@ -40,13 +41,15 @@ public class StateInitializer : MonoBehaviour
 
         SwimNormal.OnEnter.AddListener(() => swimSystem.StartSwimming());
         SwimNormal.OnUpdate.AddListener(() => swimSystem.PerformSwim(this));
+
     }
     private void Update()
     {
         if (inputReader.SlashPress())
         {
-            fsm.ChangeState(Attack);
+            //fsm.ChangeState(Attack);
             //movementSystem.DisplaceForward(1, 0.1f);
+            PlayerEquipment.ins.OnSlashPress();
         }
         else if (inputReader.JumpPress())
         {

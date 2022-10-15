@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8664554663249891344}
   - component: {fileID: 7614681672224914320}
   - component: {fileID: 8927041685143420961}
-  - component: {fileID: -7753236002671575355}
+  - component: {fileID: -438940788048619915}
   m_Layer: 0
   m_Name: iron_ore_drop
   m_TagString: Untagged
@@ -91,12 +91,12 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8127416175118292734}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-7753236002671575355
+--- !u!114 &-438940788048619915
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,12 +105,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8127416175118292734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbb35c9dfd334bc4ba0c0c7a353a03c0, type: 3}
+  m_Script: {fileID: 11500000, guid: cb84d9f8ab088d74abf7ec3430e6f821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayName: Iron Ore
+  displayName: 
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
   quantity: 0
-  itemData: {fileID: 11400000, guid: e972d41c6e2db63499f3cd2cc8ed66ab, type: 2}
-  stackable: 1
+  itemBase: {fileID: 0}
+  stackable: 0

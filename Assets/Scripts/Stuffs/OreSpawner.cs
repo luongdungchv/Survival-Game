@@ -50,13 +50,14 @@ public class OreSpawner : MonoBehaviour
                         var rotateToSlope = Quaternion.FromToRotation(Vector3.up, hit.normal);
 
                         var randomPrefab = i.prefab[randObj.Next(0, i.prefab.Count)];
-                        var rock = Instantiate(randomPrefab, hit.point, rotateToSlope);
+                        var ore = Instantiate(randomPrefab, hit.point, rotateToSlope);
+                        //ore.SetItemDrop<IronOre>();
 
                         var scale = randObj.NextFloat(i.minScale, i.maxScale);
-                        rock.transform.localScale = Vector3.one * scale;
+                        ore.transform.localScale = Vector3.one * scale;
 
-                        rock.transform.Rotate(0, randomAngle, 0);
-                        rock.transform.Translate(-rock.transform.up * scale / 8);
+                        ore.transform.Rotate(0, randomAngle, 0);
+                        ore.transform.Translate(-ore.transform.up * scale / 8);
                     }
                 }
             }

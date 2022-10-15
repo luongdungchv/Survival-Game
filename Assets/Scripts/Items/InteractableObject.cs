@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class InteractableItem : MonoBehaviour
+public class InteractableObject : MonoBehaviour
 {
     [SerializeField] protected string displayName;
     [SerializeField] protected GameObject interactBtnPrefab;
