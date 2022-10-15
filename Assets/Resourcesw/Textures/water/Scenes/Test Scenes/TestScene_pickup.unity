@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 67844147}
-  m_IndirectSpecularColor: {r: 0.8592637, g: 1.0286114, b: 1.0366207, a: 1}
+  m_IndirectSpecularColor: {r: 0.85937244, g: 1.0284953, b: 0.8488348, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6974,6 +6974,7 @@ MonoBehaviour:
   iconImage: {fileID: 640983834}
   quantityText: {fileID: 1593286417}
   mainCam: {fileID: 1431272855}
+  farplane: 0
   canvas: {fileID: 195910240}
   _icon: {fileID: 0}
   _quantity: 0
@@ -8288,6 +8289,7 @@ MonoBehaviour:
   iconImage: {fileID: 1414228268}
   quantityText: {fileID: 1406565327}
   mainCam: {fileID: 1431272855}
+  farplane: 0
   canvas: {fileID: 195910240}
   _icon: {fileID: 0}
   _quantity: 0
@@ -14712,7 +14714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6526acab8db078441b687132f8c73a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movingItem: {fileID: 1414228266}
+  _movingItem: {fileID: 640983836}
   slots:
   - {fileID: 536538246}
   - {fileID: 660729459}
