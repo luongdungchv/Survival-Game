@@ -1,4 +1,4 @@
-﻿Shader "Environment/Skybox/Skybox Shader"
+Shader "Test/Skybox Shader"
 {
     Properties
     {
@@ -39,7 +39,7 @@
 
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
-            #include "../../Headers/WorleyNoise.cginc"
+            #include "../Headers/WorleyNoise.cginc"
             //#include "../Headers/PerlinNoise.cginc"
 
             struct appdata
@@ -129,22 +129,23 @@
                 cloudCol = lerp(0.8, 1, cloudCol);
                 cloudCol = lerp(0, cloudCol, cloudDensity);
                 float t = smoothstep(-_BlendFactor + 0.33, _BlendFactor + 0.33, i.uv.y);
+                cloudCol *= _SkyColor;
+                //return cloudCol;
                 
                 float4 lightPos = -_WorldSpaceLightPos0;
-                float4 col = lerp(_GroundColor, _SkyColor, t);
-                cloudCol *= (col + 0.4);
-                col += float4(pow(_LightColor0.xyz, 0.1) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0);      
+                float4 col = lerp(_GroundColor, _SkyColor, 0.5);
+                cloudCol *= (col + 0.5);
+                col += float4(pow(_LightColor0.xyz, 0.1) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0);
+                //col += cloudDensity;
+                //col = tex2D(_MainTex, uv0);               
+                col -= lerp(0, col, cloudDensity);
+                //col += lerp(0.63, cloudCol, cloudCol) ;
+                col += cloudCol;
                 
                 float worleyVal = saturate(worleyNoise(uv0 * _StarScale));
                 float starrySky = pow(1 - worleyVal, _Power); 
                 starrySky = lerp(0, starrySky, _SunMoonState);
-                col += starrySky;
-                
-                col -= lerp(0, col, cloudDensity);
-                col += cloudCol;
-                
-                
-                return col;
+                return col + starrySky;
                 //return worleyVal;
                 
             }
