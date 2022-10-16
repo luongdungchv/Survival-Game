@@ -13,8 +13,8 @@ public class ItemDrop : InteractableObject
     protected override void OnInteractBtnClick(Button clicker)
     {
         base.OnInteractBtnClick(clicker);
-        Inventory.ins.Add(itemBase, quantity);
-        Destroy(this.gameObject);
+        if (Inventory.ins.Add(itemBase, quantity))
+            Destroy(this.gameObject);
     }
     public void SetQuantity(int quantity)
     {

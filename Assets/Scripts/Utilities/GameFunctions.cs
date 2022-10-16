@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 public class GameFunctions : MonoBehaviour
 {
+    public static GameFunctions ins;
     [SerializeField] private Transform interactBtnContainer;
+    private void Awake()
+    {
+        if (ins == null) ins = this;
+    }
     private void Start()
     {
         HideCursor();
@@ -28,9 +33,13 @@ public class GameFunctions : MonoBehaviour
                 btn.onClick.Invoke();
             }
         }
-        if (Input.GetKeyDown(KeyCode.M))
+        if (InputReader.ins.OpenInventoryPress())
         {
-            UIManager.ins.ToggleMap();
+            UIManager.ins.ToggleInventoryUI();
+        }
+        if (InputReader.ins.OpenMapPress())
+        {
+            UIManager.ins.ToggleMapUI();
         }
     }
     public void HideCursor()
@@ -42,6 +51,11 @@ public class GameFunctions : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+    public void ToggleCursor(bool show)
+    {
+        if (show) ShowCursor();
+        else HideCursor();
     }
 
 }

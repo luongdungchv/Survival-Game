@@ -18,7 +18,7 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         ins = this;
-        items = new ItemSlot[15];
+        items = new ItemSlot[3];
         itemQuantities = new Dictionary<string, List<Vector2Int>>();
 
     }

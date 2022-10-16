@@ -39,13 +39,14 @@ public class PlayerEquipment : MonoBehaviour
     {
         float t = 0;
         while (t < 1)
+        
         {
             t += Time.deltaTime / consumableItem.duration;
             yield return null;
         }
         consumableItem.OnConsume();
     }
-    public void OnSlashPress()
+    public void OnUsePress()
     {
         if (rightHandItem.TryGetComponent<IUsable>(out var usableItem))
         {
@@ -56,7 +57,7 @@ public class PlayerEquipment : MonoBehaviour
             StartCoroutine(ConsumeEnumerator(consumableItem));
         }
     }
-    public void OnSlashRelease()
+    public void OnUseReleases()
     {
         if (consumeCoroutine != null) StopCoroutine(consumeCoroutine);
 

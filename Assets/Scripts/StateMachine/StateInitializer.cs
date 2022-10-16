@@ -49,7 +49,7 @@ public class StateInitializer : MonoBehaviour
         {
             //fsm.ChangeState(Attack);
             //movementSystem.DisplaceForward(1, 0.1f);
-            PlayerEquipment.ins.OnSlashPress();
+            PlayerEquipment.ins.OnUsePress();
         }
         else if (inputReader.JumpPress())
         {
