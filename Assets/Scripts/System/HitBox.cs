@@ -5,11 +5,13 @@ using UnityEngine;
 public class HitBox : MonoBehaviour
 {
     private BoxCollider hitbox;
+    private ParticleSystem atkVfx;
     [SerializeField] private LayerMask mask;
     // Start is called before the first frame update
     void Start()
     {
         hitbox = GetComponent<BoxCollider>();
+        atkVfx = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -24,6 +26,7 @@ public class HitBox : MonoBehaviour
         var origin = hitbox.bounds.center - transform.right * halfExtents.x;
         var size = hitbox.size.x;
         halfExtents.x = 0;
+        atkVfx.Play();
 
         var hits = Physics.BoxCastAll(origin, halfExtents, transform.right, transform.rotation, size, mask);
         if (hits != null && hits.Length > 0)
@@ -40,4 +43,5 @@ public class HitBox : MonoBehaviour
             }
         }
     }
+
 }
