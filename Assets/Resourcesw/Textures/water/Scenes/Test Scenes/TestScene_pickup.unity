@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 67844147}
-  m_IndirectSpecularColor: {r: 0.8563197, g: 1.0192068, b: 0.933642, a: 1}
+  m_IndirectSpecularColor: {r: 0.8563558, g: 1.0191709, b: 0.8364757, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6203,6 +6203,7 @@ GameObject:
   - component: {fileID: 466576390}
   - component: {fileID: 466576392}
   - component: {fileID: 466576393}
+  - component: {fileID: 466576394}
   m_Layer: 13
   m_Name: Terrain
   m_TagString: Terrain
@@ -6365,7 +6366,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 466576384}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fd113a3d751bba4294f43ecf95758d7, type: 3}
   m_Name: 
@@ -6409,7 +6410,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 466576384}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8ca786d0368413499486d7ed7f2f8ac, type: 3}
   m_Name: 
@@ -6471,7 +6472,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 466576384}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2987fe3b173049846b640bb60a113298, type: 3}
   m_Name: 
@@ -6494,6 +6495,35 @@ MonoBehaviour:
   - name: Common
     prefab: {fileID: 2359640438950077037, guid: a5ca67c15da5fa842af77d791490e6be, type: 3}
     quantity: 20
+--- !u!114 &466576394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466576384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fca9f83bc8f1eaa47a2004fce4a74dbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flowerPrefab:
+  - {fileID: 8428646703400456923, guid: 61e2eb807745bf2408e57d9be11f1010, type: 3}
+  - {fileID: 1024639727251490253, guid: dd7b46b7da695dc4d9238743c8c162e4, type: 3}
+  - {fileID: 1024639727251490253, guid: 91ddcbe43a30e614bba44dedb5d25149, type: 3}
+  testColors:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 1, g: 0, b: 0, a: 0}
+  - {r: 0, g: 1, b: 0.09837389, a: 0}
+  - {r: 0, g: 0, b: 1, a: 0}
+  size: 1500
+  noiseScale: 30
+  threshold: 0.67
+  castHeight: 400
+  mask:
+    serializedVersion: 2
+    m_Bits: 8208
+  testmat: {fileID: 2100000, guid: 1e9a9024d9b6acd46b71d34acec16408, type: 2}
 --- !u!1 &486210356
 GameObject:
   m_ObjectHideFlags: 0
@@ -16679,7 +16709,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   acceleratedSpeed: 10
-  jumpSpeed: 15
+  jumpSpeed: 18
   dashSpeed: 23
   dashDelay: 0.5
   camHolder: {fileID: 1491905420}
@@ -16689,6 +16719,9 @@ MonoBehaviour:
   slashFX: {fileID: 39216144}
   attackMoves: 1
   inputReader: {fileID: 927359541}
+  slopeCheckMask:
+    serializedVersion: 2
+    m_Bits: 0
   slashFXList:
   - {fileID: 39216144}
   - {fileID: 1899705809}
