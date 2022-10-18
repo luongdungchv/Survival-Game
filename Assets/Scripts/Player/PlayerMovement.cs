@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed, acceleratedSpeed, jumpSpeed, dashSpeed, dashDelay;
 
-    public Transform camHolder, camHolderPos;
+    public Transform camHolder, camHolderPos, slopeCheckPos;
     public Vector2 mouseSensitivity;
     public AnimationClip swordClip;
     public ParticleSystem slashFX;
@@ -99,6 +99,7 @@ public class PlayerMovement : MonoBehaviour
             moveDir = (camForward * zMove + camRight * xMove).normalized * currentSpeed;
             PerformSlopeCheck();
 
+
             float angle = -Mathf.Atan2(moveDir.z, moveDir.x) * Mathf.Rad2Deg;
             Quaternion targetRotation = Quaternion.Euler(transform.rotation.x, angle + 90, transform.rotation.z);
             rotationCoroutine = StartCoroutine(LerpRotation(transform.rotation, targetRotation, 0.1f));
@@ -178,17 +179,20 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.velocity = transform.forward * magnitude;
     }
-    public void PerformSlopeCheck()
+    public bool PerformSlopeCheck()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 10, slopeCheckMask))
+        if (Physics.Raycast(slopeCheckPos.transform.position, Vector3.down, out hit, 0.4f, slopeCheckMask))
         {
             var slopeNormal = hit.normal;
             Debug.Log(hit.normal);
             var tangent = Vector3.Cross(moveDir, hit.normal);
             var biTangent = Vector3.Cross(hit.normal, tangent);
             moveDir = biTangent.normalized * currentSpeed;
+            return true;
         }
+        moveDir += Vector3.up * rb.velocity.y;
+        return false;
     }
 
 }
