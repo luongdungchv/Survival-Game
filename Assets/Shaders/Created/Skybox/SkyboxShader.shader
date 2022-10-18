@@ -144,13 +144,13 @@
                 cloudDensity = step(0.58, length(cloudDensity));
                 
                 float4 cloudCol = pow(tex2D(_CloudTex, uv0 * _CloudTexScatter), _CloudTexDensity);
-                cloudCol = lerp(0.8, 1, cloudCol);
+                cloudCol = lerp(0.7, 1, cloudCol);
                 cloudCol = lerp(0, cloudCol, cloudDensity);
                 float t = smoothstep(-_BlendFactor + 0.33, _BlendFactor + 0.33, i.uv.y);
                 
                 float4 lightPos = -_WorldSpaceLightPos0;
                 float4 col = lerp(_GroundColor, _SkyColor, t);
-                cloudCol *= (col + 0.4);
+                cloudCol *= (col + 0.3);
                 col += float4(pow(_LightColor0.xyz, 0.1) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0); 
                 //return calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos);     
                 
