@@ -9,8 +9,9 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory ins;
     [SerializeField] private int _maxInventorySlot;
-    public int maxInventorySlot => _maxInventorySlot;
     [SerializeField] private Item testItem;
+    [SerializeField] private Transform dropPos;
+    public int maxInventorySlot => _maxInventorySlot;
     public ItemSlot[] items;
     private Dictionary<string, List<Vector2Int>> itemQuantities;
 
@@ -98,6 +99,22 @@ public class Inventory : MonoBehaviour
 
         if (endQuantity != 0) items[endIndex] = new ItemSlot(endQuantity, itemData);
         else items[endIndex] = null;
+    }
+    public Item GetItem(int itemIndex)
+    {
+        return items[itemIndex].itemData;
+    }
+    public bool DropItem(int itemIndex, int quantity)
+    {
+        var dropSlot = items[itemIndex];
+        if (dropSlot == null) return false;
+        dropSlot.quantity -= quantity;
+        dropSlot.itemData.Drop(dropPos.position, quantity);
+        if (dropSlot.quantity <= 0)
+        {
+            items[itemIndex] = null;
+        }
+        return true;
     }
     //[System.Serializable]
     public class ItemSlot
