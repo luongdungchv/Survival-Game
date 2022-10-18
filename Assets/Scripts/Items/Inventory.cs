@@ -30,13 +30,13 @@ public class Inventory : MonoBehaviour
         Add(testItem, 14);
         Add(testItem, 28);
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            Add(testItem, 40);
-        }
-    }
+    // private void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.D))
+    //     {
+    //         Add(testItem, 40);
+    //     }
+    // }
 
     public bool Add(Item itemData, int quantity, bool stackable = true)
     {
@@ -54,6 +54,11 @@ public class Inventory : MonoBehaviour
             }
         }
         if (nullIndex == -1) return false;
+        if (!stackable)
+        {
+            if (quantity == 1) { items[nullIndex] = new ItemSlot(1, itemData); return true; }
+            else return false;
+        }
 
         List<Vector2Int> itemSlotList = new List<Vector2Int>();
         for (int i = 0; i < items.Length; i++)

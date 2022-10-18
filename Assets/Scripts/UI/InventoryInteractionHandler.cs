@@ -57,6 +57,7 @@ public class InventoryInteractionHandler : MonoBehaviour
     }
     private void UpdateUI()
     {
+        Debug.Log(inventory.items[2]);
         for (int i = 0; i < inventory.items.Length; i++)
         {
             if (i >= slots.Count) break;

@@ -23,14 +23,14 @@ public class UIManager : MonoBehaviour
         mapUI.SetActive(!mapUI.activeSelf);
         mapCam.SetActive(!mapCam.activeSelf);
         GameFunctions.ins.ToggleCursor(isUIOpen);
-        Time.timeScale = mapUI.activeSelf ? 0 : 1;
+        //Time.timeScale = mapUI.activeSelf ? 0 : 1;
     }
     public void ToggleInventoryUI()
     {
         if (isUIOpen && !inventoryUI.activeSelf) return;
         inventoryUI.SetActive(!inventoryUI.activeSelf);
         GameFunctions.ins.ToggleCursor(isUIOpen);
-        Time.timeScale = inventoryUI.activeSelf ? 0 : 1;
+        //Time.timeScale = inventoryUI.activeSelf ? 0 : 1;
     }
     public void AddCollectBtn(GameObject btn)
     {
