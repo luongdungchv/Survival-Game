@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 67844147}
-  m_IndirectSpecularColor: {r: 0.18692079, g: 0.069353804, b: 0.3862409, a: 1}
+  m_IndirectSpecularColor: {r: 0.8689055, g: 1.0181278, b: 1.0146453, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6011,7 +6011,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 466576384}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77479b10c51edbd468d71ce7849de284, type: 3}
   m_Name: 
@@ -6201,7 +6201,7 @@ Transform:
   m_Children:
   - {fileID: 2133519773}
   m_Father: {fileID: 2343036143321555215}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &534336458
 MeshRenderer:
@@ -6317,6 +6317,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &645469316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 645469317}
+  m_Layer: 8
+  m_Name: SlopCheckPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &645469317
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645469316}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.13, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2343036143321555215}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &839869305
 GameObject:
@@ -12629,7 +12659,7 @@ Transform:
   m_Children:
   - {fileID: 1591218812}
   m_Father: {fileID: 2343036143321555215}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1914214758
 MeshRenderer:
@@ -14553,6 +14583,7 @@ Transform:
   - {fileID: 3879859937941083548}
   - {fileID: 5256307117642034446}
   - {fileID: 1618179983}
+  - {fileID: 645469317}
   - {fileID: 534336456}
   - {fileID: 1914214757}
   - {fileID: 1761149651}
@@ -14930,11 +14961,15 @@ MonoBehaviour:
   dashDelay: 0.5
   camHolder: {fileID: 1491905420}
   camHolderPos: {fileID: 1594768729}
+  slopeCheckPos: {fileID: 645469317}
   mouseSensitivity: {x: 1, y: 1}
   swordClip: {fileID: 7400000, guid: ac4376cdd8870b44c9d36aa0e92fb1aa, type: 2}
   slashFX: {fileID: 39216144}
   attackMoves: 1
   inputReader: {fileID: 927359541}
+  slopeCheckMask:
+    serializedVersion: 2
+    m_Bits: 8192
   slashFXList:
   - {fileID: 39216144}
   - {fileID: 1899705809}
