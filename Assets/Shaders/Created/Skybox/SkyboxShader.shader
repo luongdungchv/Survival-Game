@@ -31,7 +31,7 @@
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             // make fog work
@@ -96,14 +96,31 @@
                 return o;
             }
             
-            float calcSunAtten(float3 lightPos, float3 worldPos){
+            float4 calcSunAtten(float3 lightPos, float3 worldPos){
                 float angle = lerp(-0.5236, 0.5236, _State);
+                
+                float2x2 sunMatrix = (cos(angle), sin(angle), -sin(angle), cos(angle));
                 
                 float2 sunPos = float2(lightPos.y * cos(angle) - lightPos.z * sin(angle), lightPos.y * sin(angle) + lightPos.z * cos(angle));
                 float3 delta = float3(lightPos.x, sunPos.x, sunPos.y) - worldPos;
                 float dist = length(delta);
                 float spot = 1 - smoothstep(0.0, _SunSize, dist);
-                return spot * spot ;
+                spot = step(0.0000001, spot);
+                sunPos = normalize(sunPos);
+                
+                float3 newCoordX = float3(1,0,0);               
+                float3 newCoordY = float3(0, -sunPos.y, sunPos.x);
+                float3 newCoordZ = float3(0, sunPos.x, sunPos.y);
+                
+                float newPosX = dot(newCoordX, delta);
+                float newPosY = dot(newCoordY, -delta);
+                float newPosZ = dot(newCoordZ, -delta);
+                
+                float3 newPos = float3(newPosX, newPosY, newPosZ);           
+                newPos.z = 0;              
+                float4 col = tex2D(_MainTex, newPos.xy / _SunSize / 2 + float2(0.5, 0.5)) * spot;
+                
+                return col;
             }
 
             fixed4 frag (v2f i) : SV_Target
@@ -113,6 +130,7 @@
                 float part1 = atan2(i.worldPos.x, i.worldPos.z) / ( PI * 2 );
                 float part2 = asin(i.worldPos.y) * 2 / PI;
                 float2 uv0 = float2(part1, part2);
+                //return i.worldPos.z;
                 
                 //return tex2D(_MainTex, uv0);
                 
@@ -133,7 +151,8 @@
                 float4 lightPos = -_WorldSpaceLightPos0;
                 float4 col = lerp(_GroundColor, _SkyColor, t);
                 cloudCol *= (col + 0.4);
-                col += float4(pow(_LightColor0.xyz, 0.1) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0);      
+                col += float4(pow(_LightColor0.xyz, 0.1) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0); 
+                //return calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos);     
                 
                 float worleyVal = saturate(worleyNoise(uv0 * _StarScale));
                 float starrySky = pow(1 - worleyVal, _Power); 
@@ -148,7 +167,7 @@
                 //return worleyVal;
                 
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

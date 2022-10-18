@@ -6,7 +6,7 @@ public class Noise
 {
     public static float minHeight, maxHeight;
 
-    public static float[,] GenerateNoiseBase(int width, int height, float scale, Vector2 offset, float falloffPower)
+    public static float[,] GenerateNoiseBase(int width, int height, float scale, Vector2 offset, float falloffPower = 1)
     {
         minHeight = float.MaxValue;
         maxHeight = float.MinValue;
@@ -35,37 +35,28 @@ public class Noise
         }
         return res;
     }
-    public static float[,] GenerateNoise(int width, int height, float scale, int octaves, float lacunarity, float persistence, Vector2 offset, AnimationCurve falloff)
+    public static float[,] GenerateNoiseDiscrete(int width, int height, float scale, Vector2 offset, float threshold)
     {
-        minHeight = float.MaxValue;
-        maxHeight = float.MinValue;
         float[,] res = new float[width, height];
+
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
 
-                float frequency = 1;
-                float amplitude = 1;
-                //float noiseHeight = -(falloff.Evaluate((float)x / width) + falloff.Evaluate((float)y / height)) / 2;
-                float noiseHeight = 0;
+                float sampleX = x / scale + offset.x;
+                float sampleY = y / scale + offset.y;
+                float perlinVal = Mathf.PerlinNoise(sampleX, sampleY);
+                res[x, y] = Step(threshold, perlinVal);
 
-                for (int i = 0; i < octaves; i++)
-                {
-                    float sampleX = x / scale * frequency + offset.x;
-                    float sampleY = y / scale * frequency + offset.y;
-                    float perlinVal = Mathf.PerlinNoise(sampleX, sampleY);
-                    noiseHeight += perlinVal * amplitude;
-
-                    frequency *= lacunarity;
-                    amplitude *= persistence;
-                }
-                noiseHeight = Mathf.Clamp(noiseHeight, -1, 1);
-
-                res[x, y] = noiseHeight;
             }
 
         }
+        return res;
+    }
+    private static int Step(float threshold, float value)
+    {
+        int res = value >= threshold ? 1 : 0;
         return res;
     }
 }
