@@ -8,19 +8,29 @@ using UnityEngine.Events;
 public class UIManager : MonoBehaviour
 {
     public static UIManager ins;
-    [SerializeField] private GameObject mapObj, interactBtnPrefab, mapCam;
+    [SerializeField] private GameObject mapUI, inventoryUI;
+    [SerializeField] private GameObject interactBtnPrefab, mapCam;
     [SerializeField] private Transform collectBtnContainer;
-    public bool isMapOpen => mapObj.activeSelf;
+    public bool isUIOpen => mapUI.activeSelf || inventoryUI.activeSelf;
 
     private void Awake()
     {
         if (ins == null) ins = this;
     }
-    public void ToggleMap()
+    public void ToggleMapUI()
     {
-        mapObj.SetActive(!mapObj.activeSelf);
+        if (isUIOpen && !mapUI.activeSelf) return;
+        mapUI.SetActive(!mapUI.activeSelf);
         mapCam.SetActive(!mapCam.activeSelf);
-        Time.timeScale = mapObj.activeSelf ? 0 : 1;
+        GameFunctions.ins.ToggleCursor(isUIOpen);
+        Time.timeScale = mapUI.activeSelf ? 0 : 1;
+    }
+    public void ToggleInventoryUI()
+    {
+        if (isUIOpen && !inventoryUI.activeSelf) return;
+        inventoryUI.SetActive(!inventoryUI.activeSelf);
+        GameFunctions.ins.ToggleCursor(isUIOpen);
+        Time.timeScale = inventoryUI.activeSelf ? 0 : 1;
     }
     public void AddCollectBtn(GameObject btn)
     {
