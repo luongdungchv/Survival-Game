@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public ParticleSystem slashFX;
     public int attackMoves;
     public InputReader inputReader;
+    public LayerMask slopeCheckMask;
 
 
     public List<ParticleSystem> slashFXList;
@@ -22,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool sprint, isOnGround, isStartMove;
     float currentSpeed, lastCurrentSpeed;
-
+    private Vector3 moveDir;
 
     Rigidbody rb;
     public Animator animator;
@@ -63,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         float xMove = inputReader.movementInputVector.x;
         float zMove = inputReader.movementInputVector.y;
 
-        Vector3 moveDir = Vector3.zero;
+        moveDir = new Vector3(0, rb.velocity.y, 0);
 
         if (xMove != 0 || zMove != 0)
         {
@@ -96,11 +97,10 @@ public class PlayerMovement : MonoBehaviour
             Vector3 camRight = new Vector3(camHolder.right.x, 0, camHolder.right.z).normalized;
 
             moveDir = (camForward * zMove + camRight * xMove).normalized * currentSpeed;
+            PerformSlopeCheck();
 
             float angle = -Mathf.Atan2(moveDir.z, moveDir.x) * Mathf.Rad2Deg;
-
             Quaternion targetRotation = Quaternion.Euler(transform.rotation.x, angle + 90, transform.rotation.z);
-
             rotationCoroutine = StartCoroutine(LerpRotation(transform.rotation, targetRotation, 0.1f));
             //transform.rotation = targetRotation;
         }
@@ -114,15 +114,16 @@ public class PlayerMovement : MonoBehaviour
             }
             currentSpeed = 0;
             isStartMove = true;
+            moveDir = new Vector3(0, rb.velocity.y, 0);
             if (currentSpeed != lastCurrentSpeed)
             {
                 animManager.Idle();
                 lastCurrentSpeed = 0;
             }
         }
-        float yMove = rb.velocity.y;
+        //float yMove = rb.velocity.y;
 
-        rb.velocity = new Vector3(moveDir.x, yMove, moveDir.z);
+        rb.velocity = new Vector3(moveDir.x, moveDir.y, moveDir.z);
     }
     public void StartMove()
     {
@@ -168,17 +169,26 @@ public class PlayerMovement : MonoBehaviour
     float xRotation, yRotation;
     void PerformRotation()
     {
-
         xRotation += -inputReader.MouseY() * mouseSensitivity.x;
         xRotation = Mathf.Clamp(xRotation, -85, 85);
         yRotation += inputReader.MouseX() * mouseSensitivity.y;
         camHolder.transform.rotation = Quaternion.Euler(xRotation, yRotation, camHolder.transform.rotation.z);
     }
-
     public void DisplaceForward(float magnitude)
     {
-
         rb.velocity = transform.forward * magnitude;
+    }
+    public void PerformSlopeCheck()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 10, slopeCheckMask))
+        {
+            var slopeNormal = hit.normal;
+            Debug.Log(hit.normal);
+            var tangent = Vector3.Cross(moveDir, hit.normal);
+            var biTangent = Vector3.Cross(hit.normal, tangent);
+            moveDir = biTangent.normalized * currentSpeed;
+        }
     }
 
 }
