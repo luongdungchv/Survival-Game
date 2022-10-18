@@ -114,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
             }
             currentSpeed = 0;
             isStartMove = true;
+            moveDir = new Vector3(0, rb.velocity.y, 0);
             if (currentSpeed != lastCurrentSpeed)
             {
                 animManager.Idle();
