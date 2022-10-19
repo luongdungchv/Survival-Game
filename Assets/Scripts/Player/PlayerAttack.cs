@@ -26,7 +26,6 @@ public class PlayerAttack : MonoBehaviour
         movementSystem = GetComponent<PlayerMovement>();
         attackIndex = -1;
         isInAttackingPhase = false;
-        Debug.Log(Sword.ins);
     }
     private void Awake()
     {

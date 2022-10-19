@@ -36,7 +36,6 @@ public class StateInitializer : MonoBehaviour
         {
             animSystem.SwimIdle();
             swimSystem.StopSwimming();
-            Debug.Log("Swim Idle");
         });
 
         SwimNormal.OnEnter.AddListener(() => swimSystem.StartSwimming());
@@ -73,7 +72,6 @@ public class StateInitializer : MonoBehaviour
             var curStateName = fsm.currentState.name;
             if (!curStateName.Contains("Swim") || animSystem.animator.GetFloat("swim") < 0.001f)
             {
-                //Debug.Log(curStateName);
                 fsm.ChangeState(Idle);
             }
             else
@@ -87,7 +85,6 @@ public class StateInitializer : MonoBehaviour
 
         if (fsm.currentState.name == "InAir")
         {
-            Debug.Log(collision.gameObject);
             InAir.lockState = false;
             animSystem.CancelJump();
             var moveParam = animSystem.animator.GetFloat("move");

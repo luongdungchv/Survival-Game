@@ -14,7 +14,7 @@ public class ItemDrop : InteractableObject
     {
         base.OnInteractBtnClick(clicker);
         if (Inventory.ins.Add(itemBase, quantity))
-            Destroy(this.gameObject);
+            Destroy(this.transform.parent.gameObject);
     }
     public void SetQuantity(int quantity)
     {

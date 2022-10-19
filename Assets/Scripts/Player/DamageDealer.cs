@@ -31,7 +31,6 @@ public class DamageDealer : MonoBehaviour
         {
             DamagableObject tmp;
             var check = other.TryGetComponent<DamagableObject>(out tmp);
-            Debug.Log("touch");
             if (check)
             {
 

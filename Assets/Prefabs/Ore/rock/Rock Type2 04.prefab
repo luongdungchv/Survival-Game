@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 3308840}
   - component: {fileID: 2380810}
   - component: {fileID: 5890741365794543979}
-  - component: {fileID: -4569350159461186211}
-  m_Layer: 0
+  - component: {fileID: 3818990843062960126}
+  - component: {fileID: -5527286778389538784}
+  m_Layer: 16
   m_Name: Rock Type2 04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 119512}
-  m_Mesh: {fileID: 4300000, guid: 19497d68b37d2594fb3e269601d333be, type: 3}
+  m_Mesh: {fileID: 4133691307632368678, guid: ab65d185e0f7b624e866dcde11cf7c0a, type: 3}
 --- !u!23 &2380810
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -110,7 +111,7 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2380810}
   m_Enabled: 0
---- !u!114 &-4569350159461186211
+--- !u!114 &3818990843062960126
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,11 +120,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 119512}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4f15ced0212b8c4cae25419d12cffe1, type: 3}
+  m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 50
   priority: 0
   requiredTools:
   - test
-  dropItemPrefab: {fileID: -438940788048619915, guid: 0faf4b733c73f6742a0594a28ddf0c67, type: 3}
+  itemName: rock
+--- !u!64 &-5527286778389538784
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119512}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4133691307632368678, guid: ab65d185e0f7b624e866dcde11cf7c0a, type: 3}

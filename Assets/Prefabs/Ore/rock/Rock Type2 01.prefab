@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 3313284}
   - component: {fileID: 2378784}
   - component: {fileID: 603074671155343581}
-  m_Layer: 0
+  - component: {fileID: 5652740338081781748}
+  - component: {fileID: 2776041096950759100}
+  m_Layer: 16
   m_Name: Rock Type2 01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 108756}
-  m_Mesh: {fileID: 4300000, guid: 6425f5e52f03e4340a3afa5f62f57a0d, type: 3}
+  m_Mesh: {fileID: -2143155002707247618, guid: 90817e21481d59640bd8c315debe5a32, type: 3}
 --- !u!23 &2378784
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -109,3 +111,34 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2378784}
   m_Enabled: 0
+--- !u!114 &5652740338081781748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 50
+  priority: 0
+  requiredTools:
+  - test
+  itemName: rock
+--- !u!64 &2776041096950759100
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108756}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2143155002707247618, guid: 90817e21481d59640bd8c315debe5a32, type: 3}

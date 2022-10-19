@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Item Data", fileName = "New Item Data")]
@@ -13,7 +12,7 @@ public class Item : MonoBehaviour
         return null;
     }
     public string itemName;
-    public ItemDrop dropPrefab;
+    public GameObject dropPrefab;
     public GameObject inHandModel;
     public Texture2D icon;
     protected virtual void Awake()
@@ -22,7 +21,7 @@ public class Item : MonoBehaviour
     }
     public ItemDrop Drop(Vector3 dropPos, int quantity)
     {
-        var drop = Instantiate(dropPrefab, dropPos, Quaternion.identity);
+        var drop = Instantiate(dropPrefab, dropPos, Quaternion.identity).GetComponentInChildren<ItemDrop>();
         drop.SetQuantity(quantity);
         drop.SetBase(this);
         return drop;

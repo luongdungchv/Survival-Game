@@ -46,10 +46,8 @@ public class ItemMoveIcon : MonoBehaviour
         var mousePosWorld = mainCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCam.farClipPlane));
         mousePosWorld -= mainCam.transform.position;
         mousePosWorld = (mousePosWorld.normalized / Vector3.Dot(mousePosWorld.normalized, mainCam.transform.forward) - mainCam.transform.forward) * mainCam.farClipPlane;
-        //mousePosWorld.z = mainCam.
 
         this.GetComponent<RectTransform>().anchoredPosition = mousePosWorld / (canvas.scaleFactor + 0.1f);
-        Debug.Log(mousePosWorld / (canvas.scaleFactor + 0.1f));
     }
 
 

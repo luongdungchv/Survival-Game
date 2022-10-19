@@ -37,7 +37,7 @@ public class HitBox : MonoBehaviour
                 //Debug.Log(hit.collider.gameObject.name);
                 if (hit.collider.TryGetComponent<DamagableObject>(out var target))
                 {
-                    Debug.Log($"{halfExtents} {origin} {size} ");
+                    //Debug.Log($"{halfExtents} {origin} {size} ");
                     target.OnDamage(25, 3, "test");
                 }
             }

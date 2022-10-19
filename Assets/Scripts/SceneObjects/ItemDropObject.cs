@@ -12,7 +12,7 @@ public class ItemDropObject : DamagableObject
         hp -= incomingDmg;
         if (hp <= 0)
         {
-            var drop = itemBase.Drop(transform.position, 6);
+            var drop = itemBase.Drop(transform.position + Vector3.up * 3, 6);
             drop.SetQuantity(9);
             drop.gameObject.SetActive(true);
             Destroy(this.gameObject);

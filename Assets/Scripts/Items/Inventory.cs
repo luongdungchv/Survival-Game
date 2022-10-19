@@ -53,9 +53,10 @@ public class Inventory : MonoBehaviour
                 break;
             }
         }
-        if (nullIndex == -1) return false;
+
         if (!stackable)
         {
+            if (nullIndex == -1) return false;
             if (quantity == 1) { items[nullIndex] = new ItemSlot(1, itemData); return true; }
             else return false;
         }
@@ -86,6 +87,7 @@ public class Inventory : MonoBehaviour
         }
         if (quantity > 0)
         {
+            if (nullIndex == -1) return false;
             items[nullIndex] = new ItemSlot(quantity, itemData);
         }
         foreach (var i in itemSlotList)

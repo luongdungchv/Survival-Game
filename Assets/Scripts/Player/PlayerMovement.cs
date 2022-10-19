@@ -185,7 +185,6 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(slopeCheckPos.transform.position, Vector3.down, out hit, 0.4f, slopeCheckMask))
         {
             var slopeNormal = hit.normal;
-            Debug.Log(hit.normal);
             var tangent = Vector3.Cross(moveDir, hit.normal);
             var biTangent = Vector3.Cross(hit.normal, tangent);
             moveDir = biTangent.normalized * currentSpeed;

@@ -34,7 +34,6 @@ public class UIManager : MonoBehaviour
     }
     public void AddCollectBtn(GameObject btn)
     {
-        Debug.Log("enter");
 
         btn.transform.SetParent(collectBtnContainer, false);
     }
