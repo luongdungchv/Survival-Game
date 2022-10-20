@@ -40,7 +40,6 @@ public class InputReader : MonoBehaviour
         //Debug.Log(movementInputVector);
         if (SprintPress()) sprint = true;
         if (SprintRelease()) sprint = false;
-
     }
     private bool GetKey(KeyCode key)
     {

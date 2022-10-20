@@ -6,6 +6,7 @@ public class HitBox : MonoBehaviour
 {
     private BoxCollider hitbox;
     private ParticleSystem atkVfx;
+    [SerializeField] ParticleSystem hitVfx;
     [SerializeField] private LayerMask mask;
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,9 @@ public class HitBox : MonoBehaviour
                 if (hit.collider.TryGetComponent<DamagableObject>(out var target))
                 {
                     //Debug.Log($"{halfExtents} {origin} {size} ");
+                    hitVfx.transform.position = hit.point;
+                    hitVfx.Play();
+                    CamShake.ins.Shake();
                     target.OnDamage(25, 3, "test");
                 }
             }
