@@ -3,7 +3,7 @@
 
 // Create a RenderTexture with enableRandomWrite flag and set it
 struct Props{
-    float3 pos;
+    float3 pos, normal;
     float4x4 trs;
     int color;
 };

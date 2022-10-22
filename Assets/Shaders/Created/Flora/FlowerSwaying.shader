@@ -58,11 +58,11 @@ Shader "Environment/Flora/Flower Swaying"
         
         void vert(inout appdata_full data, out Input o){
             UNITY_INITIALIZE_OUTPUT(Input, o);
-            float3 worldPos = mul(unity_ObjectToWorld, data.vertex).xyz;
+            float3 worldPos = mul(unity_ObjectToWorld, float3(0,0,0)).xyz;
             
             //float2 offsetX = worldPos.xy / _Scale + float2(_Time.y * _WindSpeed, 0);
-            float2 offsetX = float2(0, 0) + float2(_Time.y * _WindSpeed, 0);
-            float2 offSetY = float2(0,0) + float2(0, _Time.y * _WindSpeed);
+            float2 offsetX = worldPos.xy + float2(_Time.y * _WindSpeed, 0);
+            float2 offSetY = worldPos.xy + float2(0, _Time.y * _WindSpeed);
             float perlinVal = perlinNoise(offsetX) - 0.5;
             float perlinVal2 = perlinNoise(offSetY) - 0.5;
             float4 newPos = data.vertex + float4(perlinVal * _WindStrength , perlinVal2 * _WindStrength, 0, 0);

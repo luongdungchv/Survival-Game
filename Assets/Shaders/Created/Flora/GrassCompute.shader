@@ -53,7 +53,7 @@
             uint inst : SV_InstanceID;
         };
         struct Props{
-            float3 pos;
+            float3 pos, normal;
             float4x4 trs;
             int colorIndex;  
         };
@@ -79,6 +79,7 @@
                 float perlinVal = perlinNoise(offsetX) - 0.5;
                 float4 newPos = float4(worldPos, data.vertex.z) + float4(perlinVal * data.texcoord.y, 0, 0, 0);
                 data.vertex = newPos;
+                data.normal = props[data.inst].normal;
                 o.colId = props[data.inst].colorIndex;
             #endif
         } 

@@ -85,7 +85,13 @@ public class GrassSpawner : MonoBehaviour
                     var rotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
                     var scale = Vector3.one;
                     Matrix4x4 trs = Matrix4x4.TRS(position, rotation, scale);
-                    transforms.Add(new ShaderProps() { pos = position, trans = trs, colorIndex = Random.Range(0, 2) });
+                    transforms.Add(new ShaderProps()
+                    {
+                        pos = position,
+                        trans = trs,
+                        colorIndex = Random.Range(0, 2),
+                        normal = hitInfo.normal
+                    });
                 }
             }
         }
@@ -129,11 +135,12 @@ public class GrassSpawner : MonoBehaviour
 
         grassMat.SetBuffer("props", culledBuffer);
 
-        meshBounds = new Bounds(transform.position, Vector3.one * (grassCount * 2 + 1));
+        meshBounds = new Bounds(transform.position, Vector3.one * (1500));
     }
     private void Draw()
     {
         Matrix4x4 P = Camera.main.projectionMatrix;
+        P.SetRow(1, new Vector4(0.7f, 0, 0, 0));
         P.SetRow(1, new Vector4(0f, 1.2f, 0, 0));
         Matrix4x4 V = Camera.main.worldToCameraMatrix;
         Matrix4x4 VP = P * V;
@@ -150,12 +157,14 @@ public class GrassSpawner : MonoBehaviour
         PopulateArgsBuffer(population);
         argsBuffer.SetData(args);
 
+
         if (Input.GetKeyDown(KeyCode.L))
         {
-            Debug.Log(population);
+            Debug.Log(VP.MultiplyPoint(testpos.position));
         }
 
         counterBuffer.GetData(args);
+        counterBuffer.Release();
         population = args[0];
         PopulateArgsBuffer(population);
 
@@ -177,11 +186,12 @@ public class GrassSpawner : MonoBehaviour
 }
 public struct ShaderProps
 {
-    public Vector3 pos;
+    public Vector3 pos, normal;
+
     public Matrix4x4 trans;
     public int colorIndex;
     public static int Size()
     {
-        return sizeof(float) * 19 + sizeof(int);
+        return sizeof(float) * 22 + sizeof(int);
     }
 }

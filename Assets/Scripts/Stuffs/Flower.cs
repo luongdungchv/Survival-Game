@@ -37,7 +37,7 @@ public class Flower : MonoBehaviour
                     {
                         if (hit.collider.tag == "Water") continue;
                         var flower = Instantiate(flowerPrefab[(int)noiseVal - 1], hit.point, Quaternion.Euler(-90, 0, 0));
-                        flower.transform.position += Vector3.up * Random.Range(0.3f, 0.7f);
+                        flower.transform.position += hit.normal * Random.Range(0.5f, 1f);
 
                         var randomRot = Random.Range(0, 70);
                         flower.transform.Rotate(0, 0, randomRot);
@@ -75,8 +75,6 @@ public class Flower : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log("t");
-                    //if (scannedpos.Count > 0) Debug.Log(scannedpos.Count);
                     if (connectedVal == 0) connectedVal = randObj.Next(1, flowerPrefab.Length + 1);
                     foreach (var i in scannedpos)
                     {
