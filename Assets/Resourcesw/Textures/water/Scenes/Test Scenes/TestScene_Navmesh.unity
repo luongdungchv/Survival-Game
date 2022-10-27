@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 67844147}
-  m_IndirectSpecularColor: {r: 0.22641626, g: 0.13107604, b: 0.40658757, a: 1}
+  m_IndirectSpecularColor: {r: 0.22615528, g: 0.13073206, b: 0.4064036, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6311,6 +6311,7 @@ GameObject:
   - component: {fileID: 466576392}
   - component: {fileID: 466576393}
   - component: {fileID: 466576394}
+  - component: {fileID: 466576395}
   m_Layer: 13
   m_Name: Terrain
   m_TagString: Terrain
@@ -6648,6 +6649,35 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8208
   testmat: {fileID: 2100000, guid: 1e9a9024d9b6acd46b71d34acec16408, type: 2}
+--- !u!114 &466576395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466576384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: 6118e9b192c92714893789c2cda6d836, type: 2}
 --- !u!1 &486210356
 GameObject:
   m_ObjectHideFlags: 0
@@ -7747,6 +7777,7 @@ GameObject:
   - component: {fileID: 891458437}
   - component: {fileID: 891458436}
   - component: {fileID: 891458435}
+  - component: {fileID: 891458439}
   m_Layer: 4
   m_Name: WAter
   m_TagString: Water
@@ -7831,6 +7862,22 @@ Transform:
   m_Father: {fileID: 486210357}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!208 &891458439
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891458434}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 5, y: 5, z: 5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: -5.5, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &911031917
 GameObject:
   m_ObjectHideFlags: 0
