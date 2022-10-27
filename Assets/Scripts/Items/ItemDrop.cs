@@ -7,8 +7,20 @@ using UnityEngine.UI;
 public class ItemDrop : InteractableObject
 {
     [SerializeField] private int quantity;
+    [SerializeField] private Texture2D meshTex;
+    [SerializeField] private Color outlineColor;
     [SerializeField] private Item itemBase;
     [SerializeField] private bool stackable;
+    private void Awake()
+    {
+        var renderer = this.GetComponentInParent<Renderer>();
+        if (meshTex != null)
+            renderer.material.mainTexture = meshTex;
+        if (outlineColor != null)
+        {
+            renderer.material.SetColor("_OutlineColor", outlineColor);
+        }
+    }
 
     protected override void OnInteractBtnClick(Button clicker)
     {

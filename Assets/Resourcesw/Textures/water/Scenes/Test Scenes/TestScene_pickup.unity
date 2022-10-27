@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 67844147}
-  m_IndirectSpecularColor: {r: 0.84663147, g: 1.011058, b: 0.9434703, a: 1}
+  m_IndirectSpecularColor: {r: 0.22641626, g: 0.13107604, b: 0.40658757, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -153,6 +153,7 @@ Transform:
   - {fileID: 656993557}
   - {fileID: 911031918}
   - {fileID: 2131531667}
+  - {fileID: 1172684762}
   m_Father: {fileID: 2343036143321555215}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5024,7 +5025,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &61218353
 GameObject:
@@ -5722,7 +5723,7 @@ RectTransform:
   - {fileID: 839869306}
   - {fileID: 2100822188}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5942,6 +5943,79 @@ Transform:
   m_Father: {fileID: 2343036143321555215}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &319787501
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1778770549486087284, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_Name
+      value: gold_ore
+      objectReference: {fileID: 0}
+    - target: {fileID: 1778770549486087284, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 295.61984
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 34.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 225.67174
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3910880429807919612, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
 --- !u!1 &334029092
 GameObject:
   m_ObjectHideFlags: 0
@@ -6463,7 +6537,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 466576384}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77479b10c51edbd468d71ce7849de284, type: 3}
   m_Name: 
@@ -6484,7 +6558,7 @@ MonoBehaviour:
     maxScale: 5
     minSize: 10
     maxSize: 10
-    regionCount: 65
+    regionCount: 50
     orePerRegion: 10
   - name: Iron Ore
     prefab:
@@ -6500,8 +6574,17 @@ MonoBehaviour:
     maxScale: 5
     minSize: 10
     maxSize: 10
-    regionCount: 20
+    regionCount: 35
     orePerRegion: 10
+  - name: Gold Ore
+    prefab:
+    - {fileID: 1778770549486087284, guid: 218c657da8c2cb44c80cf2411147452b, type: 3}
+    minScale: 3.5
+    maxScale: 5
+    minSize: 10
+    maxSize: 10
+    regionCount: 20
+    orePerRegion: 6
   castHeight: 400
   mask:
     serializedVersion: 2
@@ -6596,7 +6679,7 @@ Transform:
   - {fileID: 891458438}
   - {fileID: 67844148}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &507050804
 PrefabInstance:
@@ -6635,7 +6718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2654138598509798338, guid: 97f3a2da805902346a8e6992630ef5f9, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2654138598509798338, guid: 97f3a2da805902346a8e6992630ef5f9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7029,7 +7112,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &640983832
 GameObject:
@@ -7384,7 +7467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 489978, guid: 2d521608fcf07c346b5e2ed4049aa717, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 489978, guid: 2d521608fcf07c346b5e2ed4049aa717, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7794,7 +7877,7 @@ MonoBehaviour:
   itemName: iron_ore
   dropPrefab: {fileID: 8127416175118292734, guid: 0faf4b733c73f6742a0594a28ddf0c67, type: 3}
   inHandModel: {fileID: 0}
-  icon: {fileID: 2800000, guid: 6788da6565b52524cbc2eed7a6b93f19, type: 3}
+  icon: {fileID: 2800000, guid: 9f95838ddcef9ae4abeb72402b0d1895, type: 3}
 --- !u!1 &927359540
 GameObject:
   m_ObjectHideFlags: 0
@@ -8252,6 +8335,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1147262233}
   m_CullTransparentMesh: 0
+--- !u!1 &1172684761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1172684762}
+  - component: {fileID: 1172684763}
+  m_Layer: 8
+  m_Name: GoldOre
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1172684762
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172684761}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 36134409}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1172684763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172684761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3abc3073430d3404fa1813ee36e9c8a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: gold_ore
+  dropPrefab: {fileID: 8127416175118292734, guid: 3eda02ed876b70c4e968c3ba790696e9, type: 3}
+  inHandModel: {fileID: 0}
+  icon: {fileID: 2800000, guid: 6c3e5dbc7144c7144a332f969f346e07, type: 3}
 --- !u!1 &1233300888
 GameObject:
   m_ObjectHideFlags: 0
@@ -8460,7 +8590,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3941981477811391129, guid: e16dc9d373cfff641b2490713f6ca251, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3941981477811391129, guid: e16dc9d373cfff641b2490713f6ca251, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -8759,7 +8889,7 @@ Transform:
   m_LocalScale: {x: 1500, y: 1500, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1491905418
 GameObject:
@@ -8809,7 +8939,7 @@ Transform:
   m_Children:
   - {fileID: 1896440403}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1570262563
 GameObject:
@@ -8846,7 +8976,7 @@ Transform:
   - {fileID: 949318234}
   - {fileID: 208775264}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1591218811
 GameObject:
@@ -14426,7 +14556,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &1914214756
 GameObject:
@@ -15019,7 +15149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5268013364396154494, guid: 228ceb5baaa6ef348b696dc804f93d04, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5268013364396154494, guid: 228ceb5baaa6ef348b696dc804f93d04, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -15081,7 +15211,7 @@ MonoBehaviour:
   itemName: rock
   dropPrefab: {fileID: 119512, guid: ec13ddc5106022a4fb390975fd16c82b, type: 3}
   inHandModel: {fileID: 0}
-  icon: {fileID: 2800000, guid: 8baeb7df0d4fa234993b725dc9c80796, type: 3}
+  icon: {fileID: 2800000, guid: 58b369751f9d70746816b89d833ccb80, type: 3}
 --- !u!1 &2133519772
 GameObject:
   m_ObjectHideFlags: 0
@@ -16546,7 +16676,7 @@ Transform:
   - {fileID: 1761149651}
   - {fileID: 36134409}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2348726170162463646
 GameObject:
