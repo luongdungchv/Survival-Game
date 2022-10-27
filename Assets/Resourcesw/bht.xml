@@ -1,0 +1,9 @@
+<root>
+    <Selector>
+        <Condition id="test-condition" />
+        <RandomSelector>
+            <Task id="move-around-left"></Task>
+            <Task id="move-around-right"></Task>
+        </RandomSelector>
+    </Selector>
+</root>
