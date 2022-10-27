@@ -15,12 +15,17 @@ public class InventoryInteractionHandler : MonoBehaviour
     public int sourceItemCount => _sourceItem.quantity;
     public bool isItemMoving => _movingItem.gameObject.activeSelf;
     // Start is called before the first frame update
-    private void Start()
+    // private void Awake()
+    // {
+    //     ins = this;
+    // }
+    public InventoryInteractionHandler()
     {
         ins = this;
     }
     private void OnEnable()
     {
+
         UpdateUI();
     }
     private void Update()
@@ -57,7 +62,6 @@ public class InventoryInteractionHandler : MonoBehaviour
     }
     private void UpdateUI()
     {
-        Debug.Log(inventory.items[2]);
         for (int i = 0; i < inventory.items.Length; i++)
         {
             if (i >= slots.Count) break;

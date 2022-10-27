@@ -202,5 +202,7 @@ MonoBehaviour:
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
   quantity: 0
+  meshTex: {fileID: 0}
+  outlineColor: {r: 1, g: 0.9646237, b: 0, a: 0}
   itemBase: {fileID: 0}
   stackable: 0

@@ -63,11 +63,11 @@ public class InputReader : MonoBehaviour
     }
     public bool ShowCursorKeyPress()
     {
-        return Input.GetKeyDown(showCursorKey);
+        return Input.GetKeyDown(showCursorKey) && !UIManager.ins.isUIOpen;
     }
     public bool ShowCursorKeyRelease()
     {
-        return Input.GetKeyUp(showCursorKey);
+        return Input.GetKeyUp(showCursorKey) && !UIManager.ins.isUIOpen;
     }
     public bool JumpPress()
     {

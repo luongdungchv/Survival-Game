@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Item Data", fileName = "New Item Data")]
 public class Item : MonoBehaviour
 {
     protected static Dictionary<string, Item> itemMapper = new Dictionary<string, Item>();

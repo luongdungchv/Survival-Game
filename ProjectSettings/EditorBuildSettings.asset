@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Resourcesw/Textures/water/Scenes/Test Scenes/TestScene_pickup.unity
-    guid: 7c6371389c2a7754e873af462cb7438e
+    path: Assets/Resourcesw/Textures/water/Scenes/Test Scenes/TestScene_Navmesh.unity
+    guid: 0bf01793cecb196469d7f94f10b3a183
   m_configObjects: {}

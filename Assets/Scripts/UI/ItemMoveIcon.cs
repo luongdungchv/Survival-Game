@@ -45,15 +45,11 @@ public class ItemMoveIcon : MonoBehaviour
     {
         var mousePosWorld = mainCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCam.farClipPlane));
 
-        //mousePosWorld -= mainCam.transform.position;
         mousePosWorld = mainCam.transform.worldToLocalMatrix.MultiplyPoint(mousePosWorld);
 
-        //mousePosWorld = (mousePosWorld.normalized / Vector3.Dot(mousePosWorld.normalized, mainCam.transform.forward) - mainCam.transform.forward) * mainCam.farClipPlane;
-        //Debug.Log(mousePosWorld.magnitude);
-        Debug.DrawLine(mainCam.transform.position, mainCam.transform.position + mousePosWorld, Color.magenta);
+
         mousePosWorld = mousePosWorld - Vector3.forward * mainCam.farClipPlane;
         Vector2 iconPos = new Vector2(mousePosWorld.x, mousePosWorld.y);
-        Debug.Log(mousePosWorld.z);
 
         this.GetComponent<RectTransform>().anchoredPosition = iconPos / (canvas.scaleFactor + 0.1f);
     }

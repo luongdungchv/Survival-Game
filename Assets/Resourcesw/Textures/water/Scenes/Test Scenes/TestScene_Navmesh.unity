@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 67844147}
-  m_IndirectSpecularColor: {r: 0.85515743, g: 1.0178789, b: 0.89954877, a: 1}
+  m_IndirectSpecularColor: {r: 0.78170455, g: 0.9364451, b: 0.76212937, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -154,6 +154,7 @@ Transform:
   - {fileID: 911031918}
   - {fileID: 2131531667}
   - {fileID: 1172684762}
+  - {fileID: 1781067563}
   m_Father: {fileID: 2343036143321555215}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6584,8 +6585,17 @@ MonoBehaviour:
     maxScale: 5
     minSize: 10
     maxSize: 10
+    regionCount: 35
+    orePerRegion: 8
+  - name: Mithril Ore
+    prefab:
+    - {fileID: 2730757870072889234, guid: d4c1b5c30f6a68f4c8acd51fffc020d4, type: 3}
+    minScale: 3.5
+    maxScale: 5
+    minSize: 10
+    maxSize: 10
     regionCount: 20
-    orePerRegion: 6
+    orePerRegion: 10
   castHeight: 400
   mask:
     serializedVersion: 2
@@ -7924,7 +7934,7 @@ MonoBehaviour:
   itemName: iron_ore
   dropPrefab: {fileID: 8127416175118292734, guid: 0faf4b733c73f6742a0594a28ddf0c67, type: 3}
   inHandModel: {fileID: 0}
-  icon: {fileID: 2800000, guid: 9f95838ddcef9ae4abeb72402b0d1895, type: 3}
+  icon: {fileID: 2800000, guid: 7f0218de83699de47aab85a687b388b5, type: 3}
 --- !u!1 &927359540
 GameObject:
   m_ObjectHideFlags: 0
@@ -9497,6 +9507,53 @@ Transform:
   m_Father: {fileID: 2343036143321555215}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1781067562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1781067563}
+  - component: {fileID: 1781067564}
+  m_Layer: 8
+  m_Name: MithrilOre
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1781067563
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781067562}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 36134409}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1781067564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781067562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d65d4ea95d4979f409d500497c1a5239, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: mithril_ore
+  dropPrefab: {fileID: 8127416175118292734, guid: 65e4d54cdbd3fa34c913d01d89d3cd64, type: 3}
+  inHandModel: {fileID: 0}
+  icon: {fileID: 2800000, guid: d2dbc108159aae24ea31cb99b15e4d6b, type: 3}
 --- !u!1 &1792040203
 GameObject:
   m_ObjectHideFlags: 0

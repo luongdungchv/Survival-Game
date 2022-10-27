@@ -18,7 +18,7 @@ namespace Enemy.Low
             elapsed += Time.deltaTime;
             if (elapsed >= 3)
             {
-                animator.SetTrigger("walk");
+                animator.SetTrigger("patrol");
             }
         }
 

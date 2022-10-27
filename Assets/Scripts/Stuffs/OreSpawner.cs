@@ -28,11 +28,12 @@ public class OreSpawner : MonoBehaviour
         {
             for (int a = 0; a < i.regionCount; a++)
             {
-                if (regionsOccupation.Count >= 100) break;
+                if (regionsOccupation.Count >= 10000) break;
                 var randPos = GetRandomPos(randObj);
 
                 randPos = new Vector2Int(randPos.x * cellDist, randPos.y * cellDist);
 
+                //if (i.name == "Mithril Ore") Debug.Log(randPos);
                 float sumY = 0;
 
                 for (int j = 0; j < i.orePerRegion; j++)
@@ -43,6 +44,8 @@ public class OreSpawner : MonoBehaviour
                     var castPos = new Vector3(randX, castHeight, randY);
                     if (Physics.Raycast(castPos, Vector3.down, out hit, 500, mask))
                     {
+
+
                         sumY += hit.point.y;
                         if (hit.point.y < skipHeight) continue;
 
