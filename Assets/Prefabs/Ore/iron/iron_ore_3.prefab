@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 508162485150137185}
   - component: {fileID: -7609779149907704161}
   - component: {fileID: -8861007713228947562}
+  - component: {fileID: 2868247366718037871}
   m_Layer: 16
   m_Name: iron_ore_3
   m_TagString: IronOre
@@ -142,3 +143,19 @@ MonoBehaviour:
   requiredTools:
   - test
   itemName: iron_ore
+--- !u!208 &2868247366718037871
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9107357203313812746}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.66800004, y: 0.21900001, z: 0.69500005}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.033, y: 0.126, z: 0.014}
+  m_TimeToStationary: 0.5

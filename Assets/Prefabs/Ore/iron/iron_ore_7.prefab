@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5811758635261085138}
   - component: {fileID: -3736690258805162159}
   - component: {fileID: -3679047604809536145}
+  - component: {fileID: -145181538978406302}
   m_Layer: 16
   m_Name: iron_ore_7
   m_TagString: IronOre
@@ -114,3 +115,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6150554286082207082, guid: e91120d5dc0439a45b567d5c5946be1a, type: 3}
+--- !u!208 &-145181538978406302
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5451466473898009607}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.42100003, y: 0.63000005, z: 0.665}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.674, y: 0.39600003, z: 0.15}
+  m_TimeToStationary: 0.5

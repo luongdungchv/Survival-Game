@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8479185613805003948}
   - component: {fileID: 7881986202061093425}
   - component: {fileID: 2822575159435316010}
+  - component: {fileID: -580706997102596667}
   m_Layer: 16
   m_Name: gold_ore
   m_TagString: Untagged
@@ -114,3 +115,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: b08bfdb029589324bbea7ba9f0cabad9, type: 2}
+--- !u!208 &-580706997102596667
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1778770549486087284}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.73700005, y: 0.74100006, z: 0.78300005}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.007, y: -0.027, z: 0.023000002}
+  m_TimeToStationary: 0.5
