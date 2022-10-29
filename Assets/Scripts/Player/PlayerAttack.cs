@@ -6,7 +6,7 @@ public class PlayerAttack : MonoBehaviour
 {
     public static PlayerAttack ins;
     [SerializeField] private List<ParticleSystem> slashFXList;
-    [SerializeField] private DamageDealer attacker;
+    //[SerializeField] private DamageDealer attacker;
 
     PlayerMovement movementSystem;
     PlayerAnimation animManager;
@@ -47,7 +47,7 @@ public class PlayerAttack : MonoBehaviour
     {
         attackIndex = -1;
         animManager.CancelAttack(pattern.type);
-        attacker.transform.parent.gameObject.SetActive(false);
+        //attacker.transform.parent.gameObject.SetActive(false);
     }
     public void PerformAttack()
     {
@@ -73,13 +73,13 @@ public class PlayerAttack : MonoBehaviour
             var displaced = pattern.displaceForward[attackIndex];
             movementSystem.DisplaceForward(pattern.displaceForward[attackIndex]);
 
-            attacker.transform.parent.gameObject.SetActive(true);
-            attacker.EnableWeapon();
+            //attacker.transform.parent.gameObject.SetActive(true);
+            //attacker.EnableWeapon();
 
             var delay = pattern.delayBetweenMoves[attackIndex];
             yield return new WaitForSeconds(delay);
 
-            attacker.DisableWeapon();
+            //attacker.DisableWeapon();
 
             isInAttackingPhase = false;
 

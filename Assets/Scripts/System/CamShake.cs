@@ -24,7 +24,6 @@ public class CamShake : MonoBehaviour
             float randY = Random.Range(-_size, _size);
             var randPos = transform.up * randY + transform.right * randX;
             transform.position = basePos + randPos;
-            Debug.Log(randPos);
             yield return null;
         }
         transform.position = basePos;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class Item : MonoBehaviour
@@ -20,7 +21,9 @@ public class Item : MonoBehaviour
     }
     public ItemDrop Drop(Vector3 dropPos, int quantity)
     {
+        if (quantity <= 0) return null;
         var drop = Instantiate(dropPrefab, dropPos, Quaternion.identity).GetComponentInChildren<ItemDrop>();
+        drop.gameObject.SetActive(true);
         drop.SetQuantity(quantity);
         drop.SetBase(this);
         return drop;

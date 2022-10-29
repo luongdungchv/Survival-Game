@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 67844147}
-  m_IndirectSpecularColor: {r: 0.78170455, g: 0.9364451, b: 0.76212937, a: 1}
+  m_IndirectSpecularColor: {r: 0.8550606, g: 1.0179738, b: 1.02633, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5846,13 +5846,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 203052104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eee28bc87bc8cc44be4d762e35e59ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b3c2ff8a58085e4cb152575d5d195a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tool: 
   hitVfx: {fileID: 1615146218}
   mask:
     serializedVersion: 2
-    m_Bits: 77824
+    m_Bits: 331776
 --- !u!65 &203052107
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8295,13 +8296,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1011025052}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eee28bc87bc8cc44be4d762e35e59ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b3c2ff8a58085e4cb152575d5d195a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tool: 
   hitVfx: {fileID: 1615146218}
   mask:
     serializedVersion: 2
-    m_Bits: 77824
+    m_Bits: 331776
 --- !u!65 &1011025055
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9396,26 +9398,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1397261530692694664, guid: 7c266eabff05eb043a4e29fee65e9aaa, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1397261530692694668, guid: 7c266eabff05eb043a4e29fee65e9aaa, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 2343036143321555215}
-    - target: {fileID: 1397261530692694668, guid: 7c266eabff05eb043a4e29fee65e9aaa, type: 3}
-      propertyPath: _runSpeed
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 1397261530692694668, guid: 7c266eabff05eb043a4e29fee65e9aaa, type: 3}
-      propertyPath: _walkSpeed
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1397261530692694668, guid: 7c266eabff05eb043a4e29fee65e9aaa, type: 3}
-      propertyPath: castDist
-      value: 0.6
-      objectReference: {fileID: 0}
     - target: {fileID: 1397261530692694707, guid: 7c266eabff05eb043a4e29fee65e9aaa, type: 3}
       propertyPath: m_Name
       value: Goblin
@@ -9654,13 +9640,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1855597946}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eee28bc87bc8cc44be4d762e35e59ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b3c2ff8a58085e4cb152575d5d195a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tool: 
   hitVfx: {fileID: 1615146218}
   mask:
     serializedVersion: 2
-    m_Bits: 77824
+    m_Bits: 331776
 --- !u!65 &1855597949
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14953,13 +14940,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1921707202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eee28bc87bc8cc44be4d762e35e59ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b3c2ff8a58085e4cb152575d5d195a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tool: 
   hitVfx: {fileID: 1615146218}
   mask:
     serializedVersion: 2
-    m_Bits: 77824
+    m_Bits: 331776
 --- !u!65 &1921707205
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class HitBox : MonoBehaviour
 {
-    private BoxCollider hitbox;
-    private ParticleSystem atkVfx;
-    [SerializeField] ParticleSystem hitVfx;
+    protected BoxCollider hitbox;
+    protected ParticleSystem atkVfx;
+    [SerializeField] protected string tool;
+    [SerializeField] protected ParticleSystem hitVfx;
     [SerializeField] private LayerMask mask;
     // Start is called before the first frame update
     void Start()
@@ -15,11 +16,7 @@ public class HitBox : MonoBehaviour
         atkVfx = GetComponentInChildren<ParticleSystem>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
     public void DetectHit()
     {
 
@@ -27,25 +24,36 @@ public class HitBox : MonoBehaviour
         var origin = hitbox.bounds.center - transform.right * halfExtents.x;
         var size = hitbox.size.x;
         halfExtents.x = 0;
-        atkVfx.Play();
+        atkVfx?.Play();
 
         var hits = Physics.BoxCastAll(origin, halfExtents, transform.right, transform.rotation, size, mask);
         if (hits != null && hits.Length > 0)
         {
             foreach (var hit in hits)
             {
+                OnHitDetect(hit);
 
-                //Debug.Log(hit.collider.gameObject.name);
-                if (hit.collider.TryGetComponent<DamagableObject>(out var target))
-                {
-                    //Debug.Log($"{halfExtents} {origin} {size} ");
-                    hitVfx.transform.position = hit.point;
-                    hitVfx.Play();
-                    CamShake.ins.Shake();
-                    target.OnDamage(25, 3, "test");
-                }
             }
         }
     }
+    protected virtual void OnHitDetect(RaycastHit hit)
+    {
 
+    }
+}
+public interface IHitData
+{
+
+}
+public class PlayerHitData : IHitData
+{
+    public float damage;
+    public string atkTool;
+    public HitBox dealer;
+    public PlayerHitData(float damage, string atkTool, HitBox dealer)
+    {
+        this.damage = damage;
+        this.atkTool = atkTool;
+        this.dealer = dealer;
+    }
 }

@@ -124,11 +124,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 50
-  priority: 0
   requiredTools:
   - test
+  hp: 50
   itemName: rock
+  minDrop: 5
+  maxDrop: 10
 --- !u!64 &2776041096950759100
 MeshCollider:
   m_ObjectHideFlags: 0
