@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 67844147}
-  m_IndirectSpecularColor: {r: 0.5193141, g: 0.55286694, b: 0.6201178, a: 1}
+  m_IndirectSpecularColor: {r: 0.90849704, g: 0.7315748, b: 0.37395537, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6405,7 +6405,7 @@ GameObject:
   m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!114 &466576385
 MonoBehaviour:
@@ -6621,7 +6621,7 @@ MonoBehaviour:
   mesh: {fileID: -462981019419857548, guid: 6a97e9d5e5bd6384d884afbc8367afea, type: 3}
   grassMat: {fileID: 2100000, guid: e16230446dd66784c867e6dcfe39d253, type: 2}
   compute: {fileID: 7200000, guid: 536bedfa03f868244b07bce8457b1031, type: 3}
-  culledDistance: 40
+  culledDistance: 50
   testpos: {fileID: 0}
 --- !u!114 &466576392
 MonoBehaviour:
@@ -7716,7 +7716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25abf2e4576c973478270173e4bb7a53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fps: -1
+  fps: 144
 --- !u!4 &861029396
 Transform:
   m_ObjectHideFlags: 0
@@ -8437,7 +8437,7 @@ GameObject:
   m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &1047661571
 Transform:
