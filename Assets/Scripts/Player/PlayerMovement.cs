@@ -53,7 +53,6 @@ public class PlayerMovement : MonoBehaviour
     }
     public void StopMoving()
     {
-        Debug.Log("stop");
         rb.velocity = new Vector3(0, 0, 0);
         //        Debug.Log("stop");
     }
@@ -182,6 +181,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Dash()
     {
+        Debug.Log(inputReader.movementInputVector);
         if (inputReader.movementInputVector == Vector2.zero)
         {
             DisplaceForward(dashSpeed);
@@ -193,6 +193,12 @@ public class PlayerMovement : MonoBehaviour
             Vector3 camRight = new Vector3(camHolder.right.x, 0, camHolder.right.z).normalized;
 
             moveDir = (camForward * inputDir.y + camRight * inputDir.x).normalized * dashSpeed;
+
+
+            float angle = -Mathf.Atan2(moveDir.z, moveDir.x) * Mathf.Rad2Deg;
+            Quaternion targetRotation = Quaternion.Euler(transform.rotation.x, angle + 90, transform.rotation.z);
+            transform.rotation = targetRotation;
+
             rb.velocity = moveDir;
         }
     }
