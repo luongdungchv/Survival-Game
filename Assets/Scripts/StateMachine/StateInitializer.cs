@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class StateInitializer : MonoBehaviour
 {
-    public State Idle, Move, InAir, Attack, Sprint, SwimNormal, SwimIdle, SwimFast;
+    public State Idle, Move, InAir, Attack, Sprint, SwimNormal, SwimIdle, SwimFast, Dash;
     public InputReader inputReader;
     public StateMachine fsm;
+    private bool canDash = true;
 
 
     PlayerMovement movementSystem => GetComponent<PlayerMovement>();
@@ -40,9 +41,23 @@ public class StateInitializer : MonoBehaviour
 
         SwimNormal.OnEnter.AddListener(() => swimSystem.StartSwimming());
         SwimNormal.OnUpdate.AddListener(() => swimSystem.PerformSwim(this));
+
+        Dash.OnEnter.AddListener(() =>
+        {
+            if (canDash)
+            {
+                animSystem.Dash();
+                movementSystem.Dash();
+                StartCoroutine(DashCooldown());
+            }
+        });
     }
     private void Update()
     {
+        if (inputReader.SprintPress())
+        {
+            fsm.ChangeState(Dash);
+        }
         if (inputReader.SlashPress())
         {
             fsm.ChangeState(Attack);
@@ -53,7 +68,7 @@ public class StateInitializer : MonoBehaviour
             fsm.ChangeState(InAir);
         }
 
-        else if (inputReader.movementInputVector != Vector2.zero)
+        else if (inputReader.movementInputVector != Vector2.zero && !animSystem.animator.GetBool("dash"))
         {
             var curStateName = fsm.currentState.name;
             if (!curStateName.Contains("Swim"))
@@ -65,9 +80,10 @@ public class StateInitializer : MonoBehaviour
                 fsm.ChangeState(SwimNormal);
             }
         }
-        else
+        else if (!animSystem.animator.GetBool("dash"))
         {
             var curStateName = fsm.currentState.name;
+            //bool dash = animSystem.animator.GetBool("dash");
             if (!curStateName.Contains("Swim") || animSystem.animator.GetFloat("swim") < 0.001f)
             {
                 //Debug.Log(curStateName);
@@ -78,6 +94,12 @@ public class StateInitializer : MonoBehaviour
                 fsm.ChangeState(SwimIdle);
             }
         }
+    }
+    IEnumerator DashCooldown()
+    {
+        canDash = false;
+        yield return new WaitForSeconds(movementSystem.dashDelay);
+        canDash = true;
     }
     private async void OnCollisionEnter(Collision collision)
     {

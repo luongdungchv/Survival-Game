@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void StopMoving()
     {
+        Debug.Log("stop");
         rb.velocity = new Vector3(0, 0, 0);
         //        Debug.Log("stop");
     }
@@ -68,15 +69,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (xMove != 0 || zMove != 0)
         {
-            if (inputReader.SprintPress())
-            {
-                if (canDash)
-                {
-                    animManager.Dash();
-                    currentSpeed = dashSpeed;
-                    StartCoroutine(DashCooldown());
-                }
-            }
+            // if (inputReader.SprintPress())
+            // {
+            //     if (canDash)
+            //     {
+            //         animManager.Dash();
+            //         currentSpeed = dashSpeed;
+            //         StartCoroutine(DashCooldown());
+            //     }
+            // }
             if (inputReader.sprint && acceleratedSpeed != currentSpeed && !animManager.animator.GetBool("dash"))
             {
                 animManager.Run();
@@ -179,13 +180,32 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.velocity = transform.forward * magnitude;
     }
-    public bool PerformSlopeCheck()
+    public void Dash()
+    {
+        if (inputReader.movementInputVector == Vector2.zero)
+        {
+            DisplaceForward(dashSpeed);
+        }
+        else
+        {
+            var inputDir = inputReader.movementInputVector;
+            Vector3 camForward = new Vector3(camHolder.forward.x, 0, camHolder.forward.z).normalized;
+            Vector3 camRight = new Vector3(camHolder.right.x, 0, camHolder.right.z).normalized;
+
+            moveDir = (camForward * inputDir.y + camRight * inputDir.x).normalized * dashSpeed;
+            rb.velocity = moveDir;
+        }
+    }
+    public void Dash(Vector3 dir)
+    {
+        rb.velocity = dir * dashSpeed;
+    }
+    private bool PerformSlopeCheck()
     {
         RaycastHit hit;
         if (Physics.Raycast(slopeCheckPos.transform.position, Vector3.down, out hit, 0.4f, slopeCheckMask))
         {
             var slopeNormal = hit.normal;
-            Debug.Log(hit.normal);
             var tangent = Vector3.Cross(moveDir, hit.normal);
             var biTangent = Vector3.Cross(hit.normal, tangent);
             moveDir = biTangent.normalized * currentSpeed;

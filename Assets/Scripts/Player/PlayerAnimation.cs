@@ -11,10 +11,12 @@ public class PlayerAnimation : MonoBehaviour
     public Animator animator;
 
     PlayerMovement movementSystem;
+    PlayerAttack atkSystem;
     void Start()
     {
         //animator = GetComponent<Animator>();
         movementSystem = GetComponent<PlayerMovement>();
+        atkSystem = GetComponent<PlayerAttack>();
         animBlendCoroutineDict = new Dictionary<string, Coroutine>();
         foreach (var i in animator.parameters)
         {
@@ -81,6 +83,7 @@ public class PlayerAnimation : MonoBehaviour
     public async void Dash()
     {
         animator.SetBool("dash", true);
+        atkSystem.ResetAttack();
         await Task.Delay(300);
         animator.SetBool("dash", false);
     }
