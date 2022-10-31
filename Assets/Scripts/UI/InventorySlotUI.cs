@@ -39,6 +39,23 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
     {
         if (iih.isItemMoving)
         {
+            if (inventory.isEquipSlot(itemIndex) && !(iih.sourceItem is IEquippable)) return;
+
+            Debug.Log(inventory);
+            var thisItem = inventory.GetItem(itemIndex);
+            var sourceItem = iih.sourceItem;
+
+
+            if (thisItem != null && sourceItem != null && thisItem.itemName != sourceItem.itemName)
+            {
+                // inventory.Move(iih.sourceItemIndex, iih.sourceItemCount, itemIndex, iih.movingCount);
+                // this.icon = iih.movingIcon;
+                // var movingCount = iih.movingCount;
+                // iih.ChangeMoveIconQuantity(this.quantity);
+                // this.quantity = movingCount;
+                return;
+            }
+
             var redundant = AddQuantity(iih.movingCount, iih.movingIcon);
             inventory.Move(iih.sourceItemIndex, iih.sourceItemCount, itemIndex, quantity);
             iih.ChangeMoveIconQuantity(redundant);
@@ -61,6 +78,13 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
             this.quantity = inventory.maxInventorySlot;
         }
         return redundant;
+    }
+    public void Highlight(bool mode)
+    {
+        var image = this.GetComponent<RawImage>();
+        if (mode) image.color = Color.yellow;
+        else image.color = Color.grey;
+
     }
 
 }

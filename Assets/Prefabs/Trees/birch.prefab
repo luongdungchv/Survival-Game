@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8553815173277352608}
   - component: {fileID: 4912548845163571503}
   - component: {fileID: 8552659880241048485}
-  - component: {fileID: 585875021302606583}
   - component: {fileID: 4494432547413905037}
   m_Layer: 12
   m_Name: Trunk
@@ -83,19 +82,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &585875021302606583
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2899530105835608363}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.54, y: 3, z: 24.775967}
-  m_Center: {x: -0.13, y: 0, z: 12.387983}
 --- !u!208 &4494432547413905037
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -122,6 +108,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3941981477811391129}
   - component: {fileID: 2408874836172137747}
+  - component: {fileID: 6663462038248912293}
+  - component: {fileID: 3000244215514675106}
   m_Layer: 12
   m_Name: birch
   m_TagString: Untagged
@@ -176,6 +164,37 @@ LODGroup:
     renderers:
     - renderer: {fileID: 4805116632773722694}
   m_Enabled: 1
+--- !u!114 &6663462038248912293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4467408001072779299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredTools:
+  - test
+  hp: 60
+  itemName: birch_wood
+  minDrop: 5
+  maxDrop: 10
+--- !u!65 &3000244215514675106
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4467408001072779299}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.96, y: 12.149794, z: 2.25}
+  m_Center: {x: 0, y: 6.0648966, z: 0}
 --- !u!1 &5811782731103381385
 GameObject:
   m_ObjectHideFlags: 0

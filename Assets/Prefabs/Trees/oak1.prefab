@@ -91,6 +91,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5268013364396154494}
   - component: {fileID: -1309949446944217455}
+  - component: {fileID: 6068178217773800073}
+  - component: {fileID: 1654392395457581537}
   m_Layer: 12
   m_Name: oak1
   m_TagString: Untagged
@@ -145,6 +147,37 @@ LODGroup:
     renderers:
     - renderer: {fileID: 5686402744323793953}
   m_Enabled: 1
+--- !u!114 &6068178217773800073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4778440782051247300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredTools:
+  - test
+  hp: 60
+  itemName: oak_wood
+  minDrop: 5
+  maxDrop: 10
+--- !u!65 &1654392395457581537
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4778440782051247300}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.66, y: 5.979439, z: 0.66}
+  m_Center: {x: 0, y: 2.98974, z: 0}
 --- !u!1 &6190995225659721204
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,7 +351,6 @@ GameObject:
   - component: {fileID: 7839116811145329967}
   - component: {fileID: 8712724568371303548}
   - component: {fileID: 3181301430919211136}
-  - component: {fileID: 8184295331101265719}
   - component: {fileID: 6939582690378360590}
   m_Layer: 12
   m_Name: tree
@@ -390,19 +422,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8184295331101265719
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9045864818832398793}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.6, y: 9.577138, z: 0.78}
-  m_Center: {x: 0, y: 4.788569, z: 0}
 --- !u!208 &6939582690378360590
 NavMeshObstacle:
   m_ObjectHideFlags: 0

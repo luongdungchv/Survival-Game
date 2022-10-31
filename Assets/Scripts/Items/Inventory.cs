@@ -2,53 +2,73 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.PlayerLoop;
-using UnityEngine.UIElements;
 
 public class Inventory : MonoBehaviour
 {
     public static Inventory ins;
-    [SerializeField] private int _maxInventorySlot;
+    [SerializeField] private int _maxInventorySlot, equipSlotCount;
+    private int _currentEquipIndex;
+    public int currentEquipIndex
+    {
+        get => _currentEquipIndex;
+        set
+        {
+            _currentEquipIndex = value;
+            _currentEquipIndex = Mathf.Clamp(currentEquipIndex, 0, equipSlotCount - 1);
+            ReloadInHandModel();
+        }
+    }
     [SerializeField] private Item testItem;
     [SerializeField] private Transform dropPos;
     public int maxInventorySlot => _maxInventorySlot;
     public ItemSlot[] items;
     private Dictionary<string, List<Vector2Int>> itemQuantities;
-
+    InventoryInteractionHandler iih => InventoryInteractionHandler.ins;
 
     private void Awake()
     {
         ins = this;
-        items = new ItemSlot[3];
+        items = new ItemSlot[28];
         itemQuantities = new Dictionary<string, List<Vector2Int>>();
+        iih.Init();
+        Add(testItem, 1);
 
     }
     private void Start()
     {
-        Add(testItem, 50);
-        Add(testItem, 10);
-        Add(testItem, 14);
-        Add(testItem, 28);
-    }
-    // private void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.D))
-    //     {
-    //         Add(testItem, 40);
-    //     }
-    // }
+        ReloadInHandModel();
+        // Add(testItem, 50);
+        // Add(testItem, 10);
+        // Add(testItem, 14);
+        // Add(testItem, 28);
 
-    public bool Add(Item itemData, int quantity, bool stackable = true)
+        //Add(testItem, 1);
+
+    }
+
+    private void Update()
     {
-        if (quantity > maxInventorySlot) return false;
-        if (quantity == 0) return false;
-        if (itemData == null) return false;
+        var mouseScroll = InputReader.ins.MouseScroll();
+        if (mouseScroll != 0)
+        {
+            currentEquipIndex += mouseScroll;
+            //currentEquipIndex = Mathf.Clamp(currentEquipIndex, 0, equipSlotCount - 1);
+        }
+    }
+    public bool isEquipSlot(int index) => index < equipSlotCount;
+    public bool Add(Item itemData, int quantity)
+    {
+        //Debug.Log(items.Length);
+        if (quantity > maxInventorySlot || quantity == 0 || itemData == null) return false;
+        bool stackable = itemData.stackable;
 
         int nullIndex = -1;
+        bool equippable = itemData is IEquippable;
         for (int i = 0; i < items.Length; i++)
         {
             if (items[i] == null)
             {
+                if (!equippable && i < equipSlotCount) continue;
                 nullIndex = i;
                 break;
             }
@@ -56,9 +76,10 @@ public class Inventory : MonoBehaviour
 
         if (!stackable)
         {
-            if (nullIndex == -1) return false;
-            if (quantity == 1) { items[nullIndex] = new ItemSlot(1, itemData); return true; }
-            else return false;
+            if (nullIndex == -1 || quantity != 1) return false;
+            items[nullIndex] = new ItemSlot(1, itemData);
+            return true;
+
         }
 
         List<Vector2Int> itemSlotList = new List<Vector2Int>();
@@ -70,9 +91,6 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        //sort with quantity
-        // itemSlotList.Sort((a, b) => a.x < b.x ? -1 : (a.x > b.x ? 1 : 0));
-        // itemSlotList.Reverse();
         for (int i = 0; i < itemSlotList.Count; i++)
         {
             var tmp = itemSlotList[i];
@@ -94,22 +112,70 @@ public class Inventory : MonoBehaviour
         {
             items[i.y].quantity = i.x;
         }
-
+        ReloadInHandModel();
+        iih.UpdateUI();
         return true;
 
     }
-    public void Move(int startIndex, int startQuantity, int endIndex, int endQuantity)
+    public bool Move(int startIndex, int startQuantity, int endIndex, int endQuantity)
     {
         var itemData = items[startIndex].itemData;
+        bool equippable = itemData is IEquippable;
+        if (!equippable && endIndex < equipSlotCount) return false;
+
         if (startQuantity != 0) items[startIndex].quantity = startQuantity;
         else items[startIndex] = null;
 
         if (endQuantity != 0) items[endIndex] = new ItemSlot(endQuantity, itemData);
         else items[endIndex] = null;
+        ReloadInHandModel();
+        iih.UpdateUI();
+        return true;
+    }
+    public bool Put(Item item, int index, int quantity)
+    {
+        if (items[index] != null || quantity <= 0) return false;
+        items[index] = new ItemSlot(quantity, item);
+        return true;
     }
     public Item GetItem(int itemIndex)
     {
-        return items[itemIndex].itemData;
+        var itemSlot = items[itemIndex];
+        if (itemSlot == null) return null;
+        return itemSlot.itemData;
+    }
+    private void ReloadInHandModel()
+    {
+
+        for (int i = 0; i < equipSlotCount; i++)
+        {
+
+            Debug.Log($"{_currentEquipIndex} {items.Length} {i}");
+            if (i == _currentEquipIndex)
+            {
+                iih.GetUISlot(i).Highlight(true);
+                if (items[i] == null || items[i].itemData == null)
+                {
+                    PlayerEquipment.ins.rightHandItem = null;
+                    continue;
+                }
+                var equippableItem = items[i].itemData as IEquippable;
+                equippableItem.inHandModel.SetActive(true);
+                PlayerEquipment.ins.rightHandItem = items[i].itemData;
+
+            }
+            else if (i != _currentEquipIndex)
+            {
+                iih.GetUISlot(i).Highlight(false);
+                if (items[i] == null || items[i].itemData == null)
+                {
+                    continue;
+                }
+
+                var equippableItem = items[i].itemData as IEquippable;
+                equippableItem.inHandModel.SetActive(false);
+            }
+        }
     }
     public bool DropItem(int itemIndex, int quantity)
     {

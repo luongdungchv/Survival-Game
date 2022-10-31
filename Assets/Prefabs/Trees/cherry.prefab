@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 889361226808017230}
   - component: {fileID: 3493105393884268830}
+  - component: {fileID: 2530084968240145202}
+  - component: {fileID: 2787627297964770821}
   m_Layer: 12
   m_Name: cherry
   m_TagString: Untagged
@@ -64,6 +66,37 @@ LODGroup:
     renderers:
     - renderer: {fileID: 7214478909668466127}
   m_Enabled: 1
+--- !u!65 &2530084968240145202
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512414193447967732}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.55, y: 10.155761, z: 2.22}
+  m_Center: {x: 0, y: 4.8778806, z: 0}
+--- !u!114 &2787627297964770821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512414193447967732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredTools:
+  - test
+  hp: 60
+  itemName: cherry_wood
+  minDrop: 5
+  maxDrop: 10
 --- !u!1 &8309104790789181619
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +189,6 @@ GameObject:
   - component: {fileID: 7940623264131314105}
   - component: {fileID: 3686466844604248763}
   - component: {fileID: 6369174891347747398}
-  - component: {fileID: 2173696995998843359}
   - component: {fileID: 463539642691119544}
   m_Layer: 12
   m_Name: trunk
@@ -228,19 +260,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2173696995998843359
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8532835343337066538}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.02, y: 2.58, z: 16.005136}
-  m_Center: {x: -0.02, y: -0.1, z: 7.0025682}
 --- !u!208 &463539642691119544
 NavMeshObstacle:
   m_ObjectHideFlags: 0

@@ -9,7 +9,9 @@ public class ItemMoveIcon : MonoBehaviour
     [SerializeField] RawImage iconImage;
     [SerializeField] TextMeshProUGUI quantityText;
     [SerializeField] private Camera mainCam;
-    public float farplane;
+    public Item movingItem;
+    public int movingCount, sourceIndex;
+    public InventorySlotUI sourceSlot;
     public Canvas canvas;
     public Texture2D _icon;
     public Texture2D icon
@@ -33,6 +35,7 @@ public class ItemMoveIcon : MonoBehaviour
             else iconImage.gameObject.SetActive(false);
         }
     }
+    private Inventory inventory => Inventory.ins;
     private void Start()
     {
         FollowMouse();
@@ -52,6 +55,16 @@ public class ItemMoveIcon : MonoBehaviour
         Vector2 iconPos = new Vector2(mousePosWorld.x, mousePosWorld.y);
 
         this.GetComponent<RectTransform>().anchoredPosition = iconPos / (canvas.scaleFactor + 0.1f);
+
+        if (gameObject.activeSelf && Input.mouseScrollDelta.y != 0)
+        {
+            quantity += (int)Input.mouseScrollDelta.y;
+            sourceSlot.quantity -= (int)Input.mouseScrollDelta.y;
+
+            int baseItemQuantity = inventory.items[sourceSlot.itemIndex].quantity;
+            sourceSlot.quantity = Mathf.Clamp(sourceSlot.quantity, 0, Mathf.Min(baseItemQuantity, inventory.maxInventorySlot) - 1);
+            quantity = Mathf.Clamp(quantity, 1, Mathf.Min(baseItemQuantity, inventory.maxInventorySlot));
+        }
     }
 
 

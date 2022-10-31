@@ -97,6 +97,9 @@ public class InputReader : MonoBehaviour
     {
         return UIManager.ins.isUIOpen || Cursor.visible ? 0 : Input.GetAxis("Mouse Y");
     }
-
+    public int MouseScroll()
+    {
+        return UIManager.ins.isUIOpen || Cursor.visible ? 0 : (int)Input.mouseScrollDelta.y;
+    }
 
 }

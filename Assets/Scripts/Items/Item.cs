@@ -13,8 +13,9 @@ public class Item : MonoBehaviour
     }
     public string itemName;
     public GameObject dropPrefab;
-    public GameObject inHandModel;
+    //public GameObject inHandModel;
     public Texture2D icon;
+    public bool stackable = true;
     protected virtual void Awake()
     {
         itemMapper.Add(itemName, this);
@@ -22,6 +23,7 @@ public class Item : MonoBehaviour
     public ItemDrop Drop(Vector3 dropPos, int quantity)
     {
         if (quantity <= 0) return null;
+        if (!stackable) quantity = 1;
         var drop = Instantiate(dropPrefab, dropPos, Quaternion.identity).GetComponentInChildren<ItemDrop>();
         drop.gameObject.SetActive(true);
         drop.SetQuantity(quantity);
@@ -37,4 +39,8 @@ public interface IConsumable
 {
     float duration { get; set; }
     void OnConsume();
+}
+public interface IEquippable
+{
+    GameObject inHandModel { get; }
 }

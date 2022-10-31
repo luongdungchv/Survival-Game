@@ -39,7 +39,7 @@ public class PlayerEquipment : MonoBehaviour
     {
         float t = 0;
         while (t < 1)
-        
+
         {
             t += Time.deltaTime / consumableItem.duration;
             yield return null;
@@ -48,6 +48,7 @@ public class PlayerEquipment : MonoBehaviour
     }
     public void OnUsePress()
     {
+        if (rightHandItem == null) return;
         if (rightHandItem.TryGetComponent<IUsable>(out var usableItem))
         {
             usableItem.OnUse();

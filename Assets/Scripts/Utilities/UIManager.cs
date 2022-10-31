@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
         if (isUIOpen && !inventoryUI.activeSelf) return;
         inventoryUI.SetActive(!inventoryUI.activeSelf);
         GameFunctions.ins.ToggleCursor(isUIOpen);
-        Debug.Log(iih);
+        iih.UpdateUI();
         iih.ChangeMoveIconQuantity(0);
         //Time.timeScale = inventoryUI.activeSelf ? 0 : 1;
     }

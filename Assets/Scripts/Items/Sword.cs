@@ -1,8 +1,12 @@
 using UnityEngine;
 
-public class Sword : Item, IUsable
+public class Sword : Item, IUsable, IEquippable
 {
     public static Sword ins;
+    [SerializeField] private GameObject _inHandModel;
+
+    public GameObject inHandModel { get => _inHandModel; }
+
     protected override void Awake()
     {
         if (ins == null) ins = this;
