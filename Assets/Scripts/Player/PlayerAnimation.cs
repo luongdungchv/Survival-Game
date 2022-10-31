@@ -84,7 +84,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator.SetBool("dash", true);
         atkSystem.ResetAttack();
-        await Task.Delay(300);
+        await Task.Delay(350);
         animator.SetBool("dash", false);
     }
     IEnumerator LerpAnimationTransition(string param, float to, float duration)
