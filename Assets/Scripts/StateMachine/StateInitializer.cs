@@ -57,7 +57,7 @@ public class StateInitializer : MonoBehaviour
     {
         if (inputReader.SprintPress())
         {
-            fsm.ChangeState(Dash);
+            fsm.ChangeState(Dash, true);
         }
         if (inputReader.SlashPress())
         {

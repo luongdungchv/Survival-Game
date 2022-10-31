@@ -33,9 +33,9 @@ public class StateMachine : MonoBehaviour
     {
         if (currentState != null) currentState.OnUpdate.Invoke();
     }
-    public bool ChangeState(string name)
+    public bool ChangeState(string name, bool force = false)
     {
-        if (currentState.lockState)
+        if (currentState.lockState && !force)
         {
             return false;
         }
@@ -59,10 +59,10 @@ public class StateMachine : MonoBehaviour
         //OnStateChanged.Invoke(name, "");
         return false;
     }
-    public bool ChangeState(State newState)
+    public bool ChangeState(State newState, bool force = false)
     {
         if (newState.name == "InAir") Debug.Log("jump");
-        return ChangeState(newState.name);
+        return ChangeState(newState.name, force);
     }
     public async Task<bool> ChangeState(State newState, int delay)
     {
