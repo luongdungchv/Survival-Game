@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 67844147}
-  m_IndirectSpecularColor: {r: 0.1866664, g: 0.06889304, b: 0.3860822, a: 1}
+  m_IndirectSpecularColor: {r: 0.22639388, g: 0.13096428, b: 0.4066219, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5431,8 +5431,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66c3abe7c17b0b4f95b86dd483618b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapObj: {fileID: 150931520}
-  collectBtnPrefab: {fileID: 0}
+  mapUI: {fileID: 0}
+  inventoryUI: {fileID: 0}
+  interactBtnPrefab: {fileID: 0}
   mapCam: {fileID: 2003296155}
   collectBtnContainer: {fileID: 2097251242}
 --- !u!1 &334029092
@@ -6592,7 +6593,9 @@ MonoBehaviour:
   sprintKey: 304
   showCursorKey: 308
   jumpKey: 32
-  collectBtn: 102
+  interactKey: 0
+  openMapKey: 0
+  openInventoryKey: 0
   sprint: 0
   movementInputVector: {x: 0, y: 0}
 --- !u!4 &927359542
@@ -14466,11 +14469,10 @@ MonoBehaviour:
   slashFXList:
   - {fileID: 39216144}
   - {fileID: 1899705809}
-  attacker: {fileID: 1792040205}
   attackMoves: 3
   delayBetweenMoves: 0.5
   resetDelay: 1.4
-  pattern: {fileID: 11400000, guid: 5fc7920387d93414c824cbef9cbebacb, type: 2}
+  pattern: {fileID: 0}
 --- !u!114 &3157008331099700154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14486,7 +14488,7 @@ MonoBehaviour:
   moveSpeed: 5
   acceleratedSpeed: 10
   jumpSpeed: 15
-  dashSpeed: 28
+  dashSpeed: 30
   dashDelay: 0.5
   camHolder: {fileID: 1491905420}
   camHolderPos: {fileID: 1594768729}
