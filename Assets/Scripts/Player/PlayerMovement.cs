@@ -182,6 +182,7 @@ public class PlayerMovement : MonoBehaviour
     public void Dash()
     {
         Debug.Log(inputReader.movementInputVector);
+        currentSpeed = dashSpeed;
         if (inputReader.movementInputVector == Vector2.zero)
         {
             DisplaceForward(dashSpeed);

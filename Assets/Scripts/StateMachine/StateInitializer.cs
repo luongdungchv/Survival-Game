@@ -59,7 +59,7 @@ public class StateInitializer : MonoBehaviour
         {
             fsm.ChangeState(Dash, true);
         }
-        if (inputReader.SlashPress())
+        else if (inputReader.SlashPress())
         {
             //fsm.ChangeState(Attack);
             //movementSystem.DisplaceForward(1, 0.1f);

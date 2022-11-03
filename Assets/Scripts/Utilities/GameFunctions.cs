@@ -41,6 +41,10 @@ public class GameFunctions : MonoBehaviour
         {
             UIManager.ins.ToggleMapUI();
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            UIManager.ins.ToggleCraftUI();
+        }
     }
     public void HideCursor()
     {

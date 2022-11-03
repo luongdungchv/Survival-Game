@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,20 +19,25 @@ public class Inventory : MonoBehaviour
             ReloadInHandModel();
         }
     }
-    [SerializeField] private Item testItem;
+    [SerializeField] private Item testItem, testItem2;
     [SerializeField] private Transform dropPos;
     public int maxInventorySlot => _maxInventorySlot;
     public ItemSlot[] items;
-    private Dictionary<string, List<Vector2Int>> itemQuantities;
-    InventoryInteractionHandler iih => InventoryInteractionHandler.ins;
+    private Dictionary<string, int> itemQuantities;
+    InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
 
     private void Awake()
     {
         ins = this;
         items = new ItemSlot[28];
-        itemQuantities = new Dictionary<string, List<Vector2Int>>();
-        iih.Init();
+        itemQuantities = new Dictionary<string, int>();
+        //iih.Init();
+        InventoryInteractionHandler.InitAllInstances();
         Add(testItem, 1);
+        Add(testItem2, 64);
+        Add(testItem2, 2);
+
+        Debug.Log(Remove(testItem2.itemName, 64));
 
     }
     private void Start()
@@ -113,9 +119,15 @@ public class Inventory : MonoBehaviour
             items[i.y].quantity = i.x;
         }
         ReloadInHandModel();
-        iih.UpdateUI();
+        iih?.UpdateUI();
         return true;
 
+    }
+    public bool Replace(Item item, int quantity, int slotIndex)
+    {
+        items[slotIndex] = new ItemSlot(quantity, item);
+
+        return true;
     }
     public bool Move(int startIndex, int startQuantity, int endIndex, int endQuantity)
     {
@@ -129,13 +141,42 @@ public class Inventory : MonoBehaviour
         if (endQuantity != 0) items[endIndex] = new ItemSlot(endQuantity, itemData);
         else items[endIndex] = null;
         ReloadInHandModel();
-        iih.UpdateUI();
+        iih?.UpdateUI();
         return true;
     }
-    public bool Put(Item item, int index, int quantity)
+    public bool Remove(string itemName, int quantity)
     {
-        if (items[index] != null || quantity <= 0) return false;
-        items[index] = new ItemSlot(quantity, item);
+        List<Vector2Int> itemSlotList = new List<Vector2Int>();
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] != null && items[i].itemData.itemName == itemName && items[i].quantity <= maxInventorySlot)
+            {
+                itemSlotList.Add(new Vector2Int(items[i].quantity, i));
+            }
+        }
+        for (int i = 0; i < itemSlotList.Count; i++)
+        {
+            var tmp = itemSlotList[i];
+            tmp.x -= quantity;
+            if (tmp.x < 0)
+            {
+                quantity = 0 - tmp.x;
+                tmp.x = 0;
+            }
+            else quantity = 0;
+            itemSlotList[i] = tmp;
+        }
+        if (quantity > 0) return false;
+        foreach (var i in itemSlotList)
+        {
+            if (i.x == 0)
+            {
+                items[i.y] = null;
+                continue;
+            }
+            items[i.y].quantity = i.x;
+        }
+        iih?.UpdateUI();
         return true;
     }
     public Item GetItem(int itemIndex)
@@ -144,36 +185,53 @@ public class Inventory : MonoBehaviour
         if (itemSlot == null) return null;
         return itemSlot.itemData;
     }
+    public int GetItemQuantity(string itemName)
+    {
+        int res = 0;
+        foreach (var i in items)
+        {
+            if (i == null || i.itemData == null || i.itemData.itemName != itemName) continue;
+            res += i.quantity;
+        }
+        return res;
+    }
     private void ReloadInHandModel()
     {
 
         for (int i = 0; i < equipSlotCount; i++)
         {
 
-            Debug.Log($"{_currentEquipIndex} {items.Length} {i}");
             if (i == _currentEquipIndex)
             {
+                Debug.Log(iih);
                 iih.GetUISlot(i).Highlight(true);
                 if (items[i] == null || items[i].itemData == null)
                 {
                     PlayerEquipment.ins.rightHandItem = null;
                     continue;
                 }
+
                 var equippableItem = items[i].itemData as IEquippable;
                 equippableItem.inHandModel.SetActive(true);
                 PlayerEquipment.ins.rightHandItem = items[i].itemData;
 
             }
-            else if (i != _currentEquipIndex)
+        }
+        for (int i = 0; i < equipSlotCount; i++)
+        {
+            if (i != _currentEquipIndex)
             {
                 iih.GetUISlot(i).Highlight(false);
                 if (items[i] == null || items[i].itemData == null)
                 {
                     continue;
                 }
-
                 var equippableItem = items[i].itemData as IEquippable;
-                equippableItem.inHandModel.SetActive(false);
+                var currentModel = (PlayerEquipment.ins.rightHandItem as IEquippable)?.inHandModel;
+                if (currentModel == null || equippableItem.inHandModel != currentModel)
+                {
+                    equippableItem.inHandModel.SetActive(false);
+                }
             }
         }
     }
@@ -189,6 +247,7 @@ public class Inventory : MonoBehaviour
         }
         return true;
     }
+
     //[System.Serializable]
     public class ItemSlot
     {

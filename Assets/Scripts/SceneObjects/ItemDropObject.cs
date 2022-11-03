@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Linq;
-using Microsoft.SqlServer.Server;
 
 public class ItemDropObject : DamagableObject
 {

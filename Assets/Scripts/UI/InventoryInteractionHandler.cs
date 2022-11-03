@@ -1,29 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InventoryInteractionHandler : MonoBehaviour
 {
-    public static InventoryInteractionHandler ins;
+    public int id;
+    public static InventoryInteractionHandler currentOpen;
+    private static UnityEvent OnInit = new UnityEvent();
     [SerializeField] private ItemMoveIcon _movingItem;
-    [SerializeField] private List<InventorySlotUI> slots;
+    [SerializeField] private List<InventorySlotUI> slots, equipSlots;
     [SerializeField] private Transform equipmentContainer, bag;
     //private InventorySlotUI _sourceItem;
     private Inventory inventory => Inventory.ins;
-    public int movingCount => _movingItem.quantity;
-    public Texture2D movingIcon => _movingItem.icon;
-    public int sourceItemIndex => _movingItem.sourceSlot.itemIndex;
-    public int sourceItemCount => _movingItem.sourceSlot.quantity;
-    public Item sourceItem => _movingItem.movingItem;
+    public ItemMoveIcon movingItem => _movingItem;
     public bool isItemMoving => _movingItem.gameObject.activeSelf;
-    // Start is called before the first frame update
-    // private void Awake()
-    // {
-    //     ins = this;
-    // }
+
     public InventoryInteractionHandler()
     {
-        ins = this;
+        currentOpen = this;
+
+        OnInit.AddListener(Init);
     }
     private void Start()
     {
@@ -50,24 +47,16 @@ public class InventoryInteractionHandler : MonoBehaviour
     public void SetMovingItem(InventorySlotUI source)
     {
         _movingItem.gameObject.SetActive(true);
-        // this._sourceItem = source;
-        // _movingItem.quantity = this._sourceItem.quantity;
-        // this._sourceItem.quantity = 0;
-        // _movingItem.icon = this._sourceItem.icon;
-        _movingItem.quantity = source.quantity;
-        source.quantity = 0;
-        _movingItem.icon = source.icon;
-        _movingItem.sourceIndex = source.itemIndex;
-        _movingItem.movingItem = inventory.GetItem(source.itemIndex);
-        _movingItem.sourceSlot = source;
+
+        _movingItem.InitMoveAction(source);
     }
     public void ChangeMoveIconQuantity(int quantity)
     {
         _movingItem.quantity = quantity;
-        if (quantity <= 0)
-        {
-            _movingItem.gameObject.SetActive(false);
-        }
+        // if (quantity <= 0)
+        // {
+        //     _movingItem.gameObject.SetActive(false);
+        // }
     }
     public void ChangeSourceItem(InventorySlotUI newSource)
     {
@@ -76,6 +65,7 @@ public class InventoryInteractionHandler : MonoBehaviour
     }
     public void UpdateUI()
     {
+        if (id == 9) Debug.Log(slots.Count);
         for (int i = 0; i < inventory.items.Length; i++)
         {
             if (i >= slots.Count) break;
@@ -86,11 +76,30 @@ public class InventoryInteractionHandler : MonoBehaviour
                 slots[i].quantity = itemVal.quantity;
                 slots[i].icon = itemVal.itemData.icon;
             }
+            else
+            {
+                slots[i].quantity = 0;
+                slots[i].icon = null;
+            }
         }
+    }
+    public void SetAsOpen()
+    {
+        currentOpen = this;
+        UpdateUI();
+    }
+    public void SetAsClose()
+    {
+        currentOpen = null;
+    }
+    public static void InitAllInstances()
+    {
+        OnInit.Invoke();
     }
     private void InitSlots()
     {
         this.slots = new List<InventorySlotUI>();
+        this.equipSlots = new List<InventorySlotUI>();
         for (int i = 0; i < equipmentContainer.childCount; i++)
         {
             var slot = equipmentContainer.GetChild(i).GetComponent<InventorySlotUI>();

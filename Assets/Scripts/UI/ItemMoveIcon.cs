@@ -10,7 +10,7 @@ public class ItemMoveIcon : MonoBehaviour
     [SerializeField] TextMeshProUGUI quantityText;
     [SerializeField] private Camera mainCam;
     public Item movingItem;
-    public int movingCount, sourceIndex;
+    public int sourceIndex => sourceSlot.itemIndex;
     public InventorySlotUI sourceSlot;
     public Canvas canvas;
     public Texture2D _icon;
@@ -67,5 +67,21 @@ public class ItemMoveIcon : MonoBehaviour
         }
     }
 
-
+    public void InitMoveAction(InventorySlotUI source)
+    {
+        quantity = source.quantity;
+        source.quantity = 0;
+        icon = source.icon;
+        //sourceIndex = source.itemIndex;
+        movingItem = source.item;
+        sourceSlot = source;
+    }
+    public void InitReplaceAction(string itemName, int quantity)
+    {
+        var itemData = Item.GetItem(itemName);
+        movingItem = itemData;
+        this.quantity = quantity;
+        sourceSlot = null;
+        icon = itemData.icon;
+    }
 }

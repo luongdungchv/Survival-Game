@@ -8,11 +8,13 @@ using UnityEngine.Events;
 public class UIManager : MonoBehaviour
 {
     public static UIManager ins;
-    [SerializeField] private GameObject mapUI, inventoryUI;
+    [SerializeField] private GameObject mapUI, inventoryUI, craftUI;
     [SerializeField] private GameObject interactBtnPrefab, mapCam;
     [SerializeField] private Transform collectBtnContainer;
-    public bool isUIOpen => mapUI.activeSelf || inventoryUI.activeSelf;
-    private InventoryInteractionHandler iih => InventoryInteractionHandler.ins;
+    [SerializeField] private InventoryInteractionHandler inventoryUIHandler, craftUIHandler;
+    public bool isUIOpen => mapUI.activeSelf || inventoryUI.activeSelf || craftUI.activeSelf;
+
+    private InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
 
     private void Awake()
     {
@@ -31,9 +33,21 @@ public class UIManager : MonoBehaviour
         if (isUIOpen && !inventoryUI.activeSelf) return;
         inventoryUI.SetActive(!inventoryUI.activeSelf);
         GameFunctions.ins.ToggleCursor(isUIOpen);
-        iih.UpdateUI();
-        iih.ChangeMoveIconQuantity(0);
+        if (isUIOpen) inventoryUIHandler.SetAsOpen();
+        //else inventoryUIHandler.SetAsClose();
+        inventoryUIHandler.UpdateUI();
+        inventoryUIHandler.ChangeMoveIconQuantity(0);
         //Time.timeScale = inventoryUI.activeSelf ? 0 : 1;
+    }
+    public void ToggleCraftUI()
+    {
+        if (isUIOpen && !craftUI.activeSelf) return;
+        craftUI.SetActive(!craftUI.activeSelf);
+        GameFunctions.ins.ToggleCursor(isUIOpen);
+        if (isUIOpen) craftUIHandler.SetAsOpen();
+        //else craftUIHandler.SetAsClose();
+        craftUIHandler.UpdateUI();
+        craftUIHandler.ChangeMoveIconQuantity(0);
     }
     public void AddCollectBtn(GameObject btn)
     {

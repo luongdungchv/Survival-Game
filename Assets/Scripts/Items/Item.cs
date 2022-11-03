@@ -44,3 +44,7 @@ public interface IEquippable
 {
     GameObject inHandModel { get; }
 }
+public interface ICraftable
+{
+    Dictionary<string, int> requiredMats { get; }
+}
