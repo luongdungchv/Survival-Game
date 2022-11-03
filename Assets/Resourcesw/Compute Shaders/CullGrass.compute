@@ -32,7 +32,6 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     float z = clipspace.z;
     float w = clipspace.w + 0.3;
     
-    //bool inView = clipspace.x < -0.2f || clipspace.x > 1.2f || clipspace.z <= -0.1f ? 0 : 1;
     bool inView = !(x < -w || x > w|| y < -w || y > w || z < -w || z > w);
     float dist = length(camPos - pos.xyz);
     bool withinDist = dist < culledDist;

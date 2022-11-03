@@ -180,7 +180,6 @@ public class GrassSpawner : MonoBehaviour
         args[1] = (uint)(population);
         args[2] = (uint)mesh.GetIndexStart(0);
         args[3] = (uint)mesh.GetBaseVertex(0);
-
     }
 
 }
