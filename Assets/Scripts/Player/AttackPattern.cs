@@ -12,8 +12,6 @@ public class AttackPattern : MonoBehaviour
     [SerializeField] private HitBox[] hitBoxes;
     public void DetectHit(int boxIndex)
     {
-        //Debug.Log("hit call");
         hitBoxes[boxIndex].DetectHit();
-        //var center = box.center
     }
 }

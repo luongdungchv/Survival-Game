@@ -43,10 +43,10 @@ public class TreeSpawner : MonoBehaviour
                     if (Physics.Raycast(castPos, Vector3.down, out hit, 500, mask))
                     {
                         sumY += hit.point.y;
-                        if (hit.point.y < skipHeight) continue;
                         var randomAngle = randObj.NextFloat(0f, 360f);
+                        if (hit.point.y < skipHeight) continue;
                         var randomRotation = Quaternion.Euler(0, randomAngle, 0);
-                        var tree = Instantiate(i.prefab, hit.point, randomRotation);
+                        var tree = Instantiate(i.prefab, hit.point - Vector3.up * 1.2f, randomRotation);
                         var scale = randObj.NextFloat(i.minScale, i.maxScale);
                         tree.transform.localScale = Vector3.one * scale;
                     }

@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Enemy.Low
 {
-    public class BodyHurtbox : DamagableObject
+    public class BodyHurtbox : MonoBehaviour, IDamagable
     {
         [SerializeField] private EnemyStats stats;
-        public override void OnDamage(IHitData hitData)
+        public void OnDamage(IHitData hitData)
         {
             var playerHitData = hitData as PlayerHitData;
             stats.hp -= playerHitData.damage;

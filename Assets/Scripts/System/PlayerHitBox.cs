@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class PlayerHitBox : HitBox
 {
+    [SerializeField] private string tool;
+
     protected override void OnHitDetect(RaycastHit hit)
     {
-        //Debug.Log(hit.collider.gameObject.name);
-        if (hit.collider.TryGetComponent<DamagableObject>(out var target))
+        if (hit.collider.TryGetComponent<IDamagable>(out var target))
         {
-            //Debug.Log($"{halfExtents} {origin} {size} ");
             hitVfx.transform.position = hit.point;
             hitVfx.Play();
             CamShake.ins.Shake();
-            //target.OnDamage(25, 3, "test");
-            PlayerDmgDealer.ins.SetProps(15, tool, this, target);
+            string currentTool = PlayerAttack.ins.currentWieldName;
+            float currentBaseDmg = PlayerAttack.ins.currentBaseDmg;
+            PlayerDmgDealer.ins.SetProps(currentBaseDmg, currentTool, this, target);
 
-            //target.OnDamage(new PlayerHitData(15, tool, this));
             PlayerDmgDealer.ins.Excute();
         }
     }

@@ -8,11 +8,11 @@ using UnityEngine.Events;
 public class UIManager : MonoBehaviour
 {
     public static UIManager ins;
-    [SerializeField] private GameObject mapUI, inventoryUI, craftUI;
+    [SerializeField] private GameObject mapUI, inventoryUI, craftUI, anvilUI;
     [SerializeField] private GameObject interactBtnPrefab, mapCam;
     [SerializeField] private Transform collectBtnContainer;
-    [SerializeField] private InventoryInteractionHandler inventoryUIHandler, craftUIHandler;
-    public bool isUIOpen => mapUI.activeSelf || inventoryUI.activeSelf || craftUI.activeSelf;
+    [SerializeField] private InventoryInteractionHandler inventoryUIHandler, craftUIHandler, anvilUIHandler;
+    public bool isUIOpen => mapUI.activeSelf || inventoryUI.activeSelf || craftUI.activeSelf || anvilUI.activeSelf;
 
     private InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
 
@@ -45,9 +45,17 @@ public class UIManager : MonoBehaviour
         craftUI.SetActive(!craftUI.activeSelf);
         GameFunctions.ins.ToggleCursor(isUIOpen);
         if (isUIOpen) craftUIHandler.SetAsOpen();
-        //else craftUIHandler.SetAsClose();
         craftUIHandler.UpdateUI();
         craftUIHandler.ChangeMoveIconQuantity(0);
+    }
+    public void ToggleAnvilUI()
+    {
+        if (isUIOpen && !anvilUI.activeSelf) return;
+        anvilUI.SetActive(!anvilUI.activeSelf);
+        GameFunctions.ins.ToggleCursor(isUIOpen);
+        if (isUIOpen) anvilUIHandler.SetAsOpen();
+        anvilUIHandler.UpdateUI();
+        anvilUIHandler.ChangeMoveIconQuantity(0);
     }
     public void AddCollectBtn(GameObject btn)
     {

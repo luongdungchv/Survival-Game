@@ -36,7 +36,7 @@ public class ItemMoveIcon : MonoBehaviour
         }
     }
     private Inventory inventory => Inventory.ins;
-    private void Start()
+    private void OnEnable()
     {
         FollowMouse();
     }

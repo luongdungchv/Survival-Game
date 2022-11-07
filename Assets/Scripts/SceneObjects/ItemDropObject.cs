@@ -1,15 +1,16 @@
 using UnityEngine;
 using System.Linq;
 
-public class ItemDropObject : DamagableObject
+public class ItemDropObject : MonoBehaviour, IDamagable
 {
     [SerializeField] private float hp;
     [SerializeField] private string itemName;
     [SerializeField] private int minDrop, maxDrop;
+    [SerializeField] private string[] requiredTools;
     private Item itemBase => Item.GetItem(itemName);
-    public override void OnDamage(float incomingDmg, string tool)
+    private void OnDamage(float incomingDmg, string tool)
     {
-        //if (!requiredTools.Contains(tool)) return;
+        if (!requiredTools.Contains(tool)) return;
         //if (inputPriority < priority) return;
         hp -= incomingDmg;
         if (hp <= 0)
@@ -19,7 +20,7 @@ public class ItemDropObject : DamagableObject
             Destroy(this.gameObject);
         }
     }
-    public override void OnDamage(IHitData hitData)
+    public void OnDamage(IHitData hitData)
     {
         var playerHitData = hitData as PlayerHitData;
         Debug.Log(playerHitData.damage);

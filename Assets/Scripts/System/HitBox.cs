@@ -6,7 +6,6 @@ public class HitBox : MonoBehaviour
 {
     protected BoxCollider hitbox;
     protected ParticleSystem atkVfx;
-    [SerializeField] protected string tool;
     [SerializeField] protected ParticleSystem hitVfx;
     [SerializeField] private LayerMask mask;
     // Start is called before the first frame update
@@ -14,15 +13,17 @@ public class HitBox : MonoBehaviour
     {
         hitbox = GetComponent<BoxCollider>();
         atkVfx = GetComponentInChildren<ParticleSystem>();
+
     }
 
 
     public void DetectHit()
     {
-
-        var halfExtents = hitbox.size / 2;
+        var worldScale = transform.lossyScale;
+        var hitboxWorldSize = new Vector3(hitbox.size.x * worldScale.x, hitbox.size.y * worldScale.y, hitbox.size.z * worldScale.z);
+        var halfExtents = hitboxWorldSize / 2;
         var origin = hitbox.bounds.center - transform.right * halfExtents.x;
-        var size = hitbox.size.x;
+        var size = hitboxWorldSize.x;
         halfExtents.x = 0;
         atkVfx?.Play();
 
@@ -32,11 +33,16 @@ public class HitBox : MonoBehaviour
             foreach (var hit in hits)
             {
                 OnHitDetect(hit);
-
             }
+            return;
         }
+        OnNoHitDetect();
     }
     protected virtual void OnHitDetect(RaycastHit hit)
+    {
+
+    }
+    protected virtual void OnNoHitDetect()
     {
 
     }

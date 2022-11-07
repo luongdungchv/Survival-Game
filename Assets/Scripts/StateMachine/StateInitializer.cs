@@ -43,15 +43,17 @@ public class StateInitializer : MonoBehaviour
         SwimNormal.OnEnter.AddListener(() => swimSystem.StartSwimming());
         SwimNormal.OnUpdate.AddListener(() => swimSystem.PerformSwim(this));
 
-        Dash.OnEnter.AddListener(() =>
+        Dash.OnUpdate.AddListener(() =>
         {
             if (canDash)
             {
-                animSystem.Dash();
+
                 movementSystem.Dash();
+                animSystem.Dash();
                 StartCoroutine(DashCooldown());
             }
         });
+        //Dash.OnUpdate.AddListener(() => movementSystem.FixedVerticalVel());
     }
     private void Update()
     {

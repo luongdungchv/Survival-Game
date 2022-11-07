@@ -33,7 +33,7 @@ public class Item : MonoBehaviour
 }
 public interface IUsable
 {
-    void OnUse();
+    void OnUse(int itemIndex);
 }
 public interface IConsumable
 {
@@ -43,8 +43,17 @@ public interface IConsumable
 public interface IEquippable
 {
     GameObject inHandModel { get; }
+    void OnEquip();
+    void OnUnequip();
 }
 public interface ICraftable
 {
     Dictionary<string, int> requiredMats { get; }
 }
+[System.Serializable]
+public class MaterialList
+{
+    public string name;
+    public int quantity;
+}
+

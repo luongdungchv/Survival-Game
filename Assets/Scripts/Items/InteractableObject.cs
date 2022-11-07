@@ -9,16 +9,26 @@ public class InteractableObject : MonoBehaviour
     [SerializeField] protected string displayName;
     [SerializeField] protected GameObject interactBtnPrefab;
     [SerializeField] protected bool interactable = true;
+    [SerializeField] private InteractableHitbox hitbox;
 
     private bool isPlayerTouch;
 
     private GameObject btnInstance;
+    protected virtual void Awake()
+    {
+        hitbox = GetComponent<InteractableHitbox>();
+        hitbox.SetOwner(this);
+    }
+    private void Update()
+    {
+        hitbox.DetectHit();
+    }
     // Start is called before the first frame update
 
-    private void OnTriggerEnter(Collider target)
+    public void TouchDetect(RaycastHit target)
     {
         if (!interactable) return;
-        if (target.tag == "Player" && !isPlayerTouch)
+        if (target.collider.tag == "Player" && !isPlayerTouch)
         {
             btnInstance = Instantiate(interactBtnPrefab);
             btnInstance.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = displayName;
@@ -29,10 +39,10 @@ public class InteractableObject : MonoBehaviour
 
         }
     }
-    private void OnTriggerExit(Collider target)
+    public void ExitDetect()
     {
         if (!interactable) return;
-        if (target.tag == "Player" && isPlayerTouch)
+        if (isPlayerTouch)
         {
             Destroy(btnInstance);
             isPlayerTouch = false;

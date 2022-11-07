@@ -159,12 +159,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredTools:
-  - test
   hp: 60
   itemName: oak_wood
   minDrop: 5
   maxDrop: 10
+  requiredTools:
+  - wooden_axe
+  - iron_axe
+  - mithril_axe
+  - golden_axe
 --- !u!65 &1654392395457581537
 BoxCollider:
   m_ObjectHideFlags: 0

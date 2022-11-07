@@ -16,10 +16,11 @@ public class Inventory : MonoBehaviour
         {
             _currentEquipIndex = value;
             _currentEquipIndex = Mathf.Clamp(currentEquipIndex, 0, equipSlotCount - 1);
+
             ReloadInHandModel();
         }
     }
-    [SerializeField] private Item testItem, testItem2;
+    [SerializeField] private Item testItem, testItem2, testItem3;
     [SerializeField] private Transform dropPos;
     public int maxInventorySlot => _maxInventorySlot;
     public ItemSlot[] items;
@@ -35,9 +36,9 @@ public class Inventory : MonoBehaviour
         InventoryInteractionHandler.InitAllInstances();
         Add(testItem, 1);
         Add(testItem2, 64);
-        Add(testItem2, 2);
+        Add(testItem3, 64);
 
-        Debug.Log(Remove(testItem2.itemName, 64));
+        //Debug.Log(Remove(testItem2.itemName, 64));
 
     }
     private void Start()
@@ -179,6 +180,20 @@ public class Inventory : MonoBehaviour
         iih?.UpdateUI();
         return true;
     }
+    public bool Remove(int itemIndex, int quantity)
+    {
+        var item = items[itemIndex];
+        if (item == null || item.itemData == null) return false;
+        item.quantity -= quantity;
+        if (item.quantity <= 0)
+        {
+            if (item.itemData is IEquippable) (item.itemData as IEquippable).OnUnequip();
+            items[itemIndex] = null;
+        }
+        iih?.UpdateUI();
+        ReloadInHandModel();
+        return true;
+    }
     public Item GetItem(int itemIndex)
     {
         var itemSlot = items[itemIndex];
@@ -197,13 +212,11 @@ public class Inventory : MonoBehaviour
     }
     private void ReloadInHandModel()
     {
-
+        PlayerEquipment.ins.currentEquipIndex = _currentEquipIndex;
         for (int i = 0; i < equipSlotCount; i++)
         {
-
             if (i == _currentEquipIndex)
             {
-                Debug.Log(iih);
                 iih.GetUISlot(i).Highlight(true);
                 if (items[i] == null || items[i].itemData == null)
                 {
@@ -212,7 +225,7 @@ public class Inventory : MonoBehaviour
                 }
 
                 var equippableItem = items[i].itemData as IEquippable;
-                equippableItem.inHandModel.SetActive(true);
+                equippableItem.OnEquip();
                 PlayerEquipment.ins.rightHandItem = items[i].itemData;
 
             }
@@ -230,7 +243,7 @@ public class Inventory : MonoBehaviour
                 var currentModel = (PlayerEquipment.ins.rightHandItem as IEquippable)?.inHandModel;
                 if (currentModel == null || equippableItem.inHandModel != currentModel)
                 {
-                    equippableItem.inHandModel.SetActive(false);
+                    equippableItem.OnUnequip();
                 }
             }
         }

@@ -125,10 +125,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 50
-  priority: 0
-  requiredTools:
-  - test
   itemName: rock
+  minDrop: 5
+  maxDrop: 10
+  requiredTools:
+  - wooden_pickaxe
+  - iron_pickaxe
+  - golden_pickaxe
+  - mithril_pickaxe
 --- !u!64 &-3318801450774253101
 MeshCollider:
   m_ObjectHideFlags: 0

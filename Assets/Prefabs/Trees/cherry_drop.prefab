@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3758901778117658034}
   - component: {fileID: 6015434541281534590}
   - component: {fileID: 93394949102675823}
+  - component: {fileID: 1033946611352636675}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -60,10 +61,27 @@ MonoBehaviour:
   displayName: Cherry Wood
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
+  hitbox: {fileID: 0}
   quantity: 0
   meshTex: {fileID: 2800000, guid: 79723d9c36b791f45bc0f7e08f74ba75, type: 3}
   outlineColor: {r: 1, g: 0.9255588, b: 0, a: 0}
   itemBase: {fileID: 0}
+--- !u!114 &1033946611352636675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845583154645280831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f978b2efdc3efa4e881c59fcba52736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitVfx: {fileID: 0}
+  mask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &2632296379119905063
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,7 +42,7 @@ public class CraftSlotUI : MonoBehaviour, IPointerClickHandler
         {
             if (Inventory.ins.GetItemQuantity(mat.Key) < mat.Value)
             {
-                icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, 0.7f);
+                icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, 0.5f);
                 return false;
             }
         }

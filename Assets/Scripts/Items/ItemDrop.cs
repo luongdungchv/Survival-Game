@@ -10,8 +10,9 @@ public class ItemDrop : InteractableObject
     [SerializeField] private Texture2D meshTex;
     [SerializeField] private Color outlineColor;
     [SerializeField] private Item itemBase;
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         var renderer = this.GetComponentInParent<Renderer>();
         if (meshTex != null)
             renderer.material.mainTexture = meshTex;

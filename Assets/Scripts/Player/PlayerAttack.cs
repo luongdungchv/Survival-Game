@@ -5,14 +5,16 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     public static PlayerAttack ins;
+    private Tool _currentWield;
+    public string currentWieldName => _currentWield.itemName;
+    public float currentBaseDmg => _currentWield.baseDmg;
+    public Tool currentWield { set => _currentWield = value; }
     [SerializeField] private List<ParticleSystem> slashFXList;
     //[SerializeField] private DamageDealer attacker;
 
     PlayerMovement movementSystem;
     PlayerAnimation animManager;
 
-    [SerializeField] private int attackMoves;
-    [SerializeField] private float delayBetweenMoves, resetDelay;
     [SerializeField] private AttackPattern pattern;
     int attackIndex = -1;
     bool isInAttackingPhase;
@@ -32,12 +34,6 @@ public class PlayerAttack : MonoBehaviour
         if (ins == null) ins = this;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //PerformAttack();
-    }
-
 
     public void StopAnimationCountdown()
     {
@@ -47,7 +43,6 @@ public class PlayerAttack : MonoBehaviour
     {
         attackIndex = -1;
         animManager.CancelAttack(pattern.type);
-        //attacker.transform.parent.gameObject.SetActive(false);
     }
     public void PerformAttack()
     {
@@ -67,24 +62,17 @@ public class PlayerAttack : MonoBehaviour
             attackIndex++;
 
             int fxIndex = attackIndex;
+            Debug.Log(fxIndex);
 
-            animManager.PerformAttack(fxIndex);
+            animManager.PerformAttack(fxIndex, pattern.type);
 
             var displaced = pattern.displaceForward[attackIndex];
             movementSystem.DisplaceForward(pattern.displaceForward[attackIndex]);
 
-            //attacker.transform.parent.gameObject.SetActive(true);
-            //attacker.EnableWeapon();
-
             var delay = pattern.delayBetweenMoves[attackIndex];
             yield return new WaitForSeconds(delay);
 
-            //attacker.DisableWeapon();
-
             isInAttackingPhase = false;
-
-            //slashFXList[fxIndex].Play();           
-
 
         }
         IEnumerator WaitForClick(float duration)
@@ -96,7 +84,6 @@ public class PlayerAttack : MonoBehaviour
 
         if (inputReader.SlashPress())
         {
-            //StartCoroutine(EnableDetection());
             if (mouseWaitCountdown != null) StopCoroutine(mouseWaitCountdown);
             mouseWaitCountdown = StartCoroutine(WaitForClick(0.43f));
 

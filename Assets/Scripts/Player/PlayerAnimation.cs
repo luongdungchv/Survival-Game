@@ -34,9 +34,9 @@ public class PlayerAnimation : MonoBehaviour
     {
 
     }
-    public void PerformAttack(int index)
+    public void PerformAttack(int index, string type)
     {
-        animator.SetBool("slash", true);
+        animator.SetBool(type, true);
         animator.SetInteger("attack", index);
     }
     public void CancelAttack(string attackType)

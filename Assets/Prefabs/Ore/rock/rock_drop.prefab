@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 6468664776836640549}
   - component: {fileID: 3473609551533458481}
   - component: {fileID: 7885702159758817494}
+  - component: {fileID: 1558343809458091248}
   m_Layer: 17
   m_Name: GameObject
   m_TagString: Untagged
@@ -201,8 +202,24 @@ MonoBehaviour:
   displayName: Rock
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
+  hitbox: {fileID: 0}
   quantity: 0
   meshTex: {fileID: 0}
   outlineColor: {r: 1, g: 0.9646237, b: 0, a: 0}
   itemBase: {fileID: 0}
-  stackable: 0
+--- !u!114 &1558343809458091248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8843217421753043271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f978b2efdc3efa4e881c59fcba52736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitVfx: {fileID: 0}
+  mask:
+    serializedVersion: 2
+    m_Bits: 256

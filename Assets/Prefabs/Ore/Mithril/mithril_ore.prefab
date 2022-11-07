@@ -96,12 +96,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredTools:
-  - test
   hp: 50
   itemName: mithril_ore
   minDrop: 5
   maxDrop: 10
+  requiredTools:
+  - iron_pickaxe
+  - mithril_pickaxe
 --- !u!64 &1900838538383677644
 MeshCollider:
   m_ObjectHideFlags: 0

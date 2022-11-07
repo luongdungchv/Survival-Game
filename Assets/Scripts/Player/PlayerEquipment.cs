@@ -9,7 +9,9 @@ public class PlayerEquipment : MonoBehaviour
     public Item rightHandItem;
     public Item leftHandItem;
     public AttackPattern swordAtkPattern => currentSwordAtk;
-    [SerializeField] private AttackPattern currentSwordAtk;
+    public AttackPattern axeAtkPattern => currentAxeAtk;
+    public int currentEquipIndex;
+    [SerializeField] private AttackPattern currentSwordAtk, currentAxeAtk;
 
     private Coroutine consumeCoroutine;
     private void Awake()
@@ -51,12 +53,12 @@ public class PlayerEquipment : MonoBehaviour
         if (rightHandItem == null) return;
         if (rightHandItem.TryGetComponent<IUsable>(out var usableItem))
         {
-            usableItem.OnUse();
+            usableItem.OnUse(currentEquipIndex);
         }
-        if (rightHandItem.TryGetComponent<IConsumable>(out var consumableItem))
-        {
-            StartCoroutine(ConsumeEnumerator(consumableItem));
-        }
+        // if (rightHandItem.TryGetComponent<IConsumable>(out var consumableItem))
+        // {
+        //     StartCoroutine(ConsumeEnumerator(consumableItem));
+        // }
     }
     public void OnUseReleases()
     {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 mouseSensitivity;
     public AnimationClip swordClip;
     public ParticleSystem slashFX;
-    public int attackMoves;
+    public int attackMoves, testForce;
     public InputReader inputReader;
     public LayerMask slopeCheckMask;
 
@@ -54,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
     public void StopMoving()
     {
         rb.velocity = new Vector3(0, 0, 0);
+        currentSpeed = 0;
         //        Debug.Log("stop");
     }
 
@@ -68,15 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (xMove != 0 || zMove != 0)
         {
-            // if (inputReader.SprintPress())
-            // {
-            //     if (canDash)
-            //     {
-            //         animManager.Dash();
-            //         currentSpeed = dashSpeed;
-            //         StartCoroutine(DashCooldown());
-            //     }
-            // }
+
             if (inputReader.sprint && acceleratedSpeed != currentSpeed && !animManager.animator.GetBool("dash"))
             {
                 animManager.Run();
@@ -124,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
         }
         //float yMove = rb.velocity.y;
 
-        rb.velocity = new Vector3(moveDir.x, moveDir.y, moveDir.z);
+        //rb.velocity = new Vector3(moveDir.x, moveDir.y, moveDir.z);
     }
     public void StartMove()
     {
@@ -181,45 +175,82 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Dash()
     {
-        Debug.Log(inputReader.movementInputVector);
+        StopCoroutine(rotationCoroutine);
         currentSpeed = dashSpeed;
         if (inputReader.movementInputVector == Vector2.zero)
         {
-            DisplaceForward(dashSpeed);
+            //DisplaceForward(dashSpeed);
+            moveDir = transform.forward;
+            //PerformSlopeCheck();
+            rb.velocity = moveDir.normalized * dashSpeed;
         }
         else
         {
+            //rb.useGravity = false;
             var inputDir = inputReader.movementInputVector;
             Vector3 camForward = new Vector3(camHolder.forward.x, 0, camHolder.forward.z).normalized;
             Vector3 camRight = new Vector3(camHolder.right.x, 0, camHolder.right.z).normalized;
 
-            moveDir = (camForward * inputDir.y + camRight * inputDir.x).normalized * dashSpeed;
+            moveDir = (camForward * inputDir.y + camRight * inputDir.x).normalized;
+            PerformSlopeCheck();
+            moveDir = moveDir.normalized * dashSpeed;
+            //moveDir += Vector3.up * rb.velocity.y;
+            var flatMoveDir = moveDir;
+            flatMoveDir.y = 0;
+            flatMoveDir = flatMoveDir.normalized;
+            Debug.Log(moveDir);
 
-
-            float angle = -Mathf.Atan2(moveDir.z, moveDir.x) * Mathf.Rad2Deg;
-            Quaternion targetRotation = Quaternion.Euler(transform.rotation.x, angle + 90, transform.rotation.z);
+            var projectedMovedir = (new Vector3(moveDir.x, 0, moveDir.z)).normalized;
+            float angle = -Mathf.Atan2(projectedMovedir.z, projectedMovedir.x) * Mathf.Rad2Deg;
+            Vector3 rotationVector = new Vector3(transform.rotation.x, angle + 90, transform.rotation.z);
+            Quaternion targetRotation = Quaternion.Euler(rotationVector);
             transform.rotation = targetRotation;
+            //Debug.Log($"{inputReader.movementInputVector} | {transform.rotation.eulerAngles}");
 
+            rb.AddForce(0, testForce, 0);
             rb.velocity = moveDir;
         }
     }
-    public void Dash(Vector3 dir)
+    public void FixedVerticalVel()
     {
-        rb.velocity = dir * dashSpeed;
+        RaycastHit hit;
+        //Debug.Log(moveDir);
+        if (Physics.Raycast(slopeCheckPos.transform.position, Vector3.down, out hit, 0.4f, slopeCheckMask))
+        {
+            var vel = rb.velocity;
+            if (vel.y < 0) vel.y = 0;
+            rb.velocity = vel;
+        }
     }
+
     private bool PerformSlopeCheck()
     {
         RaycastHit hit;
+        //Debug.Log(moveDir);
         if (Physics.Raycast(slopeCheckPos.transform.position, Vector3.down, out hit, 0.4f, slopeCheckMask))
         {
             var slopeNormal = hit.normal;
             var tangent = Vector3.Cross(moveDir, hit.normal);
             var biTangent = Vector3.Cross(hit.normal, tangent);
             moveDir = biTangent.normalized * currentSpeed;
+
             return true;
         }
         moveDir += Vector3.up * rb.velocity.y;
         return false;
     }
+    // private void PerformSlopeCheckDash()
+    // {
+    //     RaycastHit hit;
+    //     if (Physics.Raycast(slopeCheckPos.transform.position, Vector3.down, out hit, 0.4f, slopeCheckMask))
+    //     {
+    //         var slopeNormal = hit.normal;
+    //         var tangent = Vector3.Cross(moveDir, hit.normal);
+    //         var biTangent = Vector3.Cross(hit.normal, tangent);
+    //         moveDir = biTangent.normalized * currentSpeed;
+    //         return;
+    //     }
+    //     moveDir += Vector3.up * rb.velocity.y;
+    // }
 
 }

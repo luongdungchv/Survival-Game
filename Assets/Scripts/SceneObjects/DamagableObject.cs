@@ -15,9 +15,10 @@ public class DamagableObject : MonoBehaviour
 
     }
 }
-public interface IDroppableObject
+public interface IDamagable
 {
-    void OnDrop();
+    //void OnDamage(float incomingDmg, string tool);
+    void OnDamage(IHitData hitData);
 }
 
 
