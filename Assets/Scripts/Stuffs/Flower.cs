@@ -75,8 +75,7 @@ public class Flower : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log("t");
-                    //if (scannedpos.Count > 0) Debug.Log(scannedpos.Count);
+
                     if (connectedVal == 0) connectedVal = randObj.Next(1, flowerPrefab.Length + 1);
                     foreach (var i in scannedpos)
                     {

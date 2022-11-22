@@ -25,13 +25,13 @@ public class StateMachine : MonoBehaviour
 
                 rb.useGravity = false;
             }
-            //else rb.useGravity = true;
+            else rb.useGravity = true;
         });
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        GetComponent<Rigidbody>().AddForce(0, -46, 0);
+        //GetComponent<Rigidbody>().AddForce(0, -46, 0);
         if (currentState != null) currentState.OnUpdate.Invoke();
     }
     public bool ChangeState(string name, bool force = false)

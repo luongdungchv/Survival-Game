@@ -37,6 +37,7 @@ public class Inventory : MonoBehaviour
         Add(testItem, 1);
         Add(testItem2, 64);
         Add(testItem3, 64);
+        Add("gold_ore", 64);
 
         //Debug.Log(Remove(testItem2.itemName, 64));
 
@@ -123,6 +124,10 @@ public class Inventory : MonoBehaviour
         iih?.UpdateUI();
         return true;
 
+    }
+    public bool Add(string itemName, int quantity)
+    {
+        return Add(Item.GetItem(itemName), quantity);
     }
     public bool Replace(Item item, int quantity, int slotIndex)
     {

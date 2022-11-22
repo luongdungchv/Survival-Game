@@ -20,7 +20,7 @@ public class CraftSlotUI : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!(item is ICraftable)) return;
+        if (!(item is ICraftable) || iih.isItemMoving) return;
 
         var craftData = (item as ICraftable).requiredMats;
         if (!Refresh()) return;
@@ -30,7 +30,6 @@ public class CraftSlotUI : MonoBehaviour, IPointerClickHandler
             if (remove)
             {
                 iih.movingItem.InitReplaceAction(itemName, quantity);
-                //iih.movingItem.movingItem = Item.GetItem(itemName);
             }
         }
         Refresh();

@@ -118,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
         }
         //float yMove = rb.velocity.y;
 
-        //rb.velocity = new Vector3(moveDir.x, moveDir.y, moveDir.z);
+        rb.velocity = new Vector3(moveDir.x, moveDir.y, moveDir.z);
     }
     public void StartMove()
     {
@@ -181,7 +181,7 @@ public class PlayerMovement : MonoBehaviour
         {
             //DisplaceForward(dashSpeed);
             moveDir = transform.forward;
-            //PerformSlopeCheck();
+            PerformSlopeCheck();
             rb.velocity = moveDir.normalized * dashSpeed;
         }
         else
@@ -198,7 +198,6 @@ public class PlayerMovement : MonoBehaviour
             var flatMoveDir = moveDir;
             flatMoveDir.y = 0;
             flatMoveDir = flatMoveDir.normalized;
-            Debug.Log(moveDir);
 
             var projectedMovedir = (new Vector3(moveDir.x, 0, moveDir.z)).normalized;
             float angle = -Mathf.Atan2(projectedMovedir.z, projectedMovedir.x) * Mathf.Rad2Deg;

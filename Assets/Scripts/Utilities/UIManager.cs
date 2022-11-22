@@ -8,13 +8,22 @@ using UnityEngine.Events;
 public class UIManager : MonoBehaviour
 {
     public static UIManager ins;
-    [SerializeField] private GameObject mapUI, inventoryUI, craftUI, anvilUI;
+    [SerializeField] private GameObject mapUI, inventoryUI, craftUI, anvilUI, furnaceUI;
     [SerializeField] private GameObject interactBtnPrefab, mapCam;
     [SerializeField] private Transform collectBtnContainer;
-    [SerializeField] private InventoryInteractionHandler inventoryUIHandler, craftUIHandler, anvilUIHandler;
-    public bool isUIOpen => mapUI.activeSelf || inventoryUI.activeSelf || craftUI.activeSelf || anvilUI.activeSelf;
+    [SerializeField] private InventoryInteractionHandler inventoryUIHandler, craftUIHandler, anvilUIHandler, furnaceUIHandler;
+
+    [SerializeField] TransformerUI transformerUI;
+
+    public bool isUIOpen => mapUI.activeSelf ||
+                inventoryUI.activeSelf ||
+                craftUI.activeSelf ||
+                anvilUI.activeSelf ||
+                furnaceUI.activeSelf;
 
     private InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
+
+    private Transformer currentOpenCooker;
 
     private void Awake()
     {
@@ -56,6 +65,33 @@ public class UIManager : MonoBehaviour
         if (isUIOpen) anvilUIHandler.SetAsOpen();
         anvilUIHandler.UpdateUI();
         anvilUIHandler.ChangeMoveIconQuantity(0);
+    }
+    public void ToggleFurnaceUI()
+    {
+        if (isUIOpen && !furnaceUI.activeSelf) return;
+        furnaceUI.SetActive(!furnaceUI.activeSelf);
+        GameFunctions.ins.ToggleCursor(isUIOpen);
+        if (isUIOpen)
+        {
+            furnaceUIHandler.SetAsOpen();
+        }
+        else
+        {
+            Transformer.currentOpen = null;
+        }
+        furnaceUIHandler.UpdateUI();
+        furnaceUIHandler.ChangeMoveIconQuantity(0);
+
+    }
+    public void ToggleFurnaceUI(Transformer toggler)
+    {
+        ToggleFurnaceUI();
+        Debug.Log(toggler);
+        transformerUI.SetTransformer();
+    }
+    public void RefreshFurnaceUI()
+    {
+        transformerUI.RefreshUI();
     }
     public void AddCollectBtn(GameObject btn)
     {

@@ -9,7 +9,6 @@ public class Chest : InteractableObject
 {
     [SerializeField] private GameObject chestLid;
     [SerializeField] private float maxOpenAngle, openDuration;
-    public UnityEvent testEvent;
     protected override void OnInteractBtnClick(Button clicker)
     {
         StartCoroutine(LerpOpenChest());

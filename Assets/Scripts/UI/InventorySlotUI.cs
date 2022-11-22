@@ -49,11 +49,6 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
             Debug.Log(thisItem);
             if (thisItem != null && sourceItem != null && thisItem.itemName != sourceItem.itemName)
             {
-                // inventory.Move(iih.sourceItemIndex, iih.sourceItemCount, itemIndex, iih.movingCount);
-                // this.icon = iih.movingIcon;
-                // var movingCount = iih.movingCount;
-                // iih.ChangeMoveIconQuantity(this.quantity);
-                // this.quantity = movingCount;
                 return;
             }
 

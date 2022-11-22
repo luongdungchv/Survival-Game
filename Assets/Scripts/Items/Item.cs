@@ -50,6 +50,19 @@ public interface ICraftable
 {
     Dictionary<string, int> requiredMats { get; }
 }
+public interface ITransformable
+{
+    Item goalItem { get; }
+    // Total units required to cook 1 item
+    int cookability { get; }
+}
+public interface IFuel
+{
+    // Times taken to cook 1 unit
+    float efficiency { get; }
+    // Number of units
+    int durability { get; }
+}
 [System.Serializable]
 public class MaterialList
 {

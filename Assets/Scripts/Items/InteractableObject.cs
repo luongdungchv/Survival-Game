@@ -9,7 +9,7 @@ public class InteractableObject : MonoBehaviour
     [SerializeField] protected string displayName;
     [SerializeField] protected GameObject interactBtnPrefab;
     [SerializeField] protected bool interactable = true;
-    [SerializeField] private InteractableHitbox hitbox;
+    private InteractableHitbox hitbox;
 
     private bool isPlayerTouch;
 

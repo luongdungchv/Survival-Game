@@ -56,7 +56,7 @@ public class ItemMoveIcon : MonoBehaviour
 
         this.GetComponent<RectTransform>().anchoredPosition = iconPos / (canvas.scaleFactor + 0.1f);
 
-        if (gameObject.activeSelf && Input.mouseScrollDelta.y != 0)
+        if (gameObject.activeSelf && Input.mouseScrollDelta.y != 0 && sourceSlot != null)
         {
             quantity += (int)Input.mouseScrollDelta.y;
             sourceSlot.quantity -= (int)Input.mouseScrollDelta.y;
@@ -79,6 +79,7 @@ public class ItemMoveIcon : MonoBehaviour
     public void InitReplaceAction(string itemName, int quantity)
     {
         var itemData = Item.GetItem(itemName);
+        Debug.Log(itemName);
         movingItem = itemData;
         this.quantity = quantity;
         sourceSlot = null;

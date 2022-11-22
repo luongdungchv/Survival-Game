@@ -26,10 +26,10 @@ public class HitBox : MonoBehaviour
         var size = hitboxWorldSize.x;
         halfExtents.x = 0;
         atkVfx?.Play();
-
         var hits = Physics.BoxCastAll(origin, halfExtents, transform.right, transform.rotation, size, mask);
         if (hits != null && hits.Length > 0)
         {
+
             foreach (var hit in hits)
             {
                 OnHitDetect(hit);
