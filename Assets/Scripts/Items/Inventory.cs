@@ -34,6 +34,8 @@ public class Inventory : MonoBehaviour
         itemQuantities = new Dictionary<string, int>();
         //iih.Init();
         InventoryInteractionHandler.InitAllInstances();
+        Add("furnace", 1);
+        Add("craft_table", 1);
         Add(testItem, 1);
         Add(testItem2, 64);
         Add(testItem3, 64);
@@ -60,8 +62,12 @@ public class Inventory : MonoBehaviour
         if (mouseScroll != 0)
         {
             currentEquipIndex += mouseScroll;
-            //currentEquipIndex = Mathf.Clamp(currentEquipIndex, 0, equipSlotCount - 1);
         }
+        if (InputReader.ins.inputNum != -1)
+        {
+            currentEquipIndex = InputReader.ins.inputNum - 1;
+        }
+
     }
     public bool isEquipSlot(int index) => index < equipSlotCount;
     public bool Add(Item itemData, int quantity)

@@ -4,10 +4,7 @@ using System.Collections.Generic;
 public class Belonging : Item, IEquippable, IUsable, ICraftable
 {
     public static Belonging ins;
-    [SerializeField] private GameObject placerObj, placePrefab;
-    [SerializeField] private Color placeHolderTint;
-    [SerializeField] private Mesh mesh;
-    [SerializeField] private Texture2D colorTex;
+    [SerializeField] private GameObject placerObj;
     [SerializeField] private List<MaterialList> requiredMatList;
     private Dictionary<string, int> _requiredMats;
     public Dictionary<string, int> requiredMats => _requiredMats;

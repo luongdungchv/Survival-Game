@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -22,6 +23,7 @@ public class InputReader : MonoBehaviour
         ins = this;
         //showCursorKey = KeyCode.LeftAlt
     }
+    public int inputNum;
 
     // Update is called once per frame
     void Update()
@@ -37,6 +39,19 @@ public class InputReader : MonoBehaviour
         {
             movementInputVector += i;
         }
+        if (Input.inputString != null && Input.inputString.Length > 0)
+        {
+            foreach (var i in Input.inputString)
+            {
+                if (Char.IsDigit(i))
+                {
+                    inputNum = int.Parse(i.ToString());
+                    Debug.Log(inputNum);
+                    break;
+                }
+            }
+        }
+        else inputNum = -1;
         //Debug.Log(movementInputVector);
         if (SprintPress()) sprint = true;
         if (SprintRelease()) sprint = false;
