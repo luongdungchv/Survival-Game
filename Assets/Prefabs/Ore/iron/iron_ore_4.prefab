@@ -20,7 +20,7 @@ GameObject:
   m_TagString: IronOre
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &6275005245647181222
 Transform:
@@ -32,7 +32,8 @@ Transform:
   m_LocalRotation: {x: 0.00000008146034, y: -0.00000004371139, z: 3.6219773e-15, w: 1}
   m_LocalPosition: {x: 250.17505, y: 91.28114, z: 197.59663}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2408322057532577127}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -103,15 +104,15 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5142654317858959049}
-  - screenRelativeHeight: 0.3
+  - screenRelativeHeight: 0.058249798
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5142654317858959049}
-  - screenRelativeHeight: 0.1520003
+  - screenRelativeHeight: 0
     fadeTransitionWidth: 0
     renderers:
-    - renderer: {fileID: 5142654317858959049}
-  m_Enabled: 0
+    - renderer: {fileID: 1647863171739386307}
+  m_Enabled: 1
 --- !u!64 &-8514090656400421022
 MeshCollider:
   m_ObjectHideFlags: 0

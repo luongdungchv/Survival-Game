@@ -1,0 +1,46 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+struct Props{
+    float3 pos, normal;
+    float4x4 trs;
+    int color;
+};
+// with cs.SetTexture
+RWStructuredBuffer<Props> inputGrassBuffer;
+AppendStructuredBuffer<Props> culledGrassBuffer;
+float3 camPos;
+float culledDist;
+float4x4 vp;
+
+[numthreads(64,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+    float4 pos = float4(inputGrassBuffer[id.x].pos, 1);
+    
+    float4 viewspace = mul(vp, pos);
+    float4 clipspace = viewspace;
+    // float3 clipspace = viewspace.xyz;
+    // clipspace /= -viewspace.w;
+    // clipspace.x = clipspace.x / 2.0f + 0.5f;
+    // clipspace.y = clipspace.y / 2.0f + 0.5f;
+    // clipspace.z = -viewspace.w;
+    float x = clipspace.x;
+    float y = clipspace.y;
+    float z = clipspace.z;
+    float w = clipspace.w + 0.3;
+    
+    bool inView = !(x < -w || x > w|| y < -w || y > w || z < -w || z > w);
+    float dist = length(camPos - pos.xyz);
+    bool withinDist = dist < culledDist;
+    //if(id.x == 1 || id.x == 2) culledGrassBuffer.Append(inputGrassBuffer[id.x]);
+    // Props a;
+    // a.pos = float3(dist, 0,0);
+    //if(id.x == 3) culledGrassBuffer.Append(a);
+    if(inView && withinDist) culledGrassBuffer.Append(inputGrassBuffer[id.x]);
+    //if(inView && withinLOD) lowLodGrassBuffer.Append(inputGrassBuffer[id.x]);
+    
+    //Result[id.xy] = float4(id.x & id.y, (id.x & 15)/15.0, (id.y & 15)/15.0, 0.0);
+}

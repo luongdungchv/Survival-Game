@@ -141,7 +141,6 @@ public class SwimHandler : MonoBehaviour
             transform.rotation = Quaternion.Lerp(from, to, t);
             yield return null;
         }
-        Debug.Log(to);
     }
     public void StopSwimming()
     {

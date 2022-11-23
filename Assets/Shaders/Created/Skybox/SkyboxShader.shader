@@ -23,6 +23,8 @@
         _StarScale("Star Scale", float) = 1
         _Power("Power", float) = 10
         _State("State", float) = 0
+        
+        _StarTexture("Star Texture", 2D) = "white"{}
     }
     SubShader
     {
@@ -82,6 +84,8 @@
             float _SunMoonState;
             float _StarScale;
             float _Power;
+            
+            sampler2D _StarTexture;
 
             v2f vert (appdata v)
             {
@@ -154,10 +158,18 @@
                 col += float4(pow(_LightColor0.xyz, 0.1) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0); 
                 //return calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos);     
                 
+                //float starCol = tex2D(_StarTexture, uv0 * _StarScale);
                 float worleyVal = saturate(worleyNoise(uv0 * _StarScale));
                 float starrySky = pow(1 - worleyVal, _Power); 
                 starrySky = lerp(0, starrySky, _SunMoonState);
                 col += starrySky;
+                
+                // float worleyVal = saturate(starCol);
+                // float starrySky = pow(worleyVal, _Power); 
+                // starrySky = lerp(0, starrySky, _SunMoonState);
+                // col += starrySky;
+                
+                //return starrySky;
                 
                 col -= lerp(0, col, cloudDensity);
                 col += cloudCol;

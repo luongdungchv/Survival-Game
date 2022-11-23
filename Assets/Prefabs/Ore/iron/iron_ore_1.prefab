@@ -20,7 +20,7 @@ GameObject:
   m_TagString: IronOre
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &1043169802805907677
 Transform:
@@ -32,7 +32,8 @@ Transform:
   m_LocalRotation: {x: 0.000000081460335, y: -0.00000004371139, z: 3.621977e-15, w: 1}
   m_LocalPosition: {x: 1067.4088, y: 58.68611, z: 1251.1506}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1205376396387130690}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -93,8 +94,8 @@ LODGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 374297690627459687}
   serializedVersion: 2
-  m_LocalReferencePoint: {x: -0.1434623, y: 0.41405314, z: 0.31011784}
-  m_Size: 2.0522246
+  m_LocalReferencePoint: {x: -0.1434623, y: 0.43022197, z: -0.10799724}
+  m_Size: 1.5893157
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
@@ -103,15 +104,15 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2175583540466871218}
-  - screenRelativeHeight: 0.3
+  - screenRelativeHeight: 0.056732576
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2175583540466871218}
-  - screenRelativeHeight: 0.1474806
+  - screenRelativeHeight: 0
     fadeTransitionWidth: 0
     renderers:
-    - renderer: {fileID: 2175583540466871218}
-  m_Enabled: 0
+    - renderer: {fileID: 5877175204488535371}
+  m_Enabled: 1
 --- !u!64 &-1123844033210218502
 MeshCollider:
   m_ObjectHideFlags: 0

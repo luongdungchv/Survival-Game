@@ -64,14 +64,8 @@ Shader "Environment/Flora/Grass Swaying"
         
         void surf (Input i, inout SurfaceOutputStandard o)
         {
-            float3 ray = i.worldPos - _WorldSpaceCameraPos;
-            float distToCam = length(ray);
             
             fixed4 c = tex2D (_MainTex, i.uv_MainTex) * _Color;
-            float2 offsetX = i.worldPos.xz / _Scale + float2(_Time.y, 0);
-            float4 col = perlinNoise(offsetX);
-            
-            
             
             o.Albedo = lerp(_BotColor, _TopColor, i.uv_MainTex.y);
             
