@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GrassSpawnerGPU : MonoBehaviour
 {
-    [SerializeField] private float grassCount, castHeight;
+    [SerializeField] private float grassCount, castHeight, testCull1, testCull2;
     [SerializeField] private LayerMask mask;
     [SerializeField] private Mesh mesh;
     [SerializeField] private Material grassMat;
@@ -115,8 +115,8 @@ public class GrassSpawnerGPU : MonoBehaviour
     private void Draw()
     {
         Matrix4x4 P = Camera.main.projectionMatrix;
-        P.SetRow(1, new Vector4(0.5f, 0, 0, 0));
-        P.SetRow(1, new Vector4(0f, 0.8f, 0, 0));
+        P.SetRow(0, new Vector4(testCull1, 0, 0, 0));
+        P.SetRow(1, new Vector4(0f, testCull2, 0, 0));
         Matrix4x4 V = Camera.main.worldToCameraMatrix;
         Matrix4x4 VP = P * V;
 

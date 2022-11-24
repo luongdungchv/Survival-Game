@@ -29,7 +29,6 @@ public class InputReader : MonoBehaviour
     void Update()
     {
 
-        if (UIManager.ins.isUIOpen) return;
         moveDirections[0] = GetKey(moveForwardKey) ? Vector2.up : Vector2.zero;
         moveDirections[1] = GetKey(moveBackWardKey) ? Vector2.down : Vector2.zero;
         moveDirections[2] = GetKey(moveRightKey) ? Vector2.right : Vector2.zero;
