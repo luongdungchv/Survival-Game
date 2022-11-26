@@ -20,14 +20,14 @@ public class PlayerMovement : MonoBehaviour
 
     PlayerAttack attackSystem;
     PlayerAnimation animManager;
+    PlayerStats stats;
 
 
     public bool sprint, isOnGround, isStartMove;
     float currentSpeed, lastCurrentSpeed;
     private Vector3 moveDir;
 
-    Rigidbody rb;
-    public Animator animator;
+    private Rigidbody rb;
 
     private bool canDash;
     private void Start()
@@ -36,8 +36,10 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         attackSystem = GetComponent<PlayerAttack>();
         animManager = GetComponent<PlayerAnimation>();
-        Debug.Log(Mathf.Atan2(-1, 0) * Mathf.Rad2Deg);
+        stats = GetComponent<PlayerStats>();
+
         camHolder.position = camHolderPos.position;
+
         currentSpeed = 0;
         lastCurrentSpeed = 0;
         isStartMove = true;
@@ -47,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        //PerformMovement();
         PerformRotation();
         camHolder.position = camHolderPos.position;
 
@@ -56,7 +57,6 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.velocity = new Vector3(0, 0, 0);
         currentSpeed = 0;
-        //        Debug.Log("stop");
     }
 
     Coroutine rotationCoroutine;
@@ -71,9 +71,13 @@ public class PlayerMovement : MonoBehaviour
         if (xMove != 0 || zMove != 0)
         {
 
-            if (inputReader.sprint && acceleratedSpeed != currentSpeed && !animManager.animator.GetBool("dash"))
+            if (inputReader.sprint &&
+                acceleratedSpeed != currentSpeed &&
+                !animManager.animator.GetBool("dash") &&
+                stats.stamina > 0)
             {
                 animManager.Run();
+                stats.SprintDecrease();
                 currentSpeed = acceleratedSpeed;
             }
             if (!inputReader.sprint && moveSpeed != currentSpeed && !animManager.animator.GetBool("dash"))
@@ -175,18 +179,16 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Dash()
     {
-        StopCoroutine(rotationCoroutine);
+        if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
         currentSpeed = dashSpeed;
         if (inputReader.movementInputVector == Vector2.zero)
         {
-            //DisplaceForward(dashSpeed);
             moveDir = transform.forward;
             PerformSlopeCheck();
             rb.velocity = moveDir.normalized * dashSpeed;
         }
         else
         {
-            //rb.useGravity = false;
             var inputDir = inputReader.movementInputVector;
             Vector3 camForward = new Vector3(camHolder.forward.x, 0, camHolder.forward.z).normalized;
             Vector3 camRight = new Vector3(camHolder.right.x, 0, camHolder.right.z).normalized;
@@ -194,7 +196,7 @@ public class PlayerMovement : MonoBehaviour
             moveDir = (camForward * inputDir.y + camRight * inputDir.x).normalized;
             PerformSlopeCheck();
             moveDir = moveDir.normalized * dashSpeed;
-            //moveDir += Vector3.up * rb.velocity.y;
+
             var flatMoveDir = moveDir;
             flatMoveDir.y = 0;
             flatMoveDir = flatMoveDir.normalized;
@@ -204,7 +206,6 @@ public class PlayerMovement : MonoBehaviour
             Vector3 rotationVector = new Vector3(transform.rotation.x, angle + 90, transform.rotation.z);
             Quaternion targetRotation = Quaternion.Euler(rotationVector);
             transform.rotation = targetRotation;
-            //Debug.Log($"{inputReader.movementInputVector} | {transform.rotation.eulerAngles}");
 
             rb.AddForce(0, testForce, 0);
             rb.velocity = moveDir;
@@ -213,7 +214,6 @@ public class PlayerMovement : MonoBehaviour
     public void FixedVerticalVel()
     {
         RaycastHit hit;
-        //Debug.Log(moveDir);
         if (Physics.Raycast(slopeCheckPos.transform.position, Vector3.down, out hit, 0.4f, slopeCheckMask))
         {
             var vel = rb.velocity;
@@ -225,7 +225,6 @@ public class PlayerMovement : MonoBehaviour
     private bool PerformSlopeCheck()
     {
         RaycastHit hit;
-        //Debug.Log(moveDir);
         if (Physics.Raycast(slopeCheckPos.transform.position, Vector3.down, out hit, 0.4f, slopeCheckMask))
         {
             var slopeNormal = hit.normal;
@@ -238,18 +237,5 @@ public class PlayerMovement : MonoBehaviour
         moveDir += Vector3.up * rb.velocity.y;
         return false;
     }
-    // private void PerformSlopeCheckDash()
-    // {
-    //     RaycastHit hit;
-    //     if (Physics.Raycast(slopeCheckPos.transform.position, Vector3.down, out hit, 0.4f, slopeCheckMask))
-    //     {
-    //         var slopeNormal = hit.normal;
-    //         var tangent = Vector3.Cross(moveDir, hit.normal);
-    //         var biTangent = Vector3.Cross(hit.normal, tangent);
-    //         moveDir = biTangent.normalized * currentSpeed;
-    //         return;
-    //     }
-    //     moveDir += Vector3.up * rb.velocity.y;
-    // }
 
 }

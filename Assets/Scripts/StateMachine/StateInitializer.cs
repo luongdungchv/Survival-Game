@@ -15,6 +15,7 @@ public class StateInitializer : MonoBehaviour
     PlayerAttack attackSystem => GetComponent<PlayerAttack>();
     PlayerAnimation animSystem => GetComponent<PlayerAnimation>();
     SwimHandler swimSystem => GetComponent<SwimHandler>();
+    PlayerStats stats => GetComponent<PlayerStats>();
 
     private void Awake()
     {
@@ -49,6 +50,7 @@ public class StateInitializer : MonoBehaviour
             {
                 StartCoroutine(DashCooldown());
                 animSystem.Dash();
+                stats.DashDecrease();
             }
         });
 
@@ -57,18 +59,15 @@ public class StateInitializer : MonoBehaviour
             movementSystem.Dash();
 
         });
-        //Dash.OnUpdate.AddListener(() => movementSystem.FixedVerticalVel());
     }
     private void Update()
     {
-        if (inputReader.SprintPress())
+        if (inputReader.SprintPress() && stats.stamina > 0)
         {
             fsm.ChangeState(Dash, true);
         }
         else if (inputReader.SlashPress())
         {
-            //fsm.ChangeState(Attack);
-            //movementSystem.DisplaceForward(1, 0.1f);
             PlayerEquipment.ins.OnUsePress();
         }
         else if (inputReader.JumpPress())
