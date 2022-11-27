@@ -17,11 +17,10 @@ public class TransformerUI : MonoBehaviour
     }
     public void SetTransformer()
     {
-        inputSlot.SetTransformer(Transformer.currentOpen);
-        fuelSlot.SetTransformer(Transformer.currentOpen);
     }
     public void RefreshUI()
     {
+        if (Transformer.currentOpen == null) return;
         inputSlot.CheckIconVisibility();
         fuelSlot.CheckIconVisibility();
         outputSlot.CheckIconVisibility();

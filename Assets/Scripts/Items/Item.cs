@@ -37,8 +37,8 @@ public interface IUsable
 }
 public interface IConsumable
 {
-    float duration { get; set; }
-    void OnConsume();
+    float duration { get; }
+    void OnConsume(int itemIndex);
 }
 public interface IEquippable
 {

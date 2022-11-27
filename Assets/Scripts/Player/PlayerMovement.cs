@@ -5,7 +5,7 @@ using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed, acceleratedSpeed, jumpSpeed, dashSpeed, dashDelay;
+    public float moveSpeed, acceleratedSpeed, jumpSpeed, dashSpeed, dashJumpSpeed, dashDelay;
 
     public Transform camHolder, camHolderPos, slopeCheckPos;
     public Vector2 mouseSensitivity;
@@ -67,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
         float zMove = inputReader.movementInputVector.y;
 
         moveDir = new Vector3(0, rb.velocity.y, 0);
+        bool isConsumingItem = PlayerEquipment.ins.isConsumingItem;
 
         if (xMove != 0 || zMove != 0)
         {
@@ -74,7 +75,8 @@ public class PlayerMovement : MonoBehaviour
             if (inputReader.sprint &&
                 acceleratedSpeed != currentSpeed &&
                 !animManager.animator.GetBool("dash") &&
-                stats.stamina > 0)
+                stats.stamina > 0 &&
+                !isConsumingItem)
             {
                 animManager.Run();
                 stats.SprintDecrease();
@@ -83,7 +85,8 @@ public class PlayerMovement : MonoBehaviour
             if (!inputReader.sprint && moveSpeed != currentSpeed && !animManager.animator.GetBool("dash"))
             {
                 animManager.Walk();
-                currentSpeed = moveSpeed;
+                Debug.Log(isConsumingItem);
+                currentSpeed = isConsumingItem ? moveSpeed / 2 : moveSpeed;
             }
             if (currentSpeed != lastCurrentSpeed)
             {
@@ -94,18 +97,16 @@ public class PlayerMovement : MonoBehaviour
             Vector3 camForward = new Vector3(camHolder.forward.x, 0, camHolder.forward.z).normalized;
             Vector3 camRight = new Vector3(camHolder.right.x, 0, camHolder.right.z).normalized;
 
-            moveDir = (camForward * zMove + camRight * xMove).normalized * currentSpeed;
+            moveDir = (camForward * zMove + camRight * xMove).normalized;
             PerformSlopeCheck();
 
 
             float angle = -Mathf.Atan2(moveDir.z, moveDir.x) * Mathf.Rad2Deg;
             Quaternion targetRotation = Quaternion.Euler(transform.rotation.x, angle + 90, transform.rotation.z);
             rotationCoroutine = StartCoroutine(LerpRotation(transform.rotation, targetRotation, 0.1f));
-            //transform.rotation = targetRotation;
         }
         else
         {
-            //animator.SetFloat("move", 0);
             if (rotationCoroutine != null)
             {
                 StopCoroutine(rotationCoroutine);
@@ -143,8 +144,8 @@ public class PlayerMovement : MonoBehaviour
     public void PerformJump(StateInitializer init)
     {
         animManager.Jump();
-        var jumpVelocity = transform.forward * currentSpeed + Vector3.up * jumpSpeed;
-        // rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y + jumpSpeed, rb.velocity.z);
+        float horizontalJump = currentSpeed == dashSpeed ? dashJumpSpeed : currentSpeed;
+        var jumpVelocity = transform.forward * horizontalJump + Vector3.up * jumpSpeed;
         rb.velocity = jumpVelocity;
         init.InAir.lockState = true;
     }
@@ -230,7 +231,8 @@ public class PlayerMovement : MonoBehaviour
             var slopeNormal = hit.normal;
             var tangent = Vector3.Cross(moveDir, hit.normal);
             var biTangent = Vector3.Cross(hit.normal, tangent);
-            moveDir = biTangent.normalized * currentSpeed;
+            float restraint = PlayerEquipment.ins.isConsumingItem ? 1f / 2f : 1;
+            moveDir = biTangent.normalized * currentSpeed * restraint;
 
             return true;
         }

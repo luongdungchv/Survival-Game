@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
+    public static PlayerStats ins;
+
     [Header("Health Point")]
     [SerializeField] private float maxHP;
     [SerializeField] private float hpLerpDuration;
@@ -44,7 +46,9 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
-        _hp = maxHP;
+        if (ins == null) ins = this;
+        _hp = maxHP / 2;
+        hpBar.value = Mathf.InverseLerp(0, maxHP, _hp);
         _stamina = maxStamina;
         _hungerPoint = maxHungerPoint;
         Debug.Log(Mathf.Lerp(1, 0, 0.7f));
@@ -92,7 +96,7 @@ public class PlayerStats : MonoBehaviour
             this.Perish();
         }
     }
-    private bool RegenerateHP(float additionalHP)
+    public bool RegenerateHP(float additionalHP)
     {
         if (_hp >= maxHP) return false;
         _hp += additionalHP;
@@ -109,7 +113,7 @@ public class PlayerStats : MonoBehaviour
 
         return true;
     }
-    private bool RegenerateStamina(float amount)
+    public bool RegenerateStamina(float amount)
     {
         if (_stamina >= maxStamina) return false;
         _stamina += amount;
@@ -127,7 +131,7 @@ public class PlayerStats : MonoBehaviour
 
         return true;
     }
-    private bool RegenerateHungerPoint(float amount)
+    public bool RegenerateHungerPoint(float amount)
     {
         if (_hungerPoint >= maxHungerPoint) return false;
         _hungerPoint += amount;

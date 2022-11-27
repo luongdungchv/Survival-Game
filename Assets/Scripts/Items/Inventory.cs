@@ -40,6 +40,7 @@ public class Inventory : MonoBehaviour
         Add(testItem2, 64);
         Add(testItem3, 64);
         Add("gold_ore", 64);
+        Add("sus_shroom", 12);
 
         //Debug.Log(Remove(testItem2.itemName, 64));
 

@@ -111,10 +111,9 @@ public class Transformer : InteractableObject
     }
     private void RefreshUI()
     {
-        if (currentOpen == this)
-        {
-            UIManager.ins.RefreshFurnaceUI();
-        }
+
+        UIManager.ins.RefreshFurnaceUI();
+
     }
     public void SetFuel(IFuel fuel, int quantity)
     {

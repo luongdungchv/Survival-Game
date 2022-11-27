@@ -18,7 +18,7 @@ public class MapGenerator : MonoBehaviour
     [Range(0, 1), SerializeField]
     private List<float> blends;
     public List<TerrainType> terrainTypes;
-
+    private float[,] noiseMap;
     // Start is called before the first frame update
     void Awake()
     {
@@ -70,7 +70,7 @@ public class MapGenerator : MonoBehaviour
     {
         var randObj = new CustomRandom(seed);
         var offsetVector = new Vector2(randObj.NextFloat(0, 1000), randObj.NextFloat(0, 1000));
-        float[,] noiseMap = Noise.GenerateNoiseBase(width, width, scale, offsetVector, falloff);
+        noiseMap = Noise.GenerateNoiseBase(width, width, scale, offsetVector, falloff);
         var mesh = MeshGenerator.GenerateMeshNoLOD(noiseMap, vertMaxHeight, heightCurve, 1500);
         GetComponent<MeshFilter>().mesh = mesh;
         UpdateTexture(noiseMap);
@@ -100,6 +100,12 @@ public class MapGenerator : MonoBehaviour
         texArray.Apply();
 
         return texArray;
+    }
+    public bool BelowWater(int x, int y)
+    {
+        Debug.Log(noiseMap.GetLength(0));
+        var noiseVal = noiseMap[x, y];
+        return noiseVal * vertMaxHeight * heightCurve.Evaluate(noiseVal) < 9;
     }
 }
 [System.Serializable]

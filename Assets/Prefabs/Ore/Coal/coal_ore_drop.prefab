@@ -61,11 +61,11 @@ MonoBehaviour:
   displayName: Coal Ore
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
-  hitbox: {fileID: 0}
   quantity: 0
   meshTex: {fileID: 2800000, guid: fe0277968be73084992c566a26b477f6, type: 3}
   outlineColor: {r: 0, g: 0.9595616, b: 1, a: 0}
   itemBase: {fileID: 0}
+  showOutline: 1
 --- !u!114 &7636828550896897100
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -96,7 +96,6 @@
                 o.worldPos = normalize(o.worldPosBase);
                 float3 worldPos = normalize(mul(unity_ObjectToWorld, v.vertex).xyz);               
                 o.normal = abs(v.normal);
-                UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
             

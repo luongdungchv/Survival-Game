@@ -10,7 +10,7 @@ public class CookInputSlotUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] private RawImage icon;
     [SerializeField] private TextMeshProUGUI quantityText;
     private InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
-    private Transformer currentTransformer;
+    private Transformer currentTransformer => Transformer.currentOpen;
     private int quantity => currentTransformer.inputSlot.quantity;
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -50,6 +50,11 @@ public class CookInputSlotUI : MonoBehaviour, IPointerClickHandler
     }
     public void CheckIconVisibility()
     {
+        if (currentTransformer == null || currentTransformer.inputSlot == null)
+        {
+            icon.gameObject.SetActive(false);
+            return;
+        };
         if (quantity <= 0) icon.gameObject.SetActive(false);
         else
         {
@@ -57,10 +62,10 @@ public class CookInputSlotUI : MonoBehaviour, IPointerClickHandler
             quantityText.text = quantity.ToString();
         }
     }
-    public void SetTransformer(Transformer a)
-    {
-        this.currentTransformer = a;
-    }
+    // public void SetTransformer(Transformer a)
+    // {
+    //     this.currentTransformer = a;
+    // }
 
     // Start is called before the first frame update
     void Start()

@@ -86,8 +86,7 @@ public class UIManager : MonoBehaviour
     public void ToggleFurnaceUI(Transformer toggler)
     {
         ToggleFurnaceUI();
-        Debug.Log(toggler);
-        transformerUI.SetTransformer();
+        RefreshFurnaceUI();
     }
     public void RefreshFurnaceUI()
     {

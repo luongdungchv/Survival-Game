@@ -9,6 +9,8 @@ public class StateInitializer : MonoBehaviour
     public StateMachine fsm;
     public static StateInitializer ins;
     private bool canDash = true;
+    [SerializeField] private bool isGround = true;
+    [SerializeField] private LayerMask groundMask;
 
 
     PlayerMovement movementSystem => GetComponent<PlayerMovement>();
@@ -62,7 +64,10 @@ public class StateInitializer : MonoBehaviour
     }
     private void Update()
     {
-        if (inputReader.SprintPress() && stats.stamina > 0)
+
+
+
+        if (inputReader.SprintPress() && stats.stamina > 0 && !PlayerEquipment.ins.isConsumingItem)
         {
             fsm.ChangeState(Dash, true);
         }
@@ -70,7 +75,11 @@ public class StateInitializer : MonoBehaviour
         {
             PlayerEquipment.ins.OnUsePress();
         }
-        else if (inputReader.JumpPress())
+        else if (inputReader.SlashRelease())
+        {
+            PlayerEquipment.ins.OnUseReleases();
+        }
+        else if (inputReader.JumpPress() && !PlayerEquipment.ins.isConsumingItem)
         {
             fsm.ChangeState(InAir);
         }
@@ -125,4 +134,5 @@ public class StateInitializer : MonoBehaviour
             }
         }
     }
+
 }

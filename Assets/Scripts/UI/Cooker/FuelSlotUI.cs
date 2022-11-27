@@ -10,7 +10,7 @@ public class FuelSlotUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] private RawImage icon;
     [SerializeField] private TextMeshProUGUI quantityText;
     private InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
-    private Transformer currentTransformer;
+    private Transformer currentTransformer => Transformer.currentOpen;
     private int quantity => currentTransformer.fuelSlot.quantity;
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -52,16 +52,18 @@ public class FuelSlotUI : MonoBehaviour, IPointerClickHandler
     }
     public void CheckIconVisibility()
     {
+        if (currentTransformer == null || currentTransformer.fuelSlot == null)
+        {
+            icon.gameObject.SetActive(false);
+            return;
+        };
+        Debug.Log(quantity);
         if (quantity <= 0) icon.gameObject.SetActive(false);
         else
         {
             icon.gameObject.SetActive(true);
             quantityText.text = quantity.ToString();
         }
-    }
-    public void SetTransformer(Transformer a)
-    {
-        this.currentTransformer = a;
     }
 
 
