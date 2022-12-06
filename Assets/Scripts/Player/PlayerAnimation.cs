@@ -108,7 +108,6 @@ public class PlayerAnimation : MonoBehaviour
         {
             StopCoroutine(animCoroutine);
         }
-        //StopCoroutine(animationBlendCoroutine);
         animBlendCoroutineDict[param] = StartCoroutine(LerpAnimationTransition(param, to, duration));
     }
 }

@@ -79,13 +79,11 @@ public class PlayerMovement : MonoBehaviour
                 !isConsumingItem)
             {
                 animManager.Run();
-                stats.SprintDecrease();
                 currentSpeed = acceleratedSpeed;
             }
-            if (!inputReader.sprint && moveSpeed != currentSpeed && !animManager.animator.GetBool("dash"))
+            if ((!inputReader.sprint || stats.stamina <= 0) && moveSpeed != currentSpeed && !animManager.animator.GetBool("dash"))
             {
                 animManager.Walk();
-                Debug.Log(isConsumingItem);
                 currentSpeed = isConsumingItem ? moveSpeed / 2 : moveSpeed;
             }
             if (currentSpeed != lastCurrentSpeed)
@@ -93,6 +91,8 @@ public class PlayerMovement : MonoBehaviour
                 lastCurrentSpeed = currentSpeed;
             }
             if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
+
+            if (currentSpeed == acceleratedSpeed) stats.SprintDecrease();
 
             Vector3 camForward = new Vector3(camHolder.forward.x, 0, camHolder.forward.z).normalized;
             Vector3 camRight = new Vector3(camHolder.right.x, 0, camHolder.right.z).normalized;
@@ -121,7 +121,6 @@ public class PlayerMovement : MonoBehaviour
                 lastCurrentSpeed = 0;
             }
         }
-        //float yMove = rb.velocity.y;
 
         rb.velocity = new Vector3(moveDir.x, moveDir.y, moveDir.z);
     }

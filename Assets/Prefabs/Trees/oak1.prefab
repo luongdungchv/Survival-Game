@@ -168,6 +168,7 @@ MonoBehaviour:
   - iron_axe
   - mithril_axe
   - golden_axe
+  - knife
 --- !u!65 &1654392395457581537
 BoxCollider:
   m_ObjectHideFlags: 0

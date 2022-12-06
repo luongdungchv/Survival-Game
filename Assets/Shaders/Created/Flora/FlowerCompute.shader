@@ -25,10 +25,10 @@ Shader "Environment/Flora/Flower Compute"
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Lambert vertex:vert
+        #pragma surface surf Standard vertex:vert
 
         // Use shader model 3.0 target, to get nicer looking lighting
-        #pragma target 3.0 
+        #pragma target 5.0 
         
         #include "../../Headers/PerlinNoise.cginc"
         #include "UnityCG.cginc"
@@ -57,7 +57,7 @@ Shader "Environment/Flora/Flower Compute"
         struct InstanceData{
             float3 pos;
             float4x4 trs;
-            float texIndex;  
+            int texIndex;  
         };
 
         half _Glossiness;
@@ -83,17 +83,17 @@ Shader "Environment/Flora/Flower Compute"
                 float3 worldOrigin = instDatas[data.inst].pos;   
                 
                 float2 offsetX = worldOrigin.xy / 5 + float2(_Time.y * _WindSpeed, 0);
-                float2 offSetY = worldOrigin.xy / 5 + float2(0, _Time.y * _WindSpeed);
+                float2 offSetY = worldOrigin.xy / 5 + float2(0, _Time.y * _WindSpeed );
                 float perlinVal = perlinNoise(offsetX) - 0.5;
                 float perlinVal2 = perlinNoise(offSetY) - 0.5;
                 float4 newPos = float4(worldPos, 0) + float4(perlinVal * _WindStrength , 0, perlinVal2 * _WindStrength, 0);
-                data.vertex =newPos;
+                data.vertex = newPos;
                 data.normal = float3(0,1,0);
                 o.texIndex = instDatas[data.inst].texIndex;
             #endif
         }
         
-        void surf (Input i, inout SurfaceOutput o)
+        void surf (Input i, inout SurfaceOutputStandard o)
         {    
             float texId = i.texIndex;
             float4 col ;
@@ -103,6 +103,9 @@ Shader "Environment/Flora/Flower Compute"
             else if (texId == 2) col = tex2D(_MainTex2, i.uv_MainTex);
             
             o.Albedo = col;
+            //o.Emission = 0.2;
+            o.Smoothness = 0;
+            o.Metallic = 0;
             
         }
         ENDCG

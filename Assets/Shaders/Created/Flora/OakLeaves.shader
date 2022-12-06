@@ -17,7 +17,7 @@
         Cull Off
 
         CGPROGRAM
-        #pragma surface surf Lambert fullForwardShadow 
+        #pragma surface surf Lambert addshadow 
 
         #pragma target 3.0
         

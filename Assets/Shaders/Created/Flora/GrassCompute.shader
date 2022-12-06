@@ -95,7 +95,7 @@
                 
                 o.Albedo = lerp(topCol, botCol, i.uv_MainTex.y);
                 //o.Albedo = colId;
-                
+                o.Emission = 0.2;
                 o.Metallic = _Metallic;
                 o.Smoothness = lerp(0.1, _Glossiness, _SmoothnessState);
                 //o.Smoothness = _Glossiness;

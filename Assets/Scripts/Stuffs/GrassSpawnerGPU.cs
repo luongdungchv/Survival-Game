@@ -133,10 +133,6 @@ public class GrassSpawnerGPU : MonoBehaviour
         argsBuffer.SetData(args);
 
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log(VP.MultiplyPoint(testpos.position));
-        }
 
         counterBuffer.GetData(args);
         counterBuffer.Release();

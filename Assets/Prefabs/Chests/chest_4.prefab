@@ -127,13 +127,10 @@ MonoBehaviour:
   displayName: Luxurious chest
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
-  hitbox: {fileID: 0}
   chestLid: {fileID: 2963240383923594636}
+  openDirection: 1
   maxOpenAngle: 130
   openDuration: 0.8
-  testEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!65 &9003677183232285816
 BoxCollider:
   m_ObjectHideFlags: 0

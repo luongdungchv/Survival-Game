@@ -33,6 +33,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float _hp;
     [SerializeField] private float _stamina, _hungerPoint;
     [SerializeField] private bool isRegeneratingStamina, isRegeneratingHunger;
+    [SerializeField] private RectTransform test;
     private StateMachine fsm => GetComponent<StateMachine>();
     private InputReader inputReader => InputReader.ins;
     private Coroutine regenStatmina;
@@ -56,13 +57,14 @@ public class PlayerStats : MonoBehaviour
     void Update()
     {
         if (fsm.currentState.name != "Dash" &&
-            !inputReader.sprint && !isRegeneratingStamina &&
+            (!inputReader.sprint || stamina <= 0) &&
+            !isRegeneratingStamina &&
             _hungerPoint > 0 &&
             _stamina < maxStamina)
         {
             regenStatmina = StartCoroutine(GraduallyRegenStamina());
         }
-        else if ((fsm.currentState.name == "Dash" || inputReader.sprint) && regenStatmina != null)
+        else if ((fsm.currentState.name == "Dash" || (inputReader.sprint && stamina > 0)) && regenStatmina != null)
         {
             StopCoroutine(regenStatmina);
             isRegeneratingStamina = false;

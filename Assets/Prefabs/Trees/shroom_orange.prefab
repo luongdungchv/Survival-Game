@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4330439843965730164}
   - component: {fileID: 844156157165138641}
   - component: {fileID: 3194174481641342491}
+  - component: {fileID: 7725377782567942473}
   m_Layer: 0
   m_Name: shroom_orange
   m_TagString: Untagged
@@ -82,6 +83,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &7725377782567942473
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3986530871308330958}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0.30090404, z: -0.000000059604645}
+  m_Size: 0.6063473
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3194174481641342491}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3194174481641342491}
+  - screenRelativeHeight: 0.15115167
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3194174481641342491}
+  m_Enabled: 1
 --- !u!1 &8525682078958821501
 GameObject:
   m_ObjectHideFlags: 0

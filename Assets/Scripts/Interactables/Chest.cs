@@ -8,6 +8,7 @@ using UnityEngine.Events;
 public class Chest : InteractableObject
 {
     [SerializeField] private GameObject chestLid;
+    [SerializeField] private int openDirection = 1;
     [SerializeField] private float maxOpenAngle, openDuration;
     protected override void OnInteractBtnClick(Button clicker)
     {
@@ -25,7 +26,7 @@ public class Chest : InteractableObject
             t += Time.deltaTime / openDuration;
             float openAngle = Mathf.Lerp(0, maxOpenAngle, t);
             currentRot = openAngle - lastRot;
-            chestLid.transform.Rotate(-currentRot, 0, 0);
+            chestLid.transform.Rotate(-currentRot * openDirection, 0, 0);
             lastRot = openAngle;
             yield return null;
         }

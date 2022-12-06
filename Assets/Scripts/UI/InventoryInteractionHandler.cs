@@ -69,6 +69,7 @@ public class InventoryInteractionHandler : MonoBehaviour
         {
             if (i >= slots.Count) break;
             var itemVal = inventory.items[i];
+
             if (i < slots.Count) slots[i].itemIndex = i;
             if (itemVal != null)
             {

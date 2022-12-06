@@ -33,8 +33,9 @@ public class FlowerGPU : MonoBehaviour
 
     public void InitBuffers()
     {
+        var dataArray = datas.ToArray();
         instanceBuffer = new ComputeBuffer(datas.Count, InstanceData.size);
-        instanceBuffer.SetData(datas);
+        instanceBuffer.SetData(dataArray);
 
         renderBuffer = new ComputeBuffer(datas.Count, InstanceData.size, ComputeBufferType.Append);
         renderBuffer.SetCounterValue(0);
@@ -70,15 +71,19 @@ public class FlowerGPU : MonoBehaviour
         ComputeBuffer.CopyCount(renderBuffer, counterBuffer, 0);
         counterBuffer.GetData(args);
         var population = args[0];
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log(population);
-        }
+
         PopulateArgsBuffer(population);
         argsBuffer.SetData(args);
         counterBuffer.Release();
         Graphics.DrawMeshInstancedIndirect(mesh, 0, flowerMat, bounds, argsBuffer);
         renderBuffer.SetCounterValue(0);
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            //Debug.Log(population);
+            InstanceData[] arr = new InstanceData[1500];
+            renderBuffer.GetData(arr);
+            Debug.Log(arr[0].texIndex);
+        }
     }
 
     private void GenerateInstanceData()
@@ -102,14 +107,7 @@ public class FlowerGPU : MonoBehaviour
                     if (Physics.Raycast(castPos, Vector3.down, out hit, castHeight * 2, mask))
                     {
                         if (hit.collider.tag == "Water") continue;
-                        // var flower = Instantiate(flowerPrefab[(int)noiseVal - 1], hit.point, Quaternion.Euler(-90, 0, 0));
-                        // flower.transform.position += hit.normal * Random.Range(0.5f, 1f);
 
-                        // var randomRot = Random.Range(0, 70);
-                        // flower.transform.Rotate(0, 0, randomRot);
-
-                        // var randomScale = Random.Range(1, 2.5f);
-                        // flower.transform.localScale /= randomScale;
                         var position = hit.point + hit.normal * Random.Range(0.5f, 1f);
                         var trs = Matrix4x4.TRS(position, Quaternion.Euler(-90, 0, 0), Vector3.one * 0.1f);
                         var texIndex = (int)noiseVal - 1;

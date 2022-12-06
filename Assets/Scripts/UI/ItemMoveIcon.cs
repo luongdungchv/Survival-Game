@@ -9,6 +9,8 @@ public class ItemMoveIcon : MonoBehaviour
     [SerializeField] RawImage iconImage;
     [SerializeField] TextMeshProUGUI quantityText;
     [SerializeField] private Camera mainCam;
+    [SerializeField] private RectTransform baseObj;
+    [SerializeField] private int projection;
     public Item movingItem;
     public int sourceIndex => sourceSlot.itemIndex;
     public InventorySlotUI sourceSlot;
@@ -43,19 +45,30 @@ public class ItemMoveIcon : MonoBehaviour
     private void Update()
     {
         FollowMouse();
+        //Debug.Log(baseObj.position);
+
     }
     private void FollowMouse()
     {
-        var mousePosWorld = mainCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, mainCam.farClipPlane));
+        var mousePosWorld = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, projection));
+        mousePosWorld = Camera.main.transform.worldToLocalMatrix.MultiplyPoint(mousePosWorld);
+        mousePosWorld = mousePosWorld - Vector3.forward * projection;
 
-        mousePosWorld = mainCam.transform.worldToLocalMatrix.MultiplyPoint(mousePosWorld);
+        var canvasPosWorld = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, projection));
+        canvasPosWorld = Camera.main.transform.worldToLocalMatrix.MultiplyPoint(canvasPosWorld);
+        canvasPosWorld = canvasPosWorld - Vector3.forward * projection;
+
+        mousePosWorld = mousePosWorld - canvasPosWorld;
+        Vector2 mouseRatio = new Vector2(mousePosWorld.x / (Mathf.Abs(canvasPosWorld.x) * 2), mousePosWorld.y / (Mathf.Abs(canvasPosWorld.y) * 2));
+        Vector2 canvasSize = canvas.GetComponent<RectTransform>().position * 2;
+        // Vector2 canvasRatio = new Vector2(canvasPos.x * 2, canvasPos.y * 2);
+        mousePosWorld.z = 0;
+        mousePosWorld = new Vector3(canvasSize.x * mouseRatio.x, canvasSize.y * mouseRatio.y);
+
+        //this.GetComponent<RectTransform>().anchoredPosition = iconPos / (canvas.scaleFactor + 0.1f);
 
 
-        mousePosWorld = mousePosWorld - Vector3.forward * mainCam.farClipPlane;
-        Vector2 iconPos = new Vector2(mousePosWorld.x, mousePosWorld.y);
-
-        this.GetComponent<RectTransform>().anchoredPosition = iconPos / (canvas.scaleFactor + 0.1f);
-
+        this.GetComponent<RectTransform>().position = mousePosWorld;
         if (gameObject.activeSelf && Input.mouseScrollDelta.y != 0 && sourceSlot != null)
         {
             quantity += (int)Input.mouseScrollDelta.y;

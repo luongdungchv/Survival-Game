@@ -41,7 +41,7 @@ public class Inventory : MonoBehaviour
         Add(testItem3, 64);
         Add("gold_ore", 64);
         Add("sus_shroom", 12);
-
+        Add("knife", 1);
         //Debug.Log(Remove(testItem2.itemName, 64));
 
     }
@@ -93,6 +93,8 @@ public class Inventory : MonoBehaviour
         {
             if (nullIndex == -1 || quantity != 1) return false;
             items[nullIndex] = new ItemSlot(1, itemData);
+            ReloadInHandModel();
+            iih?.UpdateUI();
             return true;
 
         }
