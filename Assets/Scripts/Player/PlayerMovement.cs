@@ -53,6 +53,10 @@ public class PlayerMovement : MonoBehaviour
         camHolder.position = camHolderPos.position;
 
     }
+    public void SyncCamera()
+    {
+        camHolder.position = camHolderPos.position;
+    }
     public void StopMoving()
     {
         rb.velocity = new Vector3(0, 0, 0);

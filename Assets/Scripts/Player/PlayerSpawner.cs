@@ -7,7 +7,7 @@ public class PlayerSpawner : MonoBehaviour
     [SerializeField] private LayerMask mask;
     void Start()
     {
-        var randObj = new CustomRandom(MapGenerator.ins.seed);
+        var randObj = new CustomRandom(MapGenerator.ins.seed + int.Parse(Client.ins.clientId));
         var castPos = new Vector3(randObj.NextFloat(100, 1400), 100, randObj.NextFloat(100, 1400));
 
         var terrainTypes = MapGenerator.ins.terrainTypes;
@@ -27,6 +27,15 @@ public class PlayerSpawner : MonoBehaviour
 
 
         transform.position = hit.point + Vector3.up;
+        var pos = transform.position;
+
+        GetComponent<NetworkPlayer>().id = Client.ins.clientId;
+        NetworkManager.ins.AddPlayer(Client.ins.clientId, GetComponent<NetworkPlayer>());
+        if (!Client.ins.isHost)
+        {
+            GetComponent<Rigidbody>().useGravity = false;
+        }
+        Client.ins.SendTCPMessage($"{(int)PacketType.SpawnPlayer} {Client.ins.clientId} {pos.x} {pos.y} {pos.z}");
     }
 
     // Update is called once per frame

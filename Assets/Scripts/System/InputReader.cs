@@ -18,10 +18,27 @@ public class InputReader : MonoBehaviour
 
     public Vector2 movementInputVector;
     private Vector2[] moveDirections = new Vector2[4];
-    void Start()
+    [SerializeField] private float readDelay;
+    private float elapsed;
+
+    private void Awake()
     {
         ins = this;
+    }
+    void Start()
+    {
+
         //showCursorKey = KeyCode.LeftAlt
+        // Client.ins.OnUDPMessageReceive.AddListener((msg) =>
+        // {
+        //     var split = msg.Split(' ');
+        //     if (split[0] == "input" && split[1] == Client.ins.clientId)
+        //     {
+        //         movementInputVector = new Vector2(float.Parse(split[2]), float.Parse(split[3]));
+        //         if (movementInputVector != Vector2.zero)
+        //             Debug.Log(msg);
+        //     }
+        // });
     }
     public int inputNum;
 
@@ -33,10 +50,10 @@ public class InputReader : MonoBehaviour
         moveDirections[1] = GetKey(moveBackWardKey) ? Vector2.down : Vector2.zero;
         moveDirections[2] = GetKey(moveRightKey) ? Vector2.right : Vector2.zero;
         moveDirections[3] = GetKey(moveLeftKey) ? Vector2.left : Vector2.zero;
-        movementInputVector = Vector2.zero;
+        var tmpMoveVector = Vector2.zero;
         foreach (var i in moveDirections)
         {
-            movementInputVector += i;
+            tmpMoveVector += i;
         }
         if (Input.inputString != null && Input.inputString.Length > 0)
         {
@@ -54,6 +71,24 @@ public class InputReader : MonoBehaviour
         //Debug.Log(movementInputVector);
         if (SprintPress()) sprint = true;
         if (SprintRelease()) sprint = false;
+
+        if (elapsed >= readDelay || JumpPress())
+        {
+            if (Client.ins.isHost)
+            {
+                movementInputVector = tmpMoveVector;
+            }
+            else
+            {
+                //Client.ins.SendUDPMessage($"{(int)PacketType.Input} {Client.ins.clientId} {tmpMoveVector.x} {tmpMoveVector.y}");
+                var inputPacket = new InputPacket();
+                inputPacket.WriteData(Client.ins.clientId, tmpMoveVector, sprint, JumpPress());
+                //Debug.Log(inputPacket.GetString());
+                Client.ins.SendUDPMessage(inputPacket.GetString());
+            }
+            elapsed = 0;
+        }
+        elapsed += Time.deltaTime;
     }
     private bool GetKey(KeyCode key)
     {

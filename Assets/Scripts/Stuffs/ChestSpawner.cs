@@ -11,6 +11,7 @@ public class ChestSpawner : MonoBehaviour
 
     void Start()
     {
+        //if (!Client.ins.isHost) return;
         var randObj = new CustomRandom(MapGenerator.ins.seed);
         bool[,] occupationMap = new bool[maxChestPerEdge, maxChestPerEdge];
         RaycastHit hit;
@@ -35,7 +36,10 @@ public class ChestSpawner : MonoBehaviour
                     if (hit.collider.tag != "Terrain") continue;
                     var rotateSlope = Quaternion.FromToRotation(Vector3.up, hit.normal);
                     var chest = Instantiate(type.prefab, hit.point, rotateSlope);
+                    var netObj = chest.AddComponent<NetworkObject>();
                     chest.transform.Rotate(0, randObj.NextFloat(0, 360), 0);
+                    //netObj.RequestSpawn(type.name, chest.transform.position, chest.transform.rotation.eulerAngles, chest.transform.localEulerAngles);
+
                 }
             }
         }

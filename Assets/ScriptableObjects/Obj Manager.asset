@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dc0b51ecce08214db7d6a9e3d783b9c, type: 3}
+  m_Name: Obj Manager
+  m_EditorClassIdentifier: 
+  itemList:
+  - Id: common_chest
+    prefab: {fileID: 2359640438950077037, guid: e961c2933f9a4c7488da1f7a0f7977d1, type: 3}
+  - Id: exquisite_chest
+    prefab: {fileID: 2379233841367196995, guid: 18ce4cb6e2ab022478e0e78eaa292dbf, type: 3}
+  - Id: precious_chest
+    prefab: {fileID: 5163493327025428242, guid: b8d14c83de041964b92a567ffbbd4f6a, type: 3}
+  - Id: luxurious_chest
+    prefab: {fileID: 2359640438950077037, guid: a5ca67c15da5fa842af77d791490e6be, type: 3}

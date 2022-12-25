@@ -23,6 +23,7 @@ public class MapGenerator : MonoBehaviour
     void Awake()
     {
         ins = this;
+        seed = Client.ins.mapSeed;
         var mesh = GetComponent<MeshFilter>().mesh;
         var verts = mesh.vertices;
 

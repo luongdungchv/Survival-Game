@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,13 +8,18 @@ public class GameFunctions : MonoBehaviour
 {
     public static GameFunctions ins;
     [SerializeField] private Transform interactBtnContainer;
+    private HashSet<string> idOccupation;
+    private CustomRandom randObj;
     private void Awake()
     {
         if (ins == null) ins = this;
     }
     private void Start()
     {
-        HideCursor();
+        //HideCursor();
+        idOccupation = new HashSet<string>();
+        randObj = new CustomRandom(MapGenerator.ins.seed);
+
     }
     private void Update()
     {
@@ -64,6 +70,30 @@ public class GameFunctions : MonoBehaviour
     {
         if (show) ShowCursor();
         else HideCursor();
+    }
+    public string GenerateId()
+    {
+        char[] temp = new char[] { 'a', 'b', 'c', 'd', 'e', 'f' };
+
+        while (idOccupation.Contains(new string(temp)))
+        {
+            HashSet<int> charOccupation = new HashSet<int>();
+            temp = new char[6];
+            int i = 0;
+            while (i < 6)
+            {
+                int rand = randObj.Next(100, 122);
+                while (charOccupation.Contains(rand))
+                {
+                    rand = randObj.Next(100, 122);
+                }
+                temp[i] = (char)rand;
+                i++;
+            }
+        }
+        var res = new string(temp);
+        idOccupation.Add(res);
+        return res;
     }
 
 }
