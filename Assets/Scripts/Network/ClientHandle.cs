@@ -14,9 +14,11 @@ public class ClientHandle : MonoBehaviour
     }
     public void HandleMessage(string msg)
     {
-        var packet = Packet.ResolvePacket(msg);
-        Debug.Log($"{msg}\n{packet.command}");
-        handlers[packet.command](packet);
+        ThreadManager.ExecuteOnMainThread(() =>
+        {
+            var packet = Packet.ResolvePacket(msg);
+            handlers[packet.command](packet);
+        });
     }
     public void AddHandler(PacketType _packetType, UnityAction<Packet> _callback)
     {

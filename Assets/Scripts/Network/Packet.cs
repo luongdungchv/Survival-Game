@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using TMPro;
 using UnityEngine;
 
 public class Packet
@@ -20,7 +21,6 @@ public class Packet
                 }
             case PacketType.SpawnPlayer:
                 {
-                    Debug.Log(msg);
                     var packet = new SpawnPlayerPacket();
                     packet.WriteData(msg);
                     return packet;
@@ -35,6 +35,7 @@ public class Packet
                 {
                     var packet = new InputPacket();
                     packet.WriteData(msg);
+
                     return packet;
                 }
             default:
@@ -57,23 +58,24 @@ public class MovePlayerPacket : Packet
 {
     public Vector3 position;
     public string id;
-    public string anim;
+    public int anim;
     public MovePlayerPacket()
     {
         this.command = PacketType.MovePlayer;
     }
     public override string GetString()
     {
-        return $"{(int)command} {id} {position.x.ToString("0.0")} {position.y.ToString("0.0")} {position.z.ToString("0.0")}";
+        return $"{(int)command} {id} {position.x.ToString()} {position.y.ToString()} {position.z.ToString()} {anim}";
     }
     public override byte[] GetBytes()
     {
         return Encoding.ASCII.GetBytes(this.GetString());
     }
-    public void WriteData(string _id, Vector3 _position)
+    public void WriteData(string _id, Vector3 _position, int _anim)
     {
         this.id = _id;
         this.position = _position;
+        this.anim = _anim;
     }
     public void WriteData(string msg)
     {
@@ -82,6 +84,7 @@ public class MovePlayerPacket : Packet
         {
             this.id = split[1];
             this.position = new Vector3(float.Parse(split[2]), float.Parse(split[3]), float.Parse(split[4]));
+            this.anim = int.Parse(split[5]);
         }
     }
 }
@@ -95,7 +98,7 @@ public class SpawnPlayerPacket : Packet
     }
     public override string GetString()
     {
-        return $"{(int)command} {id} {position.x.ToString("0.0")} {position.y.ToString("0.0")} {position.z.ToString("0.0")}";
+        return $"{(int)command} {id} {position.x.ToString()} {position.y.ToString()} {position.z.ToString()}";
     }
     public override byte[] GetBytes()
     {
@@ -150,24 +153,26 @@ public class InputPacket : Packet
     public Vector2 inputVector;
     public bool sprint;
     public bool jump;
+    public Vector2 camDir;
     public InputPacket()
     {
         this.command = PacketType.Input;
     }
     public override string GetString()
     {
-        return $"{(int)command} {id} {inputVector.x} {inputVector.y} {(sprint ? 1 : 0)} {(jump ? 1 : 0)}";
+        return $"{(int)command} {id} {inputVector.x} {inputVector.y} {(sprint ? 1 : 0)} {(jump ? 1 : 0)} {camDir.x} {camDir.y}";
     }
     public override byte[] GetBytes()
     {
         return Encoding.ASCII.GetBytes(GetString());
     }
-    public void WriteData(string _id, Vector2 _inputVector, bool _sprint, bool _jump)
+    public void WriteData(string _id, Vector2 _inputVector, bool _sprint, bool _jump, Vector2 camDir)
     {
         this.id = _id;
         this.inputVector = _inputVector;
         this.jump = _jump;
         this.sprint = _sprint;
+        this.camDir = camDir;
     }
     public void WriteData(string msg)
     {
@@ -178,6 +183,7 @@ public class InputPacket : Packet
             this.inputVector = new Vector2(int.Parse(split[2]), int.Parse(split[3]));
             this.sprint = int.Parse(split[4]) != 0;
             this.jump = int.Parse(split[5]) != 0;
+            this.camDir = new Vector2(float.Parse(split[6]), float.Parse(split[7]));
         }
     }
 }

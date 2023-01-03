@@ -30,12 +30,17 @@ public class PlayerSpawner : MonoBehaviour
         var pos = transform.position;
 
         GetComponent<NetworkPlayer>().id = Client.ins.clientId;
+        GetComponent<NetworkPlayer>().port = Client.ins.udp.port;
         NetworkManager.ins.AddPlayer(Client.ins.clientId, GetComponent<NetworkPlayer>());
         if (!Client.ins.isHost)
         {
+            var moveSystem = GetComponent<PlayerMovement>();
+            //moveSystem.ResetStats();
             GetComponent<Rigidbody>().useGravity = false;
         }
-        Client.ins.SendTCPMessage($"{(int)PacketType.SpawnPlayer} {Client.ins.clientId} {pos.x} {pos.y} {pos.z}");
+        Client.ins.SendTCPMessage($"{(int)PacketType.SpawnPlayer} {Client.ins.clientId} {pos.x} {pos.y} {pos.z} {Client.ins.udp.port}");
+        var spawnPacket = new SpawnPlayerPacket();
+        spawnPacket.WriteData(Client.ins.clientId, new Vector3(pos.x, pos.y, pos.z));
     }
 
     // Update is called once per frame

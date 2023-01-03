@@ -56,9 +56,16 @@ public class NetworkManager : MonoBehaviour
     }
     private void HandleMovePlayer(Packet _packet)
     {
-        var movePacket = _packet as MovePlayerPacket;
-        var player = playerList[movePacket.id];
-        player.ReceivePosition(movePacket.position);
+        try
+        {
+            var movePacket = _packet as MovePlayerPacket;
+            var player = playerList[movePacket.id];
+            player.ReceivePlayerState(movePacket);
+        }
+        catch
+        {
+            Debug.Log(_packet.GetString());
+        }
     }
     private void HandleSpawnPlayer(Packet _packet)
     {
@@ -71,7 +78,8 @@ public class NetworkManager : MonoBehaviour
             if (client.isHost)
             {
                 player.GetComponent<Rigidbody>().useGravity = true;
-                client.SendTCPMessage(spawnPacket.GetString());
+                //client.SendTCPMessage(spawnPacket.GetString());
+                client.SendTCPPacket(spawnPacket);
             }
         }
     }
@@ -88,7 +96,6 @@ public class NetworkManager : MonoBehaviour
     {
         var inputPacket = _packet as InputPacket;
         var playerId = inputPacket.id;
-        Debug.Log(inputPacket.inputVector);
         playerList[playerId].GetComponent<InputReceiver>().HandleInput(inputPacket);
     }
     public bool AddPlayer(string id, NetworkPlayer player)

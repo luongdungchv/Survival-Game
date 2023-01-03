@@ -21,7 +21,6 @@ public class StateInitializer : MonoBehaviour
 
     private void Awake()
     {
-        if (ins == null) ins = this;
         Idle.OnUpdate.AddListener(() => { });
         Idle.OnEnter.AddListener(() =>
         {
@@ -52,6 +51,7 @@ public class StateInitializer : MonoBehaviour
             {
                 StartCoroutine(DashCooldown());
                 animSystem.Dash();
+                attackSystem.ResetAttack();
                 stats.DashDecrease();
             }
         });
@@ -59,14 +59,10 @@ public class StateInitializer : MonoBehaviour
         Dash.OnUpdate.AddListener(() =>
         {
             movementSystem.Dash();
-
         });
     }
     private void Update()
     {
-
-
-
         if (inputReader.SprintPress() && stats.stamina > 0 && !PlayerEquipment.ins.isConsumingItem)
         {
             fsm.ChangeState(Dash, true);
@@ -123,6 +119,7 @@ public class StateInitializer : MonoBehaviour
         {
             InAir.lockState = false;
             animSystem.CancelJump();
+            Debug.Log("touch");
             var moveParam = animSystem.animator.GetFloat("move");
             if (moveParam < 0.1f)
             {

@@ -47,7 +47,7 @@ public class PlayerAttack : MonoBehaviour
     public void PerformAttack()
     {
         var inputReader = InputReader.ins;
-        var init = StateInitializer.ins;
+        var init = GetComponent<StateInitializer>();
         IEnumerator AnimationCountdown()
         {
             var delay = pattern.resetDelay[attackIndex == pattern.attackCount - 1 ? 0 : attackIndex + 1];

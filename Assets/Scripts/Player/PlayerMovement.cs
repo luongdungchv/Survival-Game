@@ -21,10 +21,8 @@ public class PlayerMovement : MonoBehaviour
     PlayerAttack attackSystem;
     PlayerAnimation animManager;
     PlayerStats stats;
-
-
     public bool sprint, isOnGround, isStartMove;
-    float currentSpeed, lastCurrentSpeed;
+    public float currentSpeed, lastCurrentSpeed;
     private Vector3 moveDir;
 
     private Rigidbody rb;
@@ -51,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
     {
         PerformRotation();
         camHolder.position = camHolderPos.position;
-
     }
     public void SyncCamera()
     {
@@ -66,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     Coroutine rotationCoroutine;
     public void PerformMovement(StateInitializer init)
     {
-        var inputReader = init.inputReader;
+
         float xMove = inputReader.movementInputVector.x;
         float zMove = inputReader.movementInputVector.y;
 
@@ -105,9 +102,12 @@ public class PlayerMovement : MonoBehaviour
             PerformSlopeCheck();
 
 
-            float angle = -Mathf.Atan2(moveDir.z, moveDir.x) * Mathf.Rad2Deg;
-            Quaternion targetRotation = Quaternion.Euler(transform.rotation.x, angle + 90, transform.rotation.z);
-            rotationCoroutine = StartCoroutine(LerpRotation(transform.rotation, targetRotation, 0.1f));
+            if (Client.ins.isHost)
+            {
+                float angle = -Mathf.Atan2(moveDir.z, moveDir.x) * Mathf.Rad2Deg;
+                Quaternion targetRotation = Quaternion.Euler(transform.rotation.x, angle + 90, transform.rotation.z);
+                rotationCoroutine = StartCoroutine(LerpRotation(transform.rotation, targetRotation, 0.1f));
+            }
         }
         else
         {
@@ -125,8 +125,8 @@ public class PlayerMovement : MonoBehaviour
                 lastCurrentSpeed = 0;
             }
         }
-
-        rb.velocity = new Vector3(moveDir.x, moveDir.y, moveDir.z);
+        if (Client.ins.isHost)
+            rb.velocity = new Vector3(moveDir.x, moveDir.y, moveDir.z);
     }
     public void StartMove()
     {
@@ -147,10 +147,14 @@ public class PlayerMovement : MonoBehaviour
     public void PerformJump(StateInitializer init)
     {
         animManager.Jump();
-        float horizontalJump = currentSpeed == dashSpeed ? dashJumpSpeed : currentSpeed;
-        var jumpVelocity = transform.forward * horizontalJump + Vector3.up * jumpSpeed;
-        rb.velocity = jumpVelocity;
         init.InAir.lockState = true;
+        if (Client.ins.isHost)
+        {
+            float horizontalJump = currentSpeed == dashSpeed ? dashJumpSpeed : currentSpeed;
+            var jumpVelocity = transform.forward * horizontalJump + Vector3.up * jumpSpeed;
+            rb.velocity = jumpVelocity;
+
+        }
     }
     IEnumerator LerpRotation(Quaternion from, Quaternion to, float duration)
     {
@@ -183,6 +187,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Dash()
     {
+        if (!Client.ins.isHost) return;
         if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
         currentSpeed = dashSpeed;
         if (inputReader.movementInputVector == Vector2.zero)
@@ -241,6 +246,13 @@ public class PlayerMovement : MonoBehaviour
         }
         moveDir += Vector3.up * rb.velocity.y;
         return false;
+    }
+    public void ResetStats()
+    {
+        this.moveSpeed = 0;
+        this.dashSpeed = 0;
+        this.acceleratedSpeed = 0;
+        this.jumpSpeed = 0;
     }
 
 }

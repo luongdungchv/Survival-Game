@@ -83,7 +83,7 @@ public class PlayerAnimation : MonoBehaviour
     public async void Dash()
     {
         animator.SetBool("dash", true);
-        atkSystem.ResetAttack();
+
         await Task.Delay(350);
         animator.SetBool("dash", false);
     }

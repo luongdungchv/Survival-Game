@@ -18,7 +18,7 @@ public class PlayerEquipment : MonoBehaviour
     private Coroutine consumeCoroutine;
     private void Awake()
     {
-        if (ins == null) ins = this;
+        if (ins == null && GetComponent<NetworkPlayer>().isLocalPlayer) ins = this;
     }
     private void Update()
     {

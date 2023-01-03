@@ -42,7 +42,7 @@ public class TCP
     }
     public void Disconnect()
     {
-        socket.Close();
+        socket?.Close();
         socket = null;
         stream = null;
         buffer = null;
@@ -86,24 +86,5 @@ public class TCP
                 break;
             }
         }
-    }
-    private void HandleTCPMessage(string msg)
-    {
-        var split = msg.Split(' ');
-        string cmd = split[0];
-        Debug.Log(msg);
-        if (cmd == "udp")
-        {
-            owner.SetUDPRemoteHost(int.Parse(split[1]));
-            owner.SendUDPMessage("con");
-            owner.StartCoroutine(LoadSceneDelay(2));
-            owner.clientId = split[2];
-            owner.mapSeed = int.Parse(split[3]);
-        }
-    }
-    IEnumerator LoadSceneDelay(float duration)
-    {
-        yield return new WaitForSeconds(duration);
-        SceneManager.LoadScene("Test_PlayerStats");
     }
 }

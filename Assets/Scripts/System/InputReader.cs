@@ -19,6 +19,7 @@ public class InputReader : MonoBehaviour
     public Vector2 movementInputVector;
     private Vector2[] moveDirections = new Vector2[4];
     [SerializeField] private float readDelay;
+    [SerializeField] private Transform localCamHolder;
     private float elapsed;
 
     private void Awake()
@@ -80,11 +81,12 @@ public class InputReader : MonoBehaviour
             }
             else
             {
-                //Client.ins.SendUDPMessage($"{(int)PacketType.Input} {Client.ins.clientId} {tmpMoveVector.x} {tmpMoveVector.y}");
+                movementInputVector = tmpMoveVector;
                 var inputPacket = new InputPacket();
-                inputPacket.WriteData(Client.ins.clientId, tmpMoveVector, sprint, JumpPress());
-                //Debug.Log(inputPacket.GetString());
-                Client.ins.SendUDPMessage(inputPacket.GetString());
+                var camDir = new Vector2(localCamHolder.forward.x, localCamHolder.forward.z).normalized;
+                inputPacket.WriteData(Client.ins.clientId, tmpMoveVector, sprint, JumpPress(), camDir);
+                //Client.ins.SendUDPMessage(inputPacket.GetString());
+                Client.ins.SendUDPPacket(inputPacket);
             }
             elapsed = 0;
         }

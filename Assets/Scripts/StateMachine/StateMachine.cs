@@ -17,16 +17,19 @@ public class StateMachine : MonoBehaviour
     }
     void Start()
     {
-        OnStateChanged.AddListener((oldName, newName) =>
+        if (Client.ins.isHost && GetComponent<NetworkPlayer>().isLocalPlayer)
         {
-            var rb = GetComponent<Rigidbody>();
-            if (newName.Contains("Swim"))
+            OnStateChanged.AddListener((oldName, newName) =>
             {
+                var rb = GetComponent<Rigidbody>();
+                if (newName.Contains("Swim"))
+                {
 
-                rb.useGravity = false;
-            }
-            else rb.useGravity = true;
-        });
+                    rb.useGravity = false;
+                }
+                else rb.useGravity = true;
+            });
+        }
     }
 
     void Update()
@@ -34,29 +37,29 @@ public class StateMachine : MonoBehaviour
         //GetComponent<Rigidbody>().AddForce(0, -46, 0);
         if (currentState != null) currentState.OnUpdate.Invoke();
     }
-    public bool ChangeState(string name, bool force = false)
+    public bool ChangeState(string stateName, bool force = false)
     {
         if (currentState.lockState && !force)
         {
             return false;
         }
-        //Debug.Log($"{currentState.name} {name}");
-        if (name == currentState.name)
+
+        if (stateName == currentState.name || currentState.CheckLock(stateName))
         {
             return false;
         };
         foreach (var i in currentState.transitions)
         {
-            if (i.name == name)
+            if (i.name == stateName)
             {
-                OnStateChanged.Invoke(currentState.name, name);
+                OnStateChanged.Invoke(currentState.name, stateName);
                 currentState.OnExit.Invoke();
                 currentState = i;
                 currentState.OnEnter.Invoke();
                 return true;
             }
         }
-        Debug.Log($"No Transition Found || {currentState.name}, {name}");
+        Debug.Log($"No Transition Found || {currentState.name}, {stateName}");
         //OnStateChanged.Invoke(name, "");
         return false;
     }

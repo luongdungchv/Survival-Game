@@ -19,12 +19,15 @@ public class Client : MonoBehaviour
     [SerializeField] private int port, tcpBufferSize;
     [SerializeField] Button joinRoomBtn;
     [SerializeField] private TMP_InputField field;
-    private TCP tcp;
-    private UDP udp;
+    public TCP tcp;
+    public UDP udp;
+    public string hostName => server;
     private void Awake()
     {
         if (ins == null) ins = this;
+
     }
+
     void Start()
     {
         tcp = new TCP(this, tcpBufferSize);
@@ -37,9 +40,17 @@ public class Client : MonoBehaviour
     {
         tcp.Send(msg);
     }
+    public void SendTCPPacket(Packet _packet)
+    {
+        tcp.Send(_packet.GetString());
+    }
     public void SendUDPMessage(string msg)
     {
         udp.Send(msg);
+    }
+    public void SendUDPPacket(Packet _packet)
+    {
+        udp.Send(_packet.GetString());
     }
     public void CreateRoom()
     {

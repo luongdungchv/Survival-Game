@@ -30,8 +30,7 @@ public class Tool : Item, IUsable, IEquippable, ICraftable
         var equipmentSystem = PlayerEquipment.ins;
         var atkSystem = PlayerAttack.ins;
         atkSystem.SetAtkPattern(atkPattern);
-        //Debug.Log("test");
-        StateMachine.ins.ChangeState("Attack");
+        PlayerEquipment.ins.GetComponent<StateMachine>().ChangeState("Attack");
     }
     public void OnEquip()
     {
