@@ -1,15 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 
 public class NetworkEquipment : MonoBehaviour
 {
     private Item rightHandItem;
-
+    [SerializeField] private ItemModel[] itemMapperList;
+    private Dictionary<string, GameObject> itemMapper;
+    private void Awake()
+    {
+        itemMapper = new Dictionary<string, GameObject>();
+        foreach (var i in itemMapperList)
+        {
+            itemMapper.Add(i.item, i.model);
+        }
+    }
     public void SetRightHandItem(Item item)
     {
+
+        if (rightHandItem != null) itemMapper[rightHandItem.itemName].SetActive(false);
         this.rightHandItem = item;
+        itemMapper[rightHandItem.itemName].SetActive(true);
     }
     public void Use()
     {
@@ -17,5 +28,11 @@ public class NetworkEquipment : MonoBehaviour
         {
             usableItem.OnUse(-1);
         }
+    }
+    [System.Serializable]
+    class ItemModel
+    {
+        public string item;
+        public GameObject model;
     }
 }

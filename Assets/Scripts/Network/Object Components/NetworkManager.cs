@@ -22,6 +22,7 @@ public class NetworkManager : MonoBehaviour
         handler.AddHandler(PacketType.StartGame, HandleStartGame);
         handler.AddHandler(PacketType.Input, HandleInput);
         handler.AddHandler(PacketType.SpawnObject, HandleSpawnObject);
+        handler.AddHandler(PacketType.UpdateEquipping, HandleChangeEquipment);
     }
     private void Awake()
     {
@@ -100,6 +101,15 @@ public class NetworkManager : MonoBehaviour
         {
             client.SendTCPPacket(spawnInfo);
         }
+    }
+    public void HandleChangeEquipment(Packet _packet)
+    {
+        var updatePacket = _packet as UpdateEquippingPacket;
+        if (playerList[updatePacket.playerId].TryGetComponent<NetworkEquipment>(out var netEquip))
+        {
+            netEquip.SetRightHandItem(Item.GetItem(updatePacket.itemName));
+        }
+        if (client.isHost) client.SendTCPPacket(updatePacket);
     }
     public void AddNetworkObject(string id, NetworkObject obj)
     {

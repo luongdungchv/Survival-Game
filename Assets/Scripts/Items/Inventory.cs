@@ -227,24 +227,26 @@ public class Inventory : MonoBehaviour
     }
     private void ReloadInHandModel()
     {
-        PlayerEquipment.ins.currentEquipIndex = _currentEquipIndex;
-        for (int i = 0; i < equipSlotCount; i++)
+        if (PlayerEquipment.ins.currentEquipIndex != _currentEquipIndex)
         {
-            if (i == _currentEquipIndex)
+            for (int i = 0; i < equipSlotCount; i++)
             {
-                iih.GetUISlot(i).Highlight(true);
-                if (items[i] == null || items[i].itemData == null)
+                if (i == _currentEquipIndex)
                 {
-                    PlayerEquipment.ins.rightHandItem = null;
-                    continue;
+                    iih.GetUISlot(i).Highlight(true);
+                    if (items[i] == null || items[i].itemData == null)
+                    {
+                        PlayerEquipment.ins.rightHandItem = null;
+                        continue;
+                    }
+
+                    var equippableItem = items[i].itemData as IEquippable;
+                    equippableItem.OnEquip();
+                    PlayerEquipment.ins.rightHandItem = items[i].itemData;
                 }
-
-                var equippableItem = items[i].itemData as IEquippable;
-                equippableItem.OnEquip();
-                PlayerEquipment.ins.rightHandItem = items[i].itemData;
-
             }
         }
+        PlayerEquipment.ins.currentEquipIndex = _currentEquipIndex;
         for (int i = 0; i < equipSlotCount; i++)
         {
             if (i != _currentEquipIndex)

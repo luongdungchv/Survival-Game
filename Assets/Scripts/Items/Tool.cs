@@ -35,6 +35,12 @@ public class Tool : Item, IUsable, IEquippable, ICraftable
     public void OnEquip()
     {
         inHandModel.SetActive(true);
+        if (!Client.ins.isHost)
+        {
+            var packet = new UpdateEquippingPacket();
+            packet.WriteData(Client.ins.clientId, this.itemName);
+            Client.ins.SendTCPPacket(packet);
+        }
         //PlayerAttack.ins.currentWieldName = this.itemName;
         PlayerAttack.ins.currentWield = this;
     }

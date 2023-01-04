@@ -5,8 +5,9 @@ using UnityEngine;
 public class PlayerSpawner : MonoBehaviour
 {
     [SerializeField] private LayerMask mask;
-    void Start()
+    IEnumerator Start()
     {
+        yield return null;
         var randObj = new CustomRandom(MapGenerator.ins.seed + int.Parse(Client.ins.clientId));
         var castPos = new Vector3(randObj.NextFloat(100, 1400), 100, randObj.NextFloat(100, 1400));
 

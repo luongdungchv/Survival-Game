@@ -21,6 +21,7 @@ public class Packet
                 {
                     var packet = new SpawnPlayerPacket();
                     packet.WriteData(msg);
+                    Debug.Log("Spawn player: " + msg);
                     return packet;
                 }
             case PacketType.StartGame:
@@ -38,6 +39,12 @@ public class Packet
             case PacketType.SpawnObject:
                 {
                     var packet = new SpawnObjectPacket();
+                    packet.WriteData(msg);
+                    return packet;
+                }
+            case PacketType.UpdateEquipping:
+                {
+                    var packet = new UpdateEquippingPacket();
                     Debug.Log(msg);
                     packet.WriteData(msg);
                     return packet;
@@ -203,8 +210,30 @@ public class SpawnObjectPacket : Packet
         this.rotation = _rotation;
     }
 }
+public class UpdateEquippingPacket : Packet
+{
+    public string playerId;
+    public string itemName;
+    public UpdateEquippingPacket() { this.command = PacketType.UpdateEquipping; }
+    public override string GetString() => $"{(int)command} {playerId} {itemName}";
+    public void WriteData(string playerId, string itemName)
+    {
+        this.playerId = playerId;
+        this.itemName = itemName;
+    }
+    public void WriteData(string msg)
+    {
+        var split = msg.Split(' ');
+        if (int.Parse(split[0]) == (int)this.command)
+        {
+            this.playerId = split[1];
+            this.itemName = split[2];
+        }
+    }
+
+}
 public enum PacketType
 {
     MovePlayer,
-    SpawnPlayer, StartGame, Input, SpawnObject
+    SpawnPlayer, StartGame, Input, SpawnObject, UpdateEquipping
 }
