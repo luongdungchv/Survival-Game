@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -35,7 +33,13 @@ public class Packet
                 {
                     var packet = new InputPacket();
                     packet.WriteData(msg);
-
+                    return packet;
+                }
+            case PacketType.SpawnObject:
+                {
+                    var packet = new SpawnObjectPacket();
+                    Debug.Log(msg);
+                    packet.WriteData(msg);
                     return packet;
                 }
             default:
@@ -64,13 +68,9 @@ public class MovePlayerPacket : Packet
         this.command = PacketType.MovePlayer;
     }
     public override string GetString()
-    {
-        return $"{(int)command} {id} {position.x.ToString()} {position.y.ToString()} {position.z.ToString()} {anim}";
-    }
-    public override byte[] GetBytes()
-    {
-        return Encoding.ASCII.GetBytes(this.GetString());
-    }
+        => $"{(int)command} {id} {position.x.ToString("0.00")} {position.y.ToString("0.00")} {position.z.ToString("0.00")} {anim}";
+
+    public override byte[] GetBytes() => Encoding.ASCII.GetBytes(this.GetString());
     public void WriteData(string _id, Vector3 _position, int _anim)
     {
         this.id = _id;
@@ -97,13 +97,9 @@ public class SpawnPlayerPacket : Packet
         this.command = PacketType.SpawnPlayer;
     }
     public override string GetString()
-    {
-        return $"{(int)command} {id} {position.x.ToString()} {position.y.ToString()} {position.z.ToString()}";
-    }
-    public override byte[] GetBytes()
-    {
-        return Encoding.ASCII.GetBytes(this.GetString());
-    }
+        => $"{(int)command} {id} {position.x.ToString()} {position.y.ToString()} {position.z.ToString()}";
+
+    public override byte[] GetBytes() => Encoding.ASCII.GetBytes(this.GetString());
     public void WriteData(string _id, Vector3 _position)
     {
         this.id = _id;
@@ -122,20 +118,16 @@ public class SpawnPlayerPacket : Packet
 public class StartGamePacket : Packet
 {
     public string clientId;
-    public int mapSeed;
-    public int udpRemoteHost;
+    public int mapSeed, udpRemoteHost;
     public StartGamePacket()
     {
         this.command = PacketType.StartGame;
     }
     public override string GetString()
-    {
-        return $"{(int)command} {udpRemoteHost} {clientId} {mapSeed}";
-    }
-    public override byte[] GetBytes()
-    {
-        return Encoding.ASCII.GetBytes(GetString());
-    }
+        => $"{(int)command} {udpRemoteHost} {clientId} {mapSeed}";
+
+    public override byte[] GetBytes() => Encoding.ASCII.GetBytes(GetString());
+
     public void WriteData(string msg)
     {
         var split = msg.Split(' ');
@@ -150,22 +142,16 @@ public class StartGamePacket : Packet
 public class InputPacket : Packet
 {
     public string id;
-    public Vector2 inputVector;
-    public bool sprint;
-    public bool jump;
-    public Vector2 camDir;
+    public Vector2 inputVector, camDir;
+    public bool sprint, jump;
     public InputPacket()
     {
         this.command = PacketType.Input;
     }
     public override string GetString()
-    {
-        return $"{(int)command} {id} {inputVector.x} {inputVector.y} {(sprint ? 1 : 0)} {(jump ? 1 : 0)} {camDir.x} {camDir.y}";
-    }
-    public override byte[] GetBytes()
-    {
-        return Encoding.ASCII.GetBytes(GetString());
-    }
+        => $"{(int)command} {id} {inputVector.x} {inputVector.y} {(sprint ? 1 : 0)} {(jump ? 1 : 0)} {camDir.x.ToString("0.00")} {camDir.y.ToString("0.00")}";
+
+    public override byte[] GetBytes() => Encoding.ASCII.GetBytes(GetString());
     public void WriteData(string _id, Vector2 _inputVector, bool _sprint, bool _jump, Vector2 camDir)
     {
         this.id = _id;
@@ -187,8 +173,38 @@ public class InputPacket : Packet
         }
     }
 }
+public class SpawnObjectPacket : Packet
+{
+    public string playerId;
+    public int objSpawnId;
+    public Vector3 position, rotation;
+    public SpawnObjectPacket()
+    {
+        this.command = PacketType.SpawnObject;
+    }
+    public override string GetString()
+        => $"{(int)command} {playerId} {objSpawnId} {position.x.ToString("0.00")} {position.y.ToString("0.00")} {position.z.ToString("0.00")} {rotation.x.ToString("0.00")} {rotation.y.ToString("0.00")} {rotation.z.ToString("0.00")}";
+    public void WriteData(string msg)
+    {
+        var split = msg.Split(' ');
+        if ((PacketType)int.Parse(split[0]) == this.command)
+        {
+            this.playerId = split[1];
+            this.objSpawnId = int.Parse(split[2]);
+            this.position = new Vector3(float.Parse(split[3]), float.Parse(split[4]), float.Parse(split[5]));
+            this.rotation = new Vector3(float.Parse(split[6]), float.Parse(split[7]), float.Parse(split[8]));
+        }
+    }
+    public void WriteData(string _playerId, int _objSpawnId, Vector3 _position, Vector3 _rotation)
+    {
+        this.playerId = _playerId;
+        this.objSpawnId = _objSpawnId;
+        this.position = _position;
+        this.rotation = _rotation;
+    }
+}
 public enum PacketType
 {
     MovePlayer,
-    SpawnPlayer, StartGame, Input
+    SpawnPlayer, StartGame, Input, SpawnObject
 }

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5890741365794543979}
   - component: {fileID: -3520689487024156455}
   - component: {fileID: 5104216171068560660}
+  - component: {fileID: 2515371608670357319}
   m_Layer: 17
   m_Name: rock_drop
   m_TagString: Untagged
@@ -141,6 +142,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
+--- !u!114 &2515371608670357319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 803badd55b024644399b1b75458fc1a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8843217421753043271
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,11 +215,11 @@ MonoBehaviour:
   displayName: Rock
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
-  hitbox: {fileID: 0}
   quantity: 0
   meshTex: {fileID: 0}
   outlineColor: {r: 1, g: 0.9646237, b: 0, a: 0}
   itemBase: {fileID: 0}
+  showOutline: 1
 --- !u!114 &1558343809458091248
 MonoBehaviour:
   m_ObjectHideFlags: 0

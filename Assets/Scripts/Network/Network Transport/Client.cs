@@ -25,6 +25,7 @@ public class Client : MonoBehaviour
     private void Awake()
     {
         if (ins == null) ins = this;
+        Debug.Log(NetworkPrefab.instanceCount);
 
     }
 
@@ -35,6 +36,10 @@ public class Client : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         joinRoomBtn.onClick.AddListener(() => JoinRoom(field.text));
         Application.runInBackground = true;
+    }
+    private void Update()
+    {
+
     }
     public void SendTCPMessage(string msg)
     {

@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,6 +12,7 @@ public class NetworkManager : MonoBehaviour
     [SerializeField] private ClientHandle handler;
     private Dictionary<string, NetworkPlayer> playerList;
     private Client client => Client.ins;
+    private ObjectMapper objMapper => ObjectMapper.ins;
     private void Start()
     {
         playerList = new Dictionary<string, NetworkPlayer>();
@@ -21,33 +21,7 @@ public class NetworkManager : MonoBehaviour
         handler.AddHandler(PacketType.SpawnPlayer, HandleSpawnPlayer);
         handler.AddHandler(PacketType.StartGame, HandleStartGame);
         handler.AddHandler(PacketType.Input, HandleInput);
-        // Client.ins.OnTCPMessageReceive.AddListener((msg) =>
-        // {
-        //     var cmd = msg.Substring(0, 5);
-
-        //     if (cmd == "spawn")
-        //     {
-        //         var split = msg.Split(' ');
-        //         Debug.Log(cmd);
-        //         var objName = split[1];
-        //         var objId = split[2];
-        //         if (objName == "player" && objId != client.clientId)
-        //         {
-        //             var pos = new Vector3(float.Parse(split[3]), float.Parse(split[4]), float.Parse(split[5]));
-        //             var obj = Instantiate(playerPrefab, pos, Quaternion.identity);
-        //             obj.id = objId;
-        //             if (client.isHost)
-        //             {
-        //                 obj.GetComponent<Rigidbody>().useGravity = true;
-        //                 client.SendTCPMessage(msg);
-        //             }
-        //         }
-        //     }
-        //     if (cmd == "udp")
-        //     {
-        //         Debug.Log(msg);
-        //     }
-        //});
+        handler.AddHandler(PacketType.SpawnObject, HandleSpawnObject);
     }
     private void Awake()
     {
@@ -106,6 +80,26 @@ public class NetworkManager : MonoBehaviour
             return true;
         }
         else return false;
+    }
+    public void SpawnRequest(string playerId, NetworkPrefab prefab, Vector3 position, Vector3 rotation)
+    {
+        var prefabId = objMapper.GetPrefabIndex(prefab);
+        Debug.Log($"Prefab id is: {prefabId}");
+        if (prefabId != -1)
+        {
+            SpawnObjectPacket packet = new SpawnObjectPacket();
+            packet.WriteData(playerId, prefabId, position, rotation);
+            client.SendTCPPacket(packet);
+        }
+    }
+    public void HandleSpawnObject(Packet _packet)
+    {
+        var spawnInfo = _packet as SpawnObjectPacket;
+        var obj = Instantiate(objMapper.GetPrefab(spawnInfo.objSpawnId), spawnInfo.position, Quaternion.Euler(spawnInfo.rotation));
+        if (client.isHost)
+        {
+            client.SendTCPPacket(spawnInfo);
+        }
     }
     public void AddNetworkObject(string id, NetworkObject obj)
     {

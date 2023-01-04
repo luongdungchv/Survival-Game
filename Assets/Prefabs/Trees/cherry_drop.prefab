@@ -61,11 +61,11 @@ MonoBehaviour:
   displayName: Cherry Wood
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
-  hitbox: {fileID: 0}
   quantity: 0
   meshTex: {fileID: 2800000, guid: 79723d9c36b791f45bc0f7e08f74ba75, type: 3}
   outlineColor: {r: 1, g: 0.9255588, b: 0, a: 0}
   itemBase: {fileID: 0}
+  showOutline: 1
 --- !u!114 &1033946611352636675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 4577689033170389234}
   - component: {fileID: -128431381784743893}
   - component: {fileID: 1969872441549444198}
+  - component: {fileID: -7689306422507724955}
   m_Layer: 0
   m_Name: cherry_drop
   m_TagString: Untagged
@@ -196,3 +197,15 @@ CapsuleCollider:
   m_Height: 0.045
   m_Direction: 2
   m_Center: {x: 0, y: -7.9973625e-18, z: 3.9973602e-17}
+--- !u!114 &-7689306422507724955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2632296379119905063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 803badd55b024644399b1b75458fc1a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7324914668806446462}
   - component: {fileID: 2276321651028230129}
   - component: {fileID: 4435976054548030616}
+  - component: {fileID: 8422354027114626030}
   m_Layer: 0
   m_Name: craft_table
   m_TagString: Untagged
@@ -96,6 +97,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.621308, y: 2.278784, z: 2.30458}
   m_Center: {x: 0, y: -0.1694509, z: -0.00000005960464}
+--- !u!114 &8422354027114626030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5497741677720493458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 803badd55b024644399b1b75458fc1a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7218167282159271395
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +170,6 @@ MonoBehaviour:
   displayName: 
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
-  hitbox: {fileID: 0}
   hp: 0
 --- !u!114 &4281975212259325554
 MonoBehaviour:

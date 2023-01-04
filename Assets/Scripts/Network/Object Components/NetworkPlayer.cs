@@ -6,6 +6,7 @@ using UnityEngine;
 public class NetworkPlayer : NetworkObject
 {
     [SerializeField] private float speed, jumpSpeed, sprintSpeed;
+    public static NetworkPlayer localPlayer;
     public float syncRate, frameLerp;
     public bool isLocalPlayer;
     public int port;
@@ -23,6 +24,8 @@ public class NetworkPlayer : NetworkObject
     private Vector3 lastPosition;
     private void Awake()
     {
+        if (isLocalPlayer) localPlayer = this;
+
         fsm = GetComponent<StateMachine>();
         inputReceiver = GetComponent<InputReceiver>();
         rb = GetComponent<Rigidbody>();

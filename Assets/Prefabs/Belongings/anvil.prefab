@@ -61,7 +61,6 @@ MonoBehaviour:
   displayName: Anvil
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
-  hitbox: {fileID: 0}
   hp: 50
 --- !u!114 &8724790784760172828
 MonoBehaviour:
@@ -91,6 +90,7 @@ GameObject:
   - component: {fileID: 8312587990439880804}
   - component: {fileID: 8312587990439880805}
   - component: {fileID: 8018499606669565494}
+  - component: {fileID: -3478755811802216476}
   m_Layer: 0
   m_Name: anvil
   m_TagString: Untagged
@@ -175,3 +175,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.43601, y: 2.559646, z: 1.0339715}
   m_Center: {x: -0.1700526, y: 0.9694385, z: -0.00000008940697}
+--- !u!114 &-3478755811802216476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312587990439880806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 803badd55b024644399b1b75458fc1a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

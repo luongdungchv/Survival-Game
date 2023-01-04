@@ -196,6 +196,7 @@ public class Inventory : MonoBehaviour
     }
     public bool Remove(int itemIndex, int quantity)
     {
+        if (itemIndex < 0) return false;
         var item = items[itemIndex];
         if (item == null || item.itemData == null) return false;
         item.quantity -= quantity;

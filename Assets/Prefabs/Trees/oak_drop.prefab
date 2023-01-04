@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6244633016401607495}
   - component: {fileID: 1141327801669442256}
   - component: {fileID: 4669216723990446492}
+  - component: {fileID: 9106313680406305370}
   m_Layer: 0
   m_Name: oak_drop
   m_TagString: Untagged
@@ -114,6 +115,18 @@ CapsuleCollider:
   m_Height: 0.045
   m_Direction: 2
   m_Center: {x: 0, y: -7.9973625e-18, z: 3.9973602e-17}
+--- !u!114 &9106313680406305370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5596172051001154194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 803badd55b024644399b1b75458fc1a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5767913946891246712
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,11 +188,11 @@ MonoBehaviour:
   displayName: Oak Wood
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
-  hitbox: {fileID: 0}
   quantity: 0
   meshTex: {fileID: 2800000, guid: 1f9c510d1a3d5f940a89e5fee57a44ea, type: 3}
   outlineColor: {r: 1, g: 0.9255588, b: 0, a: 0}
   itemBase: {fileID: 0}
+  showOutline: 1
 --- !u!114 &2217815412577675056
 MonoBehaviour:
   m_ObjectHideFlags: 0
