@@ -73,7 +73,7 @@ public class InputReader : MonoBehaviour
         if (SprintPress()) sprint = true;
         if (SprintRelease()) sprint = false;
 
-        if (elapsed >= readDelay || JumpPress())
+        if (elapsed >= readDelay || JumpPress() || SlashPress())
         {
             if (Client.ins.isHost)
             {
@@ -84,7 +84,7 @@ public class InputReader : MonoBehaviour
                 movementInputVector = tmpMoveVector;
                 var inputPacket = new InputPacket();
                 var camDir = new Vector2(localCamHolder.forward.x, localCamHolder.forward.z).normalized;
-                inputPacket.WriteData(Client.ins.clientId, tmpMoveVector, sprint, JumpPress(), camDir);
+                inputPacket.WriteData(Client.ins.clientId, tmpMoveVector, sprint, JumpPress(), camDir, SlashPress());
                 //Client.ins.SendUDPMessage(inputPacket.GetString());
                 Client.ins.SendUDPPacket(inputPacket);
             }
@@ -98,7 +98,7 @@ public class InputReader : MonoBehaviour
     }
     public bool SlashPress()
     {
-        return Input.GetKeyDown(slashKey) && !UIManager.ins.isUIOpen && !Cursor.visible;
+        return Input.GetMouseButtonDown(0) && !UIManager.ins.isUIOpen && !Cursor.visible;
     }
     public bool SlashRelease()
     {

@@ -12,10 +12,10 @@ public class NetworkStateManager : MonoBehaviour
     private NetworkSwimHandler netSwim => GetComponent<NetworkSwimHandler>();
     private InputReceiver inputReceiver => GetComponent<InputReceiver>();
     private PlayerAnimation animSystem => GetComponent<PlayerAnimation>();
+    private NetworkEquipment equipmentSystem => GetComponent<NetworkEquipment>();
+    private NetworkAttack attackSystem => GetComponent<NetworkAttack>();
     private void Awake()
     {
-
-
         fsm = GetComponent<StateMachine>();
 
         Idle.OnEnter.AddListener(() =>
@@ -36,7 +36,6 @@ public class NetworkStateManager : MonoBehaviour
         {
             animSystem.CancelJump();
             animSystem.Run();
-            Debug.Log("start sprint");
         });
         SwimIdle.OnEnter.AddListener(() =>
         {
@@ -49,6 +48,17 @@ public class NetworkStateManager : MonoBehaviour
             animSystem.CancelJump();
             animSystem.SwimNormal();
         });
+        Attack.OnEnter.AddListener(() =>
+        {
+            netMovement.StopMoveServer();
+        });
+        Attack.OnUpdate.AddListener(() =>
+        {
+            attackSystem.AttackServer();
+        });
+        Attack.OnExit.AddListener(attackSystem.ResetAttack);
+
+
 
         if (!Client.ins.isHost) return;
         Dash.OnUpdate.AddListener(netMovement.DashServer);
@@ -67,10 +77,16 @@ public class NetworkStateManager : MonoBehaviour
     {
         if (!Client.ins.isHost) return;
         var inputVector = inputReceiver.movementInputVector;
+
         if (inputReceiver.startDash)
         {
             fsm.ChangeState(Dash);
         }
+        else if (inputReceiver.attack)
+        {
+            equipmentSystem.Use();
+        }
+
         else if (inputVector == Vector2.zero)
         {
             fsm.ChangeState(Idle);
@@ -80,10 +96,12 @@ public class NetworkStateManager : MonoBehaviour
             if (inputReceiver.sprint) fsm.ChangeState(Sprint);
             else fsm.ChangeState(Move);
         }
+
         if (inputReceiver.jumpPress)
         {
             fsm.ChangeState(InAir);
         }
+
 
 
     }

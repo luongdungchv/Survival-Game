@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c93be1f52a0a5ea4d9518f4747ddf63e, type: 3}
-  m_Name: Sprint
+  m_Name: Attack
   m_EditorClassIdentifier: 
   OnEnter:
     m_PersistentCalls:
@@ -22,11 +22,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   transitions:
-  - {fileID: 11400000, guid: 27064e033fee5fa41a331e05f4462b50, type: 2}
   - {fileID: 11400000, guid: c816f8d9e0bf4674483b86ec1ef59c2f, type: 2}
-  - {fileID: 11400000, guid: 1f6d802a5a350674e8dff15e7c9fec5c, type: 2}
-  - {fileID: 11400000, guid: 414b43a059fed29469475d26087c0b76, type: 2}
-  - {fileID: 11400000, guid: 613afac4841531c42a93d7166b515cc9, type: 2}
   - {fileID: 11400000, guid: adf78219eacb41e44af218527c7effb4, type: 2}
-  - {fileID: 11400000, guid: 986999f4d862938429729bce6dc7f851, type: 2}
+  - {fileID: 11400000, guid: 1f6d802a5a350674e8dff15e7c9fec5c, type: 2}
   lockState: 0

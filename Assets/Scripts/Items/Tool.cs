@@ -12,6 +12,7 @@ public class Tool : Item, IUsable, IEquippable, ICraftable
     private Dictionary<string, int> _requiredMats;
     public Dictionary<string, int> requiredMats => _requiredMats;
     public float baseDmg;
+    private NetworkPlayer player => GetComponent<NetworkPlayer>();
 
     public GameObject inHandModel { get => _inHandModel; }
 
@@ -27,10 +28,18 @@ public class Tool : Item, IUsable, IEquippable, ICraftable
     }
     public void OnUse(int itemIndex)
     {
-        var equipmentSystem = PlayerEquipment.ins;
         var atkSystem = PlayerAttack.ins;
         atkSystem.SetAtkPattern(atkPattern);
+
+        var equipmentSystem = PlayerEquipment.ins;
         PlayerEquipment.ins.GetComponent<StateMachine>().ChangeState("Attack");
+    }
+    public void OnUse(NetworkPlayer netUser)
+    {
+        var atkSystem = netUser.GetComponent<NetworkAttack>();
+        atkSystem.SetAttackPattern(atkPattern);
+        var equipmentSystem = netUser.GetComponent<NetworkEquipment>();
+        netUser.GetComponent<StateMachine>().ChangeState("Attack");
     }
     public void OnEquip()
     {

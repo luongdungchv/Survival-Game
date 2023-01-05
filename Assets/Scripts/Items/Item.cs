@@ -34,6 +34,7 @@ public class Item : MonoBehaviour
 public interface IUsable
 {
     void OnUse(int itemIndex);
+    void OnUse(NetworkPlayer netUser);
 }
 public interface IConsumable
 {

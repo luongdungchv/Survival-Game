@@ -9,6 +9,10 @@ public class Food : MonoBehaviour, IUsable
     {
 
     }
+    public void OnUse(NetworkPlayer netUser)
+    {
+
+    }
 
 
 }

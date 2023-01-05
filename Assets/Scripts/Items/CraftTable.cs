@@ -26,6 +26,10 @@ public class CraftTable : Item, IEquippable, IUsable, ICraftable
     {
         inHandModel.SetActive(false);
     }
+    public void OnUse(NetworkPlayer netUser)
+    {
+
+    }
     protected override void Awake()
     {
         if (ins == null) ins = this;

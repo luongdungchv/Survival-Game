@@ -7,8 +7,10 @@ public class NetworkEquipment : MonoBehaviour
     private Item rightHandItem;
     [SerializeField] private ItemModel[] itemMapperList;
     private Dictionary<string, GameObject> itemMapper;
+    private NetworkPlayer netPlayer;
     private void Awake()
     {
+        netPlayer = GetComponent<NetworkPlayer>();
         itemMapper = new Dictionary<string, GameObject>();
         foreach (var i in itemMapperList)
         {
@@ -26,7 +28,7 @@ public class NetworkEquipment : MonoBehaviour
     {
         if (rightHandItem != null && rightHandItem.TryGetComponent<IUsable>(out var usableItem))
         {
-            usableItem.OnUse(-1);
+            usableItem.OnUse(netPlayer);
         }
     }
     [System.Serializable]

@@ -17,10 +17,13 @@ public class Belonging : Item, IEquippable, IUsable, ICraftable
         placer.ConfirmPosition();
         Inventory.ins.Remove(itemIndex, 1);
     }
+    public void OnUse(NetworkPlayer netUser)
+    {
+
+    }
     public void OnEquip()
     {
         placerObj.SetActive(true);
-        Debug.Log("equip");
         if (!Client.ins.isHost)
         {
             var packet = new UpdateEquippingPacket();

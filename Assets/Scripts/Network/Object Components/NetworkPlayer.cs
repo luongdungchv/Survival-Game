@@ -56,11 +56,10 @@ public class NetworkPlayer : NetworkObject
             if (moveDir.magnitude > 0.01)
             {
                 float angle = -Mathf.Atan2(moveDir.z, moveDir.x) * Mathf.Rad2Deg;
-                if (angle > 2)
-                {
-                    Quaternion targetRotation = Quaternion.Euler(transform.rotation.x, angle + 90, transform.rotation.z);
-                    rotationCoroutine = StartCoroutine(LerpRotation(transform.rotation, targetRotation, 0.1f));
-                }
+
+                Quaternion targetRotation = Quaternion.Euler(transform.rotation.x, angle + 90, transform.rotation.z);
+                rotationCoroutine = StartCoroutine(LerpRotation(transform.rotation, targetRotation, 0.1f));
+
             }
             moveDir = moveDir.normalized;
             //StartCoroutine(LerpPosition(_position));

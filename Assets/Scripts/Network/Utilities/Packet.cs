@@ -34,6 +34,7 @@ public class Packet
                 {
                     var packet = new InputPacket();
                     packet.WriteData(msg);
+                    if (packet.atk) Debug.Log("attack");
                     return packet;
                 }
             case PacketType.SpawnObject:
@@ -45,7 +46,6 @@ public class Packet
             case PacketType.UpdateEquipping:
                 {
                     var packet = new UpdateEquippingPacket();
-                    Debug.Log(msg);
                     packet.WriteData(msg);
                     return packet;
                 }
@@ -150,22 +150,23 @@ public class InputPacket : Packet
 {
     public string id;
     public Vector2 inputVector, camDir;
-    public bool sprint, jump;
+    public bool sprint, jump, atk;
     public InputPacket()
     {
         this.command = PacketType.Input;
     }
     public override string GetString()
-        => $"{(int)command} {id} {inputVector.x} {inputVector.y} {(sprint ? 1 : 0)} {(jump ? 1 : 0)} {camDir.x.ToString("0.00")} {camDir.y.ToString("0.00")}";
+        => $"{(int)command} {id} {inputVector.x} {inputVector.y} {(sprint ? 1 : 0)} {(jump ? 1 : 0)} {camDir.x.ToString("0.00")} {camDir.y.ToString("0.00")} {(atk ? 1 : 0)}";
 
     public override byte[] GetBytes() => Encoding.ASCII.GetBytes(GetString());
-    public void WriteData(string _id, Vector2 _inputVector, bool _sprint, bool _jump, Vector2 camDir)
+    public void WriteData(string _id, Vector2 _inputVector, bool _sprint, bool _jump, Vector2 camDir, bool atk)
     {
         this.id = _id;
         this.inputVector = _inputVector;
         this.jump = _jump;
         this.sprint = _sprint;
         this.camDir = camDir;
+        this.atk = atk;
     }
     public void WriteData(string msg)
     {
@@ -177,6 +178,7 @@ public class InputPacket : Packet
             this.sprint = int.Parse(split[4]) != 0;
             this.jump = int.Parse(split[5]) != 0;
             this.camDir = new Vector2(float.Parse(split[6]), float.Parse(split[7]));
+            this.atk = int.Parse(split[8]) != 0;
         }
     }
 }
