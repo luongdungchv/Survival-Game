@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3493105393884268830}
   - component: {fileID: 2530084968240145202}
   - component: {fileID: 2787627297964770821}
+  - component: {fileID: 3058947960247095860}
   m_Layer: 12
   m_Name: cherry
   m_TagString: Untagged
@@ -98,6 +99,19 @@ MonoBehaviour:
   requiredTools:
   - mithril_axe
   - iron_axe
+--- !u!114 &3058947960247095860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512414193447967732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fafe2b71e76c23a409285a7111a748f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
 --- !u!1 &8309104790789181619
 GameObject:
   m_ObjectHideFlags: 0

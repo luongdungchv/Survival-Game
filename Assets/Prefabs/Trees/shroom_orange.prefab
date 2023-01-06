@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 844156157165138641}
   - component: {fileID: 3194174481641342491}
   - component: {fileID: 7725377782567942473}
+  - component: {fileID: 887170061070240013}
   m_Layer: 0
   m_Name: shroom_orange
   m_TagString: Untagged
@@ -110,6 +111,19 @@ LODGroup:
     renderers:
     - renderer: {fileID: 3194174481641342491}
   m_Enabled: 1
+--- !u!114 &887170061070240013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3986530871308330958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fafe2b71e76c23a409285a7111a748f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
 --- !u!1 &8525682078958821501
 GameObject:
   m_ObjectHideFlags: 0

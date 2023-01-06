@@ -336,6 +336,7 @@ GameObject:
   - component: {fileID: 1403563958111192076}
   - component: {fileID: 8963587422939531147}
   - component: {fileID: 6918578912785741625}
+  - component: {fileID: 84951730780964244}
   m_Layer: 12
   m_Name: pine
   m_TagString: Untagged
@@ -421,3 +422,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.8, y: 25.037186, z: 1.73}
   m_Center: {x: 0, y: 12.018593, z: 0}
+--- !u!114 &84951730780964244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6347642991463945608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fafe2b71e76c23a409285a7111a748f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 

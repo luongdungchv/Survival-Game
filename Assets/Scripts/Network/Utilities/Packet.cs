@@ -9,7 +9,8 @@ public class Packet
     public static Packet ResolvePacket(string msg)
     {
         var cmd = msg.Substring(0, msg.IndexOf(" "));
-        switch ((PacketType)int.Parse(cmd))
+        var parsedCmd = (PacketType)int.Parse(cmd);
+        switch (parsedCmd)
         {
             case PacketType.MovePlayer:
                 {
@@ -50,7 +51,11 @@ public class Packet
                     return packet;
                 }
             default:
-                return null;
+                {
+                    var packet = new ObjectInteractionPacket(parsedCmd);
+                    packet.WriteData(msg);
+                    return packet;
+                }
         }
 
 
@@ -234,8 +239,37 @@ public class UpdateEquippingPacket : Packet
     }
 
 }
+public class ObjectInteractionPacket : Packet
+{
+    public string playerId, objId, action;
+    public ObjectInteractionPacket(PacketType type)
+    {
+        this.command = type;
+    }
+    public override string GetString() => $"{(int)command} {playerId} {objId} {action}";
+
+    public void WriteData(string playerId, string objId, string action)
+    {
+        this.playerId = playerId;
+        this.objId = objId;
+        this.action = action;
+    }
+    public void WriteData(string msg)
+    {
+        var split = msg.Split(' ');
+        if (int.Parse(split[0]) == (int)this.command)
+        {
+            this.playerId = split[1];
+            this.objId = split[2];
+            this.action = split[3];
+        }
+    }
+}
 public enum PacketType
 {
     MovePlayer,
-    SpawnPlayer, StartGame, Input, SpawnObject, UpdateEquipping
+    SpawnPlayer, StartGame, Input, SpawnObject, UpdateEquipping,
+
+    ChestInteraction, TreeInteraction, OreInteraction
+
 }

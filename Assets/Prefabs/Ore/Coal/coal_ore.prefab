@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1344911609232577606}
   - component: {fileID: 4372193177107028790}
   - component: {fileID: -521479338658718387}
+  - component: {fileID: -2468880535025564500}
   m_Layer: 16
   m_Name: coal_ore
   m_TagString: Untagged
@@ -118,3 +119,16 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: b08bfdb029589324bbea7ba9f0cabad9, type: 2}
+--- !u!114 &-2468880535025564500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2353318516628162867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fafe2b71e76c23a409285a7111a748f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 

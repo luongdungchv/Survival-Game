@@ -13,6 +13,7 @@ public class GameFunctions : MonoBehaviour
     private void Awake()
     {
         if (ins == null) ins = this;
+
     }
     private void Start()
     {
@@ -94,6 +95,13 @@ public class GameFunctions : MonoBehaviour
         var res = new string(temp);
         idOccupation.Add(res);
         return res;
+    }
+    public void RevokeId(string id)
+    {
+        if (idOccupation.Contains(id))
+        {
+            idOccupation.Remove(id);
+        }
     }
 
 }

@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 527819364170348755}
   - component: {fileID: 1847498580775761567}
   - component: {fileID: 5467767321813795896}
+  - component: {fileID: -3433317458543758965}
   m_Layer: 0
   m_Name: shroom_pink
   m_TagString: Untagged
@@ -192,3 +193,16 @@ LODGroup:
     renderers:
     - renderer: {fileID: 1847498580775761567}
   m_Enabled: 1
+--- !u!114 &-3433317458543758965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8010402028202056759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fafe2b71e76c23a409285a7111a748f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 

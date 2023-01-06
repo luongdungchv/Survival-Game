@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager ins;
-    private Dictionary<string, NetworkObject> networkObjectList;
+    private Dictionary<string, NetworkSceneObject> sceneObjects;
 
     [SerializeField] private NetworkPlayer playerPrefab;
     [SerializeField] private ClientHandle handler;
@@ -23,11 +23,12 @@ public class NetworkManager : MonoBehaviour
         handler.AddHandler(PacketType.Input, HandleInput);
         handler.AddHandler(PacketType.SpawnObject, HandleSpawnObject);
         handler.AddHandler(PacketType.UpdateEquipping, HandleChangeEquipment);
+        handler.AddHandler(PacketType.ChestInteraction, HandleChestInteraction);
     }
     private void Awake()
     {
         ins = this;
-        networkObjectList = new Dictionary<string, NetworkObject>();
+        sceneObjects = new Dictionary<string, NetworkSceneObject>();
     }
     private void HandleMovePlayer(Packet _packet)
     {
@@ -111,17 +112,34 @@ public class NetworkManager : MonoBehaviour
         }
         if (client.isHost) client.SendTCPPacket(updatePacket);
     }
-    public void AddNetworkObject(string id, NetworkObject obj)
+    public void HandleChestInteraction(Packet _packet)
     {
-        networkObjectList.Add(id, obj);
+        var chestPacket = _packet as ObjectInteractionPacket;
+        var action = chestPacket.action;
+        var obj = sceneObjects[chestPacket.objId];
+        Debug.Log("Chest packet: " + chestPacket.ToString());
+        if (action == "open")
+        {
+            obj.GetComponentInChildren<Chest>().Open();
+        }
+        if (client.isHost)
+        {
+            client.SendTCPPacket(chestPacket);
+        }
     }
-    public NetworkObject GetNetworkObjecT(string id)
+    public void AddNetworkSceneObject(string id, NetworkSceneObject obj)
     {
-        return networkObjectList[id];
+        sceneObjects.Add(id, obj);
     }
-    public void RemoveNetworkObject(string id)
+    public NetworkSceneObject GetNetworkSceneObject(string id)
     {
-        networkObjectList.Remove(id);
+        return sceneObjects[id];
+    }
+    public bool RemoveSceneNetworkObject(string id)
+    {
+        if (!sceneObjects.ContainsKey(id)) return false;
+        sceneObjects.Remove(id);
+        return true;
     }
 
     IEnumerator LoadSceneDelay(float duration)

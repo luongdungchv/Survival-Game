@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -3736690258805162159}
   - component: {fileID: -3679047604809536145}
   - component: {fileID: -145181538978406302}
+  - component: {fileID: -5592029117994957958}
   m_Layer: 16
   m_Name: iron_ore_7
   m_TagString: IronOre
@@ -31,8 +32,7 @@ Transform:
   m_LocalRotation: {x: 0.00000008146034, y: -0.00000004371139, z: 3.6219773e-15, w: 1}
   m_LocalPosition: {x: 297.6626, y: 30.067066, z: 247.42406}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 6420242039035698622}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -136,3 +136,16 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.674, y: 0.39600003, z: 0.15}
   m_TimeToStationary: 0.5
+--- !u!114 &-5592029117994957958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5451466473898009607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fafe2b71e76c23a409285a7111a748f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 

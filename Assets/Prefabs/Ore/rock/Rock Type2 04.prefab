@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3818990843062960126}
   - component: {fileID: -5527286778389538784}
   - component: {fileID: 5648982796592764277}
+  - component: {fileID: 3944838907481600096}
   m_Layer: 16
   m_Name: Rock Type2 04
   m_TagString: Untagged
@@ -163,3 +164,16 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.056, y: 0.19000001, z: -0.006}
   m_TimeToStationary: 0.5
+--- !u!114 &3944838907481600096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fafe2b71e76c23a409285a7111a748f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 

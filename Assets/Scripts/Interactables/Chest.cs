@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Events;
 
 public class Chest : InteractableObject
 {
     [SerializeField] private GameObject chestLid;
     [SerializeField] private int openDirection = 1;
     [SerializeField] private float maxOpenAngle, openDuration;
+    private GameObject currentClicker;
+    private NetworkSceneObject netObj => GetComponentInParent<NetworkSceneObject>();
     protected override void OnInteractBtnClick(Button clicker)
     {
-        StartCoroutine(LerpOpenChest());
-        interactable = false;
         Destroy(clicker.gameObject);
+        var openChestPacket = new ObjectInteractionPacket(PacketType.ChestInteraction);
+        openChestPacket.WriteData(Client.ins.clientId, netObj.id, "open");
+        Client.ins.SendTCPPacket(openChestPacket);
     }
     IEnumerator LerpOpenChest()
     {
@@ -30,5 +32,11 @@ public class Chest : InteractableObject
             lastRot = openAngle;
             yield return null;
         }
+    }
+    public void Open()
+    {
+        StartCoroutine(LerpOpenChest());
+        interactable = false;
+        netObj.RevokeId();
     }
 }
