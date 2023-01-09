@@ -81,7 +81,8 @@ public class UIManager : MonoBehaviour
         }
         furnaceUIHandler.UpdateUI();
         furnaceUIHandler.ChangeMoveIconQuantity(0);
-
+        Debug.Log("click2");
+        RefreshFurnaceUI();
     }
     public void ToggleFurnaceUI(Transformer toggler)
     {

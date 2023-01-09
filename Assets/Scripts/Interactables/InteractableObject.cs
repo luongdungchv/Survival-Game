@@ -19,25 +19,26 @@ public class InteractableObject : MonoBehaviour
         hitbox = GetComponent<InteractableHitbox>();
         hitbox.SetOwner(this);
     }
-    private void Update()
+    protected virtual void Update()
     {
         hitbox.DetectHit();
     }
-    // Start is called before the first frame update
-
-    public void TouchDetect(RaycastHit target)
+    public bool TouchDetect(RaycastHit target)
     {
-        if (!interactable) return;
+        if (!interactable) return false;
         if (target.collider.tag == "Player" && !isPlayerTouch)
         {
+            var netPlayer = target.collider.GetComponent<NetworkPlayer>();
+            if (!netPlayer.isLocalPlayer) return false;
             btnInstance = Instantiate(interactBtnPrefab);
             btnInstance.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = displayName;
             var btn = btnInstance.GetComponent<Button>();
             btn.onClick.AddListener(() => OnInteractBtnClick(btn));
             UIManager.ins.AddCollectBtn(btnInstance);
             isPlayerTouch = true;
-
+            return true;
         }
+        return false;
     }
     public void ExitDetect()
     {

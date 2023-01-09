@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class NetworkSceneObject : NetworkObject
 {
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return null;
         this.id = GameFunctions.ins.GenerateId();
         NetworkManager.ins.AddNetworkSceneObject(this.id, this);
     }

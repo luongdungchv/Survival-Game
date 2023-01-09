@@ -7,15 +7,21 @@ using UnityEngine.UI;
 
 public class CookOutputSlotUI : MonoBehaviour, IPointerClickHandler
 {
+    public static CookOutputSlotUI ins;
+
     [SerializeField] private RawImage icon;
 
     [SerializeField] private TextMeshProUGUI quantityText;
     private InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
+    private void Awake()
+    {
+        ins = this;
+    }
 
     public void CheckIconVisibility()
     {
         var currentCooker = Transformer.currentOpen;
-        if (currentCooker.outputSlot == null || currentCooker.outputSlot.quantity <= 0)
+        if (currentCooker.outputSlot.item == null || currentCooker.outputSlot.quantity <= 0)
         {
             icon.gameObject.SetActive(false);
             return;

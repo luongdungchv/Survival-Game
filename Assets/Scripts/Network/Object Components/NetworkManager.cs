@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,6 +25,9 @@ public class NetworkManager : MonoBehaviour
         handler.AddHandler(PacketType.SpawnObject, HandleSpawnObject);
         handler.AddHandler(PacketType.UpdateEquipping, HandleChangeEquipment);
         handler.AddHandler(PacketType.ChestInteraction, HandleChestInteraction);
+        handler.AddHandler(PacketType.FurnaceServerUpdate, HandleFurnaceServerUpdate);
+        handler.AddHandler(PacketType.FurnaceClientMsg, HandleFurnaceClientMsg);
+        handler.AddHandler(PacketType.TreeInteraction, HandleTreeInteraction);
     }
     private void Awake()
     {
@@ -126,6 +130,123 @@ public class NetworkManager : MonoBehaviour
         {
             client.SendTCPPacket(chestPacket);
         }
+    }
+    public void HandleTreeInteraction(Packet _packet)
+    {
+        // actionParams: tool, incomingDmg
+        var treePacket = _packet as ObjectInteractionPacket;
+        var action = treePacket.action;
+
+        var playerId = treePacket.playerId;
+        var tool = treePacket.actionParams[0];
+        var incomingDmg = float.Parse(treePacket.actionParams[1]);
+
+
+        var obj = sceneObjects[treePacket.objId];
+        Debug.Log("Tree packet: " + treePacket.ToString());
+        if (action == "take_dmg")
+        {
+            var objComponent = obj.GetComponent<ItemDropObject>();
+            //objComponent.OnDamage(treePacket.actionParams[0],)
+            var hitData = new PlayerHitData(incomingDmg, tool, playerList[playerId].GetComponent<PlayerStats>());
+            objComponent.OnDamage(hitData);
+
+        }
+        if (client.isHost)
+        {
+            client.SendTCPPacket(treePacket);
+        }
+    }
+    public void HandleFurnaceClientMsg(Packet _packet)
+    {
+        var packet = _packet as FurnaceClientMsgPacket;
+        var action = packet.action;
+        var obj = sceneObjects[packet.objId].GetComponentInChildren<Transformer>();
+        Debug.Log("action: " + action);
+        //// TODO: Add input, Add fuel handler
+        switch (action)
+        {
+            case "set_input":
+                {
+                    var inputItem = Item.GetItem(packet.actionParams[0]) as ITransformable;
+                    var quantity = int.Parse(packet.actionParams[1]);
+                    obj.SetInput(inputItem, quantity);
+                    break;
+                }
+            case "add_input":
+                {
+                    var inputItem = Item.GetItem(packet.actionParams[0]) as ITransformable;
+                    var quantity = int.Parse(packet.actionParams[1]);
+                    obj.AddInput(inputItem, quantity);
+                    break;
+                }
+            case "set_fuel":
+                {
+                    var fuelItem = Item.GetItem(packet.actionParams[0]) as IFuel;
+                    var quantity = int.Parse(packet.actionParams[1]);
+                    obj.SetFuel(fuelItem, quantity);
+                    break;
+                }
+            case "add_fuel":
+                {
+                    var fuelItem = Item.GetItem(packet.actionParams[0]) as IFuel;
+                    var quantity = int.Parse(packet.actionParams[1]);
+                    obj.AddFuel(fuelItem, quantity);
+                    break;
+                }
+            case "retr_input":
+                {
+                    var quantity = int.Parse(packet.actionParams[0]);
+                    obj.RetrieveInput(quantity);
+                    break;
+                }
+            case "retr_fuel":
+                {
+                    var quantity = int.Parse(packet.actionParams[0]);
+                    obj.RetrieveFuel(quantity);
+                    break;
+                }
+            case "retr_output":
+                {
+                    var quantity = int.Parse(packet.actionParams[0]);
+                    obj.RetrieveOutput(quantity);
+                    break;
+                }
+        }
+
+    }
+    public void HandleFurnaceServerUpdate(Packet _packet)
+    {
+        var packet = _packet as FurnaceUpdatePacket;
+        var obj = sceneObjects[packet.objId].GetComponentInChildren<TransformerClient>();
+        var cookedUnit = packet.cookedUnit;
+        var currentUnitCount = packet.remainingUnit;
+        if (packet.inputItem == "")
+        {
+            obj.ReceiveInput(packet.inputCount);
+        }
+        else
+        {
+            obj.ReceiveInput(Item.GetItem(packet.inputItem) as ITransformable, packet.inputCount);
+        }
+        if (packet.fuelItem == "")
+        {
+            obj.ReceiveFuel(packet.fuelCount);
+        }
+        else
+        {
+            obj.ReceiveFuel(Item.GetItem(packet.fuelItem) as IFuel, packet.fuelCount);
+        }
+        if (packet.outputItem == "")
+        {
+            obj.ReceiveOutput(packet.outputCount);
+        }
+        else
+        {
+            obj.ReceiveOutput(Item.GetItem(packet.outputItem), packet.outputCount);
+        }
+        obj.ReceiveProgressInfo(packet.cookedUnit, packet.remainingUnit);
+        UIManager.ins.RefreshFurnaceUI();
     }
     public void AddNetworkSceneObject(string id, NetworkSceneObject obj)
     {

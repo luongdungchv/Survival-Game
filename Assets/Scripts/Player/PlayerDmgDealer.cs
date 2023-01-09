@@ -7,7 +7,7 @@ public class PlayerDmgDealer : MonoBehaviour
     public static PlayerDmgDealer ins;
     private float baseDmg = 0;
     private string tool;
-    private HitBox dealer;
+    private PlayerStats dealer;
     private IDamagable receiver;
     private void Start()
     {
@@ -19,7 +19,7 @@ public class PlayerDmgDealer : MonoBehaviour
         //Debug.Log(baseDmg);
         receiver.OnDamage(new PlayerHitData(baseDmg, tool, dealer));
     }
-    public void SetProps(float dmg, string tool, HitBox dealer, IDamagable receiver)
+    public void SetProps(float dmg, string tool, PlayerStats dealer, IDamagable receiver)
     {
         this.baseDmg = dmg;
         this.dealer = dealer;

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 426130791308642511}
   - component: {fileID: 5644345518066122211}
   - component: {fileID: 6062679688848879219}
+  - component: {fileID: 5858688082048399009}
   m_Layer: 0
   m_Name: Furnace
   m_TagString: Untagged
@@ -109,6 +110,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803badd55b024644399b1b75458fc1a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5858688082048399009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426130791308642496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fafe2b71e76c23a409285a7111a748f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
 --- !u!1 &3659717180466992281
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6011359701813265767}
   - component: {fileID: 7418213147263605782}
+  - component: {fileID: 8347450726358623737}
   - component: {fileID: 6954463552060133387}
   - component: {fileID: 8198296315576429243}
   m_Layer: 0
@@ -157,6 +172,35 @@ MonoBehaviour:
   displayName: Furnace
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
+  inputSlot:
+    quantity: 0
+  fuelSlot:
+    quantity: 0
+  outputSlot:
+    item: {fileID: 0}
+    quantity: 0
+  maxInputCap: 64
+  maxOutputCap: 64
+  syncRate: 0.25
+--- !u!114 &8347450726358623737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3659717180466992281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3725b68cc1caa840a9863a1c8b558b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayName: Furnace
+  interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
+  interactable: 1
+  inputSlot:
+    quantity: 0
+  fuelSlot:
+    quantity: 0
   outputSlot:
     item: {fileID: 0}
     quantity: 0

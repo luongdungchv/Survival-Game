@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -47,6 +48,19 @@ public class Packet
             case PacketType.UpdateEquipping:
                 {
                     var packet = new UpdateEquippingPacket();
+                    packet.WriteData(msg);
+                    return packet;
+                }
+            case PacketType.FurnaceServerUpdate:
+                {
+                    var packet = new FurnaceUpdatePacket();
+                    //Debug.Log(msg);
+                    packet.WriteData(msg);
+                    return packet;
+                }
+            case PacketType.FurnaceClientMsg:
+                {
+                    var packet = new FurnaceClientMsgPacket();
                     packet.WriteData(msg);
                     return packet;
                 }
@@ -242,17 +256,19 @@ public class UpdateEquippingPacket : Packet
 public class ObjectInteractionPacket : Packet
 {
     public string playerId, objId, action;
+    public string[] actionParams;
     public ObjectInteractionPacket(PacketType type)
     {
         this.command = type;
     }
-    public override string GetString() => $"{(int)command} {playerId} {objId} {action}";
+    public override string GetString() => $"{(int)command} {playerId} {objId} {action} {string.Join("|", actionParams == null ? new string[0] : actionParams)}";
 
-    public void WriteData(string playerId, string objId, string action)
+    public void WriteData(string playerId, string objId, string action, string[] actionParams)
     {
         this.playerId = playerId;
         this.objId = objId;
         this.action = action;
+        this.actionParams = actionParams;
     }
     public void WriteData(string msg)
     {
@@ -262,6 +278,78 @@ public class ObjectInteractionPacket : Packet
             this.playerId = split[1];
             this.objId = split[2];
             this.action = split[3];
+            this.actionParams = split.Length > 3 ? split[4].Split('|') : null;
+        }
+    }
+}
+public class FurnaceUpdatePacket : Packet
+{
+    public string playerId;
+    public string objId;
+    public string inputItem, fuelItem, outputItem;
+    public int inputCount, fuelCount, outputCount;
+    public int cookedUnit;
+    public int remainingUnit;
+    public FurnaceUpdatePacket()
+    {
+        this.command = PacketType.FurnaceServerUpdate;
+        this.inputItem = "";
+        this.fuelItem = "";
+        this.outputItem = "";
+    }
+    public override string GetString()
+    {
+        var res = $"{(int)command} {playerId}{objId} {(char)(inputCount + 33)}{(char)(fuelCount + 33)}{(char)(outputCount + 33)} {inputItem}|{fuelItem}|{outputItem} {(char)(cookedUnit + 33)}{(char)(remainingUnit + 33)}";
+        return res;
+    }
+
+    public void WriteData(string msg)
+    {
+        var split = msg.Split(' ');
+        if (int.Parse(split[0]) == (int)this.command)
+        {
+            this.playerId = split[1].Substring(0, 1);
+            this.objId = split[1].Substring(1);
+
+            var itemCountSplit = split[2];
+            this.inputCount = (int)itemCountSplit[0] - 33;
+            this.fuelCount = (int)itemCountSplit[1] - 33;
+            this.outputCount = (int)itemCountSplit[2] - 33;
+
+            var itemSplit = split[3].Split('|');
+            this.inputItem = itemSplit[0];
+            this.fuelItem = itemSplit[1];
+            this.outputItem = itemSplit[2];
+
+            //var cookProgressSplit = split[4].Split('|');
+            this.cookedUnit = (int)(split[4][0]) - 33;
+            this.remainingUnit = (int)(split[4][1]) - 33;
+        }
+    }
+}
+public class FurnaceClientMsgPacket : Packet
+{
+    public string playerId;
+    public string objId;
+    public string action;
+    public string[] actionParams;
+    public FurnaceClientMsgPacket()
+    {
+        this.command = PacketType.FurnaceClientMsg;
+    }
+    public override string GetString()
+    {
+        return $"{(int)command} {playerId} {objId} {action} {string.Join("|", actionParams)}";
+    }
+    public void WriteData(string msg)
+    {
+        var split = msg.Split(' ');
+        if (int.Parse(split[0]) == (int)command)
+        {
+            this.playerId = split[1];
+            this.objId = split[2];
+            this.action = split[3];
+            this.actionParams = split[4].Split('|');
         }
     }
 }
@@ -269,7 +357,7 @@ public enum PacketType
 {
     MovePlayer,
     SpawnPlayer, StartGame, Input, SpawnObject, UpdateEquipping,
-
+    FurnaceServerUpdate, FurnaceClientMsg,
     ChestInteraction, TreeInteraction, OreInteraction
 
 }

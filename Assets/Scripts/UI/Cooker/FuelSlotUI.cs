@@ -7,11 +7,16 @@ using UnityEngine.UI;
 
 public class FuelSlotUI : MonoBehaviour, IPointerClickHandler
 {
+    public static FuelSlotUI ins;
     [SerializeField] private RawImage icon;
     [SerializeField] private TextMeshProUGUI quantityText;
     private InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
-    private Transformer currentTransformer => Transformer.currentOpen;
+    private TransformerBase currentTransformer => TransformerBase.currentOpen;
     private int quantity => currentTransformer.fuelSlot.quantity;
+    private void Awake()
+    {
+        ins = this;
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
         if (iih.isItemMoving)
@@ -20,7 +25,7 @@ public class FuelSlotUI : MonoBehaviour, IPointerClickHandler
             var moving = iih.movingItem;
             var movingName = moving.movingItem.itemName;
 
-            if (currentTransformer.fuelSlot == null || currentTransformer.fuelSlot.quantity == 0)
+            if (currentTransformer.fuelSlot.fuel == null || currentTransformer.fuelSlot.quantity == 0)
             {
                 if (!(moving.movingItem is IFuel)) return;
 
@@ -32,7 +37,7 @@ public class FuelSlotUI : MonoBehaviour, IPointerClickHandler
             }
 
             var fuelItem = currentTransformer.fuelSlot.fuel;
-            if (movingName == (fuelItem as Item).name)
+            if (movingName == (fuelItem as Item).itemName)
             {
                 var odd = currentTransformer.AddFuel(fuelItem, moving.quantity);
                 Inventory.ins.Remove(moving.movingItem.itemName, moving.quantity - odd);
@@ -57,11 +62,11 @@ public class FuelSlotUI : MonoBehaviour, IPointerClickHandler
             icon.gameObject.SetActive(false);
             return;
         };
-        Debug.Log(quantity);
         if (quantity <= 0) icon.gameObject.SetActive(false);
         else
         {
             icon.gameObject.SetActive(true);
+            icon.texture = (currentTransformer.fuelSlot.fuel as Item).icon;
             quantityText.text = quantity.ToString();
         }
     }

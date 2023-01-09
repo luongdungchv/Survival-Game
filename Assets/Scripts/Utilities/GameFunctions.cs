@@ -13,13 +13,13 @@ public class GameFunctions : MonoBehaviour
     private void Awake()
     {
         if (ins == null) ins = this;
-
+        idOccupation = new HashSet<string>();
+        randObj = new CustomRandom(MapGenerator.ins.seed);
     }
     private void Start()
     {
         //HideCursor();
-        idOccupation = new HashSet<string>();
-        randObj = new CustomRandom(MapGenerator.ins.seed);
+
 
     }
     private void Update()

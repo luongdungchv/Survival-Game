@@ -7,11 +7,16 @@ using UnityEngine.UI;
 
 public class CookInputSlotUI : MonoBehaviour, IPointerClickHandler
 {
+    public static CookInputSlotUI ins;
     [SerializeField] private RawImage icon;
     [SerializeField] private TextMeshProUGUI quantityText;
     private InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
-    private Transformer currentTransformer => Transformer.currentOpen;
+    private TransformerBase currentTransformer => TransformerBase.currentOpen;
     private int quantity => currentTransformer.inputSlot.quantity;
+    private void Awake()
+    {
+        ins = this;
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
         if (iih.isItemMoving)
@@ -20,18 +25,20 @@ public class CookInputSlotUI : MonoBehaviour, IPointerClickHandler
             var moving = iih.movingItem;
             var movingName = moving.movingItem.itemName;
 
-            if (currentTransformer.inputSlot == null || currentTransformer.inputSlot.quantity == 0)
+            if (currentTransformer.inputSlot.inputItem == null || currentTransformer.inputSlot.quantity == 0)
             {
                 if (!(moving.movingItem is ITransformable)) return;
                 currentTransformer.SetInput(moving.movingItem as ITransformable, moving.quantity);
+                Debug.Log($"moving quantity: {moving.quantity}");
                 Inventory.ins.Remove(movingName, moving.quantity);
                 moving.quantity = 0;
                 CheckIconVisibility();
                 icon.texture = moving.icon;
+                return;
             }
 
             var inputItem = currentTransformer.inputSlot.inputItem;
-            if (movingName == (inputItem as Item).name)
+            if (movingName == (inputItem as Item).itemName)
             {
                 var odd = currentTransformer.AddInput(inputItem, moving.quantity);
                 Inventory.ins.Remove(moving.movingItem.itemName, moving.quantity - odd);
@@ -58,24 +65,10 @@ public class CookInputSlotUI : MonoBehaviour, IPointerClickHandler
         if (quantity <= 0) icon.gameObject.SetActive(false);
         else
         {
+            icon.texture = (currentTransformer.inputSlot.inputItem as Item).icon;
             icon.gameObject.SetActive(true);
             quantityText.text = quantity.ToString();
         }
     }
-    // public void SetTransformer(Transformer a)
-    // {
-    //     this.currentTransformer = a;
-    // }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

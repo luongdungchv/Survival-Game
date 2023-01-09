@@ -36,7 +36,7 @@ public class Inventory : MonoBehaviour
         InventoryInteractionHandler.InitAllInstances();
         Add("furnace", 1);
         Add("craft_table", 1);
-        Add(testItem, 1);
+        Add("iron_axe", 1);
         Add(testItem2, 64);
         Add(testItem3, 64);
         Add("gold_ore", 64);

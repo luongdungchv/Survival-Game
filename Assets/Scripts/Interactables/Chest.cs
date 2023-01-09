@@ -15,7 +15,7 @@ public class Chest : InteractableObject
     {
         Destroy(clicker.gameObject);
         var openChestPacket = new ObjectInteractionPacket(PacketType.ChestInteraction);
-        openChestPacket.WriteData(Client.ins.clientId, netObj.id, "open");
+        openChestPacket.WriteData(Client.ins.clientId, netObj.id, "open", null);
         Client.ins.SendTCPPacket(openChestPacket);
     }
     IEnumerator LerpOpenChest()

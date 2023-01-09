@@ -32,6 +32,7 @@ public class TCP
             stream = socket.GetStream();
             buffer = new byte[bufferSize];
             TCPReadAsync();
+
         }
         catch (Exception e)
         {

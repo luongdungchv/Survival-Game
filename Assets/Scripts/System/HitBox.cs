@@ -18,6 +18,7 @@ public class HitBox : MonoBehaviour
 
     public void DetectHit()
     {
+
         var worldScale = transform.lossyScale;
         var hitboxWorldSize = new Vector3(hitbox.size.x * worldScale.x, hitbox.size.y * worldScale.y, hitbox.size.z * worldScale.z);
         var halfExtents = hitboxWorldSize / 2;
@@ -28,18 +29,16 @@ public class HitBox : MonoBehaviour
         var hits = Physics.BoxCastAll(origin, halfExtents, transform.right, transform.rotation, size, mask);
         if (hits != null && hits.Length > 0)
         {
-
+            var canBreak = false;
             foreach (var hit in hits)
-            {
-                OnHitDetect(hit);
-            }
-            return;
+                if (OnHitDetect(hit)) canBreak = true;
+            if (canBreak) return;
         }
         OnNoHitDetect();
     }
-    protected virtual void OnHitDetect(RaycastHit hit)
+    protected virtual bool OnHitDetect(RaycastHit hit)
     {
-
+        return false;
     }
     protected virtual void OnNoHitDetect()
     {
@@ -54,8 +53,8 @@ public class PlayerHitData : IHitData
 {
     public float damage;
     public string atkTool;
-    public HitBox dealer;
-    public PlayerHitData(float damage, string atkTool, HitBox dealer)
+    public PlayerStats dealer;
+    public PlayerHitData(float damage, string atkTool, PlayerStats dealer)
     {
         this.damage = damage;
         this.atkTool = atkTool;

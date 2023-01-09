@@ -8,7 +8,8 @@ public class PlayerSpawner : MonoBehaviour
     IEnumerator Start()
     {
         yield return null;
-        var randObj = new CustomRandom(MapGenerator.ins.seed + int.Parse(Client.ins.clientId));
+        //var randObj = new CustomRandom(MapGenerator.ins.seed + int.Parse(Client.ins.clientId));
+        var randObj = new CustomRandom(MapGenerator.ins.seed);
         var castPos = new Vector3(randObj.NextFloat(100, 1400), 100, randObj.NextFloat(100, 1400));
 
         var terrainTypes = MapGenerator.ins.terrainTypes;
@@ -21,7 +22,7 @@ public class PlayerSpawner : MonoBehaviour
         cast = !cast || (cast && hit.point.y < skipHeight) ? false : true;
         while (!cast)
         {
-            castPos = new Vector3(randObj.NextFloat(100, 1400), 100, randObj.NextFloat(100, 1400));
+            castPos = new Vector3(randObj.NextFloat(100, 1400) + int.Parse(Client.ins.clientId) * 15, 100, randObj.NextFloat(100, 1400));
             cast = Physics.Raycast(castPos, Vector3.down, out hit, 100, mask);
             cast = !cast || (cast && hit.point.y < skipHeight) ? false : true;
         }

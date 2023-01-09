@@ -26,7 +26,7 @@ public class Client : MonoBehaviour
     {
         if (ins == null) ins = this;
         Debug.Log(NetworkPrefab.instanceCount);
-
+        field.text = "12345";
     }
 
     void Start()

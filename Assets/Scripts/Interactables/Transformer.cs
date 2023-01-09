@@ -1,44 +1,74 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Transformer : InteractableObject
+public class Transformer : TransformerBase
 {
-    public static Transformer currentOpen;
-    public InputSlot inputSlot;
-    public FuelSlot fuelSlot;
-    public OutputSlot outputSlot;
-    [SerializeField] private int maxInputCap, maxOutputCap;
-
+    //TODO: Transformer server client decision system
+    [SerializeField] private float syncRate;
+    float elapsed = 0;
     private Coroutine cookRoutine;
-    private bool isInCookingState;
-    private bool isItemInCook;
-    private int currentUnitCount;
-    private float currentEfficiency;
-    private int cookedUnit;
+    private FurnaceUpdatePacket updatePacket = new FurnaceUpdatePacket();
+    protected override void Awake()
+    {
+        if (!Client.ins.isHost)
+        {
+            Destroy(this);
+            return;
+        }
+        base.Awake();
 
-    // Update is called once per frame
+    }
+    private IEnumerator Start()
+    {
+        yield return null;
+        updatePacket.playerId = Client.ins.clientId;
+        updatePacket.objId = GetComponentInParent<NetworkSceneObject>().id;
+    }
     protected override void OnInteractBtnClick(Button clicker)
     {
         currentOpen = this;
-        UIManager.ins.ToggleFurnaceUI(this);
+        UIManager.ins.ToggleFurnaceUI();
         base.OnInteractBtnClick(clicker);
     }
-    public float GetCookProgress()
+    protected override void Update()
     {
-        if (inputSlot == null) return 0;
-        var val = Mathf.InverseLerp(0, inputSlot.inputItem.cookability, cookedUnit);
-        return val;
-    }
-    public float GetRemainingUnit()
-    {
-        if (fuelSlot == null) return 0;
-        var val = Mathf.InverseLerp(0, fuelSlot.fuel.durability, this.currentUnitCount);
-        return val;
+        base.Update();
+        if (Client.ins.isHost)
+        {
+            if (elapsed >= syncRate)
+            {
+                updatePacket.inputCount = inputSlot.quantity;
+                updatePacket.fuelCount = fuelSlot.quantity;
+                updatePacket.outputCount = outputSlot.quantity;
+
+                var inputItemName = inputSlot.inputItem == null ? "" : (inputSlot.inputItem as Item).itemName;
+                var fuelItemName = fuelSlot.fuel == null ? "" : (fuelSlot.fuel as Item).itemName;
+                var outputItemName = outputSlot.item == null ? "" : outputSlot.item.itemName;
+
+                updatePacket.inputItem = inputItemName == updatePacket.inputItem
+                            ? "" : inputItemName;
+
+                updatePacket.fuelItem = fuelItemName == updatePacket.fuelItem
+                ? "" : fuelItemName;
+
+                updatePacket.outputItem = outputItemName == updatePacket.outputItem
+                ? "" : outputItemName;
+
+                updatePacket.cookedUnit = cookedUnit;
+                updatePacket.remainingUnit = remainingUnit;
+
+                Client.ins.SendUDPPacket(updatePacket);
+                elapsed = 0;
+            }
+            elapsed += Time.deltaTime;
+        }
+
     }
 
-    public void SetInput(ITransformable inputItem, int quantity)
+    public override void SetInput(ITransformable inputItem, int quantity)
     {
         var redundant = quantity - maxInputCap;
 
@@ -71,15 +101,15 @@ public class Transformer : InteractableObject
         }
 
     }
-    public void RetrieveInput(int quantity)
+    public override void RetrieveInput(int quantity)
     {
         inputSlot.quantity -= quantity;
     }
-    public void RetrieveFuel(int quantity)
+    public override void RetrieveFuel(int quantity)
     {
         fuelSlot.quantity -= quantity;
     }
-    public void RetrieveOutput(int quantity)
+    public override void RetrieveOutput(int quantity)
     {
         outputSlot.quantity -= quantity;
         if (outputSlot.quantity <= 0 && inputSlot.quantity > 0 && !isInCookingState)
@@ -87,9 +117,9 @@ public class Transformer : InteractableObject
             cookRoutine = StartCoroutine(CookEnum());
         }
     }
-    public int AddInput(ITransformable additionalItem, int quantity)
+    public override int AddInput(ITransformable additionalItem, int quantity)
     {
-        if (inputSlot == null) return 0;
+        if (inputSlot == null || inputSlot.inputItem == null) return 0;
         var currentItem = inputSlot.inputItem as Item;
         var addItem = additionalItem as Item;
         int redundant = 0;
@@ -111,7 +141,7 @@ public class Transformer : InteractableObject
         UIManager.ins.RefreshFurnaceUI();
 
     }
-    public void SetFuel(IFuel fuel, int quantity)
+    public override void SetFuel(IFuel fuel, int quantity)
     {
         fuelSlot = new FuelSlot()
         {
@@ -121,10 +151,10 @@ public class Transformer : InteractableObject
         currentEfficiency = fuel.efficiency;
         if (!isInCookingState) cookRoutine = StartCoroutine(CookEnum());
     }
-    public int AddFuel(IFuel fuel, int quantity)
+    public override int AddFuel(IFuel fuel, int quantity)
     {
-        if (fuelSlot == null) return 0;
-        var currentItem = inputSlot.inputItem as Item;
+        if (fuelSlot == null || fuelSlot.fuel == null) return 0;
+        var currentItem = fuelSlot.fuel as Item;
         var addItem = fuel as Item;
         var redundant = 0;
         if (currentItem.itemName == addItem.itemName)
@@ -146,13 +176,14 @@ public class Transformer : InteractableObject
         while (true)
         {
             if (inputSlot == null || outputSlot == null || fuelSlot == null) break;
-            if (fuelSlot.quantity <= 0 && currentUnitCount == 0 && cookedUnit == 0) break;
+            if (inputSlot.inputItem == null || outputSlot.item == null || fuelSlot.fuel == null) break;
+            if (fuelSlot.quantity <= 0 && remainingUnit == 0 && cookedUnit == 0) break;
             if (outputSlot.quantity == maxOutputCap || (inputSlot.quantity == 0 && !isItemInCook)) break;
 
-            if (currentUnitCount == 0 && fuelSlot.quantity > 0)
+            if (remainingUnit == 0 && fuelSlot.quantity > 0)
             {
                 fuelSlot.quantity--;
-                currentUnitCount = fuelSlot.fuel.durability;
+                remainingUnit = fuelSlot.fuel.durability;
             }
             if (!isItemInCook)
             {
@@ -169,7 +200,7 @@ public class Transformer : InteractableObject
                 }
                 else
                 {
-                    currentUnitCount--;
+                    remainingUnit--;
                     cookedUnit++;
                 }
             }
@@ -177,21 +208,5 @@ public class Transformer : InteractableObject
             yield return new WaitForSeconds(currentEfficiency);
         }
         isInCookingState = false;
-    }
-    public class InputSlot
-    {
-        public ITransformable inputItem;
-        public int quantity;
-    }
-    [System.Serializable]
-    public class OutputSlot
-    {
-        public Item item;
-        public int quantity;
-    }
-    public class FuelSlot
-    {
-        public IFuel fuel;
-        public int quantity;
     }
 }
