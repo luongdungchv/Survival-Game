@@ -15,15 +15,17 @@ public class ItemDropObject : MonoBehaviour, IDamagable
         hp -= incomingDmg;
         if (hp <= 0)
         {
-            var drop = itemBase.Drop(transform.position + Vector3.up * 3, Random.Range(minDrop, maxDrop + 1));
-
+            if (Client.ins.isHost)
+            {
+                var drop = itemBase.Drop(transform.position + Vector3.up * 3, Random.Range(minDrop, maxDrop + 1));
+            }
             Destroy(this.gameObject);
         }
     }
     public void OnDamage(IHitData hitData)
     {
         var playerHitData = hitData as PlayerHitData;
-        Debug.Log(playerHitData.damage);
+        //        Debug.Log(playerHitData.damage);
         OnDamage(playerHitData.damage, playerHitData.atkTool);
     }
 }

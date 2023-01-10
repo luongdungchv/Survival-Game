@@ -5,16 +5,12 @@ using UnityEngine;
 public class NetworkPrefab : MonoBehaviour
 {
     public static int instanceCount = 0;
-    public NetworkPrefab()
-    {
-        instanceCount++;
-    }
-    ~NetworkPrefab()
-    {
-        instanceCount--;
-    }
-    private void OnValidate()
-    {
 
+    private void Awake()
+    {
+        if (!gameObject.TryGetComponent<NetworkSceneObject>(out var netSceneObj))
+        {
+            this.gameObject.AddComponent<NetworkSceneObject>();
+        }
     }
 }

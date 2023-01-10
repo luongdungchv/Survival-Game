@@ -1,29 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class NetworkAttack : MonoBehaviour
 {
     private InputReceiver inputReceiver;
-    private AttackPattern pattern;
-    private int attackIndex = -1;
+    [SerializeField] private AttackPattern pattern;
+    public int attackIndex = -1;
     private bool isInAttackingPhase;
     private Coroutine mouseWaitCountdown, animCountdown;
+    private NetworkStateManager stateManager;
 
     private PlayerAnimation animSystem => GetComponent<PlayerAnimation>();
     private void Awake()
     {
+        stateManager = GetComponent<NetworkStateManager>();
         inputReceiver = GetComponent<InputReceiver>();
     }
     public void ResetAttack()
     {
         attackIndex = -1;
+        stateManager.Attack.SetLock("Idle", false);
         animSystem.CancelAttack(pattern.type);
     }
     public void AttackServer()
     {
 
-        var init = GetComponent<NetworkStateManager>();
+
         IEnumerator AnimationCountdown()
         {
             var delay = pattern.resetDelay[attackIndex == pattern.attackCount - 1 ? 0 : attackIndex + 1];
@@ -53,9 +57,11 @@ public class NetworkAttack : MonoBehaviour
         }
         IEnumerator WaitForClick(float duration)
         {
-            init.Attack.lockState = true;
+            //init.Attack.lockState = true;
+            stateManager.Attack.LockAllTransitions();
             yield return new WaitForSeconds(duration);
-            init.Attack.lockState = false;
+            stateManager.Attack.UnlockAllTransitions();
+            stateManager.Attack.SetLock("Idle", true);
         }
         if (inputReceiver.attack)
         {

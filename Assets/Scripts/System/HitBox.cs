@@ -44,6 +44,10 @@ public class HitBox : MonoBehaviour
     {
 
     }
+    private void OnDestroy()
+    {
+        OnNoHitDetect();
+    }
 }
 public interface IHitData
 {

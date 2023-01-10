@@ -12,28 +12,29 @@ public class PlayerHitBox : HitBox
             hitVfx.transform.position = hit.point;
             hitVfx.Play();
             CamShake.ins.Shake();
+            string currentTool = PlayerAttack.ins.currentWieldName;
+            float currentBaseDmg = PlayerAttack.ins.currentBaseDmg;
             if (Client.ins.isHost)
             {
-                string currentTool = PlayerAttack.ins.currentWieldName;
-                float currentBaseDmg = PlayerAttack.ins.currentBaseDmg;
+                // string currentTool = PlayerAttack.ins.currentWieldName;
+                // float currentBaseDmg = PlayerAttack.ins.currentBaseDmg;
                 PlayerDmgDealer.ins.SetProps(currentBaseDmg, currentTool, GetComponentInParent<PlayerStats>(), target);
                 PlayerDmgDealer.ins.Excute();
             }
-            else
-            {
-                var hitPacket = new ObjectInteractionPacket(PacketType.TreeInteraction);
-                hitPacket.playerId = Client.ins.clientId;
 
-                string currentTool = PlayerAttack.ins.currentWieldName;
-                float currentBaseDmg = PlayerAttack.ins.currentBaseDmg;
-                hitPacket.objId = hit.collider.GetComponent<NetworkSceneObject>().id;
-                hitPacket.actionParams = new string[]{
+            var hitPacket = new ObjectInteractionPacket(PacketType.ItemDropObjInteraction);
+            hitPacket.playerId = Client.ins.clientId;
+
+
+            hitPacket.objId = hit.collider.GetComponent<NetworkSceneObject>().id;
+            hitPacket.action = "take_dmg";
+            hitPacket.actionParams = new string[]{
                     currentTool,
                     currentBaseDmg.ToString(),
                 };
 
-                Client.ins.SendTCPPacket(hitPacket);
-            }
+            Client.ins.SendTCPPacket(hitPacket);
+
             return true;
         }
         return false;

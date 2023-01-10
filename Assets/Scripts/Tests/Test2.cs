@@ -4,16 +4,11 @@ using UnityEngine;
 
 public class Test2 : MonoBehaviour
 {
-    public bool b;
-    // Start is called before the first frame update
-    void Start()
+    public NetworkPrefab prefab;
+    private void Start()
     {
-        b = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (b) Debug.Log("b");    
+        var a = Instantiate(prefab);
+        a.GetComponent<NetworkSceneObject>().id = "23423";
+        Debug.Log(a.GetComponent<NetworkSceneObject>().id);
     }
 }

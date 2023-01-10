@@ -28,7 +28,13 @@ public class ItemDrop : InteractableObject
     {
         base.OnInteractBtnClick(clicker);
         if (Inventory.ins.Add(itemBase, quantity))
+        {
+            var netSceneObj = GetComponentInParent<NetworkSceneObject>();
+            netSceneObj.DestroyObject();
+            Debug.Log(netSceneObj.id);
             Destroy(this.transform.parent.gameObject);
+        }
+
     }
     public void SetQuantity(int quantity)
     {

@@ -17,7 +17,6 @@ public class TransformerClient : TransformerBase
     }
     protected override void OnInteractBtnClick(Button clicker)
     {
-        Debug.Log("click");
         currentOpen = this;
         UIManager.ins.ToggleFurnaceUI();
         base.OnInteractBtnClick(clicker);

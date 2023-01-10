@@ -62,7 +62,7 @@ public class PlayerAttack : MonoBehaviour
             attackIndex++;
 
             int fxIndex = attackIndex;
-            Debug.Log(fxIndex);
+            //            Debug.Log(fxIndex);
 
             animManager.PerformAttack(fxIndex, pattern.type);
 
@@ -98,7 +98,7 @@ public class PlayerAttack : MonoBehaviour
     //Used as animation event
     public void DetectHit(int hitIndex)
     {
-        pattern.DetectHit(hitIndex);
+        if (GetComponent<NetworkPlayer>().isLocalPlayer) pattern.DetectHit(hitIndex);
     }
     public void SetAtkPattern(AttackPattern pattern)
     {

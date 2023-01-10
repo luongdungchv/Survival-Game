@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Security;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Video;
 
 [CreateAssetMenu(fileName = "New State", menuName = "State")]
 public class State : ScriptableObject
@@ -54,5 +55,19 @@ public class State : ScriptableObject
     {
         if (!lockTransitions.ContainsKey(stateName)) return true;
         return lockTransitions[stateName];
+    }
+    public void LockAllTransitions()
+    {
+        foreach (var i in transitions)
+        {
+            lockTransitions[i.name] = true;
+        }
+    }
+    public void UnlockAllTransitions()
+    {
+        foreach (var i in transitions)
+        {
+            lockTransitions[i.name] = false;
+        }
     }
 }

@@ -27,7 +27,9 @@ public class NetworkManager : MonoBehaviour
         handler.AddHandler(PacketType.ChestInteraction, HandleChestInteraction);
         handler.AddHandler(PacketType.FurnaceServerUpdate, HandleFurnaceServerUpdate);
         handler.AddHandler(PacketType.FurnaceClientMsg, HandleFurnaceClientMsg);
-        handler.AddHandler(PacketType.TreeInteraction, HandleTreeInteraction);
+        handler.AddHandler(PacketType.ItemDropObjInteraction, HandleTreeInteraction);
+        handler.AddHandler(PacketType.DestroyObject, HandleDestroyObject);
+        handler.AddHandler(PacketType.ItemDrop, HandleDropItem);
     }
     private void Awake()
     {
@@ -44,7 +46,6 @@ public class NetworkManager : MonoBehaviour
         }
         catch
         {
-            Debug.Log(_packet.GetString());
         }
     }
     private void HandleSpawnPlayer(Packet _packet)
@@ -98,6 +99,28 @@ public class NetworkManager : MonoBehaviour
             client.SendTCPPacket(packet);
         }
     }
+    public void DropItemServer(NetworkPrefab prefab, Vector3 position, string itemBase, int quantity)
+    {
+
+    }
+    public void HandleDropItem(Packet _packet)
+    {
+        var dropPacket = _packet as ItemDropPacket;
+        if (dropPacket.objSpawnId != -1)
+        {
+            var prefab = objMapper.GetPrefab(dropPacket.objSpawnId);
+            var drop = Instantiate(prefab.gameObject, dropPacket.spawnPos, Quaternion.identity).GetComponentInChildren<ItemDrop>();
+            drop.SetQuantity(dropPacket.quantity);
+            drop.SetBase(Item.GetItem(dropPacket.itemBase));
+
+            var netSceneObj = drop.GetComponentInParent<NetworkSceneObject>();
+            if (dropPacket.objId == "") dropPacket.objId = GameFunctions.ins.GenerateId();
+            netSceneObj.id = dropPacket.objId;
+            AddNetworkSceneObject(dropPacket.objId, netSceneObj);
+            if (client.isHost) client.SendTCPPacket(dropPacket);
+        }
+
+    }
     public void HandleSpawnObject(Packet _packet)
     {
         var spawnInfo = _packet as SpawnObjectPacket;
@@ -105,6 +128,16 @@ public class NetworkManager : MonoBehaviour
         if (client.isHost)
         {
             client.SendTCPPacket(spawnInfo);
+        }
+    }
+    public void HandleDestroyObject(Packet _packet)
+    {
+        var packet = _packet as ObjectInteractionPacket;
+        var objId = packet.objId;
+        Debug.Log("Destroy Msg: " + packet.GetString());
+        if (sceneObjects.ContainsKey(objId))
+        {
+            Destroy(sceneObjects[objId].gameObject);
         }
     }
     public void HandleChangeEquipment(Packet _packet)
@@ -250,7 +283,9 @@ public class NetworkManager : MonoBehaviour
     }
     public void AddNetworkSceneObject(string id, NetworkSceneObject obj)
     {
-        sceneObjects.Add(id, obj);
+        if (sceneObjects.ContainsKey(id))
+            sceneObjects[id] = obj;
+        else sceneObjects.Add(id, obj);
     }
     public NetworkSceneObject GetNetworkSceneObject(string id)
     {

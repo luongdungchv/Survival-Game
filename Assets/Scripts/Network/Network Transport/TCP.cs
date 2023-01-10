@@ -78,6 +78,7 @@ public class TCP
                 byte[] data = new byte[dataLength];
                 Array.Copy(buffer, data, dataLength);
                 string msg = Encoding.ASCII.GetString(data);
+                Debug.Log(msg);
                 handler.HandleMessage(msg);
             }
             catch (Exception e)

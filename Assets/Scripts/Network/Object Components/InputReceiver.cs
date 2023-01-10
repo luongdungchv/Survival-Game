@@ -20,6 +20,10 @@ public class InputReceiver : MonoBehaviour
     {
 
     }
+    public void Test()
+    {
+
+    }
     public void HandleInput(InputPacket _packet)
     {
         if (_packet.sprint && !this.sprint && !isDashDelaying)

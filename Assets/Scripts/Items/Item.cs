@@ -24,10 +24,30 @@ public class Item : MonoBehaviour
     {
         if (quantity <= 0) return null;
         if (!stackable) quantity = 1;
-        var drop = Instantiate(dropPrefab, dropPos, Quaternion.identity).GetComponentInChildren<ItemDrop>();
-        drop.gameObject.SetActive(true);
-        drop.SetQuantity(quantity);
-        drop.SetBase(this);
+        ItemDrop drop = null;
+
+        var objSpawnId = ObjectMapper.ins.GetPrefabIndex(dropPrefab.GetComponent<NetworkPrefab>());
+        var dropPacket = new ItemDropPacket()
+        {
+            objSpawnId = objSpawnId,
+            spawnPos = dropPos,
+            itemBase = this.itemName,
+            quantity = quantity
+        };
+
+        if (Client.ins.isHost)
+        {
+            var dropNetObj = Instantiate(dropPrefab, dropPos, Quaternion.identity).GetComponent<NetworkSceneObject>();
+            dropNetObj.GenerateId();
+
+            drop = dropNetObj.GetComponentInChildren<ItemDrop>();
+            drop.gameObject.SetActive(true);
+            drop.SetQuantity(quantity);
+            drop.SetBase(this);
+            dropPacket.objId = dropNetObj.id;
+            Debug.Log("objId " + dropPacket.objId);
+        }
+        Client.ins.SendTCPPacket(dropPacket);
         return drop;
     }
 }

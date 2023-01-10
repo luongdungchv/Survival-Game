@@ -26,6 +26,7 @@ public class InteractableObject : MonoBehaviour
     public bool TouchDetect(RaycastHit target)
     {
         if (!interactable) return false;
+        if (isPlayerTouch) return true;
         if (target.collider.tag == "Player" && !isPlayerTouch)
         {
             var netPlayer = target.collider.GetComponent<NetworkPlayer>();

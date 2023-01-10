@@ -43,11 +43,11 @@ public class NetworkPlayer : NetworkObject
         var _position = packet.position;
         var moveDir = _position - lastPosition;
 
-        if (moveDir.magnitude < 0.01) moveDir = Vector3.zero;
-        if (moveDir != Vector3.zero && id == "1")
-        {
-            Debug.Log($"{_position} {moveDir.magnitude}");
-        }
+        if (moveDir.magnitude < 0.006) moveDir = Vector3.zero;
+        // if (moveDir != Vector3.zero && id == "1")
+        // {
+        //     Debug.Log($"{_position} {moveDir.magnitude}");
+        // }
 
         if (moveDir != Vector3.zero)
         {
@@ -68,6 +68,7 @@ public class NetworkPlayer : NetworkObject
         }
         else
         {
+            rb.velocity = Vector3.zero;
             if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
         }
         if (TryGetComponent<PlayerMovement>(out var movement))

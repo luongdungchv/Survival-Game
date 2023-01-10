@@ -10,11 +10,13 @@ public class GameFunctions : MonoBehaviour
     [SerializeField] private Transform interactBtnContainer;
     private HashSet<string> idOccupation;
     private CustomRandom randObj;
+    //public bool test;
     private void Awake()
     {
         if (ins == null) ins = this;
         idOccupation = new HashSet<string>();
         randObj = new CustomRandom(MapGenerator.ins.seed);
+        //randObj = new CustomRandom(2);
     }
     private void Start()
     {

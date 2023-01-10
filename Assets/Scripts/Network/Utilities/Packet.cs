@@ -36,7 +36,6 @@ public class Packet
                 {
                     var packet = new InputPacket();
                     packet.WriteData(msg);
-                    if (packet.atk) Debug.Log("attack");
                     return packet;
                 }
             case PacketType.SpawnObject:
@@ -64,8 +63,15 @@ public class Packet
                     packet.WriteData(msg);
                     return packet;
                 }
+            case PacketType.ItemDrop:
+                {
+                    var packet = new ItemDropPacket();
+                    packet.WriteData(msg);
+                    return packet;
+                }
             default:
                 {
+                    //                    Debug.Log("msg: " + msg);
                     var packet = new ObjectInteractionPacket(parsedCmd);
                     packet.WriteData(msg);
                     return packet;
@@ -277,8 +283,8 @@ public class ObjectInteractionPacket : Packet
         {
             this.playerId = split[1];
             this.objId = split[2];
-            this.action = split[3];
-            this.actionParams = split.Length > 3 ? split[4].Split('|') : null;
+            this.action = split.Length > 3 ? split[3] : "";
+            this.actionParams = split.Length > 4 ? split[4].Split('|') : new string[0];
         }
     }
 }
@@ -348,8 +354,34 @@ public class FurnaceClientMsgPacket : Packet
         {
             this.playerId = split[1];
             this.objId = split[2];
-            this.action = split[3];
-            this.actionParams = split[4].Split('|');
+            this.action = split.Length > 3 ? split[3] : "";
+            this.actionParams = split.Length > 4 ? split[4].Split('|') : new string[0];
+        }
+    }
+}
+public class ItemDropPacket : Packet
+{
+    public ItemDropPacket()
+    {
+        this.command = PacketType.ItemDrop;
+    }
+    public int objSpawnId;
+    public Vector3 spawnPos;
+    public string itemBase;
+    public int quantity;
+    public string objId;
+    public override string GetString()
+        => $"{(int)this.command} {objSpawnId} {(int)spawnPos.x} {(int)spawnPos.y} {(int)spawnPos.z} {itemBase} {quantity} {objId}";
+    public void WriteData(string msg)
+    {
+        var split = msg.Split(' ');
+        if (int.Parse(split[0]) == (int)this.command)
+        {
+            this.objSpawnId = int.Parse(split[1]);
+            this.spawnPos = new Vector3(int.Parse(split[2]), int.Parse(split[3]), int.Parse(split[4]));
+            this.itemBase = split[5];
+            this.quantity = int.Parse(split[6]);
+            this.objId = split.Length > 7 ? split[7] : "";
         }
     }
 }
@@ -358,6 +390,7 @@ public enum PacketType
     MovePlayer,
     SpawnPlayer, StartGame, Input, SpawnObject, UpdateEquipping,
     FurnaceServerUpdate, FurnaceClientMsg,
-    ChestInteraction, TreeInteraction, OreInteraction
+    ItemDrop,
+    ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject
 
 }

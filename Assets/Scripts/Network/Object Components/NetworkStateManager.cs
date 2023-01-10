@@ -66,7 +66,6 @@ public class NetworkStateManager : MonoBehaviour
         Sprint.OnUpdate.AddListener(() =>
         {
             netMovement.MoveServer();
-            Debug.Log("sprinting");
         });
         SwimIdle.OnUpdate.AddListener(netSwim.SwimDetect);
         SwimNormal.OnUpdate.AddListener(netSwim.SwimServer);
@@ -86,15 +85,15 @@ public class NetworkStateManager : MonoBehaviour
         {
             equipmentSystem.Use();
         }
-
-        else if (inputVector == Vector2.zero)
-        {
-            fsm.ChangeState(Idle);
-        }
         else if (inputVector != Vector2.zero)
         {
             if (inputReceiver.sprint) fsm.ChangeState(Sprint);
             else fsm.ChangeState(Move);
+        }
+
+        else if (inputVector == Vector2.zero)
+        {
+            fsm.ChangeState(Idle);
         }
 
         if (inputReceiver.jumpPress)
