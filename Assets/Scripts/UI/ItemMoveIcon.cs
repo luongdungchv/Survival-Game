@@ -15,7 +15,7 @@ public class ItemMoveIcon : MonoBehaviour
     public int sourceIndex => sourceSlot.itemIndex;
     public InventorySlotUI sourceSlot;
     public Canvas canvas;
-    public Texture2D _icon;
+    private Texture2D _icon;
     public Texture2D icon
     {
         get => _icon;

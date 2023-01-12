@@ -19,7 +19,12 @@ public class NetworkEquipment : MonoBehaviour
     }
     public void SetRightHandItem(Item item)
     {
-
+        if (item == null)
+        {
+            if (rightHandItem != null) itemMapper[rightHandItem.itemName].SetActive(false);
+            this.rightHandItem = null;
+            return;
+        }
         if (rightHandItem != null) itemMapper[rightHandItem.itemName].SetActive(false);
         this.rightHandItem = item;
         itemMapper[rightHandItem.itemName].SetActive(true);

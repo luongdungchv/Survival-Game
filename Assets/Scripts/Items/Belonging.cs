@@ -16,6 +16,12 @@ public class Belonging : Item, IEquippable, IUsable, ICraftable
         var placer = placerObj.GetComponent<Placer>();
         placer.ConfirmPosition();
         Inventory.ins.Remove(itemIndex, 1);
+        if (!Client.ins.isHost)
+        {
+            var packet = new UpdateEquippingPacket();
+            packet.WriteData(Client.ins.clientId, "0");
+            Client.ins.SendTCPPacket(packet);
+        }
     }
     public void OnUse(NetworkPlayer netUser)
     {

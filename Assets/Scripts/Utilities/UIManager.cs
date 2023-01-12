@@ -55,6 +55,7 @@ public class UIManager : MonoBehaviour
         GameFunctions.ins.ToggleCursor(isUIOpen);
         if (isUIOpen) craftUIHandler.SetAsOpen();
         craftUIHandler.UpdateUI();
+        craftUIHandler.CheckAndDropItem();
         craftUIHandler.ChangeMoveIconQuantity(0);
     }
     public void ToggleAnvilUI()
@@ -80,8 +81,9 @@ public class UIManager : MonoBehaviour
             Transformer.currentOpen = null;
         }
         furnaceUIHandler.UpdateUI();
+        furnaceUIHandler.CheckAndDropItem();
         furnaceUIHandler.ChangeMoveIconQuantity(0);
-        Debug.Log("click2");
+        // Debug.Log("click2");
         RefreshFurnaceUI();
     }
     public void ToggleFurnaceUI(Transformer toggler)

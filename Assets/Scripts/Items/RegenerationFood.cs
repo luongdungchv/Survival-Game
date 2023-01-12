@@ -35,13 +35,28 @@ public class RegenerationFood : Item, IConsumable, IEquippable
         }
         if (regenAction)
         {
-            Inventory.ins.Remove(itemIndex, 1);
+            var remaining = Inventory.ins.Remove(itemIndex, 1);
+            if (remaining <= 0)
+            {
+                if (!Client.ins.isHost)
+                {
+                    var packet = new UpdateEquippingPacket();
+                    packet.WriteData(Client.ins.clientId, "0");
+                    Client.ins.SendTCPPacket(packet);
+                }
+            }
         }
     }
 
     public void OnEquip()
     {
         model.SetActive(true);
+        if (!Client.ins.isHost)
+        {
+            var packet = new UpdateEquippingPacket();
+            packet.WriteData(Client.ins.clientId, this.itemName);
+            Client.ins.SendTCPPacket(packet);
+        }
     }
 
     public void OnUnequip()

@@ -115,4 +115,12 @@ public class InventoryInteractionHandler : MonoBehaviour
     {
         return slots[index];
     }
+    public void CheckAndDropItem()
+    {
+        if (movingItem.sourceSlot == null && movingItem.movingItem != null && movingItem.quantity != 0)
+        {
+            Debug.Log(movingItem.quantity);
+            movingItem.movingItem.Drop(NetworkPlayer.localPlayer.transform.position + Vector3.up * 2, movingItem.quantity);
+        }
+    }
 }

@@ -27,7 +27,7 @@ public class NetworkManager : MonoBehaviour
         handler.AddHandler(PacketType.ChestInteraction, HandleChestInteraction);
         handler.AddHandler(PacketType.FurnaceServerUpdate, HandleFurnaceServerUpdate);
         handler.AddHandler(PacketType.FurnaceClientMsg, HandleFurnaceClientMsg);
-        handler.AddHandler(PacketType.ItemDropObjInteraction, HandleTreeInteraction);
+        handler.AddHandler(PacketType.ItemDropObjInteraction, HandlerItemDropObjInteraction);
         handler.AddHandler(PacketType.DestroyObject, HandleDestroyObject);
         handler.AddHandler(PacketType.ItemDrop, HandleDropItem);
     }
@@ -77,7 +77,8 @@ public class NetworkManager : MonoBehaviour
     {
         var inputPacket = _packet as InputPacket;
         var playerId = inputPacket.id;
-        playerList[playerId].GetComponent<InputReceiver>().HandleInput(inputPacket);
+        if (playerList.ContainsKey(playerId))
+            playerList[playerId].GetComponent<InputReceiver>().HandleInput(inputPacket);
     }
     public bool AddPlayer(string id, NetworkPlayer player)
     {
@@ -125,6 +126,7 @@ public class NetworkManager : MonoBehaviour
     {
         var spawnInfo = _packet as SpawnObjectPacket;
         var obj = Instantiate(objMapper.GetPrefab(spawnInfo.objSpawnId), spawnInfo.position, Quaternion.Euler(spawnInfo.rotation));
+        Debug.Log("spawn: " + spawnInfo.GetString());
         if (client.isHost)
         {
             client.SendTCPPacket(spawnInfo);
@@ -143,6 +145,7 @@ public class NetworkManager : MonoBehaviour
     public void HandleChangeEquipment(Packet _packet)
     {
         var updatePacket = _packet as UpdateEquippingPacket;
+        Debug.Log("update: " + updatePacket.GetString());
         if (playerList[updatePacket.playerId].TryGetComponent<NetworkEquipment>(out var netEquip))
         {
             netEquip.SetRightHandItem(Item.GetItem(updatePacket.itemName));
@@ -164,19 +167,19 @@ public class NetworkManager : MonoBehaviour
             client.SendTCPPacket(chestPacket);
         }
     }
-    public void HandleTreeInteraction(Packet _packet)
+    public void HandlerItemDropObjInteraction(Packet _packet)
     {
         // actionParams: tool, incomingDmg
-        var treePacket = _packet as ObjectInteractionPacket;
-        var action = treePacket.action;
+        var packet = _packet as ObjectInteractionPacket;
+        var action = packet.action;
 
-        var playerId = treePacket.playerId;
-        var tool = treePacket.actionParams[0];
-        var incomingDmg = float.Parse(treePacket.actionParams[1]);
+        var playerId = packet.playerId;
+        var tool = packet.actionParams[0];
+        var incomingDmg = float.Parse(packet.actionParams[1]);
 
 
-        var obj = sceneObjects[treePacket.objId];
-        Debug.Log("Tree packet: " + treePacket.ToString());
+        var obj = sceneObjects[packet.objId];
+        Debug.Log("Tree packet: " + packet.ToString());
         if (action == "take_dmg")
         {
             var objComponent = obj.GetComponent<ItemDropObject>();
@@ -187,7 +190,7 @@ public class NetworkManager : MonoBehaviour
         }
         if (client.isHost)
         {
-            client.SendTCPPacket(treePacket);
+            client.SendTCPPacket(packet);
         }
     }
     public void HandleFurnaceClientMsg(Packet _packet)
@@ -196,7 +199,6 @@ public class NetworkManager : MonoBehaviour
         var action = packet.action;
         var obj = sceneObjects[packet.objId].GetComponentInChildren<Transformer>();
         Debug.Log("action: " + action);
-        //// TODO: Add input, Add fuel handler
         switch (action)
         {
             case "set_input":

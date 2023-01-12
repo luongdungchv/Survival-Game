@@ -31,7 +31,8 @@ public class TCP
             Debug.Log(socket.Connected);
             stream = socket.GetStream();
             buffer = new byte[bufferSize];
-            TCPReadAsync();
+            //TCPReadAsync();
+            stream.BeginRead(buffer, 0, bufferSize, TCPReadCallback, null);
 
         }
         catch (Exception e)
@@ -51,6 +52,7 @@ public class TCP
     }
     public bool Send(string msg)
     {
+        msg += "~";
         if (stream.CanWrite)
         {
             byte[] data = Encoding.ASCII.GetBytes(msg);
@@ -78,7 +80,6 @@ public class TCP
                 byte[] data = new byte[dataLength];
                 Array.Copy(buffer, data, dataLength);
                 string msg = Encoding.ASCII.GetString(data);
-                Debug.Log(msg);
                 handler.HandleMessage(msg);
             }
             catch (Exception e)
@@ -88,5 +89,37 @@ public class TCP
                 break;
             }
         }
+    }
+    private void TCPReadCallback(IAsyncResult result)
+    {
+        try
+        {
+            var dataLength = stream.EndRead(result);
+            if (dataLength == 0)
+            {
+                Disconnect();
+                return;
+            }
+            byte[] data = new byte[dataLength];
+            Array.Copy(buffer, data, dataLength);
+            string msg = Encoding.ASCII.GetString(data);
+            Debug.Log(msg);
+            var split = msg.Split('~');
+            foreach (var i in split)
+            {
+                if (i != "")
+                {
+                    handler.HandleMessage(i);
+                }
+            }
+            stream.BeginRead(buffer, 0, bufferSize, TCPReadCallback, null);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+            Disconnect();
+        }
+
+
     }
 }

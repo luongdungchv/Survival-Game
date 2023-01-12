@@ -241,7 +241,11 @@ public class UpdateEquippingPacket : Packet
 {
     public string playerId;
     public string itemName;
-    public UpdateEquippingPacket() { this.command = PacketType.UpdateEquipping; }
+    public UpdateEquippingPacket()
+    {
+        this.command = PacketType.UpdateEquipping;
+        itemName = "0";
+    }
     public override string GetString() => $"{(int)command} {playerId} {itemName}";
     public void WriteData(string playerId, string itemName)
     {

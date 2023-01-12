@@ -55,8 +55,8 @@ public class Tool : Item, IUsable, IEquippable, ICraftable
     }
     public void OnUnequip()
     {
+        
         inHandModel.SetActive(false);
-        //PlayerAttack.ins.currentWieldName = "";
     }
 
 }

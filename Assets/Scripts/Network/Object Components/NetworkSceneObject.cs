@@ -8,7 +8,6 @@ public class NetworkSceneObject : NetworkObject
     private void Start()
     {
         if (this.id != null && this.id != "") return;
-        Debug.Log("this.id");
         GenerateId();
     }
     public void GenerateId()

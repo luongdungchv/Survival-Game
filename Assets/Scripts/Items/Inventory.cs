@@ -35,7 +35,7 @@ public class Inventory : MonoBehaviour
         //iih.Init();
         InventoryInteractionHandler.InitAllInstances();
         Add("furnace", 1);
-        Add("craft_table", 1);
+        Add("iron_pickaxe", 1);
         Add("iron_axe", 1);
         Add(testItem2, 64);
         Add(testItem3, 64);
@@ -194,11 +194,11 @@ public class Inventory : MonoBehaviour
         iih?.UpdateUI();
         return true;
     }
-    public bool Remove(int itemIndex, int quantity)
+    public int Remove(int itemIndex, int quantity)
     {
-        if (itemIndex < 0) return false;
+        if (itemIndex < 0) return -1;
         var item = items[itemIndex];
-        if (item == null || item.itemData == null) return false;
+        if (item == null || item.itemData == null) return -1;
         item.quantity -= quantity;
         if (item.quantity <= 0)
         {
@@ -207,7 +207,7 @@ public class Inventory : MonoBehaviour
         }
         iih?.UpdateUI();
         ReloadInHandModel();
-        return true;
+        return item.quantity;
     }
     public Item GetItem(int itemIndex)
     {
@@ -265,12 +265,12 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-    public bool DropItem(int itemIndex, int quantity)
+    public bool DropItem(int itemIndex, int quantity, Vector3 dropPostion)
     {
         var dropSlot = items[itemIndex];
         if (dropSlot == null) return false;
         dropSlot.quantity -= quantity;
-        dropSlot.itemData.Drop(dropPos.position, quantity);
+        dropSlot.itemData.Drop(dropPostion, quantity);
         if (dropSlot.quantity <= 0)
         {
             items[itemIndex] = null;

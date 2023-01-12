@@ -37,6 +37,7 @@ public class Item : MonoBehaviour
 
         if (Client.ins.isHost)
         {
+            Debug.Log("Dropping");
             var dropNetObj = Instantiate(dropPrefab, dropPos, Quaternion.identity).GetComponent<NetworkSceneObject>();
             dropNetObj.GenerateId();
 

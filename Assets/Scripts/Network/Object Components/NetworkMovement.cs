@@ -6,7 +6,7 @@ using UnityEngine.Scripting.APIUpdating;
 [RequireComponent(typeof(InputReceiver), typeof(Rigidbody))]
 public class NetworkMovement : MonoBehaviour
 {
-    [SerializeField] private float speed, sprintSpeed, jumpSpeed, dashSpeed;
+    [SerializeField] private float speed, sprintSpeed, jumpSpeed, dashSpeed, maxFallingSpeed = 55;
     [SerializeField] private LayerMask slopeCheckMask;
     private NetworkPlayer netPlayer;
     private InputReceiver inputReceiver;
@@ -32,7 +32,12 @@ public class NetworkMovement : MonoBehaviour
     }
     private void Update()
     {
-        //MoveServer();
+        if (rb.velocity.y < -maxFallingSpeed)
+        {
+            var vel = rb.velocity;
+            vel.y = -maxFallingSpeed;
+            rb.velocity = vel;
+        }
     }
     public void MoveServer()
     {
