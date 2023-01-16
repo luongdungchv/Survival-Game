@@ -18,7 +18,6 @@ public class HitBox : MonoBehaviour
 
     public void DetectHit()
     {
-
         var worldScale = transform.lossyScale;
         var hitboxWorldSize = new Vector3(hitbox.size.x * worldScale.x, hitbox.size.y * worldScale.y, hitbox.size.z * worldScale.z);
         var halfExtents = hitboxWorldSize / 2;
@@ -29,6 +28,7 @@ public class HitBox : MonoBehaviour
         var hits = Physics.BoxCastAll(origin, halfExtents, transform.right, transform.rotation, size, mask);
         if (hits != null && hits.Length > 0)
         {
+
             var canBreak = false;
             foreach (var hit in hits)
                 if (OnHitDetect(hit)) canBreak = true;

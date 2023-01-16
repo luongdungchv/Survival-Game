@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Note: Total number of region is 100 (max width of 150 each region)
 public class TreeSpawner : MonoBehaviour
@@ -9,6 +10,8 @@ public class TreeSpawner : MonoBehaviour
     [SerializeField] private List<Region> regions;
     [SerializeField] private float castHeight;
     [SerializeField] private LayerMask mask;
+    [SerializeField] private Image hpBarUIPrefab;
+    [SerializeField] private Canvas mainCanvas;
     //[SerializeField] private GameObject cherryPetalParticle;
     private Dictionary<Vector2Int, bool> regionsOccupation;
     private int seed;
@@ -49,6 +52,12 @@ public class TreeSpawner : MonoBehaviour
                         var tree = Instantiate(i.prefab, hit.point - Vector3.up * 1.2f, randomRotation);
                         var scale = randObj.NextFloat(i.minScale, i.maxScale);
                         tree.transform.localScale = Vector3.one * scale;
+
+                        var hpBarUI = Instantiate(hpBarUIPrefab);
+                        hpBarUI.transform.SetParent(mainCanvas.transform);
+                        var hpBarComponent = tree.GetComponentInChildren<FixedSizeUI>();
+                        hpBarComponent.SetUIElement(hpBarUI);
+                        hpBarComponent.canvas = mainCanvas;
                     }
                 }
                 sumY /= i.treesPerRegion;
