@@ -18,7 +18,7 @@ public class Client : MonoBehaviour
     [SerializeField] private string server;
     [SerializeField] private int port, tcpBufferSize;
     [SerializeField] Button joinRoomBtn;
-    [SerializeField] private TMP_InputField field;
+    [SerializeField] private TMP_InputField roomField, hostField;
     public TCP tcp;
     public UDP udp;
     public string hostName => server;
@@ -26,7 +26,8 @@ public class Client : MonoBehaviour
     {
         if (ins == null) ins = this;
         Debug.Log(NetworkPrefab.instanceCount);
-        field.text = "12345";
+        roomField.text = "12345";
+        hostField.text = "127.0.0.1";
     }
 
     void Start()
@@ -34,12 +35,8 @@ public class Client : MonoBehaviour
         tcp = new TCP(this, tcpBufferSize);
         udp = new UDP(this);
         DontDestroyOnLoad(this.gameObject);
-        joinRoomBtn.onClick.AddListener(() => JoinRoom(field.text));
+        joinRoomBtn.onClick.AddListener(() => JoinRoom(roomField.text));
         Application.runInBackground = true;
-    }
-    private void Update()
-    {
-
     }
     public void SendTCPMessage(string msg)
     {
@@ -57,6 +54,10 @@ public class Client : MonoBehaviour
     public void SendUDPPacket(Packet _packet)
     {
         udp.Send(_packet.GetString());
+    }
+    public void SendUDPConnectionInfo()
+    {
+        tcp.Send($"con {this.udp.GetSocketEP().Port}");
     }
     public void CreateRoom()
     {
@@ -82,7 +83,7 @@ public class Client : MonoBehaviour
     }
     public void ConnectToServer()
     {
-        tcp.Connect(server, port);
+        tcp.Connect(hostField.text, port);
     }
     public void SetUDPRemoteHost(int port)
     {

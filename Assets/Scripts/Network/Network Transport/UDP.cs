@@ -20,6 +20,7 @@ public class UDP
     public void Connect(string hostName, int port)
     {
         socket = new UdpClient(0);
+        Debug.Log(GetSocketEP());
         socket.Connect(hostName, port);
         this.hostName = hostName;
         this.port = port;
@@ -95,6 +96,10 @@ public class UDP
             Debug.Log(e);
             Disconnect();
         }
+    }
+    public IPEndPoint GetSocketEP()
+    {
+        return this.socket.Client.LocalEndPoint as IPEndPoint;
     }
     public void Disconnect()
     {

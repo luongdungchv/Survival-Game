@@ -8,6 +8,8 @@ public class GameFunctions : MonoBehaviour
 {
     public static GameFunctions ins;
     [SerializeField] private Transform interactBtnContainer;
+    [SerializeField] private Canvas mainCanvas;
+    private Camera mainCam => Camera.main;
     private HashSet<string> idOccupation;
     private CustomRandom randObj;
     //public bool test;
@@ -105,5 +107,25 @@ public class GameFunctions : MonoBehaviour
             idOccupation.Remove(id);
         }
     }
+    public Vector3 WorldToCanvasPosition(Vector3 worldPos, int projection)
+    {
+        var camPos = mainCam.transform.worldToLocalMatrix.MultiplyPoint(worldPos).normalized;
 
+        camPos = camPos * (projection / Mathf.Cos(Vector3.Angle(camPos, Vector3.forward) * Mathf.Deg2Rad));
+        var uiPos = camPos - Vector3.forward * projection;
+
+        var canvasPos = mainCam.ScreenToWorldPoint(new Vector3(0, 0, projection));
+        canvasPos = Camera.main.transform.worldToLocalMatrix.MultiplyPoint(canvasPos);
+        canvasPos = canvasPos - Vector3.forward * projection;
+
+        uiPos -= canvasPos;
+
+        Vector2 mouseRatio = new Vector2(uiPos.x / (Mathf.Abs(canvasPos.x) * 2), uiPos.y / (Mathf.Abs(canvasPos.y) * 2));
+        Vector2 canvasSize = mainCanvas.GetComponent<RectTransform>().position * 2;
+        // Vector2 canvasRatio = new Vector2(canvasPos.x * 2, canvasPos.y * 2);
+        uiPos.z = 0;
+        uiPos = new Vector3(canvasSize.x * mouseRatio.x, canvasSize.y * mouseRatio.y);
+
+        return uiPos;
+    }
 }

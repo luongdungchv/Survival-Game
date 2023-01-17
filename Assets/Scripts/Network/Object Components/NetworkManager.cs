@@ -70,7 +70,8 @@ public class NetworkManager : MonoBehaviour
         client.clientId = startPacket.clientId;
         client.mapSeed = client.mapSeed;
         client.SetUDPRemoteHost(startPacket.udpRemoteHost);
-        client.SendUDPMessage("con");
+        //client.SendUDPMessage("con");
+        client.SendUDPConnectionInfo();
         client.StartCoroutine(LoadSceneDelay(2));
     }
     private void HandleInput(Packet _packet)
@@ -184,7 +185,7 @@ public class NetworkManager : MonoBehaviour
         {
             var objComponent = obj.GetComponent<ItemDropObject>();
             //objComponent.OnDamage(treePacket.actionParams[0],)
-            var hitData = new PlayerHitData(incomingDmg, tool, playerList[playerId].GetComponent<PlayerStats>());
+            var hitData = new PlayerHitData(incomingDmg, tool, playerList[playerId].GetComponent<PlayerStats>(), false);
             objComponent.OnDamage(hitData);
 
         }

@@ -55,8 +55,12 @@ public class Tool : Item, IUsable, IEquippable, ICraftable
     }
     public void OnUnequip()
     {
-        
+
         inHandModel.SetActive(false);
     }
 
+}
+public enum ToolType
+{
+    Sword, Axe, Pickaxe, Knife
 }

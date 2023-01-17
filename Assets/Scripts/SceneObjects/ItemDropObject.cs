@@ -9,16 +9,20 @@ public class ItemDropObject : MonoBehaviour, IDamagable
     [SerializeField] private string[] requiredTools;
     private Item itemBase => Item.GetItem(itemName);
     private float maxHP;
+    private ObjectPool<DamagePopup> dmgPopupPool => PoolManager.ins.dmgPopupPool;
     private void Start()
     {
         maxHP = hp;
     }
-    private void OnDamage(float incomingDmg, string tool)
+    private void OnDamage(float incomingDmg, string tool, bool isCrit)
     {
-        if (!requiredTools.Contains(tool)) return;
+        if (!requiredTools.Contains(tool)) incomingDmg = 0;
         //if (inputPriority < priority) return;
         hp -= incomingDmg;
         GetComponentInChildren<FixedSizeUI>().SetElementValue(Mathf.InverseLerp(0, maxHP, hp));
+        var popup = dmgPopupPool.Release();
+        var critLevel = isCrit ? 1 : 0;
+        popup.Popup(transform.position, incomingDmg.ToString(), critLevel);
         if (hp <= 0)
         {
             if (Client.ins.isHost)
@@ -32,6 +36,6 @@ public class ItemDropObject : MonoBehaviour, IDamagable
     {
         var playerHitData = hitData as PlayerHitData;
         //        Debug.Log(playerHitData.damage);
-        OnDamage(playerHitData.damage, playerHitData.atkTool);
+        OnDamage(playerHitData.damage, playerHitData.atkTool, playerHitData.crit);
     }
 }

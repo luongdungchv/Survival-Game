@@ -58,10 +58,12 @@ public class PlayerHitData : IHitData
     public float damage;
     public string atkTool;
     public PlayerStats dealer;
-    public PlayerHitData(float damage, string atkTool, PlayerStats dealer)
+    public bool crit;
+    public PlayerHitData(float damage, string atkTool, PlayerStats dealer, bool crit)
     {
         this.damage = damage;
         this.atkTool = atkTool;
         this.dealer = dealer;
+        this.crit = crit;
     }
 }

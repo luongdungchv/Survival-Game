@@ -18,7 +18,7 @@ public class PlayerSpawner : MonoBehaviour
         var skipHeight = waterHeight * maxHeight;
 
         RaycastHit hit;
-        bool cast = Physics.Raycast(castPos, Vector3.down, out hit, 100, mask);
+        bool cast = Physics.Raycast(castPos + Vector3.right * int.Parse(Client.ins.clientId) * 15, Vector3.down, out hit, 100, mask);
         cast = !cast || (cast && hit.point.y < skipHeight) ? false : true;
         while (!cast)
         {

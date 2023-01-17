@@ -23,6 +23,11 @@ public class PlayerStats : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float _speed;
     [SerializeField] private float _sprintSpeed, _dashSpeed, _jumpSpeed;
+    [Header("Attack")]
+    [Range(0, 100)] public float treeCritRate = 5;
+    [Range(0, 100)] public float oreCritRate = 5, enemyCritRate = 5;
+    public float treeCritDmg = 150;
+    public float oreCritDmg = 150, enemyCritDmg = 150;
     [SerializeField] private float baseAtkSpeed;
     [SerializeField] private float regenDelay;
     [Header("UI")]

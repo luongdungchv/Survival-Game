@@ -110,7 +110,7 @@ public class GrassSpawnerGPU : MonoBehaviour
 
         grassMat.SetBuffer("props", culledBuffer);
 
-        meshBounds = new Bounds(transform.position, Vector3.one * (1500));
+        meshBounds = new Bounds(transform.position, Vector3.one * (10000));
     }
     private void Draw()
     {
