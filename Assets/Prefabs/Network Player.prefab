@@ -696,6 +696,12 @@ MonoBehaviour:
   _sprintSpeed: 0
   _dashSpeed: 0
   _jumpSpeed: 0
+  treeCritRate: 5
+  oreCritRate: 5
+  enemyCritRate: 5
+  treeCritDmg: 150
+  oreCritDmg: 150
+  enemyCritDmg: 150
   baseAtkSpeed: 0
   regenDelay: 3
   hpBar: {fileID: 0}
@@ -763,9 +769,10 @@ MonoBehaviour:
   sprintSpeed: 10
   jumpSpeed: 17
   dashSpeed: 25
+  maxFallingSpeed: 55
   slopeCheckMask:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 77824
 --- !u!114 &520955144682128505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -872,6 +879,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e1f841959181f49939781b879c9cf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pattern: {fileID: 0}
+  attackIndex: -1
 --- !u!1 &7064849829150496853
 GameObject:
   m_ObjectHideFlags: 0

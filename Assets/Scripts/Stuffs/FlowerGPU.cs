@@ -21,7 +21,7 @@ public class FlowerGPU : MonoBehaviour
     private void Start()
     {
         //SpawnFlower();
-        bounds = new Bounds(transform.position, Vector3.one * (1500));
+        bounds = new Bounds(transform.position, Vector3.one * (10000));
         GenerateInstanceData();
         InitBuffers();
         Draw();

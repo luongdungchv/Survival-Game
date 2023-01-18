@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Experimental.Rendering;
 using UnityEngine.SceneManagement;
 
@@ -57,6 +59,24 @@ public class TCP
         {
             byte[] data = Encoding.ASCII.GetBytes(msg);
             stream.BeginWrite(data, 0, data.Length, null, null);
+            return true;
+        }
+        else
+        {
+            Debug.Log("Cannot send");
+            return false;
+        }
+    }
+    public bool Send(string msg, Action sendCompleteCallback)
+    {
+        msg += "~";
+        if (stream.CanWrite)
+        {
+            byte[] data = Encoding.ASCII.GetBytes(msg);
+            stream.BeginWrite(data, 0, data.Length, (res) =>
+            {
+                ThreadManager.ExecuteOnMainThread(sendCompleteCallback);
+            }, null);
             return true;
         }
         else

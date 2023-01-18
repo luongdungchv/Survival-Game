@@ -71,8 +71,11 @@ public class NetworkManager : MonoBehaviour
         client.mapSeed = client.mapSeed;
         client.SetUDPRemoteHost(startPacket.udpRemoteHost);
         //client.SendUDPMessage("con");
-        client.SendUDPConnectionInfo();
-        client.StartCoroutine(LoadSceneDelay(2));
+        client.SendUDPConnectionInfo(() =>
+        {
+            StartCoroutine(LoadSceneDelay(0.5f));
+        });
+        //
     }
     private void HandleInput(Packet _packet)
     {
@@ -303,6 +306,7 @@ public class NetworkManager : MonoBehaviour
 
     IEnumerator LoadSceneDelay(float duration)
     {
+        Debug.Log("load");
         yield return new WaitForSeconds(duration);
         SceneManager.LoadScene("Test_PlayerStats");
     }

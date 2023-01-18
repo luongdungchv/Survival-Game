@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class UDP
 {
-    private UdpClient socket;
+    public UdpClient socket;
     private Client owner;
     private ClientHandle handler => owner.handler;
     public string hostName;
@@ -38,8 +38,8 @@ public class UDP
         catch (Exception e)
         {
             //Disconnect();
-            Debug.Log($"Cannot send: {msg}");
-            Debug.Log(e.ToString());
+            // Debug.Log($"Cannot send: {msg}");
+            // Debug.Log(e.ToString());
             return false;
         }
     }
@@ -55,8 +55,8 @@ public class UDP
         catch (Exception e)
         {
             //Disconnect();
-            Debug.Log($"Cannot send: {msg}");
-            Debug.Log(e.ToString());
+            // Debug.Log($"Cannot send: {msg}");
+            // Debug.Log(e.ToString());
             return false;
         }
     }

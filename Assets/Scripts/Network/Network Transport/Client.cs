@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class Client : MonoBehaviour
 {
@@ -55,9 +56,9 @@ public class Client : MonoBehaviour
     {
         udp.Send(_packet.GetString());
     }
-    public void SendUDPConnectionInfo()
+    public void SendUDPConnectionInfo(Action sendCompleteCallback)
     {
-        tcp.Send($"con {this.udp.GetSocketEP().Port}");
+        tcp.Send($"con {this.udp.GetSocketEP().Port}", sendCompleteCallback);
     }
     public void CreateRoom()
     {
@@ -83,6 +84,7 @@ public class Client : MonoBehaviour
     }
     public void ConnectToServer()
     {
+        this.server = hostField.text;
         tcp.Connect(hostField.text, port);
     }
     public void SetUDPRemoteHost(int port)

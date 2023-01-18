@@ -76,7 +76,7 @@ public class NetworkPlayer : NetworkObject
             movement.SyncCamera();
         }
         lastPosition = _position;
-        fsm.ChangeState(AnimationMapper.GetAnimationName(packet.anim));
+        if (!isLocalPlayer) fsm.ChangeState(AnimationMapper.GetAnimationName(packet.anim));
     }
     private IEnumerator LerpPosition(Vector3 to)
     {

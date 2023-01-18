@@ -5,9 +5,9 @@ using UnityEngine;
 public class PlayerSpawner : MonoBehaviour
 {
     [SerializeField] private LayerMask mask;
-    IEnumerator Start()
+    void Start()
     {
-        yield return null;
+        //yield return null;
         //var randObj = new CustomRandom(MapGenerator.ins.seed + int.Parse(Client.ins.clientId));
         var randObj = new CustomRandom(MapGenerator.ins.seed);
         var castPos = new Vector3(randObj.NextFloat(100, 1400), 100, randObj.NextFloat(100, 1400));
@@ -18,11 +18,11 @@ public class PlayerSpawner : MonoBehaviour
         var skipHeight = waterHeight * maxHeight;
 
         RaycastHit hit;
-        bool cast = Physics.Raycast(castPos + Vector3.right * int.Parse(Client.ins.clientId) * 15, Vector3.down, out hit, 100, mask);
+        bool cast = Physics.Raycast(castPos + Vector3.right * int.Parse(Client.ins.clientId) * 5, Vector3.down, out hit, 100, mask);
         cast = !cast || (cast && hit.point.y < skipHeight) ? false : true;
         while (!cast)
         {
-            castPos = new Vector3(randObj.NextFloat(100, 1400) + int.Parse(Client.ins.clientId) * 15, 100, randObj.NextFloat(100, 1400));
+            castPos = new Vector3(randObj.NextFloat(100, 1400) + int.Parse(Client.ins.clientId) * 5, 100, randObj.NextFloat(100, 1400));
             cast = Physics.Raycast(castPos, Vector3.down, out hit, 100, mask);
             cast = !cast || (cast && hit.point.y < skipHeight) ? false : true;
         }

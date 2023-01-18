@@ -43,6 +43,7 @@ public class StateMachine : MonoBehaviour
         {
             return false;
         }
+        if (stateName == "Sprint") Debug.Log(currentState.name + " " + stateName);
 
         if (stateName == currentState.name || currentState.CheckLock(stateName))
         {

@@ -28,7 +28,7 @@ public class SwimHandler : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (Physics.Raycast(castPos.position, Vector3.up, out hit, rayLength, rayMask))
         {
@@ -51,6 +51,7 @@ public class SwimHandler : MonoBehaviour
                 Debug.Log($"reach edge, start: {castPos.position} || end: {hit.point}");
                 fsm.ChangeState("Idle");
             }
+            if (Input.GetKeyDown(KeyCode.I)) Debug.Log(length);
         }
     }
     public void PerformSwim(StateInitializer init)

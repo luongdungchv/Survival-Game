@@ -33,7 +33,6 @@ public class BushesSpawner : MonoBehaviour
             for (int i = 0; i < type.regionCount; i++)
             {
                 var regionPos = GenerateRegion();
-                Debug.Log(regionPos);
                 for (int j = 0; j < type.countPerRegion; j++)
                 {
                     var posX = randObj.NextFloat(regionPos.x * regionGap, regionPos.x * regionGap + regionGap);
