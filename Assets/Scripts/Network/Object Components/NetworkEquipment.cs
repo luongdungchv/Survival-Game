@@ -27,6 +27,10 @@ public class NetworkEquipment : MonoBehaviour
         }
         if (rightHandItem != null) itemMapper[rightHandItem.itemName].SetActive(false);
         this.rightHandItem = item;
+        if (item is Tool)
+        {
+            (item as Tool).SetPlayerAttackPattern(netPlayer);
+        }
         itemMapper[rightHandItem.itemName].SetActive(true);
     }
     public void Use()

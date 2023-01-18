@@ -13,6 +13,10 @@ public class AnimationMapper
         {"InAir", 4},
         {"SwimNormal", 5},
         {"SwimIdle", 6},
+        {"Attack", 7},
+        // {"Atk2", 8},
+        // {"Atk3", 9},
+        // {"Atk4", 10},
     };
     public static int GetAnimationIndex(string animName)
     {

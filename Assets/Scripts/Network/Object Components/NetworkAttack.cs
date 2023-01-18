@@ -26,8 +26,6 @@ public class NetworkAttack : MonoBehaviour
     }
     public void AttackServer()
     {
-
-
         IEnumerator AnimationCountdown()
         {
             var delay = pattern.resetDelay[attackIndex == pattern.attackCount - 1 ? 0 : attackIndex + 1];

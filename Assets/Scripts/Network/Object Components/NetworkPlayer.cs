@@ -34,7 +34,7 @@ public class NetworkPlayer : NetworkObject
     }
     private void Update()
     {
-        RequestPostion();
+        RequestState();
         //if (Client.ins.isHost && !isLocalPlayer) netMovement.MoveServer();
 
     }
@@ -44,10 +44,6 @@ public class NetworkPlayer : NetworkObject
         var moveDir = _position - lastPosition;
 
         if (moveDir.magnitude < 0.006) moveDir = Vector3.zero;
-        // if (moveDir != Vector3.zero && id == "1")
-        // {
-        //     Debug.Log($"{_position} {moveDir.magnitude}");
-        // }
 
         if (moveDir != Vector3.zero)
         {
@@ -76,7 +72,16 @@ public class NetworkPlayer : NetworkObject
             movement.SyncCamera();
         }
         lastPosition = _position;
-        if (!isLocalPlayer) fsm.ChangeState(AnimationMapper.GetAnimationName(packet.anim));
+        if (!isLocalPlayer)
+        {
+            if (packet.anim == 7) inputReceiver.attack = true;
+            else
+            {
+                inputReceiver.attack = false;
+
+            }
+            fsm.ChangeState(AnimationMapper.GetAnimationName(packet.anim));
+        }
     }
     private IEnumerator LerpPosition(Vector3 to)
     {
@@ -100,7 +105,7 @@ public class NetworkPlayer : NetworkObject
         }
     }
 
-    private void RequestPostion()
+    private void RequestState()
     {
         if (Client.ins.isHost)
         {

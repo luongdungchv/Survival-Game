@@ -11,7 +11,7 @@ public class InteractableObject : MonoBehaviour
     [SerializeField] protected bool interactable = true;
     private InteractableHitbox hitbox;
 
-    private bool isPlayerTouch;
+    public bool isPlayerTouch;
 
     private GameObject btnInstance;
     protected virtual void Awake()
@@ -26,11 +26,11 @@ public class InteractableObject : MonoBehaviour
     public bool TouchDetect(RaycastHit target)
     {
         if (!interactable) return false;
+        var netPlayer = target.collider.GetComponent<NetworkPlayer>();
+        if (!netPlayer.isLocalPlayer) return false;
         if (isPlayerTouch) return true;
         if (target.collider.tag == "Player" && !isPlayerTouch)
         {
-            var netPlayer = target.collider.GetComponent<NetworkPlayer>();
-            if (!netPlayer.isLocalPlayer) return false;
             btnInstance = Instantiate(interactBtnPrefab);
             btnInstance.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = displayName;
             var btn = btnInstance.GetComponent<Button>();

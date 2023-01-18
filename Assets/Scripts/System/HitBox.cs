@@ -28,7 +28,6 @@ public class HitBox : MonoBehaviour
         var hits = Physics.BoxCastAll(origin, halfExtents, transform.right, transform.rotation, size, mask);
         if (hits != null && hits.Length > 0)
         {
-
             var canBreak = false;
             foreach (var hit in hits)
                 if (OnHitDetect(hit)) canBreak = true;

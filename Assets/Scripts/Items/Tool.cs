@@ -36,20 +36,25 @@ public class Tool : Item, IUsable, IEquippable, ICraftable
     }
     public void OnUse(NetworkPlayer netUser)
     {
-        var atkSystem = netUser.GetComponent<NetworkAttack>();
-        atkSystem.SetAttackPattern(atkPattern);
+        SetPlayerAttackPattern(netUser);
         var equipmentSystem = netUser.GetComponent<NetworkEquipment>();
         netUser.GetComponent<StateMachine>().ChangeState("Attack");
+    }
+    public void SetPlayerAttackPattern(NetworkPlayer netUser)
+    {
+        var atkSystem = netUser.GetComponent<NetworkAttack>();
+        atkSystem.SetAttackPattern(atkPattern);
     }
     public void OnEquip()
     {
         inHandModel.SetActive(true);
-        if (!Client.ins.isHost)
-        {
-            var packet = new UpdateEquippingPacket();
-            packet.WriteData(Client.ins.clientId, this.itemName);
-            Client.ins.SendTCPPacket(packet);
-        }
+        // if (!Client.ins.isHost)
+        // {
+
+        // }
+        var packet = new UpdateEquippingPacket();
+        packet.WriteData(Client.ins.clientId, this.itemName);
+        Client.ins.SendTCPPacket(packet);
         //PlayerAttack.ins.currentWieldName = this.itemName;
         PlayerAttack.ins.currentWield = this;
     }
