@@ -21,12 +21,14 @@ public class InputReader : MonoBehaviour
     [SerializeField] private float readDelay;
     [SerializeField] private Transform localCamHolder;
     private PlayerStats localPlayerStats;
+    private PlayerEquipment localPlayerEquipment;
     private float elapsed;
 
     private void Awake()
     {
         ins = this;
         localPlayerStats = NetworkPlayer.localPlayer.GetComponent<PlayerStats>();
+        localPlayerEquipment = NetworkPlayer.localPlayer.GetComponent<PlayerEquipment>();
     }
     void Start()
     {
@@ -75,7 +77,7 @@ public class InputReader : MonoBehaviour
                 movementInputVector = tmpMoveVector;
                 var inputPacket = new InputPacket();
                 var camDir = new Vector2(localCamHolder.forward.x, localCamHolder.forward.z).normalized;
-                inputPacket.WriteData(Client.ins.clientId, tmpMoveVector, sprint && localPlayerStats.stamina > 0, JumpPress(), camDir, SlashPress());
+                inputPacket.WriteData(Client.ins.clientId, tmpMoveVector, sprint && localPlayerStats.stamina > 0, JumpPress(), camDir, SlashPress(), localPlayerEquipment.isConsumingItem);
                 //Client.ins.SendUDPMessage(inputPacket.GetString());
                 Client.ins.SendUDPPacket(inputPacket);
             }

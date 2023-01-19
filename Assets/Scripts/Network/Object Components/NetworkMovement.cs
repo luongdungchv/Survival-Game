@@ -6,7 +6,7 @@ using UnityEngine.Scripting.APIUpdating;
 [RequireComponent(typeof(InputReceiver), typeof(Rigidbody))]
 public class NetworkMovement : MonoBehaviour
 {
-    [SerializeField] private float speed, sprintSpeed, jumpSpeed, dashSpeed, maxFallingSpeed = 55;
+    [SerializeField] private float speed, speedWhenConsuming, sprintSpeed, jumpSpeed, dashSpeed, maxFallingSpeed = 55;
     [SerializeField] private LayerMask slopeCheckMask;
     private NetworkPlayer netPlayer;
     private InputReceiver inputReceiver;
@@ -43,7 +43,7 @@ public class NetworkMovement : MonoBehaviour
     {
         moveDir = new Vector3(camDir.x, 0, camDir.y) * movementInputVector.y
                         + new Vector3(camDir.y, 0, -camDir.x) * movementInputVector.x;
-        currentSpeed = sprint ? sprintSpeed : speed;
+        currentSpeed = inputReceiver.isConsumingItem ? speedWhenConsuming : (sprint ? sprintSpeed : speed);
         if (movementInputVector != Vector2.zero)
         {
 

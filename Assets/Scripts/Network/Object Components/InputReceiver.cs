@@ -10,6 +10,7 @@ public class InputReceiver : MonoBehaviour
     public bool sprint;
     public bool jumpPress;
     public bool attack;
+    public bool isConsumingItem;
     public Vector2 camDir;
     public bool startDash;
     private bool dashcheck, isDashDelaying;
@@ -41,6 +42,7 @@ public class InputReceiver : MonoBehaviour
         this.jumpPress = _packet.jump;
         this.camDir = _packet.camDir;
         this.attack = _packet.atk;
+        this.isConsumingItem = _packet.isConsumingItem;
     }
     // Update is called once per frame
     IEnumerator SetDash(float duration)

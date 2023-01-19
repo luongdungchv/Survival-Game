@@ -175,16 +175,16 @@ public class InputPacket : Packet
 {
     public string id;
     public Vector2 inputVector, camDir;
-    public bool sprint, jump, atk;
+    public bool sprint, jump, atk, isConsumingItem;
     public InputPacket()
     {
         this.command = PacketType.Input;
     }
     public override string GetString()
-        => $"{(int)command} {id} {inputVector.x} {inputVector.y} {(sprint ? 1 : 0)} {(jump ? 1 : 0)} {camDir.x.ToString("0.00")} {camDir.y.ToString("0.00")} {(atk ? 1 : 0)}";
+        => $"{(int)command} {id} {inputVector.x} {inputVector.y} {(sprint ? 1 : 0)} {(jump ? 1 : 0)} {camDir.x.ToString("0.00")} {camDir.y.ToString("0.00")} {(atk ? 1 : 0)} {(isConsumingItem ? 1 : 0)}";
 
     public override byte[] GetBytes() => Encoding.ASCII.GetBytes(GetString());
-    public void WriteData(string _id, Vector2 _inputVector, bool _sprint, bool _jump, Vector2 camDir, bool atk)
+    public void WriteData(string _id, Vector2 _inputVector, bool _sprint, bool _jump, Vector2 camDir, bool atk, bool isConsumingItem)
     {
         this.id = _id;
         this.inputVector = _inputVector;
@@ -192,6 +192,7 @@ public class InputPacket : Packet
         this.sprint = _sprint;
         this.camDir = camDir;
         this.atk = atk;
+        this.isConsumingItem = isConsumingItem;
     }
     public void WriteData(string msg)
     {
@@ -204,6 +205,7 @@ public class InputPacket : Packet
             this.jump = int.Parse(split[5]) != 0;
             this.camDir = new Vector2(float.Parse(split[6]), float.Parse(split[7]));
             this.atk = int.Parse(split[8]) != 0;
+            this.isConsumingItem = int.Parse(split[9]) != 0;
         }
     }
 }

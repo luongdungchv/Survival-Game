@@ -87,7 +87,7 @@ public class NetworkStateManager : MonoBehaviour
         }
         else if (inputVector != Vector2.zero)
         {
-            if (inputReceiver.sprint) fsm.ChangeState(Sprint);
+            if (inputReceiver.sprint && !inputReceiver.isConsumingItem) fsm.ChangeState(Sprint);
             else fsm.ChangeState(Move);
         }
 
