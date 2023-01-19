@@ -20,26 +20,17 @@ public class InputReader : MonoBehaviour
     private Vector2[] moveDirections = new Vector2[4];
     [SerializeField] private float readDelay;
     [SerializeField] private Transform localCamHolder;
+    private PlayerStats localPlayerStats;
     private float elapsed;
 
     private void Awake()
     {
         ins = this;
+        localPlayerStats = NetworkPlayer.localPlayer.GetComponent<PlayerStats>();
     }
     void Start()
     {
 
-        //showCursorKey = KeyCode.LeftAlt
-        // Client.ins.OnUDPMessageReceive.AddListener((msg) =>
-        // {
-        //     var split = msg.Split(' ');
-        //     if (split[0] == "input" && split[1] == Client.ins.clientId)
-        //     {
-        //         movementInputVector = new Vector2(float.Parse(split[2]), float.Parse(split[3]));
-        //         if (movementInputVector != Vector2.zero)
-        //             Debug.Log(msg);
-        //     }
-        // });
     }
     public int inputNum;
 
@@ -84,7 +75,7 @@ public class InputReader : MonoBehaviour
                 movementInputVector = tmpMoveVector;
                 var inputPacket = new InputPacket();
                 var camDir = new Vector2(localCamHolder.forward.x, localCamHolder.forward.z).normalized;
-                inputPacket.WriteData(Client.ins.clientId, tmpMoveVector, sprint, JumpPress(), camDir, SlashPress());
+                inputPacket.WriteData(Client.ins.clientId, tmpMoveVector, sprint && localPlayerStats.stamina > 0, JumpPress(), camDir, SlashPress());
                 //Client.ins.SendUDPMessage(inputPacket.GetString());
                 Client.ins.SendUDPPacket(inputPacket);
             }

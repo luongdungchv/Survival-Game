@@ -43,12 +43,12 @@ public class StateMachine : MonoBehaviour
         {
             return false;
         }
-        if (stateName == "Sprint") Debug.Log(currentState.name + " " + stateName);
 
         if (stateName == currentState.name || currentState.CheckLock(stateName))
         {
             return false;
         };
+        if (stateName == "Idle") Debug.Log("change to idle");
         foreach (var i in currentState.transitions)
         {
             if (i.name == stateName)
@@ -66,7 +66,6 @@ public class StateMachine : MonoBehaviour
     }
     public bool ChangeState(State newState, bool force = false)
     {
-        if (newState.name == "InAir") Debug.Log("jump");
         return ChangeState(newState.name, force);
     }
     public async Task<bool> ChangeState(State newState, int delay)

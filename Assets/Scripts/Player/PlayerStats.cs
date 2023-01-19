@@ -57,7 +57,7 @@ public class PlayerStats : MonoBehaviour
         hpBar.value = Mathf.InverseLerp(0, maxHP, _hp);
         _stamina = maxStamina;
         _hungerPoint = maxHungerPoint;
-        Debug.Log(Mathf.Lerp(1, 0, 0.7f));
+        //        Debug.Log(Mathf.Lerp(1, 0, 0.7f));
     }
     void Update()
     {

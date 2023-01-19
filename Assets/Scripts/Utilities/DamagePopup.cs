@@ -27,7 +27,7 @@ public class DamagePopup : MonoBehaviour, IPoolObject
     public void OnPooled()
     {
         this.gameObject.SetActive(false);
-        Debug.Log("pooled");
+        //        Debug.Log("pooled");
     }
 
     public void OnReleased()

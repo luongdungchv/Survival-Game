@@ -12,6 +12,7 @@ public class PlayerNearbyDetector : HitBox
     }
     protected override bool OnHitDetect(RaycastHit hit)
     {
+        if (!hit.collider.GetComponent<NetworkPlayer>().isLocalPlayer) return false;
         isDisplayed = true;
         displayer.SetDisplay(true);
         //Debug.Log(hit.collider.gameObject.name);

@@ -43,6 +43,8 @@ public class PlayerSpawner : MonoBehaviour
         Client.ins.SendTCPMessage($"{(int)PacketType.SpawnPlayer} {Client.ins.clientId} {pos.x} {pos.y} {pos.z} {Client.ins.udp.port}");
         var spawnPacket = new SpawnPlayerPacket();
         spawnPacket.WriteData(Client.ins.clientId, new Vector3(pos.x, pos.y, pos.z));
+
+        transform.position = new Vector3(504, 10, 1416);
     }
 
     // Update is called once per frame

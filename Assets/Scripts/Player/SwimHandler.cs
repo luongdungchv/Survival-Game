@@ -37,9 +37,8 @@ public class SwimHandler : MonoBehaviour
             var length = Vector3.Distance(hit.point, castPos.position);
             if (length >= threshold && !fsm.currentState.name.Contains("Swim"))
             {
-                //Debug.Log($"start swim, start: {castPos.position} || end: {hit.point}");
-                //transform.position = new Vector3(transform.position.x, hit.point.y - threshold - 0.5f, transform.position.z);
                 var rb = GetComponent<Rigidbody>();
+                transform.position += Vector3.down * (threshold - length);
                 rb.useGravity = false;
                 GetComponent<StateInitializer>().InAir.lockState = false;
                 rb.velocity = new Vector3(0, 0, 0);

@@ -96,7 +96,7 @@ public class StateInitializer : MonoBehaviour
         {
             var curStateName = fsm.currentState.name;
             //bool dash = animSystem.animator.GetBool("dash");
-            if (!curStateName.Contains("Swim") || animSystem.animator.GetFloat("swim") < 0.001f)
+            if (!curStateName.Contains("Swim") && animSystem.animator.GetFloat("swim") < 0.001f)
             {
                 fsm.ChangeState(Idle);
             }

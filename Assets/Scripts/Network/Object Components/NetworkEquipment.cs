@@ -8,6 +8,7 @@ public class NetworkEquipment : MonoBehaviour
     [SerializeField] private ItemModel[] itemMapperList;
     private Dictionary<string, GameObject> itemMapper;
     private NetworkPlayer netPlayer;
+    private bool isConsumingItem;
     private void Awake()
     {
         netPlayer = GetComponent<NetworkPlayer>();
@@ -40,6 +41,7 @@ public class NetworkEquipment : MonoBehaviour
             usableItem.OnUse(netPlayer);
         }
     }
+
     [System.Serializable]
     class ItemModel
     {

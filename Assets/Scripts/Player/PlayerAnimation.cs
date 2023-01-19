@@ -72,6 +72,7 @@ public class PlayerAnimation : MonoBehaviour
     public void SwimIdle()
     {
         BlendAnimation("move", 0, 0);
+        animator.SetFloat("swim", 0.5f);
         BlendAnimation("swim", 0.15f, 0.15f);
         //animator.SetFloat("swim", 0.15f);
     }
