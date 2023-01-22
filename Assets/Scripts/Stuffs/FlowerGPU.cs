@@ -173,4 +173,8 @@ public class FlowerGPU : MonoBehaviour
         public int texIndex;
         public static int size => sizeof(float) * 19 + sizeof(int);
     }
+    private void OnApplicationQuit()
+    {
+
+    }
 }
