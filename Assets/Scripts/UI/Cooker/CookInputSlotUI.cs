@@ -57,7 +57,7 @@ public class CookInputSlotUI : MonoBehaviour, IPointerClickHandler
     }
     public void CheckIconVisibility()
     {
-        if (currentTransformer == null || currentTransformer.inputSlot == null)
+        if (currentTransformer == null || currentTransformer.inputSlot == null || currentTransformer.inputSlot.inputItem == null)
         {
             icon.gameObject.SetActive(false);
             return;

@@ -57,7 +57,7 @@ public class FuelSlotUI : MonoBehaviour, IPointerClickHandler
     }
     public void CheckIconVisibility()
     {
-        if (currentTransformer == null || currentTransformer.fuelSlot == null)
+        if (currentTransformer == null || currentTransformer.fuelSlot == null || currentTransformer.fuelSlot.fuel == null)
         {
             icon.gameObject.SetActive(false);
             return;

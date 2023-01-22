@@ -10,10 +10,12 @@ public class NetworkSceneObject : NetworkObject
         if (this.id != null && this.id != "") return;
         GenerateId();
     }
-    public void GenerateId()
+    public string GenerateId()
     {
+        Debug.Log("generate");
         this.id = GameFunctions.ins.GenerateId();
         NetworkManager.ins.AddNetworkSceneObject(this.id, this);
+        return this.id;
     }
 
     public void RevokeId()

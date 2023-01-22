@@ -32,8 +32,20 @@ public class GrassSpawnerGPU : MonoBehaviour
         InitCompute();
         Debug.Log(Camera.main.projectionMatrix.GetRow(0));
 
+        Settings.OnSettingChange.AddListener(() =>
+        {
+            var settingJson = PlayerPrefs.GetString("setting", "");
+            var settingData = new SettingData();
+            if (settingJson != "")
+            {
+                settingData = JsonUtility.FromJson<SettingData>(settingJson);
+            }
+            int[] options = { 0, 40, 65 };
+            this.culledDistance = options[settingData.lod];
+        });
 
     }
+
 
     // Update is called once per frame
     void Update()
@@ -87,7 +99,6 @@ public class GrassSpawnerGPU : MonoBehaviour
         culledBuffer = new ComputeBuffer(transformArray.Length, ShaderProps.Size(), ComputeBufferType.Append);
         culledBuffer.SetCounterValue(0);
 
-
         argsBuffer = new ComputeBuffer(5, sizeof(int), ComputeBufferType.IndirectArguments);
         args = new uint[5];
         args[0] = (uint)mesh.GetIndexCount(0);
@@ -95,18 +106,9 @@ public class GrassSpawnerGPU : MonoBehaviour
         args[2] = (uint)mesh.GetIndexStart(0);
         args[3] = (uint)mesh.GetBaseVertex(0);
 
-
         int kernelIndex = compute.FindKernel("CSMain");
         compute.SetBuffer(kernelIndex, "inputGrassBuffer", shaderPropsBuffer);
         compute.SetBuffer(kernelIndex, "culledGrassBuffer", culledBuffer);
-        compute.SetFloat("culledDist", culledDistance);
-        // compute.Dispatch(0, Mathf.CeilToInt(grassCount * grassCount / 64), 1, 1);
-        // ComputeBuffer.CopyCount(culledBuffer, argsBuffer, -2);
-        // argsBuffer.GetData(args);
-        // foreach (var i in args)
-        // {
-        //     Debug.Log(i);
-        // }
 
         grassMat.SetBuffer("props", culledBuffer);
 
@@ -120,9 +122,10 @@ public class GrassSpawnerGPU : MonoBehaviour
         Matrix4x4 V = Camera.main.worldToCameraMatrix;
         Matrix4x4 VP = P * V;
 
-
         compute.SetMatrix("vp", VP);
         compute.SetVector("camPos", Camera.main.transform.position);
+        compute.SetFloat("culledDist", culledDistance);
+
         compute.Dispatch(0, Mathf.CeilToInt(grassCount * grassCount / 64), 1, 1);
 
         var counterBuffer = new ComputeBuffer(5, sizeof(int), ComputeBufferType.IndirectArguments);

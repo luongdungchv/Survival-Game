@@ -5,10 +5,17 @@ using UnityEngine.Events;
 
 public class ClientHandle : MonoBehaviour
 {
+    public static ClientHandle ins;
     private Dictionary<PacketType, UnityAction<Packet>> handlers;
     private Client client => Client.ins;
     private void Awake()
     {
+        if (ins == null) ins = this;
+        else
+        {
+            Destroy(ins.gameObject);
+            ins = this;
+        }
         DontDestroyOnLoad(this.gameObject);
         handlers = new Dictionary<PacketType, UnityAction<Packet>>();
     }

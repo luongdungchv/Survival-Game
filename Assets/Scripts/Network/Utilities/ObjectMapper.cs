@@ -9,7 +9,12 @@ public class ObjectMapper : MonoBehaviour
     private Dictionary<NetworkPrefab, int> map;
     private void Awake()
     {
-        ins = this;
+        if (ins == null) ins = this;
+        else
+        {
+            Destroy(ins.gameObject);
+            ins = this;
+        }
         DontDestroyOnLoad(this.gameObject);
 
         map = new Dictionary<NetworkPrefab, int>();

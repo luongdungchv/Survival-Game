@@ -22,6 +22,18 @@ public class FlowerGPU : MonoBehaviour
     {
         //SpawnFlower();
         bounds = new Bounds(transform.position, Vector3.one * (10000));
+
+        Settings.OnSettingChange.AddListener(() =>
+        {
+            var settingJson = PlayerPrefs.GetString("setting", "");
+            var settingData = new SettingData();
+            if (settingJson != "")
+            {
+                settingData = JsonUtility.FromJson<SettingData>(settingJson);
+            }
+            int[] options = { 0, 40, 65 };
+            this.culledDist = options[settingData.lod];
+        });
         GenerateInstanceData();
         InitBuffers();
         Draw();
@@ -49,7 +61,6 @@ public class FlowerGPU : MonoBehaviour
 
         compute.SetBuffer(0, "instanceBuffer", instanceBuffer);
         compute.SetBuffer(0, "renderBuffer", renderBuffer);
-        compute.SetFloat("culledDist", culledDist);
 
         flowerMat.SetBuffer("instDatas", renderBuffer);
 
@@ -65,6 +76,7 @@ public class FlowerGPU : MonoBehaviour
 
         compute.SetMatrix("vp", VP);
         compute.SetVector("camPos", Camera.main.transform.position);
+        compute.SetFloat("culledDist", culledDist);
         compute.Dispatch(0, Mathf.CeilToInt(datas.Count / 64), 1, 1);
 
         var counterBuffer = new ComputeBuffer(5, sizeof(int), ComputeBufferType.IndirectArguments);

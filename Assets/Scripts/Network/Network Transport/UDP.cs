@@ -104,6 +104,7 @@ public class UDP
     public void Disconnect()
     {
         Debug.Log("UDP disconnected");
+        UIManager.ins.ShowDisconnectPanel();
         socket?.Close();
         socket = null;
     }

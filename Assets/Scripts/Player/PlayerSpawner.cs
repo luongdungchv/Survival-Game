@@ -44,7 +44,7 @@ public class PlayerSpawner : MonoBehaviour
         var spawnPacket = new SpawnPlayerPacket();
         spawnPacket.WriteData(Client.ins.clientId, new Vector3(pos.x, pos.y, pos.z));
 
-        transform.position = new Vector3(504, 10, 1416);
+        //transform.position = new Vector3(504, 10, 1416);
     }
 
     // Update is called once per frame

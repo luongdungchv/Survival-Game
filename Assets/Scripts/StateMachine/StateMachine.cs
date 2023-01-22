@@ -48,7 +48,6 @@ public class StateMachine : MonoBehaviour
         {
             return false;
         };
-        if (stateName == "Idle") Debug.Log("change to idle");
         foreach (var i in currentState.transitions)
         {
             if (i.name == stateName)

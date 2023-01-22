@@ -43,7 +43,7 @@ public class NetworkMovement : MonoBehaviour
     {
         moveDir = new Vector3(camDir.x, 0, camDir.y) * movementInputVector.y
                         + new Vector3(camDir.y, 0, -camDir.x) * movementInputVector.x;
-        currentSpeed = inputReceiver.isConsumingItem ? speedWhenConsuming : (sprint ? sprintSpeed : speed);
+        currentSpeed = inputReceiver.isConsumingItem ? speed / 2 : (sprint ? sprintSpeed : speed);
         if (movementInputVector != Vector2.zero)
         {
 
@@ -66,7 +66,6 @@ public class NetworkMovement : MonoBehaviour
             var tangent = Vector3.Cross(moveDir, hit.normal);
             var biTangent = Vector3.Cross(hit.normal, tangent);
             moveDir = biTangent.normalized;
-
             return true;
         }
         return false;
@@ -81,8 +80,6 @@ public class NetworkMovement : MonoBehaviour
     }
     public void DashServer()
     {
-        // moveDir = new Vector3(camDir.x, 0, camDir.y) * movementInputVector.y
-        //                + new Vector3(camDir.y, 0, -camDir.x) * movementInputVector.x;
         moveDir = transform.forward;
         currentSpeed = dashSpeed;
 

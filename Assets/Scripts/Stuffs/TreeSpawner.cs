@@ -12,6 +12,7 @@ public class TreeSpawner : MonoBehaviour
     [SerializeField] private LayerMask mask;
     [SerializeField] private Image hpBarUIPrefab;
     [SerializeField] private Canvas mainCanvas;
+    [SerializeField] private GameObject hpBarUIContainer;
     //[SerializeField] private GameObject cherryPetalParticle;
     private Dictionary<Vector2Int, bool> regionsOccupation;
     private int seed;
@@ -54,7 +55,7 @@ public class TreeSpawner : MonoBehaviour
                         tree.transform.localScale = Vector3.one * scale;
 
                         var hpBarUI = Instantiate(hpBarUIPrefab);
-                        hpBarUI.transform.SetParent(mainCanvas.transform);
+                        hpBarUI.transform.SetParent(hpBarUIContainer.transform);
                         var hpBarComponent = tree.GetComponentInChildren<FixedSizeUI>();
                         hpBarComponent.SetUIElement(hpBarUI);
                         hpBarComponent.canvas = mainCanvas;

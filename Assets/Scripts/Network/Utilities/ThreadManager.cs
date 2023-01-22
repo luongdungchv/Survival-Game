@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class ThreadManager : MonoBehaviour
 {
+    public static ThreadManager ins;
     private static readonly List<Action> executeOnMainThread = new List<Action>();
     private static readonly List<Action> executeCopiedOnMainThread = new List<Action>();
     private static bool actionToExecuteOnMainThread = false;
     private void Start()
     {
+        if (ins == null) ins = this;
+        else
+        {
+            Destroy(ins.gameObject);
+            ins = this;
+        }
         DontDestroyOnLoad(this.gameObject);
     }
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 
 public class NetworkManager : MonoBehaviour
@@ -11,9 +12,20 @@ public class NetworkManager : MonoBehaviour
 
     [SerializeField] private NetworkPlayer playerPrefab;
     [SerializeField] private ClientHandle handler;
+    public GameObject test;
     private Dictionary<string, NetworkPlayer> playerList;
     private Client client => Client.ins;
     private ObjectMapper objMapper => ObjectMapper.ins;
+    private void Awake()
+    {
+        if (ins == null) ins = this;
+        else
+        {
+            Destroy(ins.gameObject);
+            ins = this;
+        }
+        sceneObjects = new Dictionary<string, NetworkSceneObject>();
+    }
     private void Start()
     {
         playerList = new Dictionary<string, NetworkPlayer>();
@@ -30,11 +42,12 @@ public class NetworkManager : MonoBehaviour
         handler.AddHandler(PacketType.ItemDropObjInteraction, HandlerItemDropObjInteraction);
         handler.AddHandler(PacketType.DestroyObject, HandleDestroyObject);
         handler.AddHandler(PacketType.ItemDrop, HandleDropItem);
+        handler.AddHandler(PacketType.PlayerDisconnect, HandlePlayerDisconnect);
     }
-    private void Awake()
+
+    private void Update()
     {
-        ins = this;
-        sceneObjects = new Dictionary<string, NetworkSceneObject>();
+
     }
     private void HandleMovePlayer(Packet _packet)
     {
@@ -93,14 +106,14 @@ public class NetworkManager : MonoBehaviour
         }
         else return false;
     }
-    public void SpawnRequest(string playerId, NetworkPrefab prefab, Vector3 position, Vector3 rotation)
+    public void SpawnRequest(string playerId, NetworkPrefab prefab, Vector3 position, Vector3 rotation, string objId)
     {
         var prefabId = objMapper.GetPrefabIndex(prefab);
         Debug.Log($"Prefab id is: {prefabId}");
         if (prefabId != -1)
         {
             SpawnObjectPacket packet = new SpawnObjectPacket();
-            packet.WriteData(playerId, prefabId, position, rotation);
+            packet.WriteData(playerId, prefabId, position, rotation, objId);
             client.SendTCPPacket(packet);
         }
     }
@@ -129,8 +142,19 @@ public class NetworkManager : MonoBehaviour
     public void HandleSpawnObject(Packet _packet)
     {
         var spawnInfo = _packet as SpawnObjectPacket;
-        var obj = Instantiate(objMapper.GetPrefab(spawnInfo.objSpawnId), spawnInfo.position, Quaternion.Euler(spawnInfo.rotation));
-        Debug.Log("spawn: " + spawnInfo.GetString());
+        var obj = Instantiate(objMapper.GetPrefab(spawnInfo.objPrefabIndex), spawnInfo.position, Quaternion.Euler(spawnInfo.rotation));
+        Debug.Log("spawn: " + spawnInfo.GetString() + "[" + obj.name + "]");
+        var netSceneObj = obj.GetComponent<NetworkSceneObject>();
+        if (spawnInfo.objId != "0")
+        {
+            netSceneObj.id = spawnInfo.objId;
+            sceneObjects.Add(netSceneObj.id, netSceneObj);
+        }
+        else
+        {
+            var objId = netSceneObj.GenerateId();
+            spawnInfo.objId = objId;
+        }
         if (client.isHost)
         {
             client.SendTCPPacket(spawnInfo);
@@ -202,7 +226,7 @@ public class NetworkManager : MonoBehaviour
         var packet = _packet as FurnaceClientMsgPacket;
         var action = packet.action;
         var obj = sceneObjects[packet.objId].GetComponentInChildren<Transformer>();
-        Debug.Log("action: " + action);
+        Debug.Log($"action: {action}, active: {sceneObjects[packet.objId].transform.parent} {obj.gameObject.activeInHierarchy}");
         switch (action)
         {
             case "set_input":
@@ -286,6 +310,13 @@ public class NetworkManager : MonoBehaviour
         }
         obj.ReceiveProgressInfo(packet.cookedUnit, packet.remainingUnit);
         UIManager.ins.RefreshFurnaceUI();
+    }
+    public void HandlePlayerDisconnect(Packet _packet)
+    {
+        var packet = _packet as ObjectInteractionPacket;
+        var playerToRemove = playerList[packet.playerId];
+        Destroy(playerToRemove.gameObject);
+        playerList.Remove(packet.playerId);
     }
     public void AddNetworkSceneObject(string id, NetworkSceneObject obj)
     {

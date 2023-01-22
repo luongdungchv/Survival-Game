@@ -31,10 +31,17 @@ public class Placer : MonoBehaviour
         var id = Client.ins.clientId;
         var netPrefab = prefab.GetComponent<NetworkPrefab>();
         var rotation = placeHolder.transform.rotation.eulerAngles;
-        NetworkManager.ins.SpawnRequest(id, netPrefab, placeHolder.transform.position, rotation);
+
         if (Client.ins.isHost)
         {
             var obj = Instantiate(prefab, placeHolder.transform.position, placeHolder.transform.rotation);
+            var objId = obj.GetComponent<NetworkSceneObject>().GenerateId();
+            NetworkManager.ins.test = obj.gameObject;
+            NetworkManager.ins.SpawnRequest(id, netPrefab, placeHolder.transform.position, rotation, objId);
+        }
+        else
+        {
+            NetworkManager.ins.SpawnRequest(id, netPrefab, placeHolder.transform.position, rotation, "0");
         }
     }
     public void SetData(Color tint, Mesh mesh, Texture2D colorTex, GameObject prefab)

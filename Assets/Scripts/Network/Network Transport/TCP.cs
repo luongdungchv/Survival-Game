@@ -51,6 +51,7 @@ public class TCP
         stream = null;
         buffer = null;
         bufferSize = 0;
+        UIManager.ins.ShowDisconnectPanel();
     }
     public bool Send(string msg)
     {
@@ -139,7 +140,5 @@ public class TCP
             Debug.Log(e.ToString());
             Disconnect();
         }
-
-
     }
 }

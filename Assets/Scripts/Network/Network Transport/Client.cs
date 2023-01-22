@@ -26,6 +26,11 @@ public class Client : MonoBehaviour
     private void Awake()
     {
         if (ins == null) ins = this;
+        else
+        {
+            Destroy(ins.gameObject);
+            ins = this;
+        }
         Debug.Log(NetworkPrefab.instanceCount);
         roomField.text = "12345";
         hostField.text = "127.0.0.1";

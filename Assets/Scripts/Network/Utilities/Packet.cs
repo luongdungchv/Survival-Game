@@ -212,31 +212,34 @@ public class InputPacket : Packet
 public class SpawnObjectPacket : Packet
 {
     public string playerId;
-    public int objSpawnId;
+    public int objPrefabIndex;
+    public string objId;
     public Vector3 position, rotation;
     public SpawnObjectPacket()
     {
         this.command = PacketType.SpawnObject;
     }
     public override string GetString()
-        => $"{(int)command} {playerId} {objSpawnId} {position.x.ToString("0.00")} {position.y.ToString("0.00")} {position.z.ToString("0.00")} {rotation.x.ToString("0.00")} {rotation.y.ToString("0.00")} {rotation.z.ToString("0.00")}";
+        => $"{(int)command} {playerId} {objPrefabIndex} {position.x.ToString("0.00")} {position.y.ToString("0.00")} {position.z.ToString("0.00")} {rotation.x.ToString("0.00")} {rotation.y.ToString("0.00")} {rotation.z.ToString("0.00")} {objId}";
     public void WriteData(string msg)
     {
         var split = msg.Split(' ');
         if ((PacketType)int.Parse(split[0]) == this.command)
         {
             this.playerId = split[1];
-            this.objSpawnId = int.Parse(split[2]);
+            this.objPrefabIndex = int.Parse(split[2]);
             this.position = new Vector3(float.Parse(split[3]), float.Parse(split[4]), float.Parse(split[5]));
             this.rotation = new Vector3(float.Parse(split[6]), float.Parse(split[7]), float.Parse(split[8]));
+            this.objId = split[9];
         }
     }
-    public void WriteData(string _playerId, int _objSpawnId, Vector3 _position, Vector3 _rotation)
+    public void WriteData(string _playerId, int objPrefabIndex, Vector3 _position, Vector3 _rotation, string objId)
     {
         this.playerId = _playerId;
-        this.objSpawnId = _objSpawnId;
+        this.objPrefabIndex = objPrefabIndex;
         this.position = _position;
         this.rotation = _rotation;
+        this.objId = objId;
     }
 }
 public class UpdateEquippingPacket : Packet
@@ -288,7 +291,7 @@ public class ObjectInteractionPacket : Packet
         if (int.Parse(split[0]) == (int)this.command)
         {
             this.playerId = split[1];
-            this.objId = split[2];
+            this.objId = split.Length > 2 ? split[2] : "";
             this.action = split.Length > 3 ? split[3] : "";
             this.actionParams = split.Length > 4 ? split[4].Split('|') : new string[0];
         }
@@ -391,12 +394,13 @@ public class ItemDropPacket : Packet
         }
     }
 }
+
 public enum PacketType
 {
     MovePlayer,
     SpawnPlayer, StartGame, Input, SpawnObject, UpdateEquipping,
     FurnaceServerUpdate, FurnaceClientMsg,
     ItemDrop,
-    ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject
+    ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject, PlayerDisconnect
 
 }

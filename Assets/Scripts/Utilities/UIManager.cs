@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager ins;
     [SerializeField] private GameObject mapUI, inventoryUI, craftUI, anvilUI, furnaceUI;
     [SerializeField] private GameObject interactBtnPrefab, mapCam;
+    [SerializeField] private GameObject lostConnectionPanel;
     [SerializeField] private Transform collectBtnContainer;
     [SerializeField] private InventoryInteractionHandler inventoryUIHandler, craftUIHandler, anvilUIHandler, furnaceUIHandler;
 
@@ -97,7 +99,6 @@ public class UIManager : MonoBehaviour
     }
     public void AddCollectBtn(GameObject btn)
     {
-
         btn.transform.SetParent(collectBtnContainer, false);
     }
     public Button AddCollectBtn(string displayText)
@@ -107,6 +108,15 @@ public class UIManager : MonoBehaviour
         var btn = btnInstance.GetComponent<Button>();
         //btn.onClick.AddListener(() => OnInteractBtnClick(btn));
         return btn;
+    }
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadSceneAsync("MainMenu");
+    }
+    public void ShowDisconnectPanel()
+    {
+        //Debug.Log(lostConnectionPanel);
+        ThreadManager.ExecuteOnMainThread(() => lostConnectionPanel.SetActive(true));
     }
 
 }
