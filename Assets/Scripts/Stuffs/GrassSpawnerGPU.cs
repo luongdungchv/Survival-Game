@@ -34,13 +34,14 @@ public class GrassSpawnerGPU : MonoBehaviour
 
         chunks = new Dictionary<Vector2, GrassChunk>();
         chunkWidth = 1500 / chunkPerEdge;
-        grassCountPerChunk = Mathf.FloorToInt(chunkWidth) * Mathf.FloorToInt(chunkWidth);
+        var grassCountInt = Mathf.FloorToInt(1500 / grassCount);
+        grassCountPerChunk = (int)Mathf.Pow(Mathf.FloorToInt(chunkWidth / grassCountInt), 2);
         for (int i = 0; i < chunkPerEdge; i++)
         {
             for (int j = 0; j < chunkPerEdge; j++)
             {
                 var chunkPos = new Vector2(i * chunkWidth, j * chunkWidth);
-                var chunk = new GrassChunk(Mathf.FloorToInt(chunkWidth));
+                var chunk = new GrassChunk(Mathf.FloorToInt(chunkWidth), grassCountInt);
                 chunk.lowerLeftPos = chunkPos;
                 chunks.Add(chunkPos, chunk);
             }
@@ -161,15 +162,7 @@ public class GrassSpawnerGPU : MonoBehaviour
             if (!chunkToRender.Contains(chunks[chunkPos]))
                 chunkToRender.Add(chunks[chunkPos]);
         }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            string res = "";
-            foreach (var i in chunkToRender)
-            {
-                res += i.lowerLeftPos.ToString() + " ";
-            }
-            Debug.Log(res);
-        }
+
 
         var chosenData = new ShaderProps[grassCountPerChunk * chunkToRender.Count];
         for (int i = 0; i < chunkToRender.Count; i++)
@@ -180,6 +173,16 @@ public class GrassSpawnerGPU : MonoBehaviour
         shaderPropsBuffer = new ComputeBuffer(chosenData.Length, ShaderProps.Size());
         shaderPropsBuffer.SetData(chosenData);
         int kernelIndex = compute.FindKernel("CSMain");
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            string res = "";
+            foreach (var i in chunkToRender)
+            {
+                res += i.lowerLeftPos.ToString() + " ";
+            }
+            Debug.Log(res);
+            Debug.Log(grassCountPerChunk);
+        }
         compute.SetBuffer(kernelIndex, "inputGrassBuffer", shaderPropsBuffer);
 
         compute.SetMatrix("vp", VP);
@@ -238,9 +241,10 @@ public class GrassChunk
     public Vector2 lowerLeftPos;
     public ShaderProps[] props;
     private int counter;
-    public GrassChunk(int chunkWidth)
+    public GrassChunk(int chunkWidth, int grassDist)
     {
-        props = new ShaderProps[chunkWidth * chunkWidth];
+        var grassCount = Mathf.Pow(Mathf.FloorToInt((float)chunkWidth / grassDist), 2);
+        props = new ShaderProps[(int)grassCount];
     }
     public void AddProp(ShaderProps prop)
     {

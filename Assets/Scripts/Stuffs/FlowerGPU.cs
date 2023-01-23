@@ -7,21 +7,38 @@ public class FlowerGPU : MonoBehaviour
 {
     [SerializeField] private Color[] testColors;
     [SerializeField] private int noiseSize, texCount;
-    [SerializeField] private float noiseScale, threshold, castHeight, culledDist;
+    [SerializeField] private float noiseScale, threshold, castHeight, culledDist, chunkPerEdge;
     [SerializeField] private LayerMask mask;
     [SerializeField] private ComputeShader compute;
     [SerializeField] private Mesh mesh;
     [SerializeField] private Material flowerMat, testMat;
+    private Dictionary<Vector2, FlowerChunk> chunks;
     private List<InstanceData> datas;
+    private int chunkWidth;
+    private int instancePerChunk;
     //private renderInstances
     private ComputeBuffer argsBuffer, instanceBuffer, renderBuffer;
     private Bounds bounds;
     private uint[] args;
+    private int instanceCount;
 
     private void Start()
     {
         //SpawnFlower();
         bounds = new Bounds(transform.position, Vector3.one * (1500));
+        chunkWidth = Mathf.FloorToInt(1500 / chunkPerEdge);
+        instancePerChunk = chunkWidth * chunkWidth;
+        chunks = new Dictionary<Vector2, FlowerChunk>();
+        for (int i = 0; i < chunkPerEdge; i++)
+        {
+            for (int j = 0; j < chunkPerEdge; j++)
+            {
+                var chunkPos = new Vector2(i * chunkWidth, j * chunkWidth);
+                var chunk = new FlowerChunk();
+                chunk.lowerLeftPos = chunkPos;
+                chunks.Add(chunkPos, chunk);
+            }
+        }
         GenerateInstanceData();
         InitBuffers();
         Draw();
@@ -33,11 +50,11 @@ public class FlowerGPU : MonoBehaviour
 
     public void InitBuffers()
     {
-        var dataArray = datas.ToArray();
-        instanceBuffer = new ComputeBuffer(datas.Count, InstanceData.size);
-        instanceBuffer.SetData(dataArray);
+        // var dataArray = datas.ToArray();
+        // instanceBuffer = new ComputeBuffer(datas.Count, InstanceData.size);
+        // instanceBuffer.SetData(dataArray);
 
-        renderBuffer = new ComputeBuffer(datas.Count, InstanceData.size, ComputeBufferType.Append);
+        renderBuffer = new ComputeBuffer(instanceCount, InstanceData.size, ComputeBufferType.Append);
         renderBuffer.SetCounterValue(0);
 
         argsBuffer = new ComputeBuffer(5, sizeof(int), ComputeBufferType.IndirectArguments);
@@ -47,7 +64,7 @@ public class FlowerGPU : MonoBehaviour
         args[2] = (uint)mesh.GetIndexStart(0);
         args[3] = (uint)mesh.GetBaseVertex(0);
 
-        compute.SetBuffer(0, "instanceBuffer", instanceBuffer);
+        //compute.SetBuffer(0, "instanceBuffer", instanceBuffer);
         compute.SetBuffer(0, "renderBuffer", renderBuffer);
         compute.SetFloat("culledDist", culledDist);
 
@@ -63,9 +80,35 @@ public class FlowerGPU : MonoBehaviour
         Matrix4x4 V = Camera.main.worldToCameraMatrix;
         Matrix4x4 VP = P * V;
 
+        var camPos = Camera.main.transform.position;
+        int chunkCheckDistance = 35;
+        float[] arr1 = { chunkCheckDistance, chunkCheckDistance, -chunkCheckDistance, -chunkCheckDistance };
+        float[] arr2 = { chunkCheckDistance, -chunkCheckDistance, chunkCheckDistance, -chunkCheckDistance };
+        List<FlowerChunk> chunkToRender = new List<FlowerChunk>();
+        for (int i = 0; i < arr1.Length; i++)
+        {
+            var corner = new Vector2(camPos.x + arr1[i], camPos.z + arr2[i]);
+            var flooredChunkWidth = Mathf.FloorToInt(chunkWidth);
+            var chunkPos = new Vector2((Mathf.FloorToInt(corner.x) / chunkWidth) * chunkWidth, (Mathf.FloorToInt(corner.y) / chunkWidth) * chunkWidth);
+            if (!chunkToRender.Contains(chunks[chunkPos]))
+                chunkToRender.Add(chunks[chunkPos]);
+        }
+
+        var chosenData = new List<InstanceData>();
+        for (int i = 0; i < chunkToRender.Count; i++)
+        {
+            //Array.Copy(chunkToRender[i].props, 0, chosenData, i * instancePerChunk, instancePerChunk);
+            chosenData.AddRange(chunkToRender[i].props);
+        }
+        instanceBuffer?.Release();
+        instanceBuffer = new ComputeBuffer(chosenData.Count, InstanceData.size);
+        instanceBuffer.SetData(chosenData);
+        int kernelIndex = compute.FindKernel("CSMain");
+        compute.SetBuffer(kernelIndex, "instanceBuffer", instanceBuffer);
+
         compute.SetMatrix("vp", VP);
         compute.SetVector("camPos", Camera.main.transform.position);
-        compute.Dispatch(0, Mathf.CeilToInt(datas.Count / 64), 1, 1);
+        compute.Dispatch(0, Mathf.CeilToInt(chosenData.Count / 64), 1, 1);
 
         var counterBuffer = new ComputeBuffer(5, sizeof(int), ComputeBufferType.IndirectArguments);
         ComputeBuffer.CopyCount(renderBuffer, counterBuffer, 0);
@@ -111,12 +154,20 @@ public class FlowerGPU : MonoBehaviour
                         var position = hit.point + hit.normal * Random.Range(0.5f, 1f);
                         var trs = Matrix4x4.TRS(position, Quaternion.Euler(-90, 0, 0), Vector3.one * 0.1f);
                         var texIndex = (int)noiseVal - 1;
-                        datas.Add(new InstanceData()
+
+                        var flooredX = Mathf.FloorToInt(i);
+                        var flooredY = Mathf.FloorToInt(j);
+                        var chunkPos = new Vector2((flooredX / chunkWidth) * chunkWidth, (flooredY / chunkWidth) * chunkWidth);
+                        //Debug.Log(chunkPos);
+                        var chosenChunk = chunks[chunkPos];
+
+                        chosenChunk.AddProp(new InstanceData()
                         {
                             position = position,
                             trs = trs,
                             texIndex = texIndex
                         });
+                        instanceCount++;
                     }
                 }
             }
@@ -166,15 +217,32 @@ public class FlowerGPU : MonoBehaviour
             }
         }
     }
-    struct InstanceData
-    {
-        public Vector3 position;
-        public Matrix4x4 trs;
-        public int texIndex;
-        public static int size => sizeof(float) * 19 + sizeof(int);
-    }
+
     private void OnApplicationQuit()
     {
-
+        instanceBuffer.Release();
+        renderBuffer.Release();
+        argsBuffer.Release();
+    }
+}
+public struct InstanceData
+{
+    public Vector3 position;
+    public Matrix4x4 trs;
+    public int texIndex;
+    public static int size => sizeof(float) * 19 + sizeof(int);
+}
+public class FlowerChunk
+{
+    public Vector2 lowerLeftPos;
+    public List<InstanceData> props;
+    private int counter;
+    public FlowerChunk()
+    {
+        props = new List<InstanceData>();
+    }
+    public void AddProp(InstanceData prop)
+    {
+        props.Add(prop);
     }
 }
