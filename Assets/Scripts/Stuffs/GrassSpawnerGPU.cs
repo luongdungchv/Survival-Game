@@ -88,7 +88,6 @@ public class GrassSpawnerGPU : MonoBehaviour
                     //Debug.Log($"{chunkPos} {flooredX} {flooredY}");
                     var chosenChunk = chunks[chunkPos];
 
-
                     chosenChunk.AddProp(new ShaderProps()
                     {
                         pos = position,
@@ -181,7 +180,7 @@ public class GrassSpawnerGPU : MonoBehaviour
                 res += i.lowerLeftPos.ToString() + " ";
             }
             Debug.Log(res);
-            Debug.Log(grassCountPerChunk);
+            Debug.Log(chosenData.Length);
         }
         compute.SetBuffer(kernelIndex, "inputGrassBuffer", shaderPropsBuffer);
 

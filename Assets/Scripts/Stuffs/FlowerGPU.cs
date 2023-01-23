@@ -122,10 +122,8 @@ public class FlowerGPU : MonoBehaviour
         renderBuffer.SetCounterValue(0);
         if (Input.GetKeyDown(KeyCode.L))
         {
-            //Debug.Log(population);
-            InstanceData[] arr = new InstanceData[1500];
-            renderBuffer.GetData(arr);
-            Debug.Log(arr[0].texIndex);
+            Debug.Log(instanceBuffer.count);
+            Debug.Log(instanceCount);
         }
     }
 
