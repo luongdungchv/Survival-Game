@@ -79,6 +79,7 @@
                 float perlinVal = perlinNoise(offsetX) - 0.5;
                 float4 newPos = float4(worldPos, data.vertex.z) + float4(perlinVal * data.texcoord.y, 0, 0, 0);
                 data.vertex = newPos;
+                //data.vertex = float4(worldPos, 1);
                 data.normal = props[data.inst].normal;
                 o.colId = props[data.inst].colorIndex;
             #endif

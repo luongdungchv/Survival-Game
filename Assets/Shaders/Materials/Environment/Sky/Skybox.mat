@@ -84,7 +84,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _StarTexture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a4c9d30eb822489419a0352627baa419, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UpTex:
@@ -115,12 +115,12 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Power: 86.8
+    - _Power: 76
     - _Rotation: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _StarScale: 29.4
+    - _StarScale: 30
     - _StarScale2: 0.6
     - _State: 0.12709022
     - _SunDisk: 2
