@@ -15,11 +15,12 @@
         _CloudTexScatter("Cloud Texture Scatter", float) = 1
         
         _SunSize ("Sun Size", Range(0,1)) = 0.2
+        _SunMoonState ("State", float) = 0.5 
+        
         _SkyColor ("Sky Color", Color) = (0,0,0,0)  
         _SkyColor1 ("Sky Color1", Color) = (0,0,0,0)
         _GroundColor ("Ground Color", Color) = (0,0,0,0)
         _BlendFactor ("Blend Factor", float) = 0
-        _SunMoonState ("State", float) = 0.5 
         _StarScale("Star Scale", float) = 1
         _Power("Power", float) = 10
         _State("State", float) = 0
@@ -157,25 +158,25 @@
                 col += float4(pow(_LightColor0.xyz, 0.1) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0); 
                 //return calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos);     
                 
-                //float starCol = tex2D(_StarTexture, uv0 * _StarScale);
-                float worleyVal = saturate(worleyNoise(uv0 * _StarScale));
-                float starrySky = pow(1 - worleyVal, _Power); 
+                ///float starCol = tex2D(_StarTexture, uv0 * _StarScale);
+                //float worleyVal = saturate(worleyNoise(i.uv * _StarScale));
+                //float worleyVal = saturate(tex2D(_StarTexture, uv0));
+                //float starrySky = pow(1 - worleyVal, _Power); 
+                float starrySky = tex2D(_StarTexture, uv0) * 2;
+                //return starrySky * 2;
+                //return starrySky;
                 starrySky = lerp(0, starrySky, _SunMoonState);
                 col += starrySky;
                 
-                // float worleyVal = saturate(starCol);
-                // float starrySky = pow(worleyVal, _Power); 
-                // starrySky = lerp(0, starrySky, _SunMoonState);
-                // col += starrySky;
-                
-                //return starrySky;
                 
                 col -= lerp(0, col, cloudDensity);
                 col += cloudCol;
                 
                 
-                return col;
+                //return saturate(worleyNoise(i.uv * _StarScale));
+                //return saturate(tex2D(_StarTexture, uv0));
                 //return worleyVal;
+                return col;
                 
             }
             ENDHLSL

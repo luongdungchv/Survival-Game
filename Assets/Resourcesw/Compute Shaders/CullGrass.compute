@@ -9,6 +9,7 @@ struct Props{
 };
 // with cs.SetTexture
 RWStructuredBuffer<Props> inputGrassBuffer;
+RWStructuredBuffer<uint> drawBuffer;
 AppendStructuredBuffer<Props> culledGrassBuffer;
 float3 camPos;
 float culledDist;
@@ -39,7 +40,10 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     // Props a;
     // a.pos = float3(dist, 0,0);
     //if(id.x == 3) culledGrassBuffer.Append(a);
-    if(inView && withinDist) culledGrassBuffer.Append(inputGrassBuffer[id.x]);
+    if(inView && withinDist) {
+        culledGrassBuffer.Append(inputGrassBuffer[id.x]);
+        //drawBuffer[1] = tmp;
+    }
     //if(inView && withinLOD) lowLodGrassBuffer.Append(inputGrassBuffer[id.x]);
     
     //Result[id.xy] = float4(id.x & id.y, (id.x & 15)/15.0, (id.y & 15)/15.0, 0.0);

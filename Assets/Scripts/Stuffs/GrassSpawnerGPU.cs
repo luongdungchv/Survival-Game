@@ -119,10 +119,10 @@ public class GrassSpawnerGPU : MonoBehaviour
         argsBuffer = new ComputeBuffer(5, sizeof(int), ComputeBufferType.IndirectArguments);
         args = new uint[5];
         args[0] = (uint)mesh.GetIndexCount(0);
-        args[1] = (uint)(grassCount * grassCount);
+        args[1] = 0;
         args[2] = (uint)mesh.GetIndexStart(0);
         args[3] = (uint)mesh.GetBaseVertex(0);
-
+        argsBuffer.SetData(args);
 
         int kernelIndex = compute.FindKernel("CSMain");
         //        compute.SetBuffer(kernelIndex, "inputGrassBuffer", shaderPropsBuffer);
@@ -142,6 +142,8 @@ public class GrassSpawnerGPU : MonoBehaviour
     }
     private void Draw()
     {
+
+
         Matrix4x4 P = Camera.main.projectionMatrix;
         P.SetRow(0, new Vector4(testCull1, 0, 0, 0));
         P.SetRow(1, new Vector4(0f, testCull2, 0, 0));
@@ -171,47 +173,50 @@ public class GrassSpawnerGPU : MonoBehaviour
         shaderPropsBuffer?.Release();
         shaderPropsBuffer = new ComputeBuffer(chosenData.Length, ShaderProps.Size());
         shaderPropsBuffer.SetData(chosenData);
-        int kernelIndex = compute.FindKernel("CSMain");
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            string res = "";
-            foreach (var i in chunkToRender)
-            {
-                res += i.lowerLeftPos.ToString() + " ";
-            }
-            Debug.Log(res);
-            Debug.Log(chosenData.Length);
-        }
-        compute.SetBuffer(kernelIndex, "inputGrassBuffer", shaderPropsBuffer);
 
+        //argsBuffer?.Release();
+        PopulateArgsArray(0);
+        //argsBuffer.SetData(args);
+
+
+        int kernelIndex = compute.FindKernel("CSMain");
+        compute.SetBuffer(kernelIndex, "inputGrassBuffer", shaderPropsBuffer);
+        compute.SetBuffer(kernelIndex, "drawBuffer", argsBuffer);
         compute.SetMatrix("vp", VP);
         compute.SetVector("camPos", Camera.main.transform.position);
-        compute.Dispatch(0, Mathf.CeilToInt(grassCount * grassCount / 64), 1, 1);
-
-        var counterBuffer = new ComputeBuffer(5, sizeof(int), ComputeBufferType.IndirectArguments);
-        ComputeBuffer.CopyCount(culledBuffer, counterBuffer, 0);
-        counterBuffer.GetData(args);
-        var population = args[0];
-        PopulateArgsBuffer(population);
-        argsBuffer.SetData(args);
+        compute.Dispatch(0, Mathf.CeilToInt(chosenData.Length / 64), 1, 1);
 
 
 
-        counterBuffer.GetData(args);
-        counterBuffer.Release();
-        population = args[0];
-        PopulateArgsBuffer(population);
+        //var counterBuffer = new ComputeBuffer(5, sizeof(int), ComputeBufferType.IndirectArguments);
+        ComputeBuffer.CopyCount(culledBuffer, argsBuffer, 4);
+        // counterBuffer.GetData(args);
+        // var population = args[0];
+        // PopulateArgsBuffer(population);
+        // argsBuffer.SetData(args);
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            uint[] t = new uint[5];
+            argsBuffer.GetData(t);
+            foreach (var i in t) Debug.Log(i);
+        }
+
+        // counterBuffer.GetData(args);
+        // counterBuffer.Release();
+        // population = args[0];
+        // PopulateArgsBuffer(population);
 
         Graphics.DrawMeshInstancedIndirect(mesh, 0, grassMat, meshBounds, argsBuffer);
         //Graphics.DrawMeshInstancedIndirect(lowLodMesh, 0, grassMatLowLod, meshBounds, lowLodArgsBuffer);
-
         culledBuffer.SetCounterValue(0);
 
+
     }
-    private void PopulateArgsBuffer(uint population)
+    private void PopulateArgsArray(uint population)
     {
         args[0] = (uint)mesh.GetIndexCount(0);
-        args[1] = (uint)(population);
+        args[1] = (population);
         args[2] = (uint)mesh.GetIndexStart(0);
         args[3] = (uint)mesh.GetBaseVertex(0);
     }

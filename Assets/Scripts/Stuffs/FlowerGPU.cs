@@ -60,9 +60,10 @@ public class FlowerGPU : MonoBehaviour
         argsBuffer = new ComputeBuffer(5, sizeof(int), ComputeBufferType.IndirectArguments);
         args = new uint[5];
         args[0] = (uint)mesh.GetIndexCount(0);
-        args[1] = (uint)(datas.Count);
+        args[1] = 0;
         args[2] = (uint)mesh.GetIndexStart(0);
         args[3] = (uint)mesh.GetBaseVertex(0);
+        argsBuffer.SetData(args);
 
         //compute.SetBuffer(0, "instanceBuffer", instanceBuffer);
         compute.SetBuffer(0, "renderBuffer", renderBuffer);
@@ -110,14 +111,14 @@ public class FlowerGPU : MonoBehaviour
         compute.SetVector("camPos", Camera.main.transform.position);
         compute.Dispatch(0, Mathf.CeilToInt(chosenData.Count / 64), 1, 1);
 
-        var counterBuffer = new ComputeBuffer(5, sizeof(int), ComputeBufferType.IndirectArguments);
-        ComputeBuffer.CopyCount(renderBuffer, counterBuffer, 0);
-        counterBuffer.GetData(args);
-        var population = args[0];
+        //var counterBuffer = new ComputeBuffer(5, sizeof(int), ComputeBufferType.IndirectArguments);
+        ComputeBuffer.CopyCount(renderBuffer, argsBuffer, 4);
+        // counterBuffer.GetData(args);
+        // var population = args[0];
 
-        PopulateArgsBuffer(population);
-        argsBuffer.SetData(args);
-        counterBuffer.Release();
+        // PopulateArgsBuffer(population);
+        // argsBuffer.SetData(args);
+        // counterBuffer.Release();
         Graphics.DrawMeshInstancedIndirect(mesh, 0, flowerMat, bounds, argsBuffer);
         renderBuffer.SetCounterValue(0);
         if (Input.GetKeyDown(KeyCode.L))

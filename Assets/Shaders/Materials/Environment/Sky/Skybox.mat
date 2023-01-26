@@ -84,7 +84,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _StarTexture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a4c9d30eb822489419a0352627baa419, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UpTex:
@@ -115,16 +115,16 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Power: 86.8
+    - _Power: 76
     - _Rotation: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _StarScale: 29.4
+    - _StarScale: 30
     - _StarScale2: 0.6
-    - _State: 0.6617484
+    - _State: 0.6119488
     - _SunDisk: 2
-    - _SunMoonState: 0.8308742
+    - _SunMoonState: 0.3059744
     - _SunSize: 0.07
     - _SunSizeConvergence: 3.52
     - _UVOffset: 0
@@ -133,8 +133,8 @@ Material:
     m_Colors:
     - _Color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GroundColor: {r: 0.19215685, g: 0.015686274, b: 0.36862746, a: 1}
-    - _SkyColor: {r: 0.027249608, g: 0.03499205, b: 0.3019389, a: 1}
+    - _GroundColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SkyColor: {r: 0.3909525, g: 0.9763834, b: 1, a: 1}
     - _SkyColor1: {r: 0, g: 0, b: 0, a: 0}
     - _SkyTint: {r: 0.08627449, g: 0.99215686, b: 0.9660577, a: 1}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
