@@ -12,7 +12,6 @@ public class NetworkSceneObject : NetworkObject
     }
     public string GenerateId()
     {
-        Debug.Log("generate");
         this.id = GameFunctions.ins.GenerateId();
         NetworkManager.ins.AddNetworkSceneObject(this.id, this);
         return this.id;
