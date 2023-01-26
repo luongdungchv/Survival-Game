@@ -1,32 +1,38 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
 
 [RequireComponent(typeof(InputReceiver), typeof(Rigidbody))]
 public class NetworkMovement : MonoBehaviour
 {
-    [SerializeField] private float speed, speedWhenConsuming, sprintSpeed, jumpSpeed, dashSpeed, maxFallingSpeed = 55;
+    // [SerializeField] private float speed, speedWhenConsuming, sprintSpeed, jumpSpeed, dashSpeed, maxFallingSpeed = 55;
     [SerializeField] private LayerMask slopeCheckMask;
     private NetworkPlayer netPlayer;
     private InputReceiver inputReceiver;
     private Rigidbody rb;
-    private Client client => Client.ins;
+    private PlayerStats stats;
     private Vector2 movementInputVector => inputReceiver.movementInputVector;
     private bool groundCheck;
+    private Coroutine rotationCoroutine;
+    private Client client => Client.ins;
+    private Vector3 moveDir;
+    private float currentSpeed;
     private bool sprint => inputReceiver.sprint;
     private bool dash => inputReceiver.startDash;
     private bool jump => inputReceiver.jumpPress;
     private Vector2 camDir => inputReceiver.camDir;
-    private Coroutine rotationCoroutine;
 
-    private Vector3 moveDir;
-    private float currentSpeed;
+    private float speed => stats.speed;
+    private float sprintSpeed => stats.sprintSpeed;
+    private float dashSpeed => stats.dashSpeed;
+    private float speedWhenConsuming => speed / 2;
+    private float jumpSpeed => stats.jumpSpeed;
+    private float maxFallingSpeed => stats.maxFallingSpeed;
 
     private void Awake()
     {
         inputReceiver = GetComponent<InputReceiver>();
         rb = GetComponent<Rigidbody>();
+        stats = GetComponent<PlayerStats>();
         netPlayer = GetComponent<NetworkPlayer>();
         groundCheck = true;
     }

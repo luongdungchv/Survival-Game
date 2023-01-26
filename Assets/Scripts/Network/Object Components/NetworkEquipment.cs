@@ -1,14 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class NetworkEquipment : MonoBehaviour
 {
-    private Item rightHandItem;
     [SerializeField] private ItemModel[] itemMapperList;
+
     private Dictionary<string, GameObject> itemMapper;
-    private NetworkPlayer netPlayer;
+    private Item rightHandItem;
     private bool isConsumingItem;
+
+    private NetworkPlayer netPlayer;
     private void Awake()
     {
         netPlayer = GetComponent<NetworkPlayer>();

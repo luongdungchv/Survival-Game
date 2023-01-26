@@ -35,8 +35,6 @@ public class NetworkPlayer : NetworkObject
     private void Update()
     {
         RequestState();
-        //if (Client.ins.isHost && !isLocalPlayer) netMovement.MoveServer();
-
     }
     public void ReceivePlayerState(MovePlayerPacket packet)
     {
@@ -58,7 +56,6 @@ public class NetworkPlayer : NetworkObject
 
             }
             moveDir = moveDir.normalized;
-            //StartCoroutine(LerpPosition(_position));
             rb.MovePosition(_position);
 
         }

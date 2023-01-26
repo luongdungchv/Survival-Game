@@ -12,6 +12,7 @@ public class FlowerGPU : MonoBehaviour
     [SerializeField] private ComputeShader compute;
     [SerializeField] private Mesh mesh;
     [SerializeField] private Material flowerMat, testMat;
+
     private Dictionary<Vector2, FlowerChunk> chunks;
     private List<InstanceData> datas;
     private int chunkWidth;
@@ -109,7 +110,6 @@ public class FlowerGPU : MonoBehaviour
         var chosenData = new List<InstanceData>();
         for (int i = 0; i < chunkToRender.Count; i++)
         {
-            //Array.Copy(chunkToRender[i].props, 0, chosenData, i * instancePerChunk, instancePerChunk);
             chosenData.AddRange(chunkToRender[i].props);
         }
         instanceBuffer?.Release();
@@ -123,14 +123,7 @@ public class FlowerGPU : MonoBehaviour
         compute.SetFloat("culledDist", culledDist);
         compute.Dispatch(0, Mathf.CeilToInt(chosenData.Count / 64), 1, 1);
 
-        //var counterBuffer = new ComputeBuffer(5, sizeof(int), ComputeBufferType.IndirectArguments);
         ComputeBuffer.CopyCount(renderBuffer, argsBuffer, 4);
-        // counterBuffer.GetData(args);
-        // var population = args[0];
-
-        // PopulateArgsBuffer(population);
-        // argsBuffer.SetData(args);
-        // counterBuffer.Release();
         Graphics.DrawMeshInstancedIndirect(mesh, 0, flowerMat, bounds, argsBuffer);
         renderBuffer.SetCounterValue(0);
         if (Input.GetKeyDown(KeyCode.L))
@@ -152,7 +145,6 @@ public class FlowerGPU : MonoBehaviour
             for (int j = 0; j < noiseSize; j++)
             {
                 float noiseVal = noiseMap[i, j];
-                // tex.SetPixel(i, j, noiseVal > threshold ? Color.white : Color.black);
                 tex.SetPixel(i, j, testColors[(int)noiseVal]);
                 if (noiseVal > threshold)
                 {
@@ -169,7 +161,6 @@ public class FlowerGPU : MonoBehaviour
                         var flooredX = Mathf.FloorToInt(i);
                         var flooredY = Mathf.FloorToInt(j);
                         var chunkPos = new Vector2((flooredX / chunkWidth) * chunkWidth, (flooredY / chunkWidth) * chunkWidth);
-                        //Debug.Log(chunkPos);
                         var chosenChunk = chunks[chunkPos];
 
                         chosenChunk.AddProp(new InstanceData()

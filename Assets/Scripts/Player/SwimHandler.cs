@@ -6,17 +6,23 @@ public class SwimHandler : MonoBehaviour
 {
     private RaycastHit hit;
     [SerializeField] private Transform castPos, camHolder;
-    [SerializeField] private float rayLength, threshold, swimFastSpeed, swimSpeed;
+    [SerializeField]
+    private float rayLength, threshold;
     [SerializeField] private LayerMask rayMask;
     [SerializeField] private StateMachine fsm;
     [SerializeField] private InputReader inputReader;
 
     private Rigidbody rb;
     private Coroutine rotationCoroutine;
-    private bool isStartSwim;
-    private float currentSpeed, lastCurrentSpeed;
     private PlayerAnimation animSystem;
     private PlayerAttack attackSystem;
+    private PlayerStats stats;
+
+    private bool isStartSwim;
+    private float currentSpeed, lastCurrentSpeed;
+
+    private float swimSpeed => stats.swimSpeed;
+    private float swimFastSpeed => stats.swimFastSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +31,7 @@ public class SwimHandler : MonoBehaviour
         animSystem = GetComponent<PlayerAnimation>();
         rb = GetComponent<Rigidbody>();
         attackSystem = GetComponent<PlayerAttack>();
+        stats = GetComponent<PlayerStats>();
     }
 
     // Update is called once per frame
@@ -32,7 +39,6 @@ public class SwimHandler : MonoBehaviour
     {
         if (Physics.Raycast(castPos.position, Vector3.up, out hit, rayLength, rayMask))
         {
-            //Debug.Log(hit.point);
             Debug.DrawLine(castPos.position, hit.point, new Color(1, 0, 1));
             var length = Vector3.Distance(hit.point, castPos.position);
             if (length >= threshold && !fsm.currentState.name.Contains("Swim"))

@@ -5,28 +5,23 @@ using UnityEngine.Scripting.APIUpdating;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed, acceleratedSpeed, jumpSpeed, dashSpeed, dashJumpSpeed, dashDelay;
-
-    public Transform camHolder, camHolderPos, slopeCheckPos;
+    public float moveSpeed => stats.speed;
+    public float acceleratedSpeed => stats.sprintSpeed;
+    public float jumpSpeed => stats.jumpSpeed;
+    public float dashSpeed => stats.dashSpeed;
+    public float dashJumpSpeed => stats.dashJumpSpeed;
+    public float dashDelay => stats.dashDelay;
+    [SerializeField] private Transform camHolder, camHolderPos, slopeCheckPos;
     public Vector2 mouseSensitivity;
-    public AnimationClip swordClip;
-    public ParticleSystem slashFX;
-    public int attackMoves, testForce;
     public InputReader inputReader;
     public LayerMask slopeCheckMask;
-
-
-    public List<ParticleSystem> slashFXList;
 
     PlayerAttack attackSystem;
     PlayerAnimation animManager;
     PlayerStats stats;
-    public bool sprint, isOnGround, isStartMove;
-    public float currentSpeed, lastCurrentSpeed;
+    private float currentSpeed, lastCurrentSpeed;
     private Vector3 moveDir;
-
     private Rigidbody rb;
-
     private bool canDash;
     private void Start()
     {
@@ -40,8 +35,6 @@ public class PlayerMovement : MonoBehaviour
 
         currentSpeed = 0;
         lastCurrentSpeed = 0;
-        isStartMove = true;
-        isOnGround = true;
         canDash = true;
 
     }
@@ -117,7 +110,6 @@ public class PlayerMovement : MonoBehaviour
                 rotationCoroutine = null;
             }
             currentSpeed = 0;
-            isStartMove = true;
             moveDir = new Vector3(0, rb.velocity.y, 0);
             if (currentSpeed != lastCurrentSpeed)
             {
@@ -215,8 +207,6 @@ public class PlayerMovement : MonoBehaviour
             Vector3 rotationVector = new Vector3(transform.rotation.x, angle + 90, transform.rotation.z);
             Quaternion targetRotation = Quaternion.Euler(rotationVector);
             transform.rotation = targetRotation;
-
-            rb.AddForce(0, testForce, 0);
             rb.velocity = moveDir;
         }
     }
@@ -247,12 +237,4 @@ public class PlayerMovement : MonoBehaviour
         moveDir += Vector3.up * rb.velocity.y;
         return false;
     }
-    public void ResetStats()
-    {
-        this.moveSpeed = 0;
-        this.dashSpeed = 0;
-        this.acceleratedSpeed = 0;
-        this.jumpSpeed = 0;
-    }
-
 }

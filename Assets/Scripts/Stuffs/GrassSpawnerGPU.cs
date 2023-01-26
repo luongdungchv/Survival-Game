@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GrassSpawnerGPU : MonoBehaviour
 {
-    [SerializeField] private float grassCount, castHeight, testCull1, testCull2;
+    [SerializeField] private float grassCount, castHeight, fovWidth, fovHeight;
     [SerializeField] private LayerMask mask;
     [SerializeField] private Mesh mesh;
     [SerializeField] private Material grassMat;
@@ -24,7 +24,6 @@ public class GrassSpawnerGPU : MonoBehaviour
     private ShaderProps[] transformArray;
     private ShaderProps[] culledArray;
     private uint[] args;
-    public Transform testpos;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,14 +64,9 @@ public class GrassSpawnerGPU : MonoBehaviour
         });
 
     }
-
-
-    // Update is called once per frame
     void Update()
     {
         Draw();
-
-
     }
 
     private void SpawnMatrix(float skipHeight)
@@ -114,12 +108,7 @@ public class GrassSpawnerGPU : MonoBehaviour
     }
     private void InitCompute()
     {
-
-        transformArray = transforms.ToArray();
         culledArray = new ShaderProps[1500 * 1500];
-
-        // shaderPropsBuffer = new ComputeBuffer(transformArray.Length, ShaderProps.Size());
-        // shaderPropsBuffer.SetData(transformArray);
 
         culledBuffer = new ComputeBuffer(1500 * 1500, ShaderProps.Size(), ComputeBufferType.Append);
         culledBuffer.SetCounterValue(0);
@@ -136,20 +125,16 @@ public class GrassSpawnerGPU : MonoBehaviour
         argsBuffer.SetData(args);
 
         int kernelIndex = compute.FindKernel("CSMain");
-        //        compute.SetBuffer(kernelIndex, "inputGrassBuffer", shaderPropsBuffer);
         compute.SetBuffer(kernelIndex, "culledGrassBuffer", culledBuffer);
-
         grassMat.SetBuffer("props", culledBuffer);
 
         meshBounds = new Bounds(transform.position, Vector3.one * (10000));
     }
     private void Draw()
     {
-
-
         Matrix4x4 P = Camera.main.projectionMatrix;
-        P.SetRow(0, new Vector4(testCull1, 0, 0, 0));
-        P.SetRow(1, new Vector4(0f, testCull2, 0, 0));
+        P.SetRow(0, new Vector4(fovWidth, 0, 0, 0));
+        P.SetRow(1, new Vector4(0f, fovHeight, 0, 0));
         Matrix4x4 V = Camera.main.worldToCameraMatrix;
         Matrix4x4 VP = P * V;
 
@@ -167,7 +152,6 @@ public class GrassSpawnerGPU : MonoBehaviour
                 chunkToRender.Add(chunks[chunkPos]);
         }
 
-
         var chosenData = new ShaderProps[grassCountPerChunk * chunkToRender.Count];
         for (int i = 0; i < chunkToRender.Count; i++)
         {
@@ -177,9 +161,7 @@ public class GrassSpawnerGPU : MonoBehaviour
         shaderPropsBuffer = new ComputeBuffer(chosenData.Length, ShaderProps.Size());
         shaderPropsBuffer.SetData(chosenData);
 
-        //argsBuffer?.Release();
         PopulateArgsArray(0);
-        //argsBuffer.SetData(args);
 
         int kernelIndex = compute.FindKernel("CSMain");
         compute.SetBuffer(kernelIndex, "inputGrassBuffer", shaderPropsBuffer);
@@ -190,29 +172,9 @@ public class GrassSpawnerGPU : MonoBehaviour
 
         compute.Dispatch(0, Mathf.CeilToInt(chosenData.Length / 64), 1, 1);
 
-
-
-        //var counterBuffer = new ComputeBuffer(5, sizeof(int), ComputeBufferType.IndirectArguments);
         ComputeBuffer.CopyCount(culledBuffer, argsBuffer, 4);
-        // counterBuffer.GetData(args);
-        // var population = args[0];
-        // PopulateArgsBuffer(population);
-        // argsBuffer.SetData(args);
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            uint[] t = new uint[5];
-            argsBuffer.GetData(t);
-            foreach (var i in t) Debug.Log(i);
-        }
-
-        // counterBuffer.GetData(args);
-        // counterBuffer.Release();
-        // population = args[0];
-        // PopulateArgsBuffer(population);
 
         Graphics.DrawMeshInstancedIndirect(mesh, 0, grassMat, meshBounds, argsBuffer);
-        //Graphics.DrawMeshInstancedIndirect(lowLodMesh, 0, grassMatLowLod, meshBounds, lowLodArgsBuffer);
         culledBuffer.SetCounterValue(0);
 
 
@@ -242,7 +204,6 @@ public struct ShaderProps
     {
         return sizeof(float) * 22 + sizeof(int);
     }
-
 }
 public class GrassChunk
 {
@@ -259,5 +220,4 @@ public class GrassChunk
         props[counter] = prop;
         counter++;
     }
-
 }

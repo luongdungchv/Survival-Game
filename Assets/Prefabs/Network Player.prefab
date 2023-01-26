@@ -677,7 +677,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7064849829141531683}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3736d112a1a2fea4eb61f992dcc223b2, type: 3}
   m_Name: 
@@ -692,10 +692,15 @@ MonoBehaviour:
   maxHungerPoint: 50
   hungerReduceRate: 5
   hungerLerpDuration: 0.3
-  _speed: 0
-  _sprintSpeed: 0
-  _dashSpeed: 0
-  _jumpSpeed: 0
+  speed: 0
+  sprintSpeed: 0
+  dashSpeed: 0
+  jumpSpeed: 0
+  dashJumpSpeed: 0
+  dashDelay: 0
+  maxFallingSpeed: 55
+  swimSpeed: 5
+  swimFastSpeed: 8
   treeCritRate: 5
   oreCritRate: 5
   enemyCritRate: 5
@@ -731,6 +736,7 @@ MonoBehaviour:
   sprint: 0
   jumpPress: 0
   attack: 0
+  isConsumingItem: 0
   camDir: {x: 0, y: 0}
   startDash: 0
 --- !u!114 &-7358049296065208460
@@ -765,11 +771,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e18e89accde5fba4ab04a0c9b028080f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
-  sprintSpeed: 10
-  jumpSpeed: 17
-  dashSpeed: 25
-  maxFallingSpeed: 55
   slopeCheckMask:
     serializedVersion: 2
     m_Bits: 77824
@@ -787,14 +788,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swimSpeed: 5
   swimFastSpeed: 8
-  castPos: {fileID: 7064849829126725696}
   rayLength: 3.7
   threshold: 1.8
+  castPos: {fileID: 7064849829126725696}
   rayMask:
     serializedVersion: 2
     m_Bits: 16
-  SwimNormal: {fileID: 11400000, guid: 613afac4841531c42a93d7166b515cc9, type: 2}
-  SwimIdle: {fileID: 11400000, guid: 414b43a059fed29469475d26087c0b76, type: 2}
 --- !u!114 &4178081083022953883
 MonoBehaviour:
   m_ObjectHideFlags: 0

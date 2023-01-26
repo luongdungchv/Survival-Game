@@ -24,16 +24,6 @@ public class PlayerAnimation : MonoBehaviour
             animBlendCoroutineDict.Add(name, null);
         }
     }
-
-
-    public void PerformJog()
-    {
-
-    }
-    public void PerformRun()
-    {
-
-    }
     public void PerformAttack(int index, string type)
     {
         animator.SetBool(type, true);
@@ -67,14 +57,12 @@ public class PlayerAnimation : MonoBehaviour
         BlendAnimation("move", 0, 0.2f);
         BlendAnimation("swim", 0, 0.2f);
 
-        //animator.SetBool("jump", false);
     }
     public void SwimIdle()
     {
         BlendAnimation("move", 0, 0);
         animator.SetFloat("swim", 0.5f);
         BlendAnimation("swim", 0.15f, 0.15f);
-        //animator.SetFloat("swim", 0.15f);
     }
     public void SwimNormal()
     {
