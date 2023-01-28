@@ -337,6 +337,7 @@ GameObject:
   - component: {fileID: 8963587422939531147}
   - component: {fileID: 6918578912785741625}
   - component: {fileID: 84951730780964244}
+  - component: {fileID: 2031326877556243075}
   m_Layer: 12
   m_Name: pine
   m_TagString: Untagged
@@ -436,6 +437,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 
+--- !u!114 &2031326877556243075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6347642991463945608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4330de342e37bc4490b88879bf87f10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiElement: {fileID: 0}
+  projection: 90
+  uiWorldPos: {fileID: 1696102859863120085}
+  canvas: {fileID: 0}
 --- !u!1 &7500736744069739280
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,7 +462,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1696102859863120085}
-  - component: {fileID: 5127629598146245557}
   - component: {fileID: 1782794643513232762}
   - component: {fileID: 6504594981801992906}
   m_Layer: 0
@@ -469,21 +485,6 @@ Transform:
   m_Father: {fileID: 6006828869372645170}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5127629598146245557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7500736744069739280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4330de342e37bc4490b88879bf87f10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiElement: {fileID: 0}
-  projection: 90
-  canvas: {fileID: 0}
 --- !u!114 &1782794643513232762
 MonoBehaviour:
   m_ObjectHideFlags: 0

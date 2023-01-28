@@ -22,6 +22,7 @@ public class NetworkPlayer : NetworkObject
     private StateMachine fsm;
     private Coroutine lerpPosRoutine, rotationCoroutine;
     private Vector3 lastPosition;
+    private float timeTest;
     private void Awake()
     {
         if (isLocalPlayer) localPlayer = this;
@@ -31,6 +32,7 @@ public class NetworkPlayer : NetworkObject
         rb = GetComponent<Rigidbody>();
         netMovement = GetComponent<NetworkMovement>();
         lastPosition = transform.position;
+        timeTest = Time.realtimeSinceStartup;
     }
     private void Update()
     {
@@ -40,6 +42,8 @@ public class NetworkPlayer : NetworkObject
     {
         var _position = packet.position;
         var moveDir = _position - lastPosition;
+        // Debug.Log((Time.realtimeSinceStartup - timeTest) * 1000);
+        // timeTest = Time.realtimeSinceStartup;
 
         if (moveDir.magnitude < 0.006) moveDir = Vector3.zero;
 
@@ -56,7 +60,9 @@ public class NetworkPlayer : NetworkObject
 
             }
             moveDir = moveDir.normalized;
-            rb.MovePosition(_position);
+            //rb.MovePosition(_position);
+            if (lerpPosRoutine != null) StopCoroutine(lerpPosRoutine);
+            lerpPosRoutine = StartCoroutine(LerpPosition(_position, 0.09f));
 
         }
         else
@@ -80,14 +86,14 @@ public class NetworkPlayer : NetworkObject
             fsm.ChangeState(AnimationMapper.GetAnimationName(packet.anim));
         }
     }
-    private IEnumerator LerpPosition(Vector3 to)
+    private IEnumerator LerpPosition(Vector3 to, float duration)
     {
-        float t = 0;
         Vector3 from = rb.position;
+        float t = 0;
         while (t < 1)
         {
+            t += Time.deltaTime / duration;
             rb.position = Vector3.Lerp(from, to, t);
-            t += Time.deltaTime / frameLerp;
             yield return null;
         }
     }
@@ -106,7 +112,7 @@ public class NetworkPlayer : NetworkObject
     {
         if (Client.ins.isHost)
         {
-            var pos = transform.position;
+            var pos = rb.position;
             var movePacket = new MovePlayerPacket();
             movePacket.WriteData(id, pos, AnimationMapper.GetAnimationIndex(fsm.currentState));
             Client.ins.SendUDPPacket(movePacket);

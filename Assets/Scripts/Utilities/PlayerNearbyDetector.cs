@@ -9,6 +9,14 @@ public class PlayerNearbyDetector : HitBox
     private void Start()
     {
         displayer = GetComponent<FixedSizeUI>();
+        if (displayer == null)
+        {
+            displayer = GetComponentInParent<FixedSizeUI>();
+        }
+        if (displayer == null)
+        {
+            displayer = GetComponentInChildren<FixedSizeUI>();
+        }
     }
     protected override bool OnHitDetect(RaycastHit hit)
     {

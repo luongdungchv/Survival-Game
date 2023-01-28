@@ -20,12 +20,13 @@ public class ItemDropObject : MonoBehaviour, IDamagable
         //if (inputPriority < priority) return;
         hp -= incomingDmg;
         var isDealerLocalPlayer = player.GetComponent<NetworkPlayer>().isLocalPlayer;
-        if (TryGetComponent<FixedSizeUI>(out var hpBar) && isDealerLocalPlayer)
+        FixedSizeUI hpBar;
+        if ((TryGetComponent<FixedSizeUI>(out hpBar)) && isDealerLocalPlayer)
         {
             hpBar.SetElementValue(Mathf.InverseLerp(0, maxHP, hp));
             var popup = dmgPopupPool.Release();
             var critLevel = isCrit ? 1 : 0;
-            popup.Popup(transform.position, incomingDmg.ToString(), critLevel);
+            popup.Popup(hpBar.uiWorldPos.position, incomingDmg.ToString(), critLevel);
         }
         if (hp <= 0)
         {
@@ -39,7 +40,6 @@ public class ItemDropObject : MonoBehaviour, IDamagable
     public void OnDamage(IHitData hitData)
     {
         var playerHitData = hitData as PlayerHitData;
-        //        Debug.Log(playerHitData.damage);
         OnDamage(playerHitData.dealer, playerHitData.damage, playerHitData.atkTool, playerHitData.crit);
     }
 }

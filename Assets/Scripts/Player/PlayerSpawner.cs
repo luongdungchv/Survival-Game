@@ -19,17 +19,18 @@ public class PlayerSpawner : MonoBehaviour
 
         RaycastHit hit;
         bool cast = Physics.Raycast(castPos + Vector3.right * int.Parse(Client.ins.clientId) * 5, Vector3.down, out hit, 100, mask);
-        cast = !cast || (cast && hit.point.y < skipHeight) ? false : true;
-        while (!cast)
+        //cast = !cast || (cast && hit.point.y < skipHeight) ? false : true;
+        while (hit.collider.tag == "Water")
         {
             castPos = new Vector3(randObj.NextFloat(100, 1400) + int.Parse(Client.ins.clientId) * 5, 100, randObj.NextFloat(100, 1400));
             cast = Physics.Raycast(castPos, Vector3.down, out hit, 100, mask);
-            cast = !cast || (cast && hit.point.y < skipHeight) ? false : true;
+            //cast = !cast || (cast && hit.point.y < skipHeight) ? false : true;
         }
 
 
-        transform.position = hit.point + Vector3.up;
+        transform.position = hit.point + Vector3.up * 3;
         var pos = transform.position;
+        Debug.Log(pos.ToString() + " " + Client.ins.clientId);
 
         GetComponent<NetworkPlayer>().id = Client.ins.clientId;
         GetComponent<NetworkPlayer>().port = Client.ins.udp.port;
@@ -37,7 +38,6 @@ public class PlayerSpawner : MonoBehaviour
         if (!Client.ins.isHost)
         {
             var moveSystem = GetComponent<PlayerMovement>();
-            //moveSystem.ResetStats();
             GetComponent<Rigidbody>().useGravity = false;
         }
         Client.ins.SendTCPMessage($"{(int)PacketType.SpawnPlayer} {Client.ins.clientId} {pos.x} {pos.y} {pos.z} {Client.ins.udp.port}");

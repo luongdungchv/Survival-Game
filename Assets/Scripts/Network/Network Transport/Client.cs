@@ -15,6 +15,7 @@ public class Client : MonoBehaviour
     public bool isHost;
     public int mapSeed;
     public string clientId;
+    public string clientName;
     public ClientHandle handler;
     [SerializeField] private string server;
     [SerializeField] private int port, tcpBufferSize;
@@ -67,14 +68,37 @@ public class Client : MonoBehaviour
     }
     public void CreateRoom()
     {
-        if (tcp.Send("cr"))
+        if (!tcp.isConnected)
         {
-            isHost = true;
+            tcp.Connect(hostField.text, port, () =>
+            {
+                if (tcp.Send("cr " + mapSeed.ToString()))
+                {
+                    isHost = true;
+                }
+            });
+        }
+        else
+        {
+            if (tcp.Send("cr " + mapSeed.ToString()))
+            {
+                isHost = true;
+            }
         }
     }
     public void JoinRoom(string id)
     {
-        tcp.Send($"jr {id}");
+        if (!tcp.isConnected)
+        {
+            tcp.Connect(hostField.text, port, () =>
+            {
+                tcp.Send($"jr {id}");
+            });
+        }
+        else
+        {
+            tcp.Send($"jr {id}");
+        }
     }
     public void Ready()
     {
@@ -86,6 +110,10 @@ public class Client : MonoBehaviour
         {
             tcp.Send($"st {mapSeed}");
         }
+    }
+    public void LeaveRoom()
+    {
+        tcp.Send("lv");
     }
     public void ConnectToServer()
     {

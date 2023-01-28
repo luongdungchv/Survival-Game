@@ -16,6 +16,7 @@ public class NetworkManager : MonoBehaviour
     private Dictionary<string, NetworkPlayer> playerList;
     private Client client => Client.ins;
     private ObjectMapper objMapper => ObjectMapper.ins;
+    public bool gameStarted;
     private void Awake()
     {
         if (ins == null) ins = this;
@@ -43,11 +44,7 @@ public class NetworkManager : MonoBehaviour
         handler.AddHandler(PacketType.DestroyObject, HandleDestroyObject);
         handler.AddHandler(PacketType.ItemDrop, HandleDropItem);
         handler.AddHandler(PacketType.PlayerDisconnect, HandlePlayerDisconnect);
-    }
-
-    private void Update()
-    {
-
+        handler.AddHandler(PacketType.RoomInteraction, HandleRoomInteraction);
     }
     private void HandleMovePlayer(Packet _packet)
     {
@@ -81,7 +78,7 @@ public class NetworkManager : MonoBehaviour
     {
         var startPacket = _packet as StartGamePacket;
         client.clientId = startPacket.clientId;
-        client.mapSeed = client.mapSeed;
+        client.mapSeed = startPacket.mapSeed;
         client.SetUDPRemoteHost(startPacket.udpRemoteHost);
         //client.SendUDPMessage("con");
         client.SendUDPConnectionInfo(() =>
@@ -117,9 +114,47 @@ public class NetworkManager : MonoBehaviour
             client.SendTCPPacket(packet);
         }
     }
-    public void DropItemServer(NetworkPrefab prefab, Vector3 position, string itemBase, int quantity)
+    public void HandleRoomInteraction(Packet _packet)
     {
-
+        var roomPacket = _packet as RoomPacket;
+        var action = roomPacket.action;
+        var args = roomPacket.args;
+        Debug.Log(roomPacket.action);
+        if (action == "create" || action == "join")
+        {
+            NetworkRoom room = new NetworkRoom()
+            {
+                id = args[0],
+                mapSeed = int.Parse(args[1])
+            };
+            for (int i = 2; i < args.Length; i++)
+            {
+                Debug.Log(args[i]);
+                room.AddPlayer(args[i]);
+            }
+            room.localPlayerId = room.playerCount - 1;
+            SceneManager.LoadScene("Room Scene");
+        }
+        else if (action == "room_add")
+        {
+            NetworkRoom.ins.AddPlayer(args[0]);
+        }
+        else if (action == "leave")
+        {
+            var playerIdToRemove = int.Parse(args[0]);
+            NetworkRoom.ins.RemovePlayer(playerIdToRemove);
+            Debug.Log(NetworkRoom.ins.localPlayerId);
+            if ((playerIdToRemove == NetworkRoom.ins.localPlayerId || playerIdToRemove == 0) && !gameStarted)
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+        }
+        else if (action == "ready")
+        {
+            var playerId = int.Parse(args[0]);
+            var state = int.Parse(args[1]) != 0;
+            NetworkRoom.ins.SetReadyState(playerId, state);
+        }
     }
     public void HandleDropItem(Packet _packet)
     {
@@ -314,9 +349,12 @@ public class NetworkManager : MonoBehaviour
     public void HandlePlayerDisconnect(Packet _packet)
     {
         var packet = _packet as ObjectInteractionPacket;
-        var playerToRemove = playerList[packet.playerId];
-        Destroy(playerToRemove.gameObject);
-        playerList.Remove(packet.playerId);
+        if (playerList.TryGetValue(packet.playerId, out var playerToRemove))
+        {
+            Destroy(playerToRemove.gameObject);
+            playerList.Remove(packet.playerId);
+        }
+        //NetworkRoom.ins.RemovePlayer(packet.playerId);
     }
     public void AddNetworkSceneObject(string id, NetworkSceneObject obj)
     {
@@ -342,3 +380,4 @@ public class NetworkManager : MonoBehaviour
         SceneManager.LoadScene("Test_PlayerStats");
     }
 }
+

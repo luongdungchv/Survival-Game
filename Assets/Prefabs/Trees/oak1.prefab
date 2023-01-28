@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 6068178217773800073}
   - component: {fileID: 1654392395457581537}
   - component: {fileID: 4445042910381056348}
+  - component: {fileID: -6836253940147429193}
   m_Layer: 12
   m_Name: oak1
   m_TagString: Untagged
@@ -197,6 +198,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 
+--- !u!114 &-6836253940147429193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4778440782051247300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4330de342e37bc4490b88879bf87f10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiElement: {fileID: 0}
+  projection: 90
+  uiWorldPos: {fileID: 4810499554830683263}
+  canvas: {fileID: 0}
 --- !u!1 &6190995225659721204
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +483,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4810499554830683263}
-  - component: {fileID: 8343952184755223353}
   - component: {fileID: 1990930837580872307}
   - component: {fileID: 5541569076393366816}
   m_Layer: 0
@@ -490,21 +506,6 @@ Transform:
   m_Father: {fileID: 5268013364396154494}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8343952184755223353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9193300924446430986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4330de342e37bc4490b88879bf87f10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiElement: {fileID: 0}
-  projection: 90
-  canvas: {fileID: 0}
 --- !u!114 &1990930837580872307
 MonoBehaviour:
   m_ObjectHideFlags: 0

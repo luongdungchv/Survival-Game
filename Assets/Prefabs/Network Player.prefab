@@ -630,8 +630,6 @@ MonoBehaviour:
   camHolder: {fileID: 0}
   rayLength: 3.7
   threshold: 1.8
-  swimFastSpeed: 8
-  swimSpeed: 4
   rayMask:
     serializedVersion: 2
     m_Bits: 16
@@ -692,12 +690,12 @@ MonoBehaviour:
   maxHungerPoint: 50
   hungerReduceRate: 5
   hungerLerpDuration: 0.3
-  speed: 0
-  sprintSpeed: 0
-  dashSpeed: 0
-  jumpSpeed: 0
-  dashJumpSpeed: 0
-  dashDelay: 0
+  speed: 7
+  sprintSpeed: 10
+  dashSpeed: 20
+  jumpSpeed: 17
+  dashJumpSpeed: 12.5
+  dashDelay: 0.5
   maxFallingSpeed: 55
   swimSpeed: 5
   swimFastSpeed: 8
@@ -786,8 +784,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e993190a19795946b922b5a4667cc64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swimSpeed: 5
-  swimFastSpeed: 8
   rayLength: 3.7
   threshold: 1.8
   castPos: {fileID: 7064849829126725696}

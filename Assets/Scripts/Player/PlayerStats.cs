@@ -53,6 +53,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
+        if (!GetComponent<NetworkPlayer>().isLocalPlayer) return;
         if (ins == null) ins = this;
         _hp = maxHP / 2;
         hpBar.value = Mathf.InverseLerp(0, maxHP, _hp);
@@ -62,6 +63,7 @@ public class PlayerStats : MonoBehaviour
     }
     void Update()
     {
+        if (!GetComponent<NetworkPlayer>().isLocalPlayer) return;
         if (fsm.currentState.name != "Dash" &&
             (!inputReader.sprint || stamina <= 0) &&
             !isRegeneratingStamina &&

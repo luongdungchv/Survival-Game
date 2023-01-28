@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 6663462038248912293}
   - component: {fileID: 3000244215514675106}
   - component: {fileID: -5260744990094379682}
+  - component: {fileID: 1344206295147742178}
   m_Layer: 12
   m_Name: birch
   m_TagString: Untagged
@@ -212,6 +213,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 
+--- !u!114 &1344206295147742178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4467408001072779299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4330de342e37bc4490b88879bf87f10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiElement: {fileID: 0}
+  projection: 90
+  uiWorldPos: {fileID: 6048749518601571763}
+  canvas: {fileID: 0}
 --- !u!1 &5811782731103381385
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,7 +319,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6048749518601571763}
-  - component: {fileID: 5092507371566359403}
   - component: {fileID: 1574513760018391776}
   - component: {fileID: 8424648068937368312}
   m_Layer: 0
@@ -326,21 +342,6 @@ Transform:
   m_Father: {fileID: 3941981477811391129}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5092507371566359403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6282226846513554438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4330de342e37bc4490b88879bf87f10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiElement: {fileID: 0}
-  projection: 90
-  canvas: {fileID: 0}
 --- !u!114 &1574513760018391776
 MonoBehaviour:
   m_ObjectHideFlags: 0

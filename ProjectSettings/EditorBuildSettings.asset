@@ -7,8 +7,11 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
-    guid: 15b51942db740014a9e4af391b29a0e1
+    guid: 92e0e411b6b016c458fd7283af8def0a
   - enabled: 1
     path: Assets/Scenes/Test Scenes/Test_PlayerStats.unity
     guid: 287af78df11375640ad390f36784bcf0
+  - enabled: 1
+    path: Assets/Scenes/Room Scene.unity
+    guid: 8c825a54f9aa5184cb5bc5a674704506
   m_configObjects: {}

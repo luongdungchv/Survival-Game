@@ -69,6 +69,12 @@ public class Packet
                     packet.WriteData(msg);
                     return packet;
                 }
+            case PacketType.RoomInteraction:
+                {
+                    var packet = new RoomPacket();
+                    packet.WriteData(msg);
+                    return packet;
+                }
             default:
                 {
                     //                    Debug.Log("msg: " + msg);
@@ -394,13 +400,38 @@ public class ItemDropPacket : Packet
         }
     }
 }
+public class RoomPacket : Packet
+{
+    public string action;
+    public string[] args;
+    public RoomPacket()
+    {
+        this.command = PacketType.RoomInteraction;
+    }
+    public override string GetString()
+    {
+        return base.GetString();
+    }
+    public void WriteData(string msg)
+    {
+        var split = msg.Split(' ');
+
+        this.action = split[1];
+        args = new string[split.Length - 2];
+        for (int i = 2; i < split.Length; i++)
+        {
+            args[i - 2] = split[i];
+        }
+
+    }
+}
 
 public enum PacketType
 {
     MovePlayer,
     SpawnPlayer, StartGame, Input, SpawnObject, UpdateEquipping,
     FurnaceServerUpdate, FurnaceClientMsg,
-    ItemDrop,
+    ItemDrop, RoomInteraction,
     ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject, PlayerDisconnect
 
 }

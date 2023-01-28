@@ -7,6 +7,7 @@ public class FixedSizeUI : MonoBehaviour
 {
     [SerializeField] private Image uiElement;
     [SerializeField] private float projection;
+    [SerializeField] public Transform uiWorldPos;
     private PlayerNearbyDetector playerDetector;
     public Canvas canvas;
     private Camera mainCam => Camera.main;
@@ -14,6 +15,14 @@ public class FixedSizeUI : MonoBehaviour
     private void Start()
     {
         playerDetector = GetComponent<PlayerNearbyDetector>();
+        if (playerDetector == null)
+        {
+            playerDetector = GetComponentInChildren<PlayerNearbyDetector>();
+        }
+        if (playerDetector == null)
+        {
+            playerDetector = GetComponentInParent<PlayerNearbyDetector>();
+        }
     }
     // Start is called before the first frame update
     private void Update()
@@ -21,7 +30,7 @@ public class FixedSizeUI : MonoBehaviour
         playerDetector.DetectHit();
         if (!isDisplayed) return;
 
-        var uiPos = GameFunctions.ins.WorldToCanvasPosition(transform.position, 90);
+        var uiPos = GameFunctions.ins.WorldToCanvasPosition(uiWorldPos.position, 90);
 
         uiElement.GetComponent<RectTransform>().position = uiPos;
     }

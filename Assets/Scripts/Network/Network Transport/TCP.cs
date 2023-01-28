@@ -18,6 +18,7 @@ public class TCP
     private int bufferSize;
     private Client owner;
     private ClientHandle handler => owner.handler;
+    public bool isConnected => socket != null && socket.Connected;
     public TCP(Client owner, int bufferSize)
     {
         this.bufferSize = bufferSize;
@@ -44,6 +45,27 @@ public class TCP
         }
 
     }
+    public async void Connect(string hostName, int port, UnityAction onSuccessCallback)
+    {
+        Debug.Log($"connect {hostName} {port}");
+        socket = new TcpClient();
+        try
+        {
+            await socket.ConnectAsync(hostName, port);
+            Debug.Log(socket.Connected);
+            stream = socket.GetStream();
+            buffer = new byte[bufferSize];
+            //TCPReadAsync();
+            stream.BeginRead(buffer, 0, bufferSize, TCPReadCallback, null);
+            onSuccessCallback();
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Cannot connect to server");
+            Debug.Log(e.ToString());
+        }
+
+    }
     public void Disconnect()
     {
         socket?.Close();
@@ -51,7 +73,7 @@ public class TCP
         stream = null;
         buffer = null;
         bufferSize = 0;
-        UIManager.ins.ShowDisconnectPanel();
+        UIManager.ins?.ShowDisconnectPanel();
     }
     public bool Send(string msg)
     {
@@ -86,31 +108,6 @@ public class TCP
             return false;
         }
     }
-    private async void TCPReadAsync()
-    {
-        while (true)
-        {
-            try
-            {
-                int dataLength = await stream.ReadAsync(buffer, 0, bufferSize);
-                if (dataLength <= 0)
-                {
-                    Disconnect();
-                    return;
-                }
-                byte[] data = new byte[dataLength];
-                Array.Copy(buffer, data, dataLength);
-                string msg = Encoding.ASCII.GetString(data);
-                handler.HandleMessage(msg);
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e.ToString());
-                Disconnect();
-                break;
-            }
-        }
-    }
     private void TCPReadCallback(IAsyncResult result)
     {
         try
@@ -124,8 +121,8 @@ public class TCP
             byte[] data = new byte[dataLength];
             Array.Copy(buffer, data, dataLength);
             string msg = Encoding.ASCII.GetString(data);
-            Debug.Log(msg);
             var split = msg.Split('~');
+            Debug.Log(msg);
             foreach (var i in split)
             {
                 if (i != "")
