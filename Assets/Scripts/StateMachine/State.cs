@@ -12,6 +12,7 @@ public class State : ScriptableObject
     public UnityEvent OnEnter;
     public UnityEvent OnUpdate;
     public UnityEvent OnExit;
+    public UnityEvent OnFixedUpdate;
     public List<State> transitions;
     private Dictionary<string, bool> lockTransitions;
     public bool lockState;

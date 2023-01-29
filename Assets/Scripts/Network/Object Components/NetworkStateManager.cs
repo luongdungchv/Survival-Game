@@ -48,6 +48,7 @@ public class NetworkStateManager : MonoBehaviour
             animSystem.CancelJump();
             animSystem.SwimNormal();
         });
+
         Attack.OnEnter.AddListener(() =>
         {
             netMovement.StopMoveServer();
@@ -61,15 +62,15 @@ public class NetworkStateManager : MonoBehaviour
 
 
         if (!Client.ins.isHost) return;
-        Dash.OnUpdate.AddListener(netMovement.DashServer);
-        Move.OnUpdate.AddListener(netMovement.MoveServer);
-        Sprint.OnUpdate.AddListener(() =>
+        Dash.OnFixedUpdate.AddListener(netMovement.DashServer);
+        Move.OnFixedUpdate.AddListener(netMovement.MoveServer);
+        Sprint.OnFixedUpdate.AddListener(() =>
         {
             netMovement.MoveServer();
         });
-        SwimIdle.OnUpdate.AddListener(netSwim.SwimDetect);
-        SwimNormal.OnUpdate.AddListener(netSwim.SwimServer);
-        Idle.OnUpdate.AddListener(() => { });
+        SwimIdle.OnFixedUpdate.AddListener(netSwim.SwimDetect);
+        SwimNormal.OnFixedUpdate.AddListener(netSwim.SwimServer);
+        //Idle.OnFixedUpdate.AddListener(() => { });
 
     }
     private void FixedUpdate()

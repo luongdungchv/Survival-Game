@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
 using System.Threading.Tasks;
+using UnityEngine.PlayerLoop;
 
 public class StateMachine : MonoBehaviour
 {
@@ -31,10 +32,14 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
         //GetComponent<Rigidbody>().AddForce(0, -46, 0);
         if (currentState != null) currentState.OnUpdate.Invoke();
+    }
+    private void FixedUpdate()
+    {
+        if (currentState != null) currentState.OnFixedUpdate.Invoke();
     }
     public bool ChangeState(string stateName, bool force = false)
     {
