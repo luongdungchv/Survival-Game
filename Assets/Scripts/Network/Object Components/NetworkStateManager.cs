@@ -72,7 +72,7 @@ public class NetworkStateManager : MonoBehaviour
         Idle.OnUpdate.AddListener(() => { });
 
     }
-    private void Update()
+    private void FixedUpdate()
     {
         if (!Client.ins.isHost) return;
         var inputVector = inputReceiver.movementInputVector;

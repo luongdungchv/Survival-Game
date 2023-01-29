@@ -53,6 +53,8 @@ public class NetworkManager : MonoBehaviour
             var movePacket = _packet as MovePlayerPacket;
             var player = playerList[movePacket.id];
             player.ReceivePlayerState(movePacket);
+            //player.AddPacket(movePacket);
+            //Debug.Log(player.pendingStatePackets.Count);
         }
         catch
         {
@@ -92,7 +94,7 @@ public class NetworkManager : MonoBehaviour
         var inputPacket = _packet as InputPacket;
         var playerId = inputPacket.id;
         if (playerList.ContainsKey(playerId))
-            playerList[playerId].GetComponent<InputReceiver>().HandleInput(inputPacket);
+            playerList[playerId].GetComponent<InputReceiver>().AddPacket(inputPacket);
     }
     public bool AddPlayer(string id, NetworkPlayer player)
     {

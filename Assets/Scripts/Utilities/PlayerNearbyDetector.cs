@@ -29,6 +29,6 @@ public class PlayerNearbyDetector : HitBox
     protected override void OnNoHitDetect()
     {
         isDisplayed = false;
-        displayer.SetDisplay(false);
+        displayer?.SetDisplay(false);
     }
 }

@@ -24,7 +24,6 @@ public class StateMachine : MonoBehaviour
                 var rb = GetComponent<Rigidbody>();
                 if (newName.Contains("Swim"))
                 {
-
                     rb.useGravity = false;
                 }
                 else rb.useGravity = true;
@@ -32,7 +31,7 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         //GetComponent<Rigidbody>().AddForce(0, -46, 0);
         if (currentState != null) currentState.OnUpdate.Invoke();
