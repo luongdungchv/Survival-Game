@@ -65,6 +65,8 @@ public class GameFunctions : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Debug.Log("hide");
+
     }
     public void ShowCursor()
     {

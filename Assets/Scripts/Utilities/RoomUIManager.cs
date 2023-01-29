@@ -55,7 +55,7 @@ public class RoomUIManager : MonoBehaviour
     }
     private void HandlePlayerLeave(int playerId)
     {
-        playerTextList[playerId].transform.parent.gameObject.SetActive(false);
+        playerTextList[playerId].gameObject.SetActive(false);
         playerCount--;
     }
     private void HandleReadyStateChange(int playerId, bool state)

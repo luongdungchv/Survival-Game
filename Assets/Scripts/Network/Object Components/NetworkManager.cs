@@ -26,6 +26,7 @@ public class NetworkManager : MonoBehaviour
             ins = this;
         }
         sceneObjects = new Dictionary<string, NetworkSceneObject>();
+        gameStarted = false;
     }
     private void Start()
     {
@@ -378,6 +379,7 @@ public class NetworkManager : MonoBehaviour
         Debug.Log("load");
         yield return new WaitForSeconds(duration);
         SceneManager.LoadScene("Test_PlayerStats");
+        gameStarted = true;
     }
 }
 

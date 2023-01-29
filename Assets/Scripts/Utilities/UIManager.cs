@@ -21,7 +21,8 @@ public class UIManager : MonoBehaviour
                 inventoryUI.activeSelf ||
                 craftUI.activeSelf ||
                 anvilUI.activeSelf ||
-                furnaceUI.activeSelf;
+                furnaceUI.activeSelf ||
+                lostConnectionPanel.activeSelf;
 
     private InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
 
@@ -116,7 +117,11 @@ public class UIManager : MonoBehaviour
     public void ShowDisconnectPanel()
     {
         //Debug.Log(lostConnectionPanel);
-        ThreadManager.ExecuteOnMainThread(() => lostConnectionPanel.SetActive(true));
+        ThreadManager.ExecuteOnMainThread(() =>
+        {
+            lostConnectionPanel.SetActive(true);
+            GameFunctions.ins.ShowCursor();
+        });
     }
 
 }

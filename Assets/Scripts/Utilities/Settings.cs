@@ -11,6 +11,7 @@ public class Settings : MonoBehaviour
     private SettingData currentData;
     [SerializeField] private TMP_Dropdown afSetting, aaSetting, shadowSetting, lodSetting;
     [SerializeField] private GameObject settingUI;
+    [SerializeField] private bool hideCursorOnClose;
 
 
     private void Awake()
@@ -50,7 +51,7 @@ public class Settings : MonoBehaviour
         settingUI.SetActive(state);
         if (!state)
         {
-            GameFunctions.ins?.HideCursor();
+            if (hideCursorOnClose) GameFunctions.ins?.HideCursor();
             return;
         }
         GameFunctions.ins?.ShowCursor();
