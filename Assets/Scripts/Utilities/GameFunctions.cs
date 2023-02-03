@@ -111,7 +111,13 @@ public class GameFunctions : MonoBehaviour
     {
         var camPos = mainCam.transform.worldToLocalMatrix.MultiplyPoint(worldPos).normalized;
 
-        camPos = camPos * (projection / Mathf.Cos(Vector3.Angle(camPos, Vector3.forward) * Mathf.Deg2Rad));
+        var angleMultiplier = Mathf.Cos(Vector3.Angle(camPos, Vector3.forward) * Mathf.Deg2Rad);
+        if (angleMultiplier < 0)
+        {
+            return -Vector3.one;
+        }
+        camPos = camPos * (projection / angleMultiplier);
+        if (Input.GetKeyDown(KeyCode.E)) Debug.Log(camPos);
         var uiPos = camPos - Vector3.forward * projection;
 
         var canvasPos = mainCam.ScreenToWorldPoint(new Vector3(0, 0, projection));

@@ -114,7 +114,7 @@ public class StateInitializer : MonoBehaviour
     }
     private async void OnCollisionEnter(Collision collision)
     {
-
+        Debug.Log(collision.transform.parent?.gameObject.name);
         if (fsm.currentState.name == "InAir")
         {
             InAir.lockState = false;

@@ -188,9 +188,9 @@ public class GrassSpawnerGPU : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        argsBuffer.Release();
-        shaderPropsBuffer.Release();
-        culledBuffer.Release();
+        argsBuffer?.Release();
+        shaderPropsBuffer?.Release();
+        culledBuffer?.Release();
     }
 
 }

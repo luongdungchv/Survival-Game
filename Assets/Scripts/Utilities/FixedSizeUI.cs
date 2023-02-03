@@ -23,6 +23,7 @@ public class FixedSizeUI : MonoBehaviour
         {
             playerDetector = GetComponentInParent<PlayerNearbyDetector>();
         }
+        if (uiWorldPos == null) uiWorldPos = this.transform;
     }
     // Start is called before the first frame update
     private void Update()
@@ -36,8 +37,12 @@ public class FixedSizeUI : MonoBehaviour
     }
     public void SetDisplay(bool display)
     {
-        uiElement.gameObject.SetActive(display);
-        this.isDisplayed = display;
+        try
+        {
+            uiElement?.gameObject.SetActive(display);
+            this.isDisplayed = display;
+        }
+        catch { }
     }
     public void SetUIElement(Image ui)
     {

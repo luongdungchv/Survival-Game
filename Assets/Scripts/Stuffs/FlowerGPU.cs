@@ -222,9 +222,9 @@ public class FlowerGPU : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        instanceBuffer.Release();
-        renderBuffer.Release();
-        argsBuffer.Release();
+        instanceBuffer?.Release();
+        renderBuffer?.Release();
+        argsBuffer?.Release();
     }
 }
 public struct InstanceData
