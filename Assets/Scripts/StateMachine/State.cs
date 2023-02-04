@@ -12,6 +12,7 @@ public class State : ScriptableObject
     public UnityEvent OnEnter;
     public UnityEvent OnUpdate;
     public UnityEvent OnExit;
+    public UnityEvent OnFixedUpdate;
     public List<State> transitions;
     private Dictionary<string, bool> lockTransitions;
     public bool lockState;
@@ -19,6 +20,7 @@ public class State : ScriptableObject
     private void OnEnable()
     {
         lockTransitions = new Dictionary<string, bool>();
+        if (transitions == null) transitions = new List<State>();
         foreach (var i in transitions)
         {
             lockTransitions.Add(i.name, false);

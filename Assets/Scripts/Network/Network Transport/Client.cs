@@ -122,7 +122,7 @@ public class Client : MonoBehaviour
     }
     public void SetUDPRemoteHost(int port)
     {
-        udp.Connect(server, port);
+        udp.Connect(hostField.text, port);
     }
     private void OnApplicationQuit()
     {

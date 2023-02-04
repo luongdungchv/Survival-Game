@@ -9,7 +9,9 @@ public class InteractableObject : MonoBehaviour
     [SerializeField] protected string displayName;
     [SerializeField] protected GameObject interactBtnPrefab;
     [SerializeField] protected bool interactable = true;
+    [SerializeField] private float distanceThreshold = 5;
     private InteractableHitbox hitbox;
+    private Vector3 playerPosition;
 
     public bool isPlayerTouch;
 
@@ -19,8 +21,13 @@ public class InteractableObject : MonoBehaviour
         hitbox = GetComponent<InteractableHitbox>();
         hitbox.SetOwner(this);
     }
+    private void Start()
+    {
+        playerPosition = NetworkPlayer.localPlayer.transform.position;
+    }
     protected virtual void Update()
     {
+        if (Vector3.Distance(transform.position, playerPosition) > distanceThreshold) return;
         hitbox.DetectHit();
     }
     public bool TouchDetect(RaycastHit target)
@@ -56,4 +63,3 @@ public class InteractableObject : MonoBehaviour
         Destroy(clicker.gameObject);
     }
 }
-

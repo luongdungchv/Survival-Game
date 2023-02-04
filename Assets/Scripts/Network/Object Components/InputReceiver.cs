@@ -11,19 +11,23 @@ public class InputReceiver : MonoBehaviour
     public bool jumpPress;
     public bool attack;
     public bool isConsumingItem;
-    public Vector2 camDir;
     public bool startDash;
+    public Vector2 camDir;
+    private Queue<InputPacket> pendingInputPackets;
     private bool dashcheck, isDashDelaying;
     private NetworkObject netObj;
     private Coroutine setDashCoroutine, dashDelayCoroutine;
 
-    void Start()
+    private void Start()
     {
-
+        pendingInputPackets = new Queue<InputPacket>();
     }
-    public void Test()
+    private void FixedUpdate()
     {
-
+        if (Client.ins.isHost && pendingInputPackets.Count > 0)
+        {
+            HandleInput(pendingInputPackets.Dequeue());
+        }
     }
     public void HandleInput(InputPacket _packet)
     {
@@ -43,6 +47,11 @@ public class InputReceiver : MonoBehaviour
         this.camDir = _packet.camDir;
         this.attack = _packet.atk;
         this.isConsumingItem = _packet.isConsumingItem;
+        if (this.jumpPress) Debug.Log("jump");
+    }
+    public void AddPacket(InputPacket packet)
+    {
+        pendingInputPackets.Enqueue(packet);
     }
     // Update is called once per frame
     IEnumerator SetDash(float duration)

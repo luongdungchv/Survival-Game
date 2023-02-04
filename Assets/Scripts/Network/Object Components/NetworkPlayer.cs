@@ -10,19 +10,22 @@ public class NetworkPlayer : NetworkObject
     public float syncRate, frameLerp;
     public bool isLocalPlayer;
     public int port;
-    private Rigidbody rb;
     private float elapsed = 0;
+    private bool isGrounded;
+    private float timeTest;
+    private Coroutine lerpPosRoutine, rotationCoroutine;
+    private Vector3 lastPosition;
+    public Queue<MovePlayerPacket> pendingStatePackets;
+
+    private Rigidbody rb;
     private InputReceiver inputReceiver;
     private NetworkMovement netMovement;
+    private StateMachine fsm;
+
     private Vector2 movementInputVector => inputReceiver.movementInputVector;
     private bool sprint => inputReceiver.sprint;
     private bool jump => inputReceiver.jumpPress;
     private Vector2 camDir => inputReceiver.camDir;
-    private bool isGrounded;
-    private StateMachine fsm;
-    private Coroutine lerpPosRoutine, rotationCoroutine;
-    private Vector3 lastPosition;
-    private float timeTest;
     private void Awake()
     {
         if (isLocalPlayer) localPlayer = this;
@@ -33,10 +36,22 @@ public class NetworkPlayer : NetworkObject
         netMovement = GetComponent<NetworkMovement>();
         lastPosition = transform.position;
         timeTest = Time.realtimeSinceStartup;
+        pendingStatePackets = new Queue<MovePlayerPacket>();
+    }
+    private void FixedUpdate()
+    {
+        BroadcastState();
+        if (!Client.ins.isHost && pendingStatePackets.Count > 0)
+        {
+            var packet = pendingStatePackets.Dequeue();
+            Debug.Log(packet.position);
+            ReceivePlayerState(packet);
+        }
     }
     private void Update()
     {
-        RequestState();
+
+
     }
     public void ReceivePlayerState(MovePlayerPacket packet)
     {
@@ -62,7 +77,7 @@ public class NetworkPlayer : NetworkObject
             moveDir = moveDir.normalized;
             //rb.MovePosition(_position);
             if (lerpPosRoutine != null) StopCoroutine(lerpPosRoutine);
-            lerpPosRoutine = StartCoroutine(LerpPosition(_position, 0.09f));
+            lerpPosRoutine = StartCoroutine(LerpPosition(_position, 0.0833f));
 
         }
         else
@@ -108,7 +123,7 @@ public class NetworkPlayer : NetworkObject
         }
     }
 
-    private void RequestState()
+    private void BroadcastState()
     {
         if (Client.ins.isHost)
         {
@@ -119,27 +134,9 @@ public class NetworkPlayer : NetworkObject
             //Client.ins.SendUDPMessage(movePacket.GetString());
         }
     }
-    private void Move()
+    public void AddPacket(MovePlayerPacket packet)
     {
-        if (movementInputVector != Vector2.zero)
-        {
-            var currentSpeed = sprint ? sprintSpeed : speed;
-            var moveDir = new Vector3(camDir.x, 0, camDir.y) * movementInputVector.y
-                        + new Vector3(camDir.y, 0, -camDir.x) * movementInputVector.x;
-            moveDir = moveDir.normalized;
-            Debug.Log(moveDir * currentSpeed + Vector3.up * rb.velocity.y);
-
-            rb.velocity = moveDir * currentSpeed + Vector3.up * rb.velocity.y;
-
-            float angle = -Mathf.Atan2(moveDir.z, moveDir.x) * Mathf.Rad2Deg;
-            Quaternion targetRotation = Quaternion.Euler(transform.rotation.x, angle + 90, transform.rotation.z);
-            rotationCoroutine = StartCoroutine(LerpRotation(transform.rotation, targetRotation, 0.1f));
-        }
-        if (jump)
-        {
-            rb.velocity = Vector3.up * jumpSpeed;
-        }
-
+        pendingStatePackets.Enqueue(packet);
     }
 
 }

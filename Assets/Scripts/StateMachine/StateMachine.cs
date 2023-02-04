@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
 using System.Threading.Tasks;
+using UnityEngine.PlayerLoop;
 
 public class StateMachine : MonoBehaviour
 {
@@ -24,7 +25,6 @@ public class StateMachine : MonoBehaviour
                 var rb = GetComponent<Rigidbody>();
                 if (newName.Contains("Swim"))
                 {
-
                     rb.useGravity = false;
                 }
                 else rb.useGravity = true;
@@ -36,6 +36,10 @@ public class StateMachine : MonoBehaviour
     {
         //GetComponent<Rigidbody>().AddForce(0, -46, 0);
         if (currentState != null) currentState.OnUpdate.Invoke();
+    }
+    private void FixedUpdate()
+    {
+        if (currentState != null) currentState.OnFixedUpdate.Invoke();
     }
     public bool ChangeState(string stateName, bool force = false)
     {

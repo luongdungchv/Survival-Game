@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OreSpawner : MonoBehaviour
 {
@@ -8,6 +9,10 @@ public class OreSpawner : MonoBehaviour
     [SerializeField] private List<OreType> oreTypes;
     [SerializeField] private float castHeight;
     [SerializeField] private LayerMask mask;
+    [SerializeField] private Image hpBarUIPrefab;
+    [SerializeField] private Canvas mainCanvas;
+    [SerializeField] private GameObject hpBarUIContainer;
+
     //[SerializeField] private GameObject cherryPetalParticle;
     private Dictionary<Vector2Int, bool> regionsOccupation;
     private int seed;
@@ -61,6 +66,12 @@ public class OreSpawner : MonoBehaviour
 
                         ore.transform.Rotate(0, randomAngle, 0);
                         ore.transform.Translate(-ore.transform.up * scale / 8);
+
+                        // var hpBarUI = Instantiate(hpBarUIPrefab);
+                        // hpBarUI.transform.SetParent(hpBarUIContainer.transform);
+                        // var hpBarComponent = ore.GetComponent<FixedSizeUI>();
+                        // hpBarComponent.SetUIElement(hpBarUI);
+                        // hpBarComponent.canvas = mainCanvas;
                     }
                 }
             }

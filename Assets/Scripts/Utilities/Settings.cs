@@ -88,6 +88,7 @@ public class Settings : MonoBehaviour
     }
     public void SaveData()
     {
+        //return;
         ToggleSetting();
         PlayerPrefs.SetString("setting", JsonUtility.ToJson(this.currentData));
         switch (this.currentData.anisotropicFiltering)

@@ -54,11 +54,11 @@ public class TreeSpawner : MonoBehaviour
                         var scale = randObj.NextFloat(i.minScale, i.maxScale);
                         tree.transform.localScale = Vector3.one * scale;
 
-                        var hpBarUI = Instantiate(hpBarUIPrefab);
-                        hpBarUI.transform.SetParent(hpBarUIContainer.transform);
-                        var hpBarComponent = tree.GetComponentInChildren<FixedSizeUI>();
-                        hpBarComponent.SetUIElement(hpBarUI);
-                        hpBarComponent.canvas = mainCanvas;
+                        // var hpBarUI = Instantiate(hpBarUIPrefab);
+                        // hpBarUI.transform.SetParent(hpBarUIContainer.transform);
+                        // var hpBarComponent = tree.GetComponentInChildren<FixedSizeUI>();
+                        // hpBarComponent.SetUIElement(hpBarUI);
+                        // hpBarComponent.canvas = mainCanvas;
                     }
                 }
                 sumY /= i.treesPerRegion;

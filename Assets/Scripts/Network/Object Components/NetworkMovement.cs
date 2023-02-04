@@ -47,6 +47,7 @@ public class NetworkMovement : MonoBehaviour
     }
     public void MoveServer()
     {
+        Debug.Log("moving");
         moveDir = new Vector3(camDir.x, 0, camDir.y) * movementInputVector.y
                         + new Vector3(camDir.y, 0, -camDir.x) * movementInputVector.x;
         currentSpeed = inputReceiver.isConsumingItem ? speed / 2 : (sprint ? sprintSpeed : speed);
@@ -89,6 +90,7 @@ public class NetworkMovement : MonoBehaviour
         moveDir = transform.forward;
         currentSpeed = dashSpeed;
 
+        Debug.Log(netPlayer.id + " " + "dsash");
         moveDir = moveDir.normalized;
         if (PerformSlopeCheck(ref moveDir))
         {
