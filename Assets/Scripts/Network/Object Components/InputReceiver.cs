@@ -11,8 +11,8 @@ public class InputReceiver : MonoBehaviour
     public bool jumpPress;
     public bool attack;
     public bool isConsumingItem;
-    public Vector2 camDir;
     public bool startDash;
+    public Vector2 camDir;
     private Queue<InputPacket> pendingInputPackets;
     private bool dashcheck, isDashDelaying;
     private NetworkObject netObj;

@@ -67,11 +67,11 @@ public class OreSpawner : MonoBehaviour
                         ore.transform.Rotate(0, randomAngle, 0);
                         ore.transform.Translate(-ore.transform.up * scale / 8);
 
-                        var hpBarUI = Instantiate(hpBarUIPrefab);
-                        hpBarUI.transform.SetParent(hpBarUIContainer.transform);
-                        var hpBarComponent = ore.GetComponent<FixedSizeUI>();
-                        hpBarComponent.SetUIElement(hpBarUI);
-                        hpBarComponent.canvas = mainCanvas;
+                        // var hpBarUI = Instantiate(hpBarUIPrefab);
+                        // hpBarUI.transform.SetParent(hpBarUIContainer.transform);
+                        // var hpBarComponent = ore.GetComponent<FixedSizeUI>();
+                        // hpBarComponent.SetUIElement(hpBarUI);
+                        // hpBarComponent.canvas = mainCanvas;
                     }
                 }
             }

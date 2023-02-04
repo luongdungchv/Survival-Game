@@ -20,6 +20,7 @@ public class State : ScriptableObject
     private void OnEnable()
     {
         lockTransitions = new Dictionary<string, bool>();
+        if (transitions == null) transitions = new List<State>();
         foreach (var i in transitions)
         {
             lockTransitions.Add(i.name, false);

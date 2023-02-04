@@ -86,7 +86,9 @@ public class NetworkManager : MonoBehaviour
         client.SendUDPConnectionInfo(() =>
         {
             StartCoroutine(LoadSceneDelay(0.5f));
+            gameStarted = true;
         });
+
         //
     }
     private void HandleInput(Packet _packet)

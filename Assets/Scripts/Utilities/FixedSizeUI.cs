@@ -8,10 +8,12 @@ public class FixedSizeUI : MonoBehaviour
     [SerializeField] private Image uiElement;
     [SerializeField] private float projection;
     [SerializeField] public Transform uiWorldPos;
+    [SerializeField] private float distanceThreshold = 20;
     private PlayerNearbyDetector playerDetector;
     public Canvas canvas;
     private Camera mainCam => Camera.main;
     private bool isDisplayed;
+    private Transform playerTransform;
     private void Start()
     {
         playerDetector = GetComponent<PlayerNearbyDetector>();
@@ -24,16 +26,20 @@ public class FixedSizeUI : MonoBehaviour
             playerDetector = GetComponentInParent<PlayerNearbyDetector>();
         }
         if (uiWorldPos == null) uiWorldPos = this.transform;
+        playerTransform = NetworkPlayer.localPlayer.transform;
+        ScriptCullingManager.ins.AddToCullingList(this.gameObject, distanceThreshold);
+        Destroy(this);
     }
     // Start is called before the first frame update
-    private void Update()
+    public void UpdateMethod()
     {
-        playerDetector.DetectHit();
-        if (!isDisplayed) return;
+        // if(Vector3.Distance(transform.position, playerTransform.position) > distanceThreshold) return;
+        // playerDetector.DetectHit();
+        // if (!isDisplayed) return;
 
-        var uiPos = GameFunctions.ins.WorldToCanvasPosition(uiWorldPos.position, 90);
+        // var uiPos = GameFunctions.ins.WorldToCanvasPosition(uiWorldPos.position, 90);
 
-        uiElement.GetComponent<RectTransform>().position = uiPos;
+        // uiElement.GetComponent<RectTransform>().position = uiPos;
     }
     public void SetDisplay(bool display)
     {
