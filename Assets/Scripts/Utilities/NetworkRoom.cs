@@ -39,10 +39,10 @@ public class NetworkRoom
         };
 
     }
-    public void AddPlayer(string playerId)
+    public void AddPlayer(string playerId, bool readyState = false)
     {
         this.playerNames.Add(playerId);
-        this.readyStates.Add(false);
+        this.readyStates.Add(readyState);
         OnPlayerJoin.Invoke(playerId);
     }
     public void RemovePlayer(string playerId)

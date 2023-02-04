@@ -52,7 +52,8 @@ public class OreSpawner : MonoBehaviour
 
 
                         sumY += hit.point.y;
-                        if (hit.point.y < skipHeight) continue;
+                        //if (hit.point.y < skipHeight) continue;
+                        if (hit.collider.tag == "Water") continue;
 
                         var randomAngle = randObj.NextFloat(0f, 360f);
                         var rotateToSlope = Quaternion.FromToRotation(Vector3.up, hit.normal);

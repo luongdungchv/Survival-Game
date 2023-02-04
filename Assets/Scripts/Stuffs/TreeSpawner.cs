@@ -48,7 +48,8 @@ public class TreeSpawner : MonoBehaviour
                     {
                         sumY += hit.point.y;
                         var randomAngle = randObj.NextFloat(0f, 360f);
-                        if (hit.point.y < skipHeight) continue;
+                        //if (hit.point.y < skipHeight) continue;
+                        if (hit.collider.tag == "Water") continue;
                         var randomRotation = Quaternion.Euler(0, randomAngle, 0);
                         var tree = Instantiate(i.prefab, hit.point - Vector3.up * 1.2f, randomRotation);
                         var scale = randObj.NextFloat(i.minScale, i.maxScale);

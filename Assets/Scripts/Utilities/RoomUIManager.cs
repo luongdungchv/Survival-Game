@@ -37,6 +37,7 @@ public class RoomUIManager : MonoBehaviour
             var textObjContainer = playerTextList[i];
             textObjContainer.SetActive(true);
             textObjContainer.GetComponentInChildren<TextMeshProUGUI>().text = roomInstance.playerNames[i];
+            HandleReadyStateChange(i, roomInstance.readyStates[i]);
         }
         roomIdText.text = roomInstance.id;
         roomInstance.RegisterJoinEvent(HandlePlayerJoin);

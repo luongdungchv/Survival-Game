@@ -81,7 +81,8 @@ public class GrassSpawnerGPU : MonoBehaviour
                 RaycastHit hitInfo;
                 if (Physics.Raycast(castPos, Vector3.down, out hitInfo, castHeight + 500, mask))
                 {
-                    if (hitInfo.point.y < skipHeight) continue;
+                    //if (hitInfo.point.y < skipHeight) continue;
+                    if (hitInfo.collider.tag == "Water") continue;
                     var position = hitInfo.point;
                     var rotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
                     var scale = Vector3.one;
