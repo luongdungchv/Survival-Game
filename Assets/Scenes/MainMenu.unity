@@ -7391,7 +7391,7 @@ MonoBehaviour:
   clientId: 
   clientName: 
   handler: {fileID: 17176759}
-  server: 127.0.0.1
+  server: 35.77.219.131
   port: 1234
   tcpBufferSize: 1024
   joinRoomBtn: {fileID: 452120185}

@@ -20,6 +20,7 @@ public class UDP
     public void Connect(string hostName, int port)
     {
         socket = new UdpClient(0);
+//        socket.AllowNatTraversal(true);
         Debug.Log(GetSocketEP());
         socket.Connect(hostName, port);
         this.hostName = hostName;
@@ -61,26 +62,6 @@ public class UDP
         }
     }
 
-    private async void UDPReceiveAsync()
-    {
-        while (true)
-        {
-            var result = await socket.ReceiveAsync();
-            var data = result.Buffer;
-            try
-            {
-                var remoteEP = result.RemoteEndPoint;
-                //var data = socket.EndReceive(result, ref remoteEP);
-                string msg = Encoding.ASCII.GetString(data);
-                handler.HandleMessage(msg);
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e.ToString());
-                Disconnect();
-            }
-        }
-    }
     private void UDPReceiveCallback(IAsyncResult result)
     {
         var remoteEP = new IPEndPoint(IPAddress.Any, 0);
