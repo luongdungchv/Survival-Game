@@ -425,13 +425,22 @@ public class RoomPacket : Packet
 
     }
 }
+public class PowerupInteraction: Packet{
+    public PowerupInteraction(){
+        this.command = PacketType.PowerupInteraction;
+    }
+    public override string GetString()
+    {
+        return base.GetString();
+    }
+}
 
 public enum PacketType
 {
     MovePlayer,
     SpawnPlayer, StartGame, Input, SpawnObject, UpdateEquipping,
     FurnaceServerUpdate, FurnaceClientMsg,
-    ItemDrop, RoomInteraction,
+    ItemDrop, RoomInteraction, PowerupInteraction,
     ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject, PlayerDisconnect
 
 }

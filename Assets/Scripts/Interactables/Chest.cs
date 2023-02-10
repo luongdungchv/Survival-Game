@@ -9,6 +9,11 @@ public class Chest : InteractableObject
     [SerializeField] private GameObject chestLid;
     [SerializeField] private int openDirection = 1;
     [SerializeField] private float maxOpenAngle, openDuration;
+    [SerializeField] private int chestLevel;
+    [SerializeField] private PowerupMapper powerupMapper;
+    
+    
+    private PowerupsManager powerupsManager => PowerupsManager.instance;
     private GameObject currentClicker;
     private NetworkSceneObject netObj => GetComponentInParent<NetworkSceneObject>();
     protected override void OnInteractBtnClick(Button clicker)
@@ -39,5 +44,12 @@ public class Chest : InteractableObject
         StartCoroutine(LerpOpenChest());
         interactable = false;
         netObj.RevokeId();
+    }
+    private void RandomlyDropPowerup(){
+        var availablePowerups = powerupsManager.GetPowerupListByTier(chestLevel);
+        var randomIndex = Random.Range(0, availablePowerups.Count - 1);
+        var chosenPowerup = availablePowerups[randomIndex];
+        var dropPrefab = powerupMapper.GetDropPrefab(chosenPowerup);
+        var powerupDrop = Instantiate(dropPrefab, transform.position + Vector3.up * 3, Quaternion.identity);
     }
 }
