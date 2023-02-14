@@ -5,7 +5,7 @@ using UnityEngine;
 public class InputReceiver : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private float dashTime, dashDelay;
+    // [SerializeField] private float dashTime, dashDelay;
     public Vector2 movementInputVector;
     public bool sprint;
     public bool jumpPress;
@@ -13,24 +13,35 @@ public class InputReceiver : MonoBehaviour
     public bool isConsumingItem;
     public bool startDash;
     public Vector2 camDir;
+    public int tick;
     private Queue<InputPacket> pendingInputPackets;
     private bool dashcheck, isDashDelaying;
-    private NetworkObject netObj;
+    
+    private PlayerStats stats;
+    
     private Coroutine setDashCoroutine, dashDelayCoroutine;
+    private float dashTime => stats.dashTime;
+    private float dashDelay => stats.dashDelay;
+    private int lastTick;
 
     private void Start()
     {
         pendingInputPackets = new Queue<InputPacket>();
+        stats = GetComponent<PlayerStats>();
     }
     private void FixedUpdate()
     {
-        if (Client.ins.isHost && pendingInputPackets.Count > 0)
+        if (Client.ins.isHost)
         {
-            HandleInput(pendingInputPackets.Dequeue());
+            if(pendingInputPackets.Count > 0) HandleInput(pendingInputPackets.Dequeue());
+            else {
+                this.movementInputVector = Vector2.zero;
+            }
         }
     }
     public void HandleInput(InputPacket _packet)
     {
+
         if (_packet.sprint && !this.sprint && !isDashDelaying)
         {
             this.startDash = true;
@@ -47,6 +58,7 @@ public class InputReceiver : MonoBehaviour
         this.camDir = _packet.camDir;
         this.attack = _packet.atk;
         this.isConsumingItem = _packet.isConsumingItem;
+        this.tick = _packet.tick;
         if (this.jumpPress) Debug.Log("jump");
     }
     public void AddPacket(InputPacket packet)

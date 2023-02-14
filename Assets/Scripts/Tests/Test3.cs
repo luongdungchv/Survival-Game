@@ -1,36 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Test3 : MonoBehaviour
 {
-    Collider hitbox;
-    Vector3 center;
-    Vector3 halfExtents;
-    public LayerMask mask;
-    // Start is called before the first frame update
-    private void Awake()
+    Rigidbody rb => GetComponent<Rigidbody>();
+    private void FixedUpdate()
     {
-        //Destroy(this.gameObject);
+        Debug.Log(rb.position);
+        GetComponent<Rigidbody>().velocity = Vector3.right * 7;
     }
-    void Start()
-    {
-        Debug.Log("start");
-        hitbox = this.GetComponent<Collider>();
-        center = hitbox.bounds.center;
-        halfExtents = hitbox.bounds.extents;
-        Debug.Log(this.GetComponent<Collider>().bounds.size);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    private void OnDrawGizmos()
-    {
-
-    }
-
 }

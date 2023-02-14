@@ -15,6 +15,7 @@ public class InputReader : MonoBehaviour
 
 
     public bool sprint;
+    public int currentTick = -1;
 
     public Vector2 movementInputVector;
     private Vector2[] moveDirections = new Vector2[4];
@@ -22,17 +23,21 @@ public class InputReader : MonoBehaviour
     [SerializeField] private Transform localCamHolder;
     private PlayerStats localPlayerStats;
     private PlayerEquipment localPlayerEquipment;
+    
+    private NetworkPlayer localPlayer => NetworkPlayer.localPlayer;
     private float elapsed;
+    public Queue<InputPacket> inputBuffer;
 
     private void Awake()
     {
         ins = this;
-        localPlayerStats = NetworkPlayer.localPlayer.GetComponent<PlayerStats>();
-        localPlayerEquipment = NetworkPlayer.localPlayer.GetComponent<PlayerEquipment>();
+        
+        inputBuffer = new Queue<InputPacket>();
     }
     void Start()
     {
-
+        localPlayerStats = NetworkPlayer.localPlayer.GetComponent<PlayerStats>();
+        localPlayerEquipment = NetworkPlayer.localPlayer.GetComponent<PlayerEquipment>();
     }
     public int inputNum;
 
@@ -68,22 +73,59 @@ public class InputReader : MonoBehaviour
 
         if (elapsed >= readDelay || JumpPress() || SlashPress())
         {
-            if (Client.ins.isHost)
+            int numLoop = (int)(elapsed / readDelay);
+            numLoop = numLoop == 0 ? 1 : numLoop;
+            for (int i = 0; i < numLoop; i++)
             {
-                movementInputVector = tmpMoveVector;
-            }
-            else
-            {
-                movementInputVector = tmpMoveVector;
-                var inputPacket = new InputPacket();
+                currentTick++;
+                currentTick = currentTick % 1024;
+                // if (Client.ins.isHost)
+                // {
+                //     movementInputVector = tmpMoveVector;
+                // }
+                // else
+                // {
+                    
+                //     movementInputVector = tmpMoveVector;
+                //     var camDir = new Vector2(localCamHolder.forward.x, localCamHolder.forward.z).normalized;
+                //     var inputPacket = new InputPacket(){
+                //         id = Client.ins.clientId,
+                //         inputVector = tmpMoveVector,
+                //         camDir = camDir,
+                //         sprint =  sprint && localPlayerStats.stamina > 0,
+                //         jump = JumpPress(),
+                //         atk = SlashPress(),
+                //         isConsumingItem = localPlayerEquipment.isConsumingItem,
+                //         tick = currentTick                       
+                //     };
+                //     //inputPacket.WriteData(Client.ins.clientId, tmpMoveVector, sprint && localPlayerStats.stamina > 0, JumpPress(), camDir, SlashPress(), localPlayerEquipment.isConsumingItem);
+                //     Client.ins.SendUDPPacket(inputPacket);
+                // }
                 var camDir = new Vector2(localCamHolder.forward.x, localCamHolder.forward.z).normalized;
-                inputPacket.WriteData(Client.ins.clientId, tmpMoveVector, sprint && localPlayerStats.stamina > 0, JumpPress(), camDir, SlashPress(), localPlayerEquipment.isConsumingItem);
-                //Client.ins.SendUDPMessage(inputPacket.GetString());
-                Client.ins.SendUDPPacket(inputPacket);
+                var inputPacket = new InputPacket(){
+                        id = Client.ins.clientId,
+                        inputVector = tmpMoveVector,
+                        camDir = camDir,
+                        sprint =  sprint && localPlayerStats.stamina > 0,
+                        jump = JumpPress(),
+                        atk = SlashPress(),
+                        isConsumingItem = localPlayerEquipment.isConsumingItem,
+                        tick = currentTick                       
+                };
+                inputBuffer.Enqueue(inputPacket);
             }
-            elapsed = 0;
+            elapsed -= ((int)(elapsed / readDelay) * readDelay);
         }
         elapsed += Time.deltaTime;
+    }
+    private void FixedUpdate() {
+        if(inputBuffer.Count == 0) return;
+        var inputPacket = inputBuffer.Dequeue();
+        this.movementInputVector = inputPacket.inputVector;
+        this.currentTick = inputPacket.tick;
+        if(!Client.ins.isHost){
+            Client.ins.SendUDPPacket(inputPacket);
+        }
     }
     private bool GetKey(KeyCode key)
     {

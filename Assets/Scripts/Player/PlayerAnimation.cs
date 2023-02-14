@@ -12,12 +12,16 @@ public class PlayerAnimation : MonoBehaviour
 
     PlayerMovement movementSystem;
     PlayerAttack atkSystem;
+    PlayerStats stats;
+    
+    private float dashTime => stats.dashTime;
     void Start()
     {
         //animator = GetComponent<Animator>();
         movementSystem = GetComponent<PlayerMovement>();
         atkSystem = GetComponent<PlayerAttack>();
         animBlendCoroutineDict = new Dictionary<string, Coroutine>();
+        stats = GetComponent<PlayerStats>();
         foreach (var i in animator.parameters)
         {
             var name = i.name;
@@ -73,7 +77,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator.SetBool("dash", true);
 
-        await Task.Delay(350);
+        await Task.Delay((int)(this.dashTime * 1000));
         animator.SetBool("dash", false);
     }
     IEnumerator LerpAnimationTransition(string param, float to, float duration)

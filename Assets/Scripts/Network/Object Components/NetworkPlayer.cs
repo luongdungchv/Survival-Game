@@ -16,11 +16,15 @@ public class NetworkPlayer : NetworkObject
     private Coroutine lerpPosRoutine, rotationCoroutine;
     private Vector3 lastPosition;
     public Queue<MovePlayerPacket> pendingStatePackets;
+    public StatePayload[] stateBuffer = new StatePayload[1024];
 
     private Rigidbody rb;
     private InputReceiver inputReceiver;
     private NetworkMovement netMovement;
     private StateMachine fsm;
+
+    private Vector3 lastServerPos;
+    private Vector3 lastClientPos;
 
     private Vector2 movementInputVector => inputReceiver.movementInputVector;
     private bool sprint => inputReceiver.sprint;
@@ -29,6 +33,7 @@ public class NetworkPlayer : NetworkObject
     private void Awake()
     {
         if (isLocalPlayer) localPlayer = this;
+        stateBuffer = new StatePayload[1024];
 
         fsm = GetComponent<StateMachine>();
         inputReceiver = GetComponent<InputReceiver>();
@@ -37,6 +42,9 @@ public class NetworkPlayer : NetworkObject
         lastPosition = transform.position;
         timeTest = Time.realtimeSinceStartup;
         pendingStatePackets = new Queue<MovePlayerPacket>();
+
+        lastServerPos = transform.position;
+        lastClientPos = transform.position;
     }
     private void FixedUpdate()
     {
@@ -44,8 +52,9 @@ public class NetworkPlayer : NetworkObject
         if (!Client.ins.isHost && pendingStatePackets.Count > 0)
         {
             var packet = pendingStatePackets.Dequeue();
-            Debug.Log(packet.position);
-            ReceivePlayerState(packet);
+            //Debug.Log(packet.position);
+            // ReceivePlayerState(packet);
+            //HandlePlayerState(packet);
         }
     }
     private void Update()
@@ -57,8 +66,6 @@ public class NetworkPlayer : NetworkObject
     {
         var _position = packet.position;
         var moveDir = _position - lastPosition;
-        // Debug.Log((Time.realtimeSinceStartup - timeTest) * 1000);
-        // timeTest = Time.realtimeSinceStartup;
 
         if (moveDir.magnitude < 0.006) moveDir = Vector3.zero;
 
@@ -100,9 +107,45 @@ public class NetworkPlayer : NetworkObject
             else
             {
                 inputReceiver.attack = false;
-
             }
             fsm.ChangeState(AnimationMapper.GetAnimationName(packet.anim));
+        }
+    }
+    private int lastServerTick;
+    public void HandlePlayerState(MovePlayerPacket packet)
+    {
+        if (!isLocalPlayer)
+        {
+            ReceivePlayerState(packet);
+        }
+        else
+        {
+
+            if (packet.tick >= InputReader.ins.currentTick) return;
+            var serverPosition = packet.position;
+            var clientPosition = stateBuffer[packet.tick].position;
+            var diff = Vector3.Distance(serverPosition, clientPosition);
+
+            var serverDir = serverPosition - lastServerPos;
+            var clientDir = clientPosition - lastClientPos;
+            var diffAngle = Vector3.Angle(serverDir, clientDir);
+
+            if (diff >= 0.5f)
+            {             
+                if (packet.tick - lastServerTick > 1)
+                {          
+                    Debug.Log($"{packet.tick} {lastServerTick}");
+                }
+                Debug.Log($"reconciliation: {diff} {serverPosition} {clientPosition} {InputReader.ins.currentTick} {packet.tick}");
+                HandleReconciliation(packet.tick, packet);
+            }
+
+            if (diff >= 3f && diffAngle > 8 && clientPosition != Vector3.zero)
+            {
+
+
+            }
+            lastServerTick = packet.tick;
         }
     }
     private IEnumerator LerpPosition(Vector3 to, float duration)
@@ -134,13 +177,41 @@ public class NetworkPlayer : NetworkObject
             var pos = rb.position;
             var movePacket = new MovePlayerPacket();
             movePacket.WriteData(id, pos, AnimationMapper.GetAnimationIndex(fsm.currentState));
+            movePacket.tick = inputReceiver.tick;
             Client.ins.SendUDPPacket(movePacket);
             //Client.ins.SendUDPMessage(movePacket.GetString());
         }
     }
+    private void HandleReconciliation(int bufferIndex, MovePlayerPacket correctPacket)
+    {
+        var correctedState = new StatePayload(correctPacket.position, correctPacket.tick);
+        InputReader.ins.currentTick = correctedState.tick;
+        rb.position = correctedState.position;
+
+    }
     public void AddPacket(MovePlayerPacket packet)
     {
         pendingStatePackets.Enqueue(packet);
+    }
+    public void AddStatePayload(StatePayload payload)
+    {
+        if (payload.tick < 0) return;
+        stateBuffer[payload.tick] = payload;
+        //Debug.Log(payload.position + payload.tick.ToString());
+    }
+}
+public struct StatePayload
+{
+    public Vector3 position;
+    public int tick;
+    public StatePayload(Vector3 position, int tick)
+    {
+        this.position = position;
+        this.tick = tick;
+
+    }
+    public StatePayload(MovePlayerPacket packet) : this(packet.position, packet.tick)
+    {
     }
 
 }

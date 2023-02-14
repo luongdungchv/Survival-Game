@@ -101,12 +101,13 @@ public class MovePlayerPacket : Packet
     public Vector3 position;
     public string id;
     public int anim;
+    public int tick;
     public MovePlayerPacket()
     {
         this.command = PacketType.MovePlayer;
     }
     public override string GetString()
-        => $"{(int)command} {id} {position.x.ToString("0.00")} {position.y.ToString("0.00")} {position.z.ToString("0.00")} {anim}";
+        => $"{(int)command} {id} {position.x.ToString("0.00")} {position.y.ToString("0.00")} {position.z.ToString("0.00")} {anim} {tick}";
 
     public override byte[] GetBytes() => Encoding.ASCII.GetBytes(this.GetString());
     public void WriteData(string _id, Vector3 _position, int _anim)
@@ -123,6 +124,7 @@ public class MovePlayerPacket : Packet
             this.id = split[1];
             this.position = new Vector3(float.Parse(split[2]), float.Parse(split[3]), float.Parse(split[4]));
             this.anim = int.Parse(split[5]);
+            this.tick = int.Parse(split[6]);
         }
     }
 }
@@ -182,12 +184,13 @@ public class InputPacket : Packet
     public string id;
     public Vector2 inputVector, camDir;
     public bool sprint, jump, atk, isConsumingItem;
+    public int tick;
     public InputPacket()
     {
         this.command = PacketType.Input;
     }
     public override string GetString()
-        => $"{(int)command} {id} {inputVector.x} {inputVector.y} {(sprint ? 1 : 0)} {(jump ? 1 : 0)} {camDir.x.ToString("0.00")} {camDir.y.ToString("0.00")} {(atk ? 1 : 0)} {(isConsumingItem ? 1 : 0)}";
+        => $"{(int)command} {id} {inputVector.x} {inputVector.y} {(sprint ? 1 : 0)} {(jump ? 1 : 0)} {camDir.x.ToString()} {camDir.y.ToString()} {(atk ? 1 : 0)} {(isConsumingItem ? 1 : 0)} {tick}";
 
     public override byte[] GetBytes() => Encoding.ASCII.GetBytes(GetString());
     public void WriteData(string _id, Vector2 _inputVector, bool _sprint, bool _jump, Vector2 camDir, bool atk, bool isConsumingItem)
@@ -212,6 +215,7 @@ public class InputPacket : Packet
             this.camDir = new Vector2(float.Parse(split[6]), float.Parse(split[7]));
             this.atk = int.Parse(split[8]) != 0;
             this.isConsumingItem = int.Parse(split[9]) != 0;
+            this.tick = int.Parse(split[10]);
         }
     }
 }

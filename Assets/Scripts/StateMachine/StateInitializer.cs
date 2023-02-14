@@ -29,7 +29,7 @@ public class StateInitializer : MonoBehaviour
         });
 
         Move.OnEnter.AddListener(movementSystem.StartMove);
-        Move.OnUpdate.AddListener(() => movementSystem.PerformMovement(this));
+        Move.OnFixedUpdate.AddListener(() => movementSystem.PerformMovement(this));
 
         InAir.OnEnter.AddListener(() => movementSystem.PerformJump(this));
 

@@ -20,7 +20,7 @@ public class UDP
     public void Connect(string hostName, int port)
     {
         socket = new UdpClient(0);
-//        socket.AllowNatTraversal(true);
+        //socket.AllowNatTraversal(true);
         Debug.Log(GetSocketEP());
         socket.Connect(hostName, port);
         this.hostName = hostName;
@@ -40,7 +40,7 @@ public class UDP
         {
             //Disconnect();
             // Debug.Log($"Cannot send: {msg}");
-            // Debug.Log(e.ToString());
+            Debug.Log(e.ToString());
             return false;
         }
     }

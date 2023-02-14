@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     PlayerAttack attackSystem;
     PlayerAnimation animManager;
     PlayerStats stats;
+    NetworkPlayer netPlayer;
     private float currentSpeed, lastCurrentSpeed;
     private Vector3 moveDir;
     private Rigidbody rb;
@@ -30,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
         attackSystem = GetComponent<PlayerAttack>();
         animManager = GetComponent<PlayerAnimation>();
         stats = GetComponent<PlayerStats>();
+        netPlayer = GetComponent<NetworkPlayer>();
 
         camHolder.position = camHolderPos.position;
 
@@ -42,6 +44,14 @@ public class PlayerMovement : MonoBehaviour
     {
         PerformRotation();
         camHolder.position = camHolderPos.position;
+
+
+    }
+    private void FixedUpdate()
+    {
+        var currentTick = inputReader.currentTick;
+        var statePayload = new StatePayload(rb.position, currentTick);
+        netPlayer.AddStatePayload(statePayload);
     }
     public void SyncCamera()
     {
@@ -95,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
             PerformSlopeCheck();
 
 
-            if (Client.ins.isHost)
+            if (netPlayer.isLocalPlayer)
             {
                 float angle = -Mathf.Atan2(moveDir.z, moveDir.x) * Mathf.Rad2Deg;
                 Quaternion targetRotation = Quaternion.Euler(transform.rotation.x, angle + 90, transform.rotation.z);
@@ -117,8 +127,8 @@ public class PlayerMovement : MonoBehaviour
                 lastCurrentSpeed = 0;
             }
         }
-        if (Client.ins.isHost)
-            rb.velocity = new Vector3(moveDir.x, moveDir.y, moveDir.z);
+        rb.velocity = new Vector3(moveDir.x, moveDir.y, moveDir.z);
+
     }
     public void StartMove()
     {
@@ -140,13 +150,14 @@ public class PlayerMovement : MonoBehaviour
     {
         animManager.Jump();
         init.InAir.lockState = true;
-        if (Client.ins.isHost)
-        {
-            float horizontalJump = currentSpeed == dashSpeed ? dashJumpSpeed : currentSpeed;
-            var jumpVelocity = transform.forward * horizontalJump + Vector3.up * jumpSpeed;
-            rb.velocity = jumpVelocity;
+        // if (Client.ins.isHost)
+        // {
 
-        }
+
+        // }
+        float horizontalJump = currentSpeed == dashSpeed ? dashJumpSpeed : currentSpeed;
+        var jumpVelocity = transform.forward * horizontalJump + Vector3.up * jumpSpeed;
+        rb.velocity = jumpVelocity;
     }
     IEnumerator LerpRotation(Quaternion from, Quaternion to, float duration)
     {
@@ -179,7 +190,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Dash()
     {
-        if (!Client.ins.isHost) return;
+        //if (!Client.ins.isHost) return;
         if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
         currentSpeed = dashSpeed;
         if (inputReader.movementInputVector == Vector2.zero)

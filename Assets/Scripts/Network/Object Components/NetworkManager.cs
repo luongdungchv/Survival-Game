@@ -54,9 +54,7 @@ public class NetworkManager : MonoBehaviour
         {
             var movePacket = _packet as MovePlayerPacket;
             var player = playerList[movePacket.id];
-            player.ReceivePlayerState(movePacket);
-            //player.AddPacket(movePacket);
-            //Debug.Log(player.pendingStatePackets.Count);
+            player.HandlePlayerState(movePacket);
         }
         catch
         {
@@ -73,7 +71,6 @@ public class NetworkManager : MonoBehaviour
             if (client.isHost)
             {
                 player.GetComponent<Rigidbody>().useGravity = true;
-                //client.SendTCPMessage(spawnPacket.GetString());
                 client.SendTCPPacket(spawnPacket);
             }
         }
@@ -84,18 +81,26 @@ public class NetworkManager : MonoBehaviour
         client.clientId = startPacket.clientId;
         client.mapSeed = startPacket.mapSeed;
         client.SetUDPRemoteHost(startPacket.udpRemoteHost);
-        //client.SendUDPMessage("con");
         client.SendUDPConnectionInfo(() =>
         {
             StartCoroutine(LoadSceneDelay(0.5f));
             gameStarted = true;
         });
 
-        //
+        
     }
+    private int tick = -1;
     private void HandleInput(Packet _packet)
     {
         var inputPacket = _packet as InputPacket;
+       
+        //tick += inputPacket.tick;
+        if(tick == -1) tick = inputPacket.tick;
+        else{
+            tick += 1;
+            inputPacket.tick = tick;
+        }
+        //Debug.Log(inputPacket.tick);
         var playerId = inputPacket.id;
         if (playerList.ContainsKey(playerId))
             playerList[playerId].GetComponent<InputReceiver>().AddPacket(inputPacket);

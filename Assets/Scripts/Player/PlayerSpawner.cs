@@ -38,7 +38,7 @@ public class PlayerSpawner : MonoBehaviour
         if (!Client.ins.isHost)
         {
             var moveSystem = GetComponent<PlayerMovement>();
-            GetComponent<Rigidbody>().useGravity = false;
+            //GetComponent<Rigidbody>().useGravity = false;
         }
         Client.ins.SendTCPMessage($"{(int)PacketType.SpawnPlayer} {Client.ins.clientId} {pos.x} {pos.y} {pos.z} {Client.ins.udp.port}");
         var spawnPacket = new SpawnPlayerPacket();

@@ -22,7 +22,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float hungerReduceRate, hungerLerpDuration;
     [Header("Movement")]
     public float speed;
-    public float sprintSpeed, dashSpeed, jumpSpeed, dashJumpSpeed, dashDelay, maxFallingSpeed = 55;
+    public float sprintSpeed, dashSpeed, jumpSpeed, dashJumpSpeed, dashDelay, dashTime, maxFallingSpeed = 55;
     public float swimSpeed, swimFastSpeed;
     [Header("Attack")]
     [Range(0, 100)] public float treeCritRate = 5;
