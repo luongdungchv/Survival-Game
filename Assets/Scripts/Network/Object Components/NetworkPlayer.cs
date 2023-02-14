@@ -129,20 +129,20 @@ public class NetworkPlayer : NetworkObject
             var serverDir = serverPosition - lastServerPos;
             var clientDir = clientPosition - lastClientPos;
             var diffAngle = Vector3.Angle(serverDir, clientDir);
-
+            //Debug.Log($"reconciliation: {diff} {serverPosition} {clientPosition} {InputReader.ins.currentTick} {packet.tick}");
             if (diff >= 0.5f)
             {             
                 if (packet.tick - lastServerTick > 1)
                 {          
                     Debug.Log($"{packet.tick} {lastServerTick}");
                 }
-                Debug.Log($"reconciliation: {diff} {serverPosition} {clientPosition} {InputReader.ins.currentTick} {packet.tick}");
-                HandleReconciliation(packet.tick, packet);
+                
             }
 
-            if (diff >= 3f && diffAngle > 8 && clientPosition != Vector3.zero)
+            if (diff >= 1.2f && diffAngle > 4 && clientPosition != Vector3.zero)
             {
-
+                Debug.Log($"reconciliation: {diff} {serverPosition} {clientPosition} {InputReader.ins.currentTick} {packet.tick}");
+                HandleReconciliation(packet.tick, packet);
 
             }
             lastServerTick = packet.tick;

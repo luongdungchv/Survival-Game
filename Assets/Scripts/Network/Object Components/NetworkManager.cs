@@ -90,12 +90,14 @@ public class NetworkManager : MonoBehaviour
         
     }
     private int tick = -1;
+    private int lastClientTick = -1;
     private void HandleInput(Packet _packet)
     {
         var inputPacket = _packet as InputPacket;
        
         //tick += inputPacket.tick;
-        if(tick == -1) tick = inputPacket.tick;
+        var lastTickDiff = lastClientTick - inputPacket.tick;
+        if(tick == -1 || (lastTickDiff > 0 && lastTickDiff < 500)) tick = inputPacket.tick;
         else{
             tick += 1;
             inputPacket.tick = tick;
@@ -104,6 +106,7 @@ public class NetworkManager : MonoBehaviour
         var playerId = inputPacket.id;
         if (playerList.ContainsKey(playerId))
             playerList[playerId].GetComponent<InputReceiver>().AddPacket(inputPacket);
+        lastClientTick = inputPacket.tick;
     }
     public bool AddPlayer(string id, NetworkPlayer player)
     {

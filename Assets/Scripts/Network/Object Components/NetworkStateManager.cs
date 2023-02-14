@@ -32,7 +32,7 @@ public class NetworkStateManager : MonoBehaviour
         });
         InAir.OnEnter.AddListener(() =>
         {
-            if (Client.ins.isHost) InAir.lockState = true;
+            //if (Client.ins.isHost) InAir.lockState = true;
             netMovement.JumpServer();
             animSystem.Jump();
         });
@@ -49,6 +49,7 @@ public class NetworkStateManager : MonoBehaviour
             animSystem.CancelJump();
             netSwim.StopSwimServer();
             animSystem.SwimIdle();
+            Debug.Log("swim idle");
         });
         SwimNormal.OnEnter.AddListener(() =>
         {

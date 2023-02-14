@@ -9,12 +9,9 @@ using UnityEngine.PlayerLoop;
 public class StateMachine : MonoBehaviour
 {
     public static UnityEvent<string, string> OnStateChanged = new UnityEvent<string, string>();
-    public static StateMachine ins;
-    public List<State> stateList;
     public State currentState;
     private void Awake()
     {
-        if (ins == null) ins = this;
     }
     void Start()
     {
@@ -39,7 +36,9 @@ public class StateMachine : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (currentState != null) currentState.OnFixedUpdate.Invoke();
+        if (currentState != null) {
+            currentState.OnFixedUpdate.Invoke();
+        }
     }
     public bool ChangeState(string stateName, bool force = false)
     {

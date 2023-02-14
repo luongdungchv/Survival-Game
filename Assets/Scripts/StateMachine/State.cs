@@ -29,6 +29,7 @@ public class State : ScriptableObject
 
     public bool SetLock(string stateName, bool lockState)
     {
+        Debug.Log(lockTransitions.ContainsKey(stateName));
         if (lockTransitions.ContainsKey(stateName))
         {
             lockTransitions[stateName] = lockState;

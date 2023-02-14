@@ -48,7 +48,7 @@ public class NetworkSwimHandler : MonoBehaviour
                 isSwimming = true;
 
                 SwimNormal.SetLock("Idle", true);
-
+                SwimNormal.SetLock("Move", true);
                 SwimIdle.SetLock("Move", true);
                 SwimIdle.SetLock("Idle", true);
 
