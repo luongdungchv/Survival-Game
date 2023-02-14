@@ -42,6 +42,7 @@ public class NetworkStateManager : MonoBehaviour
         {
             animSystem.CancelJump();
             animSystem.Run();
+            Debug.Log("sprint");
         });
         SwimIdle.OnEnter.AddListener(() =>
         {

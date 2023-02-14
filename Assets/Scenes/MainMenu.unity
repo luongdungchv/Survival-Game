@@ -7387,11 +7387,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isHost: 0
-  mapSeed: 1234
+  mapSeed: 0
   clientId: 
   clientName: 
   handler: {fileID: 17176759}
-  server: 35.77.219.131
+  server: 127.0.0.1
   port: 1234
   tcpBufferSize: 1024
   joinRoomBtn: {fileID: 452120185}

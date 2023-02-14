@@ -91,20 +91,21 @@ public class SwimHandler : MonoBehaviour
 
             if (Client.ins.isHost)
             {
-                Vector3 camForward = new Vector3(camHolder.forward.x, 0, camHolder.forward.z).normalized;
-                Vector3 camRight = new Vector3(camHolder.right.x, 0, camHolder.right.z).normalized;
 
-                moveDir = (camForward * zMove + camRight * xMove).normalized * currentSpeed;
-
-                float angle = -Mathf.Atan2(moveDir.z, moveDir.x) * Mathf.Rad2Deg;
-
-                Quaternion targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x,
-                    angle + 90, transform.rotation.eulerAngles.z);
-
-                rotationCoroutine = StartCoroutine(LerpRotation(transform.rotation, targetRotation, 0.1f));
             }
             //Debug.Log(targetRotation.eulerAngles);
             //transform.rotation = targetRotation;
+            Vector3 camForward = new Vector3(camHolder.forward.x, 0, camHolder.forward.z).normalized;
+            Vector3 camRight = new Vector3(camHolder.right.x, 0, camHolder.right.z).normalized;
+
+            moveDir = (camForward * zMove + camRight * xMove).normalized * currentSpeed;
+
+            float angle = -Mathf.Atan2(moveDir.z, moveDir.x) * Mathf.Rad2Deg;
+
+            Quaternion targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x,
+                angle + 90, transform.rotation.eulerAngles.z);
+
+            rotationCoroutine = StartCoroutine(LerpRotation(transform.rotation, targetRotation, 0.1f));
         }
         else
         {
@@ -123,7 +124,7 @@ public class SwimHandler : MonoBehaviour
             }
         }
         float yMove = rb.velocity.y;
-        if (!Client.ins.isHost) return;
+        //if (!Client.ins.isHost) return;
         rb.velocity = new Vector3(moveDir.x, 0, moveDir.z);
     }
     public void StartSwimming()

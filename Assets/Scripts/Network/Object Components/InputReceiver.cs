@@ -34,9 +34,9 @@ public class InputReceiver : MonoBehaviour
         if (Client.ins.isHost)
         {
             if(pendingInputPackets.Count > 0) HandleInput(pendingInputPackets.Dequeue());
-            else {
-                this.movementInputVector = Vector2.zero;
-            }
+            // else {
+            //     this.movementInputVector = Vector2.zero;
+            // }
         }
     }
     public void HandleInput(InputPacket _packet)
@@ -63,7 +63,7 @@ public class InputReceiver : MonoBehaviour
     }
     public void AddPacket(InputPacket packet)
     {
-        pendingInputPackets.Enqueue(packet);
+        pendingInputPackets?.Enqueue(packet);
     }
     // Update is called once per frame
     IEnumerator SetDash(float duration)

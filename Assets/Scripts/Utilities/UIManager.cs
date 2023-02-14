@@ -112,7 +112,7 @@ public class UIManager : MonoBehaviour
     }
     public void ReturnToMainMenu()
     {
-        SceneManager.LoadSceneAsync("MainMenu");
+        SceneManager.LoadSceneAsync(0);
     }
     public void ShowDisconnectPanel()
     {

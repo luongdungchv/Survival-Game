@@ -34,7 +34,11 @@ public class Client : MonoBehaviour
         }
         Debug.Log(NetworkPrefab.instanceCount);
         roomField.text = "12345";
-        hostField.text = "127.0.0.1";
+        
+        hostField.onValueChanged.AddListener(e => {
+            server = e;
+        }); 
+        hostField.text = server;
     }
 
     void Start()
@@ -70,7 +74,7 @@ public class Client : MonoBehaviour
     {
         if (!tcp.isConnected)
         {
-            tcp.Connect(hostField.text, port, () =>
+            tcp.Connect(server, port, () =>
             {
                 if (tcp.Send("cr " + mapSeed.ToString()))
                 {
@@ -90,7 +94,7 @@ public class Client : MonoBehaviour
     {
         if (!tcp.isConnected)
         {
-            tcp.Connect(hostField.text, port, () =>
+            tcp.Connect(server, port, () =>
             {
                 tcp.Send($"jr {id}");
             });
@@ -117,12 +121,11 @@ public class Client : MonoBehaviour
     }
     public void ConnectToServer()
     {
-        this.server = hostField.text;
-        tcp.Connect(hostField.text, port);
+        tcp.Connect(server, port);
     }
     public void SetUDPRemoteHost(int port)
     {
-        udp.Connect(hostField.text, port);
+        udp.Connect(server, port);
     }
     private void OnApplicationQuit()
     {

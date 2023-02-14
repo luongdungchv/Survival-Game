@@ -159,7 +159,8 @@ public class NetworkManager : MonoBehaviour
             Debug.Log(NetworkRoom.ins.localPlayerId);
             if ((playerIdToRemove == NetworkRoom.ins.localPlayerId || playerIdToRemove == 0) && !gameStarted)
             {
-                SceneManager.LoadScene("MainMenu");
+                //SceneManager.LoadScene("MainMenu");
+                SceneManager.LoadScene(0);
             }
         }
         else if (action == "ready")
