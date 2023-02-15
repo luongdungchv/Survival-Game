@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
+using UnityEngine.AI;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -76,6 +77,7 @@ public class MapGenerator : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
         UpdateTexture(noiseMap);
         GetComponent<MeshCollider>().sharedMesh = mesh;
+        //GetComponent<NavMeshSurface>().BuildNavMesh();
     }
     public Task MeshUpdate()
     {

@@ -11,6 +11,7 @@ namespace Enemy.Base
         public float atkRange, closeRange;
         public float hp;
         public Transform target;
+        public Vector3 targetPos = -Vector3.one;
         private Rigidbody rb;
         public float distanceToTarget => Vector3.Distance(transform.position, target.position);
         private Animator animator;

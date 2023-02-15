@@ -379,6 +379,7 @@ public class NetworkManager : MonoBehaviour
             sceneObjects[id] = obj;
         else sceneObjects.Add(id, obj);
     }
+    public Dictionary<string, NetworkPlayer> GetAllPlayers() => this.playerList;
     public NetworkSceneObject GetNetworkSceneObject(string id)
     {
         return sceneObjects[id];

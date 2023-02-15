@@ -18,6 +18,7 @@ namespace Enemy.Low
             var randX = Random.Range(patrolCenter.x - patrolArea.x, patrolCenter.x + patrolArea.x);
             var randY = Random.Range(patrolCenter.z - patrolArea.y, patrolCenter.z + patrolArea.y);
             target = animator.transform.right * randX + animator.transform.forward * randY;
+            
             //target = Vector3.zero;
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

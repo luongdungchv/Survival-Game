@@ -60,7 +60,7 @@ public class Client : MonoBehaviour
     }
     public void SendUDPMessage(string msg)
     {
-        udp.Send(msg);
+    udp.Send(msg);
     }
     public void SendUDPPacket(Packet _packet)
     {
