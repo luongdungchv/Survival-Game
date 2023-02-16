@@ -16,15 +16,12 @@ public class PlayerHitBox : HitBox
             float currentBaseDmg = PlayerAttack.ins.currentBaseDmg;
             if (Client.ins.isHost)
             {
-                // string currentTool = PlayerAttack.ins.currentWieldName;
-                // float currentBaseDmg = PlayerAttack.ins.currentBaseDmg;
                 PlayerDmgDealer.ins.SetProps(currentBaseDmg, currentTool, GetComponentInParent<PlayerStats>(), target);
                 PlayerDmgDealer.ins.Excute();
             }
 
             var hitPacket = new ObjectInteractionPacket(PacketType.ItemDropObjInteraction);
             hitPacket.playerId = Client.ins.clientId;
-
 
             hitPacket.objId = hit.collider.GetComponent<NetworkSceneObject>().id;
             hitPacket.action = "take_dmg";

@@ -43,7 +43,7 @@ public class NetworkManager : MonoBehaviour
         handler.AddHandler(PacketType.ChestInteraction, HandleChestInteraction);
         handler.AddHandler(PacketType.FurnaceServerUpdate, HandleFurnaceServerUpdate);
         handler.AddHandler(PacketType.FurnaceClientMsg, HandleFurnaceClientMsg);
-        handler.AddHandler(PacketType.ItemDropObjInteraction, HandlerItemDropObjInteraction);
+        handler.AddHandler(PacketType.ItemDropObjInteraction, HandleSceneObjInteraction);
         handler.AddHandler(PacketType.DestroyObject, HandleDestroyObject);
         handler.AddHandler(PacketType.ItemDrop, HandleDropItem);
         handler.AddHandler(PacketType.PlayerDisconnect, HandlePlayerDisconnect);
@@ -250,7 +250,7 @@ public class NetworkManager : MonoBehaviour
             client.SendTCPPacket(chestPacket);
         }
     }
-    public void HandlerItemDropObjInteraction(Packet _packet)
+    public void HandleSceneObjInteraction(Packet _packet)
     {
         // actionParams: tool, incomingDmg
         var packet = _packet as ObjectInteractionPacket;

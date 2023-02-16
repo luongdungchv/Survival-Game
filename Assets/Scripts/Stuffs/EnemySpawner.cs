@@ -21,7 +21,7 @@ public class EnemySpawner : MonoBehaviour
     public void AttemptToSpawn(Vector2 origin)
     {
         var possibility = Random.Range(1, 2001);
-        if (possibility <= 11)
+        if (possibility < 9)
         {
             var enemyGroup = enemyGroups[0];
             var randX = Random.Range(origin.x - spawnExtend.x, origin.x + spawnExtend.x);
@@ -51,6 +51,7 @@ public class EnemySpawner : MonoBehaviour
                 AttemptToSpawn(origin);
             }
             elapsed -= numLoop * tickDuration;
+            return;
         }
         elapsed += Time.deltaTime;
     }

@@ -18,7 +18,8 @@ GameObject:
   - component: {fileID: -2538150525559341462}
   - component: {fileID: 3119440319377990819}
   - component: {fileID: 4609551583142233316}
-  m_Layer: 0
+  - component: {fileID: 7028091694286638855}
+  m_Layer: 18
   m_Name: MeleeBean
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,6 +209,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25ba7d3be6a9aac478dccd2f0b369b68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7028091694286638855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223038696405078387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab19ace9f411e1c40afbdb364581d32b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
 --- !u!1 &7278263468940959945
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +233,7 @@ GameObject:
   - component: {fileID: 7947242268893510259}
   - component: {fileID: 6477756442678064598}
   - component: {fileID: 9079655284594573596}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: iron_sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}

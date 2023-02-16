@@ -33,7 +33,12 @@ namespace Enemy.Bean
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            navAgent.destination = target.position;
+            try{
+                navAgent.destination = target.position;
+            }
+            catch{
+                Debug.Log("destroyed: " + animator.GetComponent<NetworkSceneObject>().id);
+            }
             // var distance = Vector3.Distance(animator.transform.position, target.position);
             // if(distance > chaseStats.chaseRange){
             //     animator.SetTrigger("patrol");
