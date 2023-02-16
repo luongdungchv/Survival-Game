@@ -15,11 +15,22 @@ namespace Enemy.Bean
             elapsed = 0;
             navAgent = animator.GetComponent<NavMeshAgent>();
             navAgent.isStopped = true;
-            //animator.SetTrigger("patrol");
+            var netObj = animator.GetComponent<NetworkSceneObject>();
+            if (Client.ins.isHost)
+            {
+                var updatePacket = new ObjectInteractionPacket(PacketType.UpdateEnemy)
+                {
+                    playerId = "0",
+                    objId = netObj.id,
+                    action = "idle",
+                };
+                Client.ins.SendTCPPacket(updatePacket);
+            }
+
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if(!Client.ins.isHost) return;
+            if (!Client.ins.isHost) return;
             elapsed += Time.deltaTime;
             if (elapsed >= 3)
             {

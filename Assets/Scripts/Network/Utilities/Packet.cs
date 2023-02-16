@@ -77,7 +77,7 @@ public class Packet
                 }
             case PacketType.UpdateEnemy:
             {
-                var packet = new UpdateEnemyPacket();
+                var packet = new ObjectInteractionPacket(PacketType.UpdateEnemy);
                 packet.WriteData(msg);
                 return packet;
             }

@@ -21,13 +21,33 @@ namespace Enemy.Bean
             target = stats.target;
             patrolStats = stats as IPatrol;
             navAgent.isStopped = false;
-            
+
             var patrolCenter = patrolStats.patrolCenter;
             var patrolArea = patrolStats.patrolArea;
-                 
+
             mask = LayerMask.GetMask("Terrain", "Water");
-            var targetSelected = SelectTarget(animator, ref targetPos);
-            while(!targetSelected) targetSelected = SelectTarget(animator, ref targetPos);
+
+            var netObj = animator.GetComponent<NetworkSceneObject>();
+            if (Client.ins.isHost)
+            {
+                var targetSelected = SelectTarget(animator, ref targetPos);
+                while (!targetSelected) targetSelected = SelectTarget(animator, ref targetPos);
+                var updatePacket = new ObjectInteractionPacket(PacketType.UpdateEnemy)
+                {
+                    playerId = "0",
+                    objId = netObj.id,
+                    action = "patrol",
+                    actionParams = new string[]{
+                        targetPos.x.ToString(),
+                        targetPos.y.ToString(),
+                        targetPos.z.ToString(),
+                    }
+                };
+                Client.ins.SendTCPPacket(updatePacket);
+            }
+            else{
+                targetPos = stats.targetPos;
+            }
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -41,18 +61,20 @@ namespace Enemy.Bean
                 animator.SetTrigger("idle");
             }
         }
-        private bool SelectTarget(Animator animator,ref Vector3 target){
+        private bool SelectTarget(Animator animator, ref Vector3 target)
+        {
             var patrolCenter = patrolStats.patrolCenter;
             var patrolArea = patrolStats.patrolArea;
-            
+
             var randX = Random.Range(patrolCenter.x - patrolArea.x, patrolCenter.x + patrolArea.x);
             var randY = Random.Range(patrolCenter.z - patrolArea.y, patrolCenter.z + patrolArea.y);
             var castPos = new Vector3(randX, 100, randY);
             // targetPos = new Vector3(randX, animator.transform.position.y, randY);
             // var dirToTarget = targetPos - animator.transform.position;
             // var disttoTarget = dirToTarget.magnitude;
-            if(Physics.Raycast(castPos, Vector3.down, out var hit, 110, mask)){
-                if(hit.collider.tag == "Water") return false;
+            if (Physics.Raycast(castPos, Vector3.down, out var hit, 110, mask))
+            {
+                if (hit.collider.tag == "Water") return false;
                 target = hit.point;
                 return true;
             }

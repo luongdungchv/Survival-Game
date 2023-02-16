@@ -18,6 +18,18 @@ namespace Enemy.Bean
             target = stats.target;
             chaseStats = stats as IChase;
             navAgent.isStopped = false;
+            var netObj = animator.GetComponent<NetworkSceneObject>();
+            if (Client.ins.isHost && target.TryGetComponent<NetworkPlayer>(out var targetNetObj))
+            {
+                var updatePacket = new ObjectInteractionPacket(PacketType.UpdateEnemy)
+                {
+                    playerId = "0",
+                    objId = netObj.id,
+                    action = "set_target",
+                    actionParams = new string[] { targetNetObj.id }
+                };
+                Client.ins.SendTCPPacket(updatePacket);
+            }
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {

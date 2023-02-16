@@ -18,12 +18,25 @@ namespace Enemy.Bean
         {
             stats = animator.GetComponent<EnemyStats>();
             navAgent = animator.GetComponent<NavMeshAgent>();
-            
+            var netObj = animator.GetComponent<NetworkSceneObject>();
             navAgent.isStopped = true;
+            if (Client.ins.isHost)
+            {
+                if (Client.ins.isHost)
+                {
+                    var updatePacket = new ObjectInteractionPacket(PacketType.UpdateEnemy)
+                    {
+                        playerId = "0",
+                        objId = netObj.id,
+                        action = "attack",
+                    };
+                    Client.ins.SendTCPPacket(updatePacket);
+                }
+            }
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            
+
         }
     }
 }

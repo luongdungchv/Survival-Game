@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Enemy.Base;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
@@ -377,14 +378,37 @@ public class NetworkManager : MonoBehaviour
     }
     public void HandleEnemyState(Packet packet)
     {
-        var updatePacket = packet as UpdateEnemyPacket;
-        Debug.Log(sceneObjects);
-        Debug.Log(updatePacket);
-        if (sceneObjects.ContainsKey(updatePacket.objId))
-        {
-            var enemy = sceneObjects[updatePacket.objId].GetComponent<NetworkEnemy>();
-            enemy.ReceiveStateUpdate(updatePacket);
-            Debug.Log("enemy state");
+        var updatePacket = packet as ObjectInteractionPacket;
+        var action = updatePacket.action;
+        var args = updatePacket.actionParams;
+        if(sceneObjects.TryGetValue(updatePacket.objId, out var netObj)){
+            var stats = netObj.GetComponent<EnemyStats>();
+            var animator = netObj.GetComponent<Animator>();
+            if(action == "set_target"){
+                stats.target = playerList[args[0]].transform;
+                SetTrigger(animator, "chase");
+            }
+            else if(action == "idle"){
+                SetTrigger(animator, "idle");
+            }
+            else if(action == "patrol"){
+                stats.targetPos = new Vector3(
+                    float.Parse(args[0]),  
+                    float.Parse(args[1]),  
+                    float.Parse(args[2])
+                );
+                SetTrigger(animator, "patrol");
+            }
+            else if(action == "attack"){
+                SetTrigger(animator, "atk");
+            }
+        }
+        void SetTrigger(Animator animator, string trigger){
+            animator.ResetTrigger("atk");
+            animator.ResetTrigger("idle");
+            animator.ResetTrigger("chase");
+            animator.ResetTrigger("patrol");   
+            animator.SetTrigger(trigger);
         }
     }
     public void AddNetworkSceneObject(string id, NetworkSceneObject obj)
