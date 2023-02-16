@@ -265,7 +265,7 @@ public class NetworkManager : MonoBehaviour
         Debug.Log("Tree packet: " + packet.ToString());
         if (action == "take_dmg")
         {
-            var objComponent = obj.GetComponent<ItemDropObject>();
+            var objComponent = obj.GetComponent<IDamagable>();
             //objComponent.OnDamage(treePacket.actionParams[0],)
             var hitData = new PlayerHitData(incomingDmg, tool, playerList[playerId].GetComponent<PlayerStats>(), false);
             objComponent.OnDamage(hitData);

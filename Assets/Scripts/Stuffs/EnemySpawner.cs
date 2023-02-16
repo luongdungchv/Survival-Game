@@ -21,7 +21,7 @@ public class EnemySpawner : MonoBehaviour
     public void AttemptToSpawn(Vector2 origin)
     {
         var possibility = Random.Range(1, 2001);
-        if (possibility < 9)
+        if (possibility <= 11)
         {
             var enemyGroup = enemyGroups[0];
             var randX = Random.Range(origin.x - spawnExtend.x, origin.x + spawnExtend.x);
@@ -44,6 +44,7 @@ public class EnemySpawner : MonoBehaviour
         //if(DayNightCircle.time < 1.2f) return;
         if(elapsed > tickDuration){
             int numLoop = (int)(elapsed / tickDuration);
+            Debug.Log(numLoop);
             for(int i = 0; i < numLoop; i++){
                 var playerList = NetworkManager.ins.GetAllPlayers();
                 var randomIndex = Random.Range(0, playerList.Count).ToString();

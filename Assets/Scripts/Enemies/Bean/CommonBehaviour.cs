@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Enemy.Base;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Enemy.Bean
 {
@@ -13,6 +14,7 @@ namespace Enemy.Bean
         private IPatrol patrolStats;
         private EnemyStats stats;
         private IChase chaseStats;
+        private NavMeshAgent navAgent;
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             //playerList = NetworkManager.ins.GetAllPlayers();
@@ -20,7 +22,9 @@ namespace Enemy.Bean
             target = stats.target;
             patrolStats = animator.GetComponent<IPatrol>();
             chaseStats = animator.GetComponent<IChase>();
+            navAgent = animator.GetComponent<NavMeshAgent>();
         }
+        
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if(!Client.ins.isHost) return;
@@ -30,7 +34,10 @@ namespace Enemy.Bean
             if(target == null) return;
             
             var distToTarget = Vector3.Distance(target.position, animator.transform.position);
-            if(distToTarget <= stats.atkRange) SetTrigger(animator,"atk");
+            if(distToTarget <= stats.atkRange) {
+                navAgent.isStopped = true;
+                SetTrigger(animator,"atk");
+            }
             else if(distToTarget <= chaseStats.chaseRange && distToTarget > stats.atkRange) 
                 SetTrigger(animator,"chase");
             else if((stateInfo.IsName("Chase") || stateInfo.IsName("Attack")) && distToTarget > chaseStats.chaseRange) SetTrigger(animator, "patrol");

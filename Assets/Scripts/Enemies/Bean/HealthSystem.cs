@@ -7,7 +7,7 @@ namespace Enemy.Bean
     public class HealthSystem : MonoBehaviour, IDamagable
     {
         [SerializeField] private float maxHP;
-        private float currentHP;
+        [SerializeField] private float currentHP;
         private void Start() {
             currentHP = maxHP;
         }
