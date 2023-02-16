@@ -33,6 +33,8 @@ public class StateMachine : MonoBehaviour
     {
         //GetComponent<Rigidbody>().AddForce(0, -46, 0);
         if (currentState != null) currentState.OnUpdate.Invoke();
+        //if(currentState.name == "Attack") Debug.Log(Time.realtimeSinceStartup);
+        
     }
     private void FixedUpdate()
     {
@@ -55,6 +57,7 @@ public class StateMachine : MonoBehaviour
         {
             if (i.name == stateName)
             {
+                Debug.Log($"{currentState.name} {i.name}");
                 OnStateChanged.Invoke(currentState.name, stateName);
                 currentState.OnExit.Invoke();
                 currentState = i;

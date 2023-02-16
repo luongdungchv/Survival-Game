@@ -89,7 +89,6 @@ public class NetworkPlayer : NetworkObject
             //rb.MovePosition(_position);
             if (lerpPosRoutine != null) StopCoroutine(lerpPosRoutine);
             lerpPosRoutine = StartCoroutine(LerpPosition(_position, 0.0833f));
-
         }
         else
         {

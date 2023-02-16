@@ -70,9 +70,11 @@ public class StateInitializer : MonoBehaviour
         else if (inputReader.SlashPress())
         {
             PlayerEquipment.ins.OnUsePress();
+            Debug.Log(Time.realtimeSinceStartup);
         }
         else if (inputReader.SlashRelease())
         {
+            
             PlayerEquipment.ins.OnUseReleases();
         }
         else if (inputReader.JumpPress() && !PlayerEquipment.ins.isConsumingItem)

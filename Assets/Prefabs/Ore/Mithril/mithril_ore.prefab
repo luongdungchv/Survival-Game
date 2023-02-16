@@ -132,7 +132,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.73700005, y: 0.74100006, z: 0.78300005}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.007, y: -0.027, z: 0.023000002}
   m_TimeToStationary: 0.5
@@ -151,6 +151,7 @@ MonoBehaviour:
   uiElement: {fileID: 0}
   projection: 90
   uiWorldPos: {fileID: 0}
+  distanceThreshold: 50
   canvas: {fileID: 0}
 --- !u!114 &6506084969737266464
 MonoBehaviour:

@@ -47,6 +47,7 @@ public class NetworkManager : MonoBehaviour
         handler.AddHandler(PacketType.ItemDrop, HandleDropItem);
         handler.AddHandler(PacketType.PlayerDisconnect, HandlePlayerDisconnect);
         handler.AddHandler(PacketType.RoomInteraction, HandleRoomInteraction);
+        handler.AddHandler(PacketType.UpdateEnemy, HandleEnemyState);
     }
     private void HandleMovePlayer(Packet _packet)
     {
@@ -87,18 +88,19 @@ public class NetworkManager : MonoBehaviour
             gameStarted = true;
         });
 
-        
+
     }
     private int tick = -1;
     private int lastClientTick = -1;
     private void HandleInput(Packet _packet)
     {
         var inputPacket = _packet as InputPacket;
-       
+
         //tick += inputPacket.tick;
         var lastTickDiff = lastClientTick - inputPacket.tick;
-        if(tick == -1 || (lastTickDiff > 0 && lastTickDiff < 500)) tick = inputPacket.tick;
-        else{
+        if (tick == -1 || (lastTickDiff > 0 && lastTickDiff < 500)) tick = inputPacket.tick;
+        else
+        {
             tick += 1;
             inputPacket.tick = tick;
         }
@@ -184,7 +186,7 @@ public class NetworkManager : MonoBehaviour
             drop.SetBase(Item.GetItem(dropPacket.itemBase));
 
             var netSceneObj = drop.GetComponentInParent<NetworkSceneObject>();
-            if (dropPacket.objId == "") dropPacket.objId = GameFunctions.ins.GenerateId();
+            if (dropPacket.objId == "") dropPacket.objId = GameFunctions.GenerateId();
             netSceneObj.id = dropPacket.objId;
             AddNetworkSceneObject(dropPacket.objId, netSceneObj);
             if (client.isHost) client.SendTCPPacket(dropPacket);
@@ -373,6 +375,18 @@ public class NetworkManager : MonoBehaviour
         }
         //NetworkRoom.ins.RemovePlayer(packet.playerId);
     }
+    public void HandleEnemyState(Packet packet)
+    {
+        var updatePacket = packet as UpdateEnemyPacket;
+        Debug.Log(sceneObjects);
+        Debug.Log(updatePacket);
+        if (sceneObjects.ContainsKey(updatePacket.objId))
+        {
+            var enemy = sceneObjects[updatePacket.objId].GetComponent<NetworkEnemy>();
+            enemy.ReceiveStateUpdate(updatePacket);
+            Debug.Log("enemy state");
+        }
+    }
     public void AddNetworkSceneObject(string id, NetworkSceneObject obj)
     {
         if (sceneObjects.ContainsKey(id))
@@ -390,7 +404,6 @@ public class NetworkManager : MonoBehaviour
         sceneObjects.Remove(id);
         return true;
     }
-
     IEnumerator LoadSceneDelay(float duration)
     {
         Debug.Log("load");

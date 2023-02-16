@@ -43,7 +43,6 @@ public class PlayerEquipment : MonoBehaviour
 
         if (rightHandItem != null && rightHandItem.TryGetComponent<IUsable>(out var usableItem))
         {
-
             usableItem.OnUse(currentEquipIndex);
         }
         if (rightHandItem != null && rightHandItem.TryGetComponent<IConsumable>(out var consumableItem))

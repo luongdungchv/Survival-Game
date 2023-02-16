@@ -23,6 +23,7 @@ namespace Enemy.Bean
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if(!Client.ins.isHost) return;
             if(NetworkManager.ins == null) return;
             if(target == null) target = SelectTarget(animator.transform.position);
             stats.target = target;

@@ -10,8 +10,8 @@ public class GameFunctions : MonoBehaviour
     [SerializeField] private Transform interactBtnContainer;
     [SerializeField] private Canvas mainCanvas;
     private Camera mainCam => Camera.main;
-    private HashSet<string> idOccupation;
-    private CustomRandom randObj;
+    private static HashSet<string> idOccupation;
+    private static CustomRandom randObj;
     //public bool test;
     private void Awake()
     {
@@ -78,7 +78,7 @@ public class GameFunctions : MonoBehaviour
         if (show) ShowCursor();
         else HideCursor();
     }
-    public string GenerateId()
+    public static string GenerateId()
     {
         char[] temp = new char[] { 'a', 'b', 'c', 'd', 'e', 'f' };
 
@@ -102,7 +102,7 @@ public class GameFunctions : MonoBehaviour
         idOccupation.Add(res);
         return res;
     }
-    public void RevokeId(string id)
+    public static void RevokeId(string id)
     {
         if (idOccupation.Contains(id))
         {

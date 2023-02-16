@@ -84,6 +84,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (inputReader.SlashPress())
         {
+            
             if (mouseWaitCountdown != null) StopCoroutine(mouseWaitCountdown);
             mouseWaitCountdown = StartCoroutine(WaitForClick(0.43f));
 

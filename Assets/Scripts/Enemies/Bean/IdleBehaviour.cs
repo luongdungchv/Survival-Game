@@ -19,6 +19,7 @@ namespace Enemy.Bean
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if(!Client.ins.isHost) return;
             elapsed += Time.deltaTime;
             if (elapsed >= 3)
             {

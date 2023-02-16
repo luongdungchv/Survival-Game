@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 
 public class DayNightCircle : MonoBehaviour
 {
@@ -11,7 +12,13 @@ public class DayNightCircle : MonoBehaviour
     [SerializeField] private Material skyboxMat, waterMat;
     [SerializeField] private Material[] grassMats;
     [SerializeField] private Color ambientSideColor, ambientSkyColor;
+    
+    private static DayNightCircle ins;
+    public static float time => ins.value;
     // Start is called before the first frame update
+    private void Awake() {
+        ins = this;
+    }
     void Start()
     {
 
@@ -21,9 +28,7 @@ public class DayNightCircle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // lightObj.rotation = Quaternion.Lerp(Quaternion.Euler(start), Quaternion.Euler(end), value);
-        // skyboxMat.SetColor("_SkyColor", upperColors.Evaluate(value));
-        // skyboxMat.SetColor("_GroundColor", lowerColors.Evaluate(value));
+        
 
     }
     IEnumerator Circulate(float duration)
@@ -43,9 +48,7 @@ public class DayNightCircle : MonoBehaviour
         {
             i.SetFloat("_SmoothnessState", smoothnessParam);
         }
-        //waterMat.SetFloat("_SmoothnessState", smoothnessParam);
-        //RenderSettings.ambientEquatorColor = Color.Lerp(ambientSideColor, Color.black, smoothnessParam);
-        //RenderSettings.ambientSkyColor = Color.Lerp(ambientSkyColor, Color.black, smoothnessParam);
+        
 
 
         if (value >= 2) value = 0;

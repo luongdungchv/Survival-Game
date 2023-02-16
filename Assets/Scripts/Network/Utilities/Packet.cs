@@ -75,6 +75,12 @@ public class Packet
                     packet.WriteData(msg);
                     return packet;
                 }
+            case PacketType.UpdateEnemy:
+            {
+                var packet = new UpdateEnemyPacket();
+                packet.WriteData(msg);
+                return packet;
+            }
             default:
                 {
                     //                    Debug.Log("msg: " + msg);
@@ -429,6 +435,44 @@ public class RoomPacket : Packet
 
     }
 }
+public class SpawnEnemyPacket: Packet{
+    public Vector3 spawnPosition;
+    public string enemyNetId;
+    
+    public SpawnEnemyPacket(){
+        this.command = PacketType.SpawnEnemy;
+    }
+    
+    public override string GetString()
+    {
+        return $"{(int)this.command} {enemyNetId} {spawnPosition.x.ToString("0.00")} {spawnPosition.y.ToString("0.00")} {spawnPosition.z.ToString("0.00")}";
+    }
+    public void WriteData(string msg){
+        var split = msg.Split(' ');
+        enemyNetId = split[1];
+        spawnPosition = new Vector3(int.Parse(split[2]), int.Parse(split[3]), int.Parse(split[4]));
+    }
+}
+public class UpdateEnemyPacket: Packet{
+    public Vector3 position;
+    public string objId;
+    public string animTrigger;
+    
+    public UpdateEnemyPacket(){
+        this.command = PacketType.UpdateEnemy;
+    }
+    
+    public override string GetString()
+    {
+        return $"{(int)this.command} {objId} {position.x.ToString("0.00")} {position.y.ToString("0.00")} {position.z.ToString("0.00")} {animTrigger}";
+    }
+    public void WriteData(string msg){
+        var split = msg.Split(' ');
+        objId = split[1];
+        position = new Vector3(float.Parse(split[2]), float.Parse(split[3]), float.Parse(split[4]));
+        animTrigger = split[5];
+    }
+}
 
 public enum PacketType
 {
@@ -436,6 +480,7 @@ public enum PacketType
     SpawnPlayer, StartGame, Input, SpawnObject, UpdateEquipping,
     FurnaceServerUpdate, FurnaceClientMsg,
     ItemDrop, RoomInteraction,
+    SpawnEnemy, UpdateEnemy,
     ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject, PlayerDisconnect
 
 }

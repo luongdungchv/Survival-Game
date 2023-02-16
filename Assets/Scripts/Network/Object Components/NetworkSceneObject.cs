@@ -12,14 +12,14 @@ public class NetworkSceneObject : NetworkObject
     }
     public string GenerateId()
     {
-        this.id = GameFunctions.ins.GenerateId();
+        this.id = GameFunctions.GenerateId();
         NetworkManager.ins.AddNetworkSceneObject(this.id, this);
         return this.id;
     }
 
     public void RevokeId()
     {
-        GameFunctions.ins.RevokeId(this.id);
+        GameFunctions.RevokeId(this.id);
         NetworkManager.ins.RemoveSceneNetworkObject(this.id);
         this.id = null;
     }

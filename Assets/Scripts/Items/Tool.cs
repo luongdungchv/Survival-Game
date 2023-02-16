@@ -30,7 +30,6 @@ public class Tool : Item, IUsable, IEquippable, ICraftable
     {
         var atkSystem = PlayerAttack.ins;
         atkSystem.SetAtkPattern(atkPattern);
-
         var equipmentSystem = PlayerEquipment.ins;
         PlayerEquipment.ins.GetComponent<StateMachine>().ChangeState("Attack");
     }
@@ -38,6 +37,7 @@ public class Tool : Item, IUsable, IEquippable, ICraftable
     {
         SetPlayerAttackPattern(netUser);
         var equipmentSystem = netUser.GetComponent<NetworkEquipment>();
+        
         netUser.GetComponent<StateMachine>().ChangeState("Attack");
     }
     public void SetPlayerAttackPattern(NetworkPlayer netUser)

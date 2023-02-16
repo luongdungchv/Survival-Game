@@ -15,6 +15,9 @@ GameObject:
   - component: {fileID: 223038696405078389}
   - component: {fileID: 223038696405078376}
   - component: {fileID: 223038696405078386}
+  - component: {fileID: -2538150525559341462}
+  - component: {fileID: 3119440319377990819}
+  - component: {fileID: 4609551583142233316}
   m_Layer: 0
   m_Name: MeleeBean
   m_TagString: Untagged
@@ -129,10 +132,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 160
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -140,7 +143,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 2
 --- !u!114 &223038696405078386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,9 +156,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d2407dc7d83b44f83152485d739a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkRange: 2
+  atkRange: 3
   closeRange: 0
   hp: 0
+  speed: 0
   target: {fileID: 0}
   targetPos: {x: -1, y: -1, z: -1}
   mask:
@@ -167,6 +171,43 @@ MonoBehaviour:
   _walkSpeed: 0
   _chaseRange: 15
   _patrolArea: {x: 10, y: 10}
+--- !u!114 &-2538150525559341462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223038696405078387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 803badd55b024644399b1b75458fc1a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3119440319377990819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223038696405078387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fafe2b71e76c23a409285a7111a748f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
+--- !u!114 &4609551583142233316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223038696405078387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25ba7d3be6a9aac478dccd2f0b369b68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7278263468940959945
 GameObject:
   m_ObjectHideFlags: 0
