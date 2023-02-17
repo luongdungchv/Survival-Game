@@ -9,7 +9,7 @@ namespace Enemy.Base
     public class EnemyStats : MonoBehaviour
     {
         public float atkRange, closeRange;
-        public float hp, speed;
+        public float hp, speed, baseDamage;
         public Transform target;
         public Vector3 targetPos = -Vector3.one;
         private Rigidbody rb;

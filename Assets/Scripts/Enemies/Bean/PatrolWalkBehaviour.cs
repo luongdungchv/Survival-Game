@@ -13,6 +13,7 @@ namespace Enemy.Bean
         private NavMeshAgent navAgent;
         private EnemyStats stats;
         [SerializeField] private Vector3 targetPos;
+        [SerializeField] private bool stopped;
         private LayerMask mask;
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -32,7 +33,7 @@ namespace Enemy.Bean
             {
                 var targetSelected = SelectTarget(animator, ref targetPos);
                 while (!targetSelected) targetSelected = SelectTarget(animator, ref targetPos);
-                var updatePacket = new ObjectInteractionPacket(PacketType.UpdateEnemy)
+                var updatePacket = new RawActionPacket(PacketType.UpdateEnemy)
                 {
                     playerId = "0",
                     objId = netObj.id,
@@ -54,6 +55,7 @@ namespace Enemy.Bean
             navAgent.destination = targetPos;
             var dirToTarget = targetPos - animator.transform.position;
             dirToTarget.y = 0;
+            stopped = navAgent.isStopped;
             var disttoTarget = dirToTarget.magnitude;
             if (disttoTarget <= 0.4f)
             {

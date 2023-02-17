@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 3119440319377990819}
   - component: {fileID: 4609551583142233316}
   - component: {fileID: 7028091694286638855}
+  - component: {fileID: 6590650304063242920}
   m_Layer: 18
   m_Name: MeleeBean
   m_TagString: Untagged
@@ -38,6 +39,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 7947242268893510259}
+  - {fileID: 3876548244874929959}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -134,10 +136,10 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 5
-  m_Acceleration: 4.89
+  m_Acceleration: 10
   avoidancePriority: 50
-  m_AngularSpeed: 160
-  m_StoppingDistance: 3
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -157,10 +159,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d2407dc7d83b44f83152485d739a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkRange: 3
+  atkRange: 4
   closeRange: 0
   hp: 0
   speed: 0
+  baseDamage: 12
   target: {fileID: 0}
   targetPos: {x: -1, y: -1, z: -1}
   mask:
@@ -223,6 +226,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   currentHP: 0
+--- !u!114 &6590650304063242920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223038696405078387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 854c062a34e3463478364a0b26c5b3fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7278263468940959945
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,3 +319,64 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7784205228874537410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3876548244874929959}
+  - component: {fileID: 2906311163435354938}
+  - component: {fileID: 697339614178235402}
+  m_Layer: 18
+  m_Name: Enemy Attacker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3876548244874929959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7784205228874537410}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0.78}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 223038696405078377}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!65 &2906311163435354938
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7784205228874537410}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7453609, y: 1.7534561, z: 1}
+  m_Center: {x: 0.09443766, y: -0.045475006, z: -4.3431657e-16}
+--- !u!114 &697339614178235402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7784205228874537410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ac621e242bc314882625de3581661c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitVfx: {fileID: 0}
+  mask:
+    serializedVersion: 2
+    m_Bits: 256

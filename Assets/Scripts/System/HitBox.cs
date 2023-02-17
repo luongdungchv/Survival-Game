@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
 public class HitBox : MonoBehaviour
 {
     protected BoxCollider hitbox;

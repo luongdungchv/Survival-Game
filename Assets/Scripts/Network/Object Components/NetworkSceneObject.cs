@@ -25,7 +25,7 @@ public class NetworkSceneObject : NetworkObject
     }
     public void DestroyObject()
     {
-        var destroyPacket = new ObjectInteractionPacket(PacketType.DestroyObject)
+        var destroyPacket = new RawActionPacket(PacketType.DestroyObject)
         {
             playerId = Client.ins.clientId,
             objId = this.id,

@@ -49,6 +49,7 @@ public class NetworkManager : MonoBehaviour
         handler.AddHandler(PacketType.PlayerDisconnect, HandlePlayerDisconnect);
         handler.AddHandler(PacketType.RoomInteraction, HandleRoomInteraction);
         handler.AddHandler(PacketType.UpdateEnemy, HandleEnemyState);
+        handler.AddHandler(PacketType.PlayerInteraction, HandlePlayerInteraction);
     }
     private void HandleMovePlayer(Packet _packet)
     {
@@ -103,6 +104,7 @@ public class NetworkManager : MonoBehaviour
         else
         {
             tick += 1;
+            if(tick > 1024) tick = 0;
             inputPacket.tick = tick;
         }
         //Debug.Log(inputPacket.tick);
@@ -217,7 +219,7 @@ public class NetworkManager : MonoBehaviour
     }
     public void HandleDestroyObject(Packet _packet)
     {
-        var packet = _packet as ObjectInteractionPacket;
+        var packet = _packet as RawActionPacket;
         var objId = packet.objId;
         Debug.Log("Destroy Msg: " + packet.GetString());
         if (sceneObjects.ContainsKey(objId))
@@ -237,7 +239,7 @@ public class NetworkManager : MonoBehaviour
     }
     public void HandleChestInteraction(Packet _packet)
     {
-        var chestPacket = _packet as ObjectInteractionPacket;
+        var chestPacket = _packet as RawActionPacket;
         var action = chestPacket.action;
         var obj = sceneObjects[chestPacket.objId];
         Debug.Log("Chest packet: " + chestPacket.ToString());
@@ -253,7 +255,7 @@ public class NetworkManager : MonoBehaviour
     public void HandleSceneObjInteraction(Packet _packet)
     {
         // actionParams: tool, incomingDmg
-        var packet = _packet as ObjectInteractionPacket;
+        var packet = _packet as RawActionPacket;
         var action = packet.action;
 
         var playerId = packet.playerId;
@@ -368,17 +370,26 @@ public class NetworkManager : MonoBehaviour
     }
     public void HandlePlayerDisconnect(Packet _packet)
     {
-        var packet = _packet as ObjectInteractionPacket;
+        var packet = _packet as RawActionPacket;
         if (playerList.TryGetValue(packet.playerId, out var playerToRemove))
         {
             Destroy(playerToRemove.gameObject);
             playerList.Remove(packet.playerId);
         }
-        //NetworkRoom.ins.RemovePlayer(packet.playerId);
+    }
+    public void HandlePlayerInteraction(Packet packet){
+        var playerPacket = packet as RawActionPacket;
+        var action = playerPacket.action;
+        var playerId = playerPacket.playerId;
+        var args = playerPacket.actionParams;
+        if(action == "take_damage"){
+            var dmg = int.Parse(args[0]);
+            playerList[playerId].GetComponent<PlayerStats>().TakeDamage(dmg);
+        }
     }
     public void HandleEnemyState(Packet packet)
     {
-        var updatePacket = packet as ObjectInteractionPacket;
+        var updatePacket = packet as RawActionPacket;
         var action = updatePacket.action;
         var args = updatePacket.actionParams;
         if(sceneObjects.TryGetValue(updatePacket.objId, out var netObj)){

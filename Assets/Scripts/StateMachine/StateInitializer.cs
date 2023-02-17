@@ -11,6 +11,7 @@ public class StateInitializer : MonoBehaviour
     private bool canDash = true;
     [SerializeField] private bool isGround = true;
     [SerializeField] private LayerMask groundMask;
+    [SerializeField] private float appearDuration, fadeDuration;
 
 
     PlayerMovement movementSystem => GetComponent<PlayerMovement>();
@@ -63,6 +64,7 @@ public class StateInitializer : MonoBehaviour
     }
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Z)) animSystem.HurtEffect(appearDuration, fadeDuration);
         if (inputReader.SprintPress() && stats.stamina > 0 && !PlayerEquipment.ins.isConsumingItem)
         {
             fsm.ChangeState(Dash, true);

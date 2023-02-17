@@ -77,14 +77,14 @@ public class Packet
                 }
             case PacketType.UpdateEnemy:
             {
-                var packet = new ObjectInteractionPacket(PacketType.UpdateEnemy);
+                var packet = new RawActionPacket(PacketType.UpdateEnemy);
                 packet.WriteData(msg);
                 return packet;
             }
             default:
                 {
                     //                    Debug.Log("msg: " + msg);
-                    var packet = new ObjectInteractionPacket(parsedCmd);
+                    var packet = new RawActionPacket(parsedCmd);
                     packet.WriteData(msg);
                     return packet;
                 }
@@ -284,11 +284,11 @@ public class UpdateEquippingPacket : Packet
     }
 
 }
-public class ObjectInteractionPacket : Packet
+public class RawActionPacket : Packet
 {
     public string playerId, objId, action;
     public string[] actionParams;
-    public ObjectInteractionPacket(PacketType type)
+    public RawActionPacket(PacketType type)
     {
         this.command = type;
     }
@@ -481,6 +481,6 @@ public enum PacketType
     FurnaceServerUpdate, FurnaceClientMsg,
     ItemDrop, RoomInteraction,
     SpawnEnemy, UpdateEnemy,
-    ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject, PlayerDisconnect
+    ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject, PlayerDisconnect, PlayerInteraction
 
 }

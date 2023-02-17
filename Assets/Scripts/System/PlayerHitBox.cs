@@ -20,7 +20,7 @@ public class PlayerHitBox : HitBox
                 PlayerDmgDealer.ins.Excute();
             }
 
-            var hitPacket = new ObjectInteractionPacket(PacketType.ItemDropObjInteraction);
+            var hitPacket = new RawActionPacket(PacketType.ItemDropObjInteraction);
             hitPacket.playerId = Client.ins.clientId;
 
             hitPacket.objId = hit.collider.GetComponent<NetworkSceneObject>().id;

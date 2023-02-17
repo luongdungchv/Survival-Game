@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using UnityEngine.UI;
 
 public class PlayerAnimation : MonoBehaviour
 {
     // Start is called before the first frame update
+    [SerializeField] private Image bloodOverlay;
     Coroutine animationBlendCoroutine;
     private Dictionary<string, Coroutine> animBlendCoroutineDict;
     public Animator animator;
@@ -79,6 +81,25 @@ public class PlayerAnimation : MonoBehaviour
 
         await Task.Delay((int)(this.dashTime * 1000));
         animator.SetBool("dash", false);
+    }
+    public void HurtEffect(float appearDuration, float fadeDuration){
+        IEnumerator Animate(float duration, int state){
+            float t = 0;
+            while(t < 1){
+                t += Time.deltaTime / duration;
+                var bloodColor = bloodOverlay.color;
+                bloodColor.a = Mathf.Abs(state - t);
+                bloodOverlay.color = bloodColor;
+                yield return null;
+            }
+            if(state == 0) StartCoroutine(Animate(fadeDuration, 1));
+            else{
+                var bloodColor = bloodOverlay.color;
+                bloodColor.a = 0;
+                bloodOverlay.color = bloodColor;
+            }   
+        }
+        StartCoroutine(Animate(appearDuration, 0));
     }
     IEnumerator LerpAnimationTransition(string param, float to, float duration)
     {

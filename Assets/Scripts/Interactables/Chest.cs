@@ -14,7 +14,7 @@ public class Chest : InteractableObject
     protected override void OnInteractBtnClick(Button clicker)
     {
         Destroy(clicker.gameObject);
-        var openChestPacket = new ObjectInteractionPacket(PacketType.ChestInteraction);
+        var openChestPacket = new RawActionPacket(PacketType.ChestInteraction);
         openChestPacket.WriteData(Client.ins.clientId, netObj.id, "open", null);
         Client.ins.SendTCPPacket(openChestPacket);
         if(Client.ins.isHost) Open();

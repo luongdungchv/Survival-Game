@@ -24,7 +24,7 @@ namespace Enemy.Bean
             {
                 if (Client.ins.isHost)
                 {
-                    var updatePacket = new ObjectInteractionPacket(PacketType.UpdateEnemy)
+                    var updatePacket = new RawActionPacket(PacketType.UpdateEnemy)
                     {
                         playerId = "0",
                         objId = netObj.id,

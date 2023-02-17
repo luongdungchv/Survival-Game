@@ -42,6 +42,8 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private RectTransform test;
     private StateMachine fsm => GetComponent<StateMachine>();
     private InputReader inputReader => InputReader.ins;
+    private PlayerAnimation animSystem => GetComponent<PlayerAnimation>();
+    private NetworkPlayer netPlayer;
     private Coroutine regenStatmina;
     private Coroutine regenHunger;
 
@@ -53,7 +55,8 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
-        if (!GetComponent<NetworkPlayer>().isLocalPlayer) return;
+        netPlayer = GetComponent<NetworkPlayer>();
+        if (!netPlayer.isLocalPlayer) return;
         if (ins == null) ins = this;
         _hp = maxHP / 2;
         hpBar.value = Mathf.InverseLerp(0, maxHP, _hp);
@@ -96,13 +99,15 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("die");
     }
-    private void TakeDamage(float dmg)
+    public void TakeDamage(float dmg)
     {
+        Debug.Log("player take dmg");
         _hp -= dmg;
+        animSystem.HurtEffect(0.15f, 0.3f);
         if (_hp <= 0)
         {
             _hp = 0;
-            UpdateBar(hpBar, lerpHPBar, maxHP, _hp, hpLerpDuration);
+            if(netPlayer.isLocalPlayer) UpdateBar(hpBar, lerpHPBar, maxHP, _hp, hpLerpDuration);
             this.Perish();
         }
     }

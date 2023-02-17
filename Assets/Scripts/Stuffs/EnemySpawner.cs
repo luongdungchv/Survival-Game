@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Enemy.Base;
 using Enemy.Bean;
+using System.ComponentModel;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private LayerMask mask;
     [SerializeField] private Vector2 spawnExtend;
     [SerializeField] private float ticksPerSecond;
+    private bool stop;
     
     private float elapsed = 0;
     private float tickDuration;
@@ -21,7 +23,7 @@ public class EnemySpawner : MonoBehaviour
     public void AttemptToSpawn(Vector2 origin)
     {
         var possibility = Random.Range(1, 2001);
-        if (possibility <= 11)
+        if (possibility <= 2002)
         {
             var enemyGroup = enemyGroups[0];
             var randX = Random.Range(origin.x - spawnExtend.x, origin.x + spawnExtend.x);
@@ -41,6 +43,7 @@ public class EnemySpawner : MonoBehaviour
     }
     private void Update() {
         if(!Client.ins.isHost) return;
+        if(stop) return;
         //if(DayNightCircle.time < 1.2f) return;
         if(elapsed > tickDuration){
             int numLoop = (int)(elapsed / tickDuration);
@@ -51,6 +54,7 @@ public class EnemySpawner : MonoBehaviour
                 var origin = new Vector2(playerList[randomIndex].transform.position.x, playerList[randomIndex].transform.position.z);
                 AttemptToSpawn(origin);
             }
+            stop = true;
             elapsed -= numLoop * tickDuration;
             return;
         }
