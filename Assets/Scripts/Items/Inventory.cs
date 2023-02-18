@@ -48,12 +48,6 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         ReloadInHandModel(true);
-        // Add(testItem, 50);
-        // Add(testItem, 10);
-        // Add(testItem, 14);
-        // Add(testItem, 28);
-
-        //Add(testItem, 1);
 
     }
 
@@ -238,6 +232,9 @@ public class Inventory : MonoBehaviour
                     if (items[i] == null || items[i].itemData == null)
                     {
                         PlayerEquipment.ins.rightHandItem = null;
+                        var packet = new UpdateEquippingPacket();
+                        packet.WriteData(Client.ins.clientId, "0");
+                        Client.ins.SendTCPPacket(packet);
                         continue;
                     }
 
