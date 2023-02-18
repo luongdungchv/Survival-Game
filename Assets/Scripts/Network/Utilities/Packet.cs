@@ -473,6 +473,15 @@ public class UpdateEnemyPacket: Packet{
         animTrigger = split[5];
     }
 }
+public class PowerupInteraction: Packet{
+    public PowerupInteraction(){
+        this.command = PacketType.PowerupInteraction;
+    }
+    public override string GetString()
+    {
+        return base.GetString();
+    }
+}
 
 public enum PacketType
 {
@@ -480,7 +489,8 @@ public enum PacketType
     SpawnPlayer, StartGame, Input, SpawnObject, UpdateEquipping,
     FurnaceServerUpdate, FurnaceClientMsg,
     ItemDrop, RoomInteraction,
-    SpawnEnemy, UpdateEnemy,
-    ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject, PlayerDisconnect, PlayerInteraction
+    SpawnEnemy, UpdateEnemy,PowerupInteraction,
+    ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject, PlayerDisconnect, PlayerInteraction,
+    
 
 }
