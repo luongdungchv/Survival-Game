@@ -24,11 +24,14 @@ public class PlayerStats : MonoBehaviour
     public float speed;
     public float sprintSpeed, dashSpeed, jumpSpeed, dashJumpSpeed, dashDelay, dashTime, maxFallingSpeed = 55;
     public float swimSpeed, swimFastSpeed;
+    public Transform pivot;
     [Header("Attack")]
     [Range(0, 100)] public float treeCritRate = 5;
     [Range(0, 100)] public float oreCritRate = 5, enemyCritRate = 5;
     public float treeCritDmg = 150;
     public float oreCritDmg = 150, enemyCritDmg = 150;
+    public float knockbackRate = 100;
+    public bool isDead;
     [SerializeField] private float baseAtkSpeed;
     [SerializeField] private float regenDelay;
     [Header("UI")]
@@ -48,6 +51,7 @@ public class PlayerStats : MonoBehaviour
     private Coroutine regenHunger;
 
     private Coroutine lerpHPBar, lerpStaminaBar, lerpHungerBar;
+    
 
     public float hp => _hp;
     public float stamina => _stamina;
@@ -56,9 +60,9 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
         netPlayer = GetComponent<NetworkPlayer>();
+        _hp = maxHP / 2;
         if (!netPlayer.isLocalPlayer) return;
         if (ins == null) ins = this;
-        _hp = maxHP / 2;
         hpBar.value = Mathf.InverseLerp(0, maxHP, _hp);
         _stamina = maxStamina;
         _hungerPoint = maxHungerPoint;
@@ -98,12 +102,35 @@ public class PlayerStats : MonoBehaviour
     private void Perish()
     {
         Debug.Log("die");
+        TriggerRagdoll();
+        this.isDead = true;
+        var allPlayers = NetworkManager.ins.GetAllPlayers();
+        if(netPlayer.isLocalPlayer){
+            foreach(var i in allPlayers){
+                var isDead = i.Value.GetComponent<PlayerStats>().isDead;
+                if(!isDead){
+                    UIManager.ins.ShowDiePanel();
+                    return;
+                }
+            }
+            UIManager.ins.ShowGameOverPanel();
+        }
+        else if(NetworkPlayer.localPlayer.GetComponent<PlayerStats>().isDead){
+            foreach(var i in allPlayers){
+                var isDead = i.Value.GetComponent<PlayerStats>().isDead;
+                if(!isDead){
+                    return;
+                }
+            }
+            
+            UIManager.ins.ShowGameOverPanel();
+        }
     }
     public void TakeDamage(float dmg)
     {
         Debug.Log("player take dmg");
         _hp -= dmg;
-        animSystem.HurtEffect(0.15f, 0.3f);
+        if(netPlayer.isLocalPlayer) animSystem.HurtEffect(0.15f, 0.3f);
         if (_hp <= 0)
         {
             _hp = 0;
@@ -180,5 +207,18 @@ public class PlayerStats : MonoBehaviour
         }
         if (processor != null) StopCoroutine(processor);
         processor = StartCoroutine(UpdateBarEnum());
+    }
+    private void TriggerRagdoll(){
+        GetComponent<Animator>().enabled = false;
+        var colliders = GetComponentsInChildren<Collider>();
+        foreach(var i in colliders){
+            if(i.gameObject == this.gameObject) continue;
+            i.enabled = true;
+            if(i.TryGetComponent<Rigidbody>(out var rb)){
+                rb.isKinematic = false;
+                rb.useGravity = true;
+            }
+            
+        }
     }
 }

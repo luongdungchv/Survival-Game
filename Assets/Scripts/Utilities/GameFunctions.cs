@@ -102,6 +102,7 @@ public class GameFunctions : MonoBehaviour
         idOccupation.Add(res);
         return res;
     }
+    
     public static void RevokeId(string id)
     {
         if (idOccupation.Contains(id))

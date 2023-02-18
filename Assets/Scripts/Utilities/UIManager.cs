@@ -5,28 +5,40 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using Newtonsoft.Json.Linq;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager ins;
-    [SerializeField] private GameObject mapUI, inventoryUI, craftUI, anvilUI, furnaceUI;
-    [SerializeField] private GameObject interactBtnPrefab, mapCam;
-    [SerializeField] private GameObject lostConnectionPanel;
+    [Header("In game UI")]
+    [SerializeField] private GameObject mapUI;
+    [SerializeField] private GameObject inventoryUI, craftUI, anvilUI, furnaceUI;
+    
     [SerializeField] private Transform collectBtnContainer;
-    [SerializeField] private InventoryInteractionHandler inventoryUIHandler, craftUIHandler, anvilUIHandler, furnaceUIHandler;
-
     [SerializeField] TransformerUI transformerUI;
+    [Header("Notification UI")]
+    [SerializeField] private GameObject lostConnectionPanel;
+    [SerializeField] private GameObject diePanel, gameOverPanel;
+    [SerializeField] private float showDelay;
+    [Header("UI Handlers")]
+    [SerializeField] private InventoryInteractionHandler inventoryUIHandler;
+    private InventoryInteractionHandler craftUIHandler, anvilUIHandler, furnaceUIHandler;
+    [Header("Others")]
+    [SerializeField] private GameObject interactBtnPrefab;
+    private GameObject mapCam;
+
+    
 
     public bool isUIOpen => mapUI.activeSelf ||
                 inventoryUI.activeSelf ||
                 craftUI.activeSelf ||
                 anvilUI.activeSelf ||
                 furnaceUI.activeSelf ||
-                lostConnectionPanel.activeSelf;
+                lostConnectionPanel.activeSelf ||
+                diePanel.activeSelf ||
+                gameOverPanel.activeSelf;
 
     private InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
-
-    private Transformer currentOpenCooker;
 
     private void Awake()
     {
@@ -122,6 +134,23 @@ public class UIManager : MonoBehaviour
             lostConnectionPanel.SetActive(true);
             GameFunctions.ins.ShowCursor();
         });
+    }
+    public void ShowDiePanel(){
+        GameFunctions.ins.ShowCursor();
+        IEnumerator ShowDelay(){
+            yield return new WaitForSeconds(showDelay);
+            diePanel.SetActive(true);
+        }
+        StartCoroutine(ShowDelay());
+    }
+    public void ShowGameOverPanel(){
+        GameFunctions.ins.ShowCursor();
+        IEnumerator ShowDelay(){
+            yield return new WaitForSeconds(showDelay);
+            gameOverPanel.SetActive(true);
+            diePanel.SetActive(false);
+        }
+        StartCoroutine(ShowDelay());
     }
 
 }
