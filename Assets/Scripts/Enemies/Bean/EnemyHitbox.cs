@@ -7,29 +7,33 @@ public class EnemyHitbox : HitBox
 {
     private EnemyStats stats;
     private float damage => stats.baseDamage;
-    private void Start() {
+    private void Start()
+    {
         stats = GetComponentInParent<EnemyStats>();
     }
-    
+
     protected override bool OnHitDetect(RaycastHit hit)
     {
-        if(hit.collider.tag == "Player"){
+        if (hit.collider.tag == "Player")
+        {
             var netPlayer = hit.collider.GetComponent<NetworkPlayer>();
-            if(!netPlayer.isLocalPlayer) return false;
+            if (!netPlayer.isLocalPlayer) return false;
             var playerStats = hit.collider.GetComponent<PlayerStats>();
-            if(Client.ins.isHost){
-                
+            if (Client.ins.isHost)
+            {
+
                 playerStats.TakeDamage(damage);
             }
-            else{
-                var dmgPlayerPacket = new RawActionPacket(PacketType.PlayerInteraction){
-                    action = "take_damage",
-                    playerId = netPlayer.id,
-                    actionParams = new string[]{damage.ToString()}  
-                };  
-                Debug.Log(dmgPlayerPacket.ToString());
-                Client.ins.SendTCPPacket(dmgPlayerPacket); 
-            }
+
+            var dmgPlayerPacket = new RawActionPacket(PacketType.PlayerInteraction)
+            {
+                action = "take_damage",
+                playerId = netPlayer.id,
+                actionParams = new string[] { damage.ToString() }
+            };
+            Debug.Log(dmgPlayerPacket.ToString());
+            Client.ins.SendTCPPacket(dmgPlayerPacket);
+
             return true;
         }
         return false;

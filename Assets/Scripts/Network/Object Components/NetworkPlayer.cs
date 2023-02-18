@@ -138,7 +138,7 @@ public class NetworkPlayer : NetworkObject
                 
             }
 
-            if (diff >= 1.2f && diffAngle > 4 && clientPosition != Vector3.zero)
+            if ((diff >= 1.2f && diffAngle > 4 && clientPosition != Vector3.zero) || (diff >= 4.2f && clientPosition != Vector3.zero))
             {
                 Debug.Log($"reconciliation: {diff} {serverPosition} {clientPosition} {InputReader.ins.currentTick} {packet.tick}");
                 HandleReconciliation(packet.tick, packet);
