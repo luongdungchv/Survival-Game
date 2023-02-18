@@ -14,12 +14,16 @@ namespace Enemy.Bean
         private EnemyStats stats;
         private Vector3 targetPos;
         private LayerMask mask;
+        private PlayerStats targetStats;
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             stats = animator.GetComponent<EnemyStats>();
             navAgent = animator.GetComponent<NavMeshAgent>();
             var netObj = animator.GetComponent<NetworkSceneObject>();
             navAgent.isStopped = true;
+            target = stats.target;
+            targetStats = target.GetComponent<PlayerStats>();
+            Debug.Log(target);
             if (Client.ins.isHost)
             {
                 if (Client.ins.isHost)
@@ -36,7 +40,11 @@ namespace Enemy.Bean
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-
+            if(targetStats.isDead) {
+                animator.SetTrigger("patrol");
+                animator.ResetTrigger("atk");
+                stats.target = null;
+            }
         }
     }
 }

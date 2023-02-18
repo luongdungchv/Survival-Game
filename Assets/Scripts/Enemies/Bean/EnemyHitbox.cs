@@ -18,7 +18,7 @@ public class EnemyHitbox : HitBox
             if(!netPlayer.isLocalPlayer) return false;
             var playerStats = hit.collider.GetComponent<PlayerStats>();
             if(Client.ins.isHost){
-                Debug.Log(playerStats);
+                
                 playerStats.TakeDamage(damage);
             }
             else{
@@ -27,6 +27,7 @@ public class EnemyHitbox : HitBox
                     playerId = netPlayer.id,
                     actionParams = new string[]{damage.ToString()}  
                 };  
+                Debug.Log(dmgPlayerPacket.ToString());
                 Client.ins.SendTCPPacket(dmgPlayerPacket); 
             }
             return true;

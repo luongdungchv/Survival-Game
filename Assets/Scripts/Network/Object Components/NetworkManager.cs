@@ -53,10 +53,12 @@ public class NetworkManager : MonoBehaviour
     }
     private void HandleMovePlayer(Packet _packet)
     {
+        
         try
         {
             var movePacket = _packet as MovePlayerPacket;
             var player = playerList[movePacket.id];
+            if(player.GetComponent<PlayerStats>().isDead) return;
             player.HandlePlayerState(movePacket);
         }
         catch
@@ -382,9 +384,14 @@ public class NetworkManager : MonoBehaviour
         var action = playerPacket.action;
         var playerId = playerPacket.playerId;
         var args = playerPacket.actionParams;
+        
+        var player = playerList[playerId].GetComponent<PlayerStats>();
+        if(player.isDead) return;
+        
         if(action == "take_damage"){
             var dmg = int.Parse(args[0]);
-            playerList[playerId].GetComponent<PlayerStats>().TakeDamage(dmg);
+            player.TakeDamage(dmg);
+            if(client.isHost) client.SendTCPPacket(playerPacket);
         }
     }
     public void HandleEnemyState(Packet packet)

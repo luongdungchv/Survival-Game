@@ -33,6 +33,11 @@ namespace Enemy.Bean
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            if(target.GetComponent<PlayerStats>().isDead){
+                animator.ResetTrigger("chase");
+                animator.SetTrigger("patrol");
+            }
+            if(navAgent.navMeshOwner == null) return;
             try{
                 navAgent.destination = target.position;
             }

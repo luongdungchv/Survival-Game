@@ -57,7 +57,6 @@ public class StateMachine : MonoBehaviour
         {
             if (i.name == stateName)
             {
-                Debug.Log($"{currentState.name} {i.name}");
                 OnStateChanged.Invoke(currentState.name, stateName);
                 currentState.OnExit.Invoke();
                 currentState = i;

@@ -35,7 +35,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 223038696405078387}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 509.03842, y: -250.44, z: 495.7165}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 7947242268893510259}
@@ -173,7 +173,7 @@ MonoBehaviour:
   castDist: 0
   _runSpeed: 0
   _walkSpeed: 0
-  _chaseRange: 15
+  _chaseRange: 32
   _patrolArea: {x: 10, y: 10}
 --- !u!114 &-2538150525559341462
 MonoBehaviour:
@@ -226,6 +226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   currentHP: 0
+  knockbackStrength: 21
 --- !u!114 &6590650304063242920
 MonoBehaviour:
   m_ObjectHideFlags: 0
