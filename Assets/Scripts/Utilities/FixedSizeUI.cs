@@ -16,19 +16,19 @@ public class FixedSizeUI : MonoBehaviour
     private Transform playerTransform;
     private void Start()
     {
-        playerDetector = GetComponent<PlayerNearbyDetector>();
-        if (playerDetector == null)
-        {
-            playerDetector = GetComponentInChildren<PlayerNearbyDetector>();
-        }
-        if (playerDetector == null)
-        {
-            playerDetector = GetComponentInParent<PlayerNearbyDetector>();
-        }
-        if (uiWorldPos == null) uiWorldPos = this.transform;
-        playerTransform = NetworkPlayer.localPlayer.transform;
-        ScriptCullingManager.ins.AddToCullingList(this.gameObject, distanceThreshold);
-        Destroy(this);
+        // playerDetector = GetComponent<PlayerNearbyDetector>();
+        // if (playerDetector == null)
+        // {
+        //     playerDetector = GetComponentInChildren<PlayerNearbyDetector>();
+        // }
+        // if (playerDetector == null)
+        // {
+        //     playerDetector = GetComponentInParent<PlayerNearbyDetector>();
+        // }
+        // if (uiWorldPos == null) uiWorldPos = this.transform;
+        // playerTransform = NetworkPlayer.localPlayer.transform;
+        // ScriptCullingManager.ins.AddToCullingList(this.gameObject, distanceThreshold);
+        // Destroy(this);
     }
     // Start is called before the first frame update
     public void UpdateMethod()

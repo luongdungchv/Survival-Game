@@ -131,7 +131,7 @@ public class UIManager : MonoBehaviour
         //Debug.Log(lostConnectionPanel);
         ThreadManager.ExecuteOnMainThread(() =>
         {
-            lostConnectionPanel.SetActive(true);
+            if(lostConnectionPanel != null) lostConnectionPanel.SetActive(true);
             GameFunctions.ins.ShowCursor();
         });
     }
@@ -151,6 +151,11 @@ public class UIManager : MonoBehaviour
             diePanel.SetActive(false);
         }
         StartCoroutine(ShowDelay());
+    }
+    public void LeaveGame(){
+        Client.ins.LeaveGame();
+        SceneManager.LoadScene(0);
+        Item.ClearItems();
     }
 
 }

@@ -127,9 +127,12 @@ public class Client : MonoBehaviour
     {
         udp.Connect(server, port);
     }
-    private void OnApplicationQuit()
-    {
+    public void LeaveGame(){
         tcp.Disconnect();
         udp.Disconnect();
+    }
+    private void OnApplicationQuit()
+    {
+        LeaveGame();
     }
 }

@@ -11,6 +11,9 @@ public class Item : MonoBehaviour
             return itemMapper[name];
         return null;
     }
+    public static void ClearItems(){
+        itemMapper.Clear();
+    }
     public string itemName;
     public GameObject dropPrefab;
     //public GameObject inHandModel;
