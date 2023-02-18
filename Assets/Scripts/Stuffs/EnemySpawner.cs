@@ -47,7 +47,6 @@ public class EnemySpawner : MonoBehaviour
         //if(DayNightCircle.time < 1.2f) return;
         if(elapsed > tickDuration){
             int numLoop = (int)(elapsed / tickDuration);
-            Debug.Log(numLoop);
             for(int i = 0; i < numLoop; i++){
                 var playerList = NetworkManager.ins.GetAllPlayers();
                 var randomIndex = Random.Range(0, playerList.Count).ToString();

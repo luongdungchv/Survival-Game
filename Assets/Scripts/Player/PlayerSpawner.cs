@@ -30,7 +30,6 @@ public class PlayerSpawner : MonoBehaviour
 
         transform.position = hit.point + Vector3.up * 3;
         var pos = transform.position;
-        Debug.Log(pos.ToString() + " " + Client.ins.clientId);
 
         GetComponent<NetworkPlayer>().id = Client.ins.clientId;
         GetComponent<NetworkPlayer>().port = Client.ins.udp.port;

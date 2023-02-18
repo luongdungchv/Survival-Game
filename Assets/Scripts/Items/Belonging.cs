@@ -30,12 +30,9 @@ public class Belonging : Item, IEquippable, IUsable, ICraftable
     public void OnEquip()
     {
         placerObj.SetActive(true);
-        if (!Client.ins.isHost)
-        {
-            var packet = new UpdateEquippingPacket();
-            packet.WriteData(Client.ins.clientId, this.itemName);
-            Client.ins.SendTCPPacket(packet);
-        }
+        var packet = new UpdateEquippingPacket();
+        packet.WriteData(Client.ins.clientId, this.itemName);
+        Client.ins.SendTCPPacket(packet);
     }
     public void OnUnequip()
     {

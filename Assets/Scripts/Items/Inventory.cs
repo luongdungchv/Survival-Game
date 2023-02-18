@@ -47,7 +47,7 @@ public class Inventory : MonoBehaviour
     }
     private void Start()
     {
-        ReloadInHandModel();
+        ReloadInHandModel(true);
         // Add(testItem, 50);
         // Add(testItem, 10);
         // Add(testItem, 14);
@@ -225,14 +225,15 @@ public class Inventory : MonoBehaviour
         }
         return res;
     }
-    private void ReloadInHandModel()
+    private void ReloadInHandModel(bool firstTime = false)
     {
-        if (PlayerEquipment.ins.currentEquipIndex != _currentEquipIndex)
+        if (PlayerEquipment.ins.currentEquipIndex != _currentEquipIndex || firstTime)
         {
             for (int i = 0; i < equipSlotCount; i++)
             {
                 if (i == _currentEquipIndex)
                 {
+                    Debug.Log(_currentEquipIndex);
                     iih.GetUISlot(i).Highlight(true);
                     if (items[i] == null || items[i].itemData == null)
                     {
