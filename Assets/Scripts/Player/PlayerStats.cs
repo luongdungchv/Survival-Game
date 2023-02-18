@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,6 +38,7 @@ public class PlayerStats : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Slider hpBar;
     [SerializeField] private Slider staminaBar, hungerBar;
+    [SerializeField] private TextMeshProUGUI coinsText;
 
     [Header("current stats")]
     [SerializeField] private float _hp;
@@ -51,6 +53,14 @@ public class PlayerStats : MonoBehaviour
     private Coroutine regenHunger;
 
     private Coroutine lerpHPBar, lerpStaminaBar, lerpHungerBar;
+    private int currentCoins;
+    public int coins {
+        get => currentCoins;
+        set{
+            currentCoins = value;
+            coinsText.text = value.ToString();
+        }   
+    }
     
 
     public float hp => _hp;

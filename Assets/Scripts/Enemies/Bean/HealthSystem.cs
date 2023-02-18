@@ -11,6 +11,7 @@ namespace Enemy.Bean
         [SerializeField] private float maxHP;
         [SerializeField] private float currentHP;
         [SerializeField] private float knockbackStrength = 40;
+        [SerializeField] private int minCoinsDrop, maxCoinsDrop;
         private NavMeshAgent navAgent;
         private void Start() {
             currentHP = maxHP;
@@ -23,6 +24,8 @@ namespace Enemy.Bean
             
             if(currentHP <= 0){
                 Destroy(this.gameObject);
+                var coins = Random.Range(minCoinsDrop, maxCoinsDrop + 1);
+                playerHitData.dealer.coins += coins;
                 return;
             }
             if(playerHitData.knockback){
@@ -32,7 +35,6 @@ namespace Enemy.Bean
                 position.y = 0;
                 var knockbackDir = position - dealerPos;
                 navAgent.isStopped = false;
-                Debug.Log($"{dealerPos} {position}");
                 //StartCoroutine(Knockback(knockbackDir, 0.05f));
                 navAgent.velocity = knockbackDir.normalized * knockbackStrength;
                 StartCoroutine(KnockbackCD(0.2f));
