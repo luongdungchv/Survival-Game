@@ -12,6 +12,7 @@ public class DayNightCircle : MonoBehaviour
     [SerializeField] private Material skyboxMat, waterMat;
     [SerializeField] private Material[] grassMats;
     [SerializeField] private Color ambientSideColor, ambientSkyColor;
+    [SerializeField] private float dayTime;
     
     private static DayNightCircle ins;
     public static float time => ins.value;
@@ -22,7 +23,7 @@ public class DayNightCircle : MonoBehaviour
     void Start()
     {
 
-        StartCoroutine(Circulate(30));
+        StartCoroutine(Circulate(dayTime));
     }
 
     // Update is called once per frame

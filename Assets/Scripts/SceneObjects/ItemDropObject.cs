@@ -23,7 +23,7 @@ public class ItemDropObject : MonoBehaviour, IDamagable
         FixedSizeUI hpBar;
         if ((TryGetComponent<FixedSizeUI>(out hpBar)) && isDealerLocalPlayer)
         {
-            hpBar.SetElementValue(Mathf.InverseLerp(0, maxHP, hp));
+            //hpBar.SetElementValue(Mathf.InverseLerp(0, maxHP, hp));
             var popup = dmgPopupPool.Release();
             var critLevel = isCrit ? 1 : 0;
             popup.Popup(hpBar.uiWorldPos.position, incomingDmg.ToString(), critLevel);

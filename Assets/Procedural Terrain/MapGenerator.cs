@@ -77,7 +77,7 @@ public class MapGenerator : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
         UpdateTexture(noiseMap);
         GetComponent<MeshCollider>().sharedMesh = mesh;
-        //GetComponent<NavMeshSurface>().BuildNavMesh();
+        GetComponent<NavMeshSurface>().BuildNavMesh();
     }
     public Task MeshUpdate()
     {

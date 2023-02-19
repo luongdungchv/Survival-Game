@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,12 +11,15 @@ public class RoomUIManager : MonoBehaviour
     [SerializeField] private List<GameObject> playerTextList;
     [SerializeField] private TextMeshProUGUI roomIdText;
     [SerializeField] private TMP_InputField seedInputField;
+    [SerializeField] private GameObject loadingPanel;
+    [SerializeField] private Image loadingBar;
     private Client client => Client.ins;
     private NetworkRoom roomInstance => NetworkRoom.ins;
     public int playerCount = 0;
 
     private void Awake()
     {
+        NetworkManager.ins.SetRoomUIManager(this);
         if (roomInstance.localPlayerId == 0)
         {
             startOrReadyBtn.onClick.AddListener(client.StartGame);
@@ -68,5 +72,11 @@ public class RoomUIManager : MonoBehaviour
         roomInstance.UnRegisterJoinEvent(HandlePlayerJoin);
         roomInstance.UnRegisterLeaveEvent(HandlePlayerLeave);
     }
-
+    
+    public void OpenLoadingPanel(){
+        loadingPanel.SetActive(true);
+    }
+    public void SetLoadingProgress(float value){
+        loadingBar.fillAmount = value;
+    }
 }

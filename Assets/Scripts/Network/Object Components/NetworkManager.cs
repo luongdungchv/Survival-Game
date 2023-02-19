@@ -15,6 +15,7 @@ public class NetworkManager : MonoBehaviour
     [SerializeField] private NetworkPlayer playerPrefab;
     [SerializeField] private ClientHandle handler;
     public GameObject test;
+    private RoomUIManager roomUI;
     private Dictionary<string, NetworkPlayer> playerList;
     private Client client => Client.ins;
     private ObjectMapper objMapper => ObjectMapper.ins;
@@ -88,7 +89,8 @@ public class NetworkManager : MonoBehaviour
         client.SetUDPRemoteHost(startPacket.udpRemoteHost);
         client.SendUDPConnectionInfo(() =>
         {
-            StartCoroutine(LoadSceneDelay(0.5f));
+            //StartCoroutine(LoadSceneDelay(0.5f));
+            StartCoroutine(LoadScene(1));
             gameStarted = true;
         });
 
@@ -446,12 +448,24 @@ public class NetworkManager : MonoBehaviour
         sceneObjects.Remove(id);
         return true;
     }
+    public void SetRoomUIManager(RoomUIManager manager){
+        this.roomUI = manager;
+    }
     IEnumerator LoadSceneDelay(float duration)
     {
         Debug.Log("load");
         yield return new WaitForSeconds(duration);
         SceneManager.LoadScene("Test_PlayerStats");
         gameStarted = true;
+    }
+    private IEnumerator LoadScene(int buildIndex){
+        var asyncOperation = SceneManager.LoadSceneAsync(buildIndex);
+        this.roomUI.OpenLoadingPanel();
+        Debug.Log("scene load");
+        while(!asyncOperation.isDone){
+            this.roomUI.SetLoadingProgress(asyncOperation.progress);
+            yield return null;
+        }
     }
 }
 
