@@ -26,6 +26,7 @@ public class ItemDropObject : MonoBehaviour, IDamagable
             //hpBar.SetElementValue(Mathf.InverseLerp(0, maxHP, hp));
             var popup = dmgPopupPool.Release();
             var critLevel = isCrit ? 1 : 0;
+            
             popup.Popup(hpBar.uiWorldPos.position, incomingDmg.ToString(), critLevel);
         }
         if (hp <= 0)
@@ -40,6 +41,7 @@ public class ItemDropObject : MonoBehaviour, IDamagable
     public void OnDamage(IHitData hitData)
     {
         var playerHitData = hitData as PlayerHitData;
+        
         OnDamage(playerHitData.dealer, playerHitData.damage, playerHitData.atkTool, playerHitData.crit);
     }
 }

@@ -32,7 +32,7 @@ public class NetworkSceneObject : NetworkObject
             action = "",
             actionParams = new string[0]
         };
-        //Debug.Log("Destroy msg to send: " + destroyPacket.GetString());
+        Debug.Log("Destroy msg to send: " + destroyPacket.GetString());
         Client.ins.SendTCPPacket(destroyPacket);
     }
     private void OnDestroy()

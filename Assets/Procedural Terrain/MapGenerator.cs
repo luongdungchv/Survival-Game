@@ -48,7 +48,6 @@ public class MapGenerator : MonoBehaviour
                 float noiseVal = noiseMap[i, j];
                 if (noiseVal * heightCurve.Evaluate(noiseVal) <= 0.1125f) mapColor.SetPixel(i, j, Color.cyan);
                 else mapColor.SetPixel(i, j, Color.green);
-
             }
         }
         mapColor.Apply();

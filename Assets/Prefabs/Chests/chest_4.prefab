@@ -56,7 +56,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5841882954704489902}
-  - component: {fileID: 8077670452760913929}
   m_Layer: 0
   m_Name: chestCover
   m_TagString: Untagged
@@ -79,20 +78,6 @@ Transform:
   m_Father: {fileID: 3167421242746894551}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &8077670452760913929
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2963240383923594636}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &3350372245056621616
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,7 +176,6 @@ GameObject:
   - component: {fileID: 3954880434061623956}
   - component: {fileID: 4075567652213581673}
   - component: {fileID: 2337066758913988509}
-  - component: {fileID: 1040674764495426700}
   m_Layer: 0
   m_Name: chestcover
   m_TagString: Untagged
@@ -262,20 +246,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1040674764495426700
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5448340695344116961}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3571851175598923565, guid: 3f70b5f078f8da9439ab307c38c42e89, type: 3}
 --- !u!1 &8038417446734051126
 GameObject:
   m_ObjectHideFlags: 0

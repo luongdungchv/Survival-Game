@@ -36,12 +36,15 @@ public class DamagePopup : MonoBehaviour, IPoolObject
     }
     public void Popup(Vector3 position, string text, int critLevel)
     {
+        Debug.Log($"Incoming DMG: {text}, Crit: {critLevel}");
         tmp.text = text;
         if (critLevel == 1)
         {
             tmp.color = Color.yellow;
             tmp.fontSize = 48;
-
+        }
+        else if(critLevel == 0){
+            tmp.color = Color.white;
         }
         else if (critLevel == 2)
         {

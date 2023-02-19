@@ -491,6 +491,4 @@ public enum PacketType
     ItemDrop, RoomInteraction,
     SpawnEnemy, UpdateEnemy,PowerupInteraction,
     ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject, PlayerDisconnect, PlayerInteraction,
-    
-
 }

@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float showDelay;
     [Header("UI Handlers")]
     [SerializeField] private InventoryInteractionHandler inventoryUIHandler;
-    private InventoryInteractionHandler craftUIHandler, anvilUIHandler, furnaceUIHandler;
+    [SerializeField] private InventoryInteractionHandler craftUIHandler, anvilUIHandler, furnaceUIHandler;
     [Header("Others")]
     [SerializeField] private GameObject interactBtnPrefab;
     private GameObject mapCam;
