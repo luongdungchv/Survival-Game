@@ -11,7 +11,7 @@ public class InteractableObject : MonoBehaviour
     [SerializeField] protected bool interactable = true;
     [SerializeField] private float distanceThreshold = 5;
     private InteractableHitbox hitbox;
-    private Vector3 playerPosition;
+    private Transform playerTransform;
 
     public bool isPlayerTouch;
 
@@ -21,13 +21,14 @@ public class InteractableObject : MonoBehaviour
         hitbox = GetComponent<InteractableHitbox>();
         hitbox.SetOwner(this);
     }
-    private void Start()
+    protected virtual void Start()
     {
-        playerPosition = NetworkPlayer.localPlayer.transform.position;
+        playerTransform = NetworkPlayer.localPlayer.transform;
     }
     protected virtual void Update()
     {
-        if (Vector3.Distance(transform.position, playerPosition) > distanceThreshold) return;
+        if (Vector3.Distance(transform.position, playerTransform.position) > distanceThreshold) return;
+        //Debug.Log("player");
         hitbox.DetectHit();
     }
     public bool TouchDetect(RaycastHit target)

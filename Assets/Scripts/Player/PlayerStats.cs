@@ -58,7 +58,8 @@ public class PlayerStats : MonoBehaviour
         get => currentCoins;
         set{
             currentCoins = value;
-            coinsText.text = value.ToString();
+            if(coinsText != null)
+                coinsText.text = value.ToString();
         }   
     }
     
@@ -76,7 +77,8 @@ public class PlayerStats : MonoBehaviour
         hpBar.value = Mathf.InverseLerp(0, maxHP, _hp);
         _stamina = maxStamina;
         _hungerPoint = maxHungerPoint;
-        //        Debug.Log(Mathf.Lerp(1, 0, 0.7f));
+        
+        coins = 8;
     }
     void Update()
     {

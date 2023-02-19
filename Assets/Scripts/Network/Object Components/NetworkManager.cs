@@ -247,9 +247,9 @@ public class NetworkManager : MonoBehaviour
         Debug.Log("Chest packet: " + chestPacket.ToString());
         if (action == "open")
         {
-            obj.GetComponentInChildren<Chest>().Open();
+            obj.GetComponentInChildren<Chest>().Open(playerList[chestPacket.playerId]);
         }
-        if (client.isHost)
+    if (client.isHost)
         {
             client.SendTCPPacket(chestPacket);
         }

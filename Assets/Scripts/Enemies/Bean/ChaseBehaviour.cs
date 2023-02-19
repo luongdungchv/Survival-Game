@@ -19,7 +19,7 @@ namespace Enemy.Bean
             chaseStats = stats as IChase;
             navAgent.isStopped = false;
             var netObj = animator.GetComponent<NetworkSceneObject>();
-            if (Client.ins.isHost && target.TryGetComponent<NetworkPlayer>(out var targetNetObj))
+            if (Client.ins.isHost && target != null && target.TryGetComponent<NetworkPlayer>(out var targetNetObj))
             {
                 var updatePacket = new RawActionPacket(PacketType.UpdateEnemy)
                 {
@@ -33,7 +33,7 @@ namespace Enemy.Bean
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if(target.GetComponent<PlayerStats>().isDead){
+            if(target == null || target.GetComponent<PlayerStats>().isDead){
                 animator.ResetTrigger("chase");
                 animator.SetTrigger("patrol");
             }

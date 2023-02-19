@@ -141,10 +141,16 @@ MonoBehaviour:
   displayName: Luxurious chest
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
+  distanceThreshold: 5
+  isPlayerTouch: 0
   chestLid: {fileID: 2963240383923594636}
   openDirection: 1
   maxOpenAngle: 130
   openDuration: 0.8
+  chestLevel: 3
+  baseCost: 8
+  powerupMapper: {fileID: 0}
+  foodDropPrefab: {fileID: 8127416175118292734, guid: b1241df9698f35e429b11f1286a6bf6d, type: 3}
 --- !u!65 &9003677183232285816
 BoxCollider:
   m_ObjectHideFlags: 0
