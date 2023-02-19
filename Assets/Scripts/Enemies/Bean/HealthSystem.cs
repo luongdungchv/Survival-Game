@@ -25,7 +25,10 @@ namespace Enemy.Bean
             if(currentHP <= 0){
                 Destroy(this.gameObject);
                 var coins = Random.Range(minCoinsDrop, maxCoinsDrop + 1);
-                playerHitData.dealer.coins += coins;
+                Debug.Log("coins drop: " + coins);
+                var netPlayer = playerHitData.dealer.GetComponent<NetworkPlayer>();
+                if(netPlayer.isLocalPlayer)
+                    playerHitData.dealer.coins += coins;
                 return;
             }
             if(playerHitData.knockback){
@@ -35,7 +38,6 @@ namespace Enemy.Bean
                 position.y = 0;
                 var knockbackDir = position - dealerPos;
                 navAgent.isStopped = false;
-                //StartCoroutine(Knockback(knockbackDir, 0.05f));
                 navAgent.velocity = knockbackDir.normalized * knockbackStrength;
                 StartCoroutine(KnockbackCD(0.2f));
             }

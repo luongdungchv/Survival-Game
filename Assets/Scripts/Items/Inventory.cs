@@ -34,14 +34,14 @@ public class Inventory : MonoBehaviour
         itemQuantities = new Dictionary<string, int>();
         //iih.Init();
         InventoryInteractionHandler.InitAllInstances();
-        Add("furnace", 1);
-        Add("iron_pickaxe", 1);
-        Add("iron_axe", 1);
-        Add(testItem2, 64);
-        Add(testItem3, 64);
-        Add("gold_ore", 64);
-        Add("sus_shroom", 12);
+        // Add("furnace", 1);
+        // Add("iron_pickaxe", 1);
+        // Add("iron_axe", 1);
+        // Add(testItem2, 64);
+        // Add(testItem3, 64);
+        // Add("gold_ore", 64);
         Add("knife", 1);
+        Add("sus_shroom", 12);
         //Debug.Log(Remove(testItem2.itemName, 64));
 
     }

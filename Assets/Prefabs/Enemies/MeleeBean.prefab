@@ -227,6 +227,8 @@ MonoBehaviour:
   maxHP: 100
   currentHP: 0
   knockbackStrength: 21
+  minCoinsDrop: 5
+  maxCoinsDrop: 8
 --- !u!114 &6590650304063242920
 MonoBehaviour:
   m_ObjectHideFlags: 0
