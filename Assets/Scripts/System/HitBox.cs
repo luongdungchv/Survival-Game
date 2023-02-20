@@ -25,7 +25,7 @@ public class HitBox : MonoBehaviour
         var origin = hitbox.bounds.center - transform.right * halfExtents.x;
         var size = hitboxWorldSize.x;
         halfExtents.x = 0;
-        atkVfx?.Play();
+        //atkVfx?.Play();
         var hits = Physics.BoxCastAll(origin, halfExtents, transform.right, transform.rotation, size, mask);
         if (hits != null && hits.Length > 0)
         {

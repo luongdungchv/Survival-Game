@@ -26,8 +26,8 @@ public class ItemDropObject : MonoBehaviour, IDamagable
             //hpBar.SetElementValue(Mathf.InverseLerp(0, maxHP, hp));
             var popup = dmgPopupPool.Release();
             var critLevel = isCrit ? 1 : 0;
-            
-            popup.Popup(hpBar.uiWorldPos.position, incomingDmg.ToString(), critLevel);
+            var popupPos = hpBar.uiWorldPos == null ? transform.position : hpBar.uiWorldPos.position;
+            popup.Popup(popupPos, incomingDmg.ToString(), critLevel);
         }
         if (hp <= 0)
         {
