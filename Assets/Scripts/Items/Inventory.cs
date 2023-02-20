@@ -8,6 +8,7 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory ins;
     [SerializeField] private int _maxInventorySlot, equipSlotCount;
+    [SerializeField] private InitialItemData[] initialItems;
     private int _currentEquipIndex;
     public int currentEquipIndex
     {
@@ -20,7 +21,6 @@ public class Inventory : MonoBehaviour
             ReloadInHandModel();
         }
     }
-    [SerializeField] private Item testItem, testItem2, testItem3;
     [SerializeField] private Transform dropPos;
     public int maxInventorySlot => _maxInventorySlot;
     public ItemSlot[] items;
@@ -34,15 +34,9 @@ public class Inventory : MonoBehaviour
         itemQuantities = new Dictionary<string, int>();
         //iih.Init();
         InventoryInteractionHandler.InitAllInstances();
-        // Add("furnace", 1);
-        // Add("iron_pickaxe", 1);
-        // Add("iron_axe", 1);
-        // Add(testItem2, 64);
-        // Add(testItem3, 64);
-        // Add("gold_ore", 64);
-        Add("knife", 1);
-        Add("sus_shroom", 12);
-        //Debug.Log(Remove(testItem2.itemName, 64));
+        foreach(var i in initialItems){
+            this.Add(i.item, i.quantity);
+        }
 
     }
     private void Start()
@@ -219,9 +213,9 @@ public class Inventory : MonoBehaviour
         }
         return res;
     }
-    private void ReloadInHandModel(bool firstTime = false)
+    private void ReloadInHandModel(bool skip = false)
     {
-        if (PlayerEquipment.ins.currentEquipIndex != _currentEquipIndex || firstTime)
+        if (PlayerEquipment.ins.currentEquipIndex != _currentEquipIndex || skip)
         {
             for (int i = 0; i < equipSlotCount; i++)
             {
@@ -268,11 +262,15 @@ public class Inventory : MonoBehaviour
         var dropSlot = items[itemIndex];
         if (dropSlot == null) return false;
         dropSlot.quantity -= quantity;
+        if(dropSlot.itemData is IEquippable) 
+            (dropSlot.itemData as IEquippable).OnUnequip();
         dropSlot.itemData.Drop(dropPostion, quantity);
         if (dropSlot.quantity <= 0)
         {
             items[itemIndex] = null;
         }
+        Debug.Log(items[itemIndex]);
+        ReloadInHandModel(true);
         return true;
     }
 
@@ -288,14 +286,9 @@ public class Inventory : MonoBehaviour
         }
     }
     [System.Serializable]
-    class Test
+    class InitialItemData
     {
-        public string name;
-        public List<Vector2Int> pos;
-        public Test(string name, List<Vector2Int> pos)
-        {
-            this.name = name;
-            this.pos = pos;
-        }
+        public Item item;
+        public int quantity;
     }
 }

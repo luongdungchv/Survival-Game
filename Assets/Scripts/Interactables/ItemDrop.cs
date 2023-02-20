@@ -8,13 +8,18 @@ using UnityEngine.UI;
 public class ItemDrop : InteractableObject
 {
     [SerializeField] private int quantity;
-    [SerializeField] private Texture2D meshTex;
-    [SerializeField] private Color outlineColor;
+    public Texture2D meshTex;
+    public Color outlineColor;
     [SerializeField] private Item itemBase;
     [SerializeField] private bool showOutline = true;
     protected override void Awake()
     {
         base.Awake();
+
+    }
+    protected override void Start()
+    {
+        base.Start();
         var renderer = this.GetComponentInParent<Renderer>();
         if (meshTex != null)
             renderer.material.mainTexture = meshTex;

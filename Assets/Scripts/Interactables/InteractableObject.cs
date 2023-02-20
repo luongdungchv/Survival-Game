@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class InteractableObject : MonoBehaviour
 {
-    [SerializeField] protected string displayName;
+    public string displayName;
     [SerializeField] protected GameObject interactBtnPrefab;
     [SerializeField] protected bool interactable = true;
     [SerializeField] private float distanceThreshold = 5;

@@ -15,7 +15,10 @@ public class Item : MonoBehaviour
         itemMapper.Clear();
     }
     public string itemName;
+    public string displayName;
     public GameObject dropPrefab;
+    public Texture2D dropTexture;
+    public Color dropOutlineColor;
     //public GameObject inHandModel;
     public Texture2D icon;
     public bool stackable = true;
@@ -45,6 +48,11 @@ public class Item : MonoBehaviour
             dropNetObj.GenerateId();
 
             drop = dropNetObj.GetComponentInChildren<ItemDrop>();
+            
+            drop.displayName = this.displayName;
+            drop.meshTex = this.dropTexture;
+            drop.outlineColor = this.dropOutlineColor;
+            
             drop.gameObject.SetActive(true);
             drop.SetQuantity(quantity);
             drop.SetBase(this);
