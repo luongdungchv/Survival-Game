@@ -192,6 +192,7 @@ public class NetworkManager : MonoBehaviour
             var drop = Instantiate(prefab.gameObject, dropPacket.spawnPos, Quaternion.identity).GetComponentInChildren<ItemDrop>();
             drop.SetQuantity(dropPacket.quantity);
             drop.SetBase(Item.GetItem(dropPacket.itemBase));
+            Debug.Log(drop);
 
             var netSceneObj = drop.GetComponentInParent<NetworkSceneObject>();
             if (dropPacket.objId == "") dropPacket.objId = GameFunctions.GenerateId();
