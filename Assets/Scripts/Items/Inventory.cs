@@ -25,6 +25,7 @@ public class Inventory : MonoBehaviour
     public int maxInventorySlot => _maxInventorySlot;
     public ItemSlot[] items;
     private Dictionary<string, int> itemQuantities;
+    private StateMachine fsm;
     InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
 
     private void Awake()
@@ -42,13 +43,14 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         ReloadInHandModel(true);
-
+        fsm = NetworkPlayer.localPlayer.GetComponent<StateMachine>();
     }
 
     private void Update()
     {
         var mouseScroll = InputReader.ins.MouseScroll();
-        if (mouseScroll != 0)
+        var state = fsm.currentState.name;
+        if (mouseScroll != 0 && (state == "Idle" || state == "Move" || state == "Dash" || state == "Sprint"))
         {
             currentEquipIndex += mouseScroll;
         }
