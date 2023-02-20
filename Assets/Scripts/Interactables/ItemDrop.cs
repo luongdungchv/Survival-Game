@@ -22,7 +22,18 @@ public class ItemDrop : InteractableObject
         base.Start();
         var renderer = this.GetComponentInParent<Renderer>();
         if (meshTex != null)
-            renderer.material.mainTexture = meshTex;
+            renderer.material.SetTexture("_MainTex", meshTex);
+        if (outlineColor != null && showOutline)
+        {
+            renderer.material.SetColor("_OutlineColor", outlineColor);
+        }
+    }
+    public void SetMaterial(Texture2D meshTex, Color outlineColor){
+        this.meshTex = meshTex;
+        this.outlineColor = outlineColor;
+        var renderer = this.GetComponentInParent<Renderer>();
+        if (meshTex != null)
+            renderer.material.SetTexture("_MainTex", meshTex);
         if (outlineColor != null && showOutline)
         {
             renderer.material.SetColor("_OutlineColor", outlineColor);

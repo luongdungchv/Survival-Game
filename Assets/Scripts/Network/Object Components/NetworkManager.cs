@@ -191,7 +191,12 @@ public class NetworkManager : MonoBehaviour
             var prefab = objMapper.GetPrefab(dropPacket.objSpawnId);
             var drop = Instantiate(prefab.gameObject, dropPacket.spawnPos, Quaternion.identity).GetComponentInChildren<ItemDrop>();
             drop.SetQuantity(dropPacket.quantity);
-            drop.SetBase(Item.GetItem(dropPacket.itemBase));
+            
+            var itemBase = Item.GetItem(dropPacket.itemBase);
+            drop.SetBase(itemBase);
+            drop.displayName = itemBase.displayName;
+            drop.meshTex = itemBase.dropTexture;
+            drop.outlineColor = itemBase.dropOutlineColor;
             Debug.Log(drop);
 
             var netSceneObj = drop.GetComponentInParent<NetworkSceneObject>();

@@ -50,8 +50,7 @@ public class Item : MonoBehaviour
             drop = dropNetObj.GetComponentInChildren<ItemDrop>();
             
             drop.displayName = this.displayName;
-            drop.meshTex = this.dropTexture;
-            drop.outlineColor = this.dropOutlineColor;
+            drop.SetMaterial(this.dropTexture, this.dropOutlineColor);
             
             drop.gameObject.SetActive(true);
             drop.SetQuantity(quantity);
