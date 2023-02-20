@@ -736,7 +736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3736d112a1a2fea4eb61f992dcc223b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 50
+  maxHP: 100
   hpLerpDuration: 0.3
   maxStamina: 50
   staminaRegenRate: 7.2
@@ -770,6 +770,7 @@ MonoBehaviour:
   hpBar: {fileID: 0}
   staminaBar: {fileID: 0}
   hungerBar: {fileID: 0}
+  coinsText: {fileID: 0}
   _hp: 0
   _stamina: 0
   _hungerPoint: 0

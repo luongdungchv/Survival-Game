@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private InventoryInteractionHandler craftUIHandler, anvilUIHandler, furnaceUIHandler;
     [Header("Others")]
     [SerializeField] private GameObject interactBtnPrefab;
-    private GameObject mapCam;
+    [SerializeField] private GameObject mapCam;
 
     
 

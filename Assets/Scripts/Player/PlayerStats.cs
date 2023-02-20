@@ -54,15 +54,17 @@ public class PlayerStats : MonoBehaviour
 
     private Coroutine lerpHPBar, lerpStaminaBar, lerpHungerBar;
     private int currentCoins;
-    public int coins {
+    public int coins
+    {
         get => currentCoins;
-        set{
+        set
+        {
             currentCoins = value;
-            if(coinsText != null)
+            if (coinsText != null)
                 coinsText.text = value.ToString();
-        }   
+        }
     }
-    
+
 
     public float hp => _hp;
     public float stamina => _stamina;
@@ -71,13 +73,13 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
         netPlayer = GetComponent<NetworkPlayer>();
-        _hp = maxHP / 2;
+        _hp = maxHP;
         if (!netPlayer.isLocalPlayer) return;
         if (ins == null) ins = this;
         hpBar.value = Mathf.InverseLerp(0, maxHP, _hp);
         _stamina = maxStamina;
         _hungerPoint = maxHungerPoint;
-        
+
         coins = 8;
     }
     void Update()
@@ -117,24 +119,30 @@ public class PlayerStats : MonoBehaviour
         TriggerRagdoll();
         this.isDead = true;
         var allPlayers = NetworkManager.ins.GetAllPlayers();
-        if(netPlayer.isLocalPlayer){
-            foreach(var i in allPlayers){
+        if (netPlayer.isLocalPlayer)
+        {
+            foreach (var i in allPlayers)
+            {
                 var isDead = i.Value.GetComponent<PlayerStats>().isDead;
-                if(!isDead){
+                if (!isDead)
+                {
                     UIManager.ins.ShowDiePanel();
                     return;
                 }
             }
             UIManager.ins.ShowGameOverPanel();
         }
-        else if(NetworkPlayer.localPlayer.GetComponent<PlayerStats>().isDead){
-            foreach(var i in allPlayers){
+        else if (NetworkPlayer.localPlayer.GetComponent<PlayerStats>().isDead)
+        {
+            foreach (var i in allPlayers)
+            {
                 var isDead = i.Value.GetComponent<PlayerStats>().isDead;
-                if(!isDead){
+                if (!isDead)
+                {
                     return;
                 }
             }
-            
+
             UIManager.ins.ShowGameOverPanel();
         }
     }
@@ -142,11 +150,15 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("player take dmg");
         _hp -= dmg;
-        if(netPlayer.isLocalPlayer) animSystem.HurtEffect(0.15f, 0.3f);
+        if (netPlayer.isLocalPlayer)
+        {
+            UpdateBar(hpBar, lerpHPBar, maxHP, _hp, hpLerpDuration);
+            animSystem.HurtEffect(0.15f, 0.3f);
+        }
         if (_hp <= 0)
         {
             _hp = 0;
-            if(netPlayer.isLocalPlayer) UpdateBar(hpBar, lerpHPBar, maxHP, _hp, hpLerpDuration);
+
             this.Perish();
         }
     }
@@ -220,17 +232,20 @@ public class PlayerStats : MonoBehaviour
         if (processor != null) StopCoroutine(processor);
         processor = StartCoroutine(UpdateBarEnum());
     }
-    private void TriggerRagdoll(){
+    private void TriggerRagdoll()
+    {
         GetComponent<Animator>().enabled = false;
         var colliders = GetComponentsInChildren<Collider>();
-        foreach(var i in colliders){
-            if(i.gameObject == this.gameObject) continue;
+        foreach (var i in colliders)
+        {
+            if (i.gameObject == this.gameObject) continue;
             i.enabled = true;
-            if(i.TryGetComponent<Rigidbody>(out var rb)){
+            if (i.TryGetComponent<Rigidbody>(out var rb))
+            {
                 rb.isKinematic = false;
                 rb.useGravity = true;
             }
-            
+
         }
     }
 }
