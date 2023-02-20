@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerSpawner : MonoBehaviour
 {
     [SerializeField] private LayerMask mask;
+    [SerializeField] private GameObject markerFullMap, markerMinimap;
     void Start()
     {
         //yield return null;
@@ -39,6 +40,7 @@ public class PlayerSpawner : MonoBehaviour
             var moveSystem = GetComponent<PlayerMovement>();
             //GetComponent<Rigidbody>().useGravity = false;
         }
+        SetMarkerColor(int.Parse(Client.ins.clientId));
         Client.ins.SendTCPMessage($"{(int)PacketType.SpawnPlayer} {Client.ins.clientId} {pos.x} {pos.y} {pos.z} {Client.ins.udp.port}");
         var spawnPacket = new SpawnPlayerPacket();
         spawnPacket.WriteData(Client.ins.clientId, new Vector3(pos.x, pos.y, pos.z));
@@ -46,9 +48,9 @@ public class PlayerSpawner : MonoBehaviour
         //transform.position = new Vector3(504, 10, 1416);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
+    public void SetMarkerColor(int id){
+        var color = GameFunctions.GetMarkerColor(id);
+        markerFullMap.GetComponent<Renderer>().material.SetColor("_Color", color);
+        markerMinimap.GetComponent<Renderer>().material.SetColor("_Color", color);
     }
 }

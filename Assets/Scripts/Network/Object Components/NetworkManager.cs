@@ -73,6 +73,7 @@ public class NetworkManager : MonoBehaviour
         {
             var player = Instantiate(playerPrefab, spawnPacket.position, Quaternion.identity);
             player.id = spawnPacket.id;
+            player.GetComponent<PlayerSpawner>().SetMarkerColor(int.Parse(spawnPacket.id));
             playerList.Add(player.id, player);
             if (client.isHost)
             {

@@ -706,6 +706,8 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 8192
+  markerFullMap: {fileID: 7064849829479779934}
+  markerMinimap: {fileID: 7064849830697875859}
 --- !u!114 &7064849829141531681
 MonoBehaviour:
   m_ObjectHideFlags: 0

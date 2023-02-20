@@ -12,9 +12,11 @@ public class GameFunctions : MonoBehaviour
     private Camera mainCam => Camera.main;
     private static HashSet<string> idOccupation;
     private static CustomRandom randObj;
+    private static Color[] markerColors = {Color.blue, Color.red, Color.magenta, Color.yellow};
     //public bool test;
     private void Awake()
     {
+        //markerColors = new Color[]{Color.blue, Color.red, Color.magenta, Color.yellow};
         if (ins == null) ins = this;
         idOccupation = new HashSet<string>();
         randObj = new CustomRandom(MapGenerator.ins.seed);
@@ -136,5 +138,8 @@ public class GameFunctions : MonoBehaviour
         uiPos = new Vector3(canvasSize.x * mouseRatio.x, canvasSize.y * mouseRatio.y);
 
         return uiPos;
+    }
+    public static Color GetMarkerColor(int index){
+        return markerColors[index];
     }
 }
