@@ -35,10 +35,14 @@ public class Inventory : MonoBehaviour
         itemQuantities = new Dictionary<string, int>();
         //iih.Init();
         InventoryInteractionHandler.InitAllInstances();
-        foreach(var i in initialItems){
-            this.Add(i.item, i.quantity);
-        }
-
+        // foreach(var i in initialItems){
+        //     this.Add(i.item, i.quantity);
+        // }
+        Add("knife", 1);
+        Add("sus_shroom", 1);
+        Add("craft_table", 1);
+Add("furnace", 1);
+Add("anvil", 1);
     }
     private void Start()
     {
@@ -196,7 +200,7 @@ public class Inventory : MonoBehaviour
             items[itemIndex] = null;
         }
         iih?.UpdateUI();
-        ReloadInHandModel();
+        ReloadInHandModel(true);
         return item.quantity;
     }
     public Item GetItem(int itemIndex)

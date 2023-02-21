@@ -23,6 +23,7 @@ public class Transformer : TransformerBase
     }
     private IEnumerator Start()
     {
+        base.Start();
         yield return null;
         updatePacket.playerId = Client.ins.clientId;
         updatePacket.objId = GetComponentInParent<NetworkSceneObject>().id;
