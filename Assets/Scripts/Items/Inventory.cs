@@ -43,8 +43,15 @@ public class Inventory : MonoBehaviour
         Add("craft_table", 1);
         Add("furnace", 1);
         Add("anvil", 1);
-        Add("oak_wood", 12);
+        Add("oak_wood", 30);
+        Add("birch_wood", 30);
+        Add("cherry_wood", 30);
+        Add("coal_ore", 30);
+        Add("iron_ore", 30);
+        Add("mithril_ore", 30);
         Add("mithril_sword", 1);
+        Add("mithril_axe", 1);
+        Add("mithril_pickaxe", 1);
     }
     private void Start()
     {
@@ -137,7 +144,7 @@ public class Inventory : MonoBehaviour
     public bool Replace(Item item, int quantity, int slotIndex)
     {
         items[slotIndex] = new ItemSlot(quantity, item);
-
+        ReloadInHandModel(true);
         return true;
     }
     public bool Move(int startIndex, int startQuantity, int endIndex, int endQuantity)

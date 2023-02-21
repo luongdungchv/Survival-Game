@@ -38,7 +38,8 @@ public class Item : MonoBehaviour
             objSpawnId = objSpawnId,
             spawnPos = dropPos,
             itemBase = this.itemName,
-            quantity = quantity
+            quantity = quantity,
+            objId = "0",
         };
 
         if (Client.ins.isHost)

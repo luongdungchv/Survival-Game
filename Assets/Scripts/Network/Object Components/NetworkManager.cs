@@ -200,7 +200,7 @@ public class NetworkManager : MonoBehaviour
             Debug.Log(drop);
 
             var netSceneObj = drop.GetComponentInParent<NetworkSceneObject>();
-            if (dropPacket.objId == "") dropPacket.objId = GameFunctions.GenerateId();
+            if (dropPacket.objId == "" || dropPacket.objId == "0") dropPacket.objId = GameFunctions.GenerateId();
             netSceneObj.id = dropPacket.objId;
             AddNetworkSceneObject(dropPacket.objId, netSceneObj);
             if (client.isHost) client.SendTCPPacket(dropPacket);
@@ -236,6 +236,9 @@ public class NetworkManager : MonoBehaviour
         if (sceneObjects.ContainsKey(objId))
         {
             Destroy(sceneObjects[objId].gameObject);
+        }
+        if(client.isHost){
+            client.SendTCPPacket(packet);
         }
     }
     public void HandleChangeEquipment(Packet _packet)
