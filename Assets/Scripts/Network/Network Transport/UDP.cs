@@ -44,23 +44,7 @@ public class UDP
             return false;
         }
     }
-    public bool Send(string msg, int port)
-    {
-        var data = Encoding.ASCII.GetBytes(msg);
-        try
-        {
-            //socket.BeginSend(data, data.Length, null, null);
-            socket.BeginSend(data, data.Length, hostName, port, null, null);
-            return true;
-        }
-        catch (Exception e)
-        {
-            //Disconnect();
-            // Debug.Log($"Cannot send: {msg}");
-            // Debug.Log(e.ToString());
-            return false;
-        }
-    }
+ 
 
     private void UDPReceiveCallback(IAsyncResult result)
     {

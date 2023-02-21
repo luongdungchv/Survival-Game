@@ -67,7 +67,7 @@ public class Inventory : MonoBehaviour
         {
             currentEquipIndex += mouseScroll;
         }
-        if (InputReader.ins.inputNum != -1)
+        if (InputReader.ins.inputNum != -1 && (state == "Idle" || state == "Move" || state == "Dash" || state == "Sprint"))
         {
             currentEquipIndex = InputReader.ins.inputNum - 1;
         }
