@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -50,6 +51,7 @@ public class Settings : MonoBehaviour
     {
         bool state = !settingUI.activeSelf;
         settingUI.SetActive(state);
+        if(UIManager.ins != null) state = state || UIManager.ins.isUIOpen; 
         if (!state)
         {
             if (hideCursorOnClose) GameFunctions.ins?.HideCursor();
