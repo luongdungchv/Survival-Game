@@ -53,10 +53,6 @@ public class InventoryInteractionHandler : MonoBehaviour
     public void ChangeMoveIconQuantity(int quantity)
     {
         _movingItem.quantity = quantity;
-        // if (quantity <= 0)
-        // {
-        //     _movingItem.gameObject.SetActive(false);
-        // }
     }
     public void ChangeSourceItem(InventorySlotUI newSource)
     {

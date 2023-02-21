@@ -41,8 +41,10 @@ public class Inventory : MonoBehaviour
         Add("knife", 1);
         Add("sus_shroom", 1);
         Add("craft_table", 1);
-Add("furnace", 1);
-Add("anvil", 1);
+        Add("furnace", 1);
+        Add("anvil", 1);
+        Add("oak_wood", 12);
+        Add("mithril_sword", 1);
     }
     private void Start()
     {
@@ -203,11 +205,16 @@ Add("anvil", 1);
         ReloadInHandModel(true);
         return item.quantity;
     }
-    public Item GetItem(int itemIndex)
+    public Item GetSlotItem(int itemIndex)
     {
         var itemSlot = items[itemIndex];
         if (itemSlot == null) return null;
         return itemSlot.itemData;
+    }
+    public int GetSlotQuantity(int itemIndex){
+        var itemSlot = items[itemIndex];
+        if (itemSlot == null) return -1;
+        return itemSlot.quantity;
     }
     public int GetItemQuantity(string itemName)
     {

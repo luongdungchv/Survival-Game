@@ -20,7 +20,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
         }
     }
     public int itemIndex;
-    public Item item => inventory.GetItem(itemIndex);
+    public Item item => inventory.GetSlotItem(itemIndex);
     private Texture2D _icon;
     public Texture2D icon
     {
@@ -43,20 +43,34 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
             if (inventory.isEquipSlot(itemIndex) && !(iih.movingItem.movingItem is IEquippable)) return;
 
 
-            var thisItem = inventory.GetItem(itemIndex);
-            var sourceItem = iih.movingItem.movingItem;
+            var thisSlotItem = inventory.GetSlotItem(itemIndex);
+            var thisSlotQuantity = inventory.GetSlotQuantity(itemIndex);
+            var movingItem = iih.movingItem.movingItem;
 
-            Debug.Log(thisItem);
-            if (thisItem != null && sourceItem != null && thisItem.itemName != sourceItem.itemName)
+
+            // if (thisSlotItem != null && movingItem != null)
+            // {
+            //     return;
+            // }
+            if (thisSlotItem != null && thisSlotQuantity != 0 && thisSlotItem.itemName != movingItem.itemName)
             {
+                if (iih.movingItem.sourceSlot == null)
+                {
+                    inventory.Replace(movingItem, this.quantity, itemIndex);
+                    iih.movingItem.InitReplaceAction(thisSlotItem.itemName, thisSlotQuantity);
+                }
+                else
+                {
+                    inventory.Move(iih.movingItem.sourceIndex, iih.movingItem.sourceSlot.quantity, this.itemIndex, this.quantity);
+                    iih.movingItem.InitReplaceAction(thisSlotItem.itemName, thisSlotQuantity);
+                }
                 return;
             }
-
             if (iih.movingItem.sourceSlot == null)
             {
 
-                var redundant = AddQuantity(iih.movingItem.quantity, iih.movingItem.icon);
-                inventory.Replace(sourceItem, quantity, itemIndex);
+                var redundant = this.AddQuantity(iih.movingItem.quantity, iih.movingItem.icon);
+                inventory.Replace(movingItem, this.quantity, itemIndex);
                 iih.ChangeMoveIconQuantity(redundant);
                 iih.ChangeSourceItem(this);
             }

@@ -15,7 +15,7 @@ public class Item : MonoBehaviour
         itemMapper.Clear();
     }
     public string itemName;
-    public string displayName;
+    public string dropDisplayName;
     public GameObject dropPrefab;
     public Texture2D dropTexture;
     public Color dropOutlineColor;
@@ -49,7 +49,7 @@ public class Item : MonoBehaviour
 
             drop = dropNetObj.GetComponentInChildren<ItemDrop>();
             
-            drop.displayName = this.displayName;
+            drop.displayName = this.dropDisplayName;
             drop.SetMaterial(this.dropTexture, this.dropOutlineColor);
             
             drop.gameObject.SetActive(true);

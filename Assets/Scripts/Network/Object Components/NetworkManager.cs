@@ -194,7 +194,7 @@ public class NetworkManager : MonoBehaviour
             
             var itemBase = Item.GetItem(dropPacket.itemBase);
             drop.SetBase(itemBase);
-            drop.displayName = itemBase.displayName;
+            drop.displayName = itemBase.dropDisplayName;
             drop.meshTex = itemBase.dropTexture;
             drop.outlineColor = itemBase.dropOutlineColor;
             Debug.Log(drop);

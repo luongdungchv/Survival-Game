@@ -167,9 +167,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309d0a39130a775409f1d3e2d1436ecf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: Crafting Table
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
+  distanceThreshold: 5
+  isPlayerTouch: 0
   hp: 0
 --- !u!114 &4281975212259325554
 MonoBehaviour:
