@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject interactBtnPrefab;
     [SerializeField] private GameObject mapCam;
 
-
+    public GameObject currentOpenUI;
 
     public bool isUIOpen => mapUI.activeSelf ||
                 inventoryUI.activeSelf ||
@@ -49,16 +49,19 @@ public class UIManager : MonoBehaviour
         if (isUIOpen && !mapUI.activeSelf) return;
         mapUI.SetActive(!mapUI.activeSelf);
         mapCam.SetActive(!mapCam.activeSelf);
+        if(mapUI.activeSelf) currentOpenUI = mapUI;
+        else if(currentOpenUI == mapUI && !mapUI.activeSelf) currentOpenUI = null;
         GameFunctions.ins.ToggleCursor(isUIOpen);
-        //Time.timeScale = mapUI.activeSelf ? 0 : 1;
     }
     public void ToggleInventoryUI()
     {
-         Debug.Log("inventory");
+        Debug.Log("inventory");
         if (isUIOpen && !inventoryUI.activeSelf) return;
         inventoryUI.SetActive(!inventoryUI.activeSelf);
         GameFunctions.ins.ToggleCursor(isUIOpen);
         if (isUIOpen) inventoryUIHandler.SetAsOpen();
+        if(inventoryUI.activeSelf) currentOpenUI = inventoryUI;
+        else if(currentOpenUI == inventoryUI && !inventoryUI.activeSelf) currentOpenUI = null;
         inventoryUIHandler.UpdateUI();
         inventoryUIHandler.DropMovingItem();
         inventoryUIHandler.ChangeMoveIconQuantity(0);
@@ -71,8 +74,9 @@ public class UIManager : MonoBehaviour
         GameFunctions.ins.ToggleCursor(isUIOpen);
         if (isUIOpen) craftUIHandler.SetAsOpen();
         craftUIHandler.UpdateUI();
-        //craftUIHandler.CheckAndDropItem();
         craftUIHandler.DropMovingItem();
+        if(craftUI.activeSelf) currentOpenUI = craftUI;
+        else if(currentOpenUI == craftUI && !craftUI.activeSelf) currentOpenUI = null;
         craftUIHandler.ChangeMoveIconQuantity(0);
     }
     public void ToggleAnvilUI()
@@ -81,6 +85,10 @@ public class UIManager : MonoBehaviour
         anvilUI.SetActive(!anvilUI.activeSelf);
         GameFunctions.ins.ToggleCursor(isUIOpen);
         if (isUIOpen) anvilUIHandler.SetAsOpen();
+        
+        if(anvilUI.activeSelf) currentOpenUI = anvilUI;
+        else if(currentOpenUI == anvilUI && !anvilUI.activeSelf) currentOpenUI = null;
+        
         anvilUIHandler.UpdateUI();
         craftUIHandler.DropMovingItem();
         anvilUIHandler.ChangeMoveIconQuantity(0);
@@ -109,6 +117,10 @@ public class UIManager : MonoBehaviour
         {
             Transformer.currentOpen = null;
         }
+        
+        if(furnaceUI.activeSelf) currentOpenUI = furnaceUI;
+        else if(currentOpenUI == furnaceUI && !furnaceUI.activeSelf) currentOpenUI = null;
+        
         furnaceUIHandler.UpdateUI();
         furnaceUIHandler.DropMovingItem();
         furnaceUIHandler.ChangeMoveIconQuantity(0);
@@ -128,10 +140,21 @@ public class UIManager : MonoBehaviour
         {
             Transformer.currentOpen = null;
         }
+        
+        if(furnaceUI.activeSelf) currentOpenUI = furnaceUI;
+        else if(currentOpenUI == furnaceUI && !furnaceUI.activeSelf) currentOpenUI = null;
+        
         furnaceUIHandler.UpdateUI();
         furnaceUIHandler.CheckAndDropItem();
         furnaceUIHandler.ChangeMoveIconQuantity(0);
         RefreshFurnaceUI();
+    }
+    public void ToggleOffCurrentUI(){
+        if(currentOpenUI == mapUI) ToggleMapUI();
+        if(currentOpenUI == inventoryUI) ToggleInventoryUI();
+        if(currentOpenUI == craftUI) ToggleCraftUI();
+        if(currentOpenUI == furnaceUI) ToggleFurnaceUI();
+        if(currentOpenUI == anvilUI) ToggleAnvilUI();
     }
     public void RefreshFurnaceUI()
     {

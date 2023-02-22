@@ -54,13 +54,17 @@ public class GameFunctions : MonoBehaviour
         {
             UIManager.ins.ToggleMapUI();
         }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            UIManager.ins.ToggleCraftUI();
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            UIManager.ins.ToggleAnvilUI();
+        // if (Input.GetKeyDown(KeyCode.Y))
+        // {
+        //     UIManager.ins.ToggleCraftUI();
+        // }
+        // if (Input.GetKeyDown(KeyCode.T))
+        // {
+        //     UIManager.ins.ToggleAnvilUI();
+        // }
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            if(UIManager.ins.currentOpenUI != null) UIManager.ins.ToggleOffCurrentUI();
+            else Settings.ins.ToggleSetting();
         }
     }
     public void HideCursor()

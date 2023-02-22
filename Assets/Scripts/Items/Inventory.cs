@@ -39,12 +39,12 @@ public class Inventory : MonoBehaviour
         //     this.Add(i.item, i.quantity);
         // }
         Add("knife", 1);
-        Add("sus_shroom", 1);
+        Add("sus_shroom", 20);
         Add("craft_table", 1);
         Add("furnace", 1);
         Add("anvil", 1);
         Add("oak_wood", 30);
-        Add("birch_wood", 30);
+        Add("birch_wood", 25);
         Add("cherry_wood", 30);
         Add("coal_ore", 30);
         Add("iron_ore", 30);
@@ -266,7 +266,7 @@ public class Inventory : MonoBehaviour
             if (i != _currentEquipIndex)
             {
                 iih.GetUISlot(i).Highlight(false);
-                if (itemSlots[i] == null || itemSlots[i].itemData == null || !(itemSlots[i].itemData is IEquippable) || itemSlots[i].itemData == itemSlots[_currentEquipIndex].itemData)
+                if (itemSlots[i] == null || itemSlots[i].itemData == null || !(itemSlots[i].itemData is IEquippable) || (itemSlots[_currentEquipIndex] != null && itemSlots[_currentEquipIndex].itemData != null && itemSlots[i].itemData == itemSlots[_currentEquipIndex].itemData))
                 {
                     continue;
                 }

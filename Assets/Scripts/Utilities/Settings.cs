@@ -18,6 +18,7 @@ public class Settings : MonoBehaviour
     private void Awake()
     {
         OnSettingChange = new UnityEvent();
+        ins = this;
     }
     private void Start()
     {
@@ -41,10 +42,10 @@ public class Settings : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ToggleSetting();
-        }
+        // if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     ToggleSetting();
+        // }
     }
 
     public void ToggleSetting()
@@ -169,23 +170,23 @@ public class Settings : MonoBehaviour
         }
         
         Debug.Log(Screen.resolutions[Screen.resolutions.Length - 1]);
-        // switch (this.currentData.resolution)
-        // {
-        //     case 1:
-        //         Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
-        //         break;
-        //     case 2:
-        //         Screen.SetResolution(1280, 720, FullScreenMode.FullScreenWindow);
-        //         QualitySettings.lodBias = 1.5f;
-        //         break;
-        //     case 3:
-        //         Screen.SetResolution(960, 540, FullScreenMode.FullScreenWindow);
-        //         break;
-        //     case 0:
-        //         var nativeResolution = Screen.resolutions[Screen.resolutions.Length - 1];
-        //         Screen.SetResolution(nativeResolution.width, nativeResolution.height, FullScreenMode.FullScreenWindow);
-        //         break;
-        // }
+        switch (this.currentData.resolution)
+        {
+            case 1:
+                Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+                break;
+            case 2:
+                Screen.SetResolution(1280, 720, FullScreenMode.FullScreenWindow);
+                QualitySettings.lodBias = 1.5f;
+                break;
+            case 3:
+                Screen.SetResolution(960, 540, FullScreenMode.FullScreenWindow);
+                break;
+            case 0:
+                var nativeResolution = Screen.resolutions[Screen.resolutions.Length - 1];
+                Screen.SetResolution(nativeResolution.width, nativeResolution.height, FullScreenMode.FullScreenWindow);
+                break;
+        }
         
         OnSettingChange.Invoke();
     }

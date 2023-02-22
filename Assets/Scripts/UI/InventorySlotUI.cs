@@ -63,6 +63,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
                 {
                     var sourceIndex = iih.movingItemHolder.sourceIndex;
                     var sourceQuantity = iih.movingItemHolder.sourceSlot.quantity;
+                    this.quantity = iih.movingItemHolder.quantity;
                     iih.movingItemHolder.InitReplaceAction(thisSlotItem.itemName, thisSlotQuantity);
                     inventory.Move(sourceIndex, sourceQuantity, this.itemIndex, this.quantity);
                 }
