@@ -11,6 +11,7 @@ public class Transformer : TransformerBase
     float elapsed = 0;
     private Coroutine cookRoutine;
     private FurnaceUpdatePacket updatePacket = new FurnaceUpdatePacket();
+    
     protected override void Awake()
     {
         if (!Client.ins.isHost)
@@ -31,7 +32,11 @@ public class Transformer : TransformerBase
     protected override void OnInteractBtnClick(Button clicker)
     {
         currentOpen = this;
-        UIManager.ins.ToggleFurnaceUI();
+        if(!isOpen){
+            Debug.Log("open");
+            isOpen = true;
+            UIManager.ins.ToggleFurnaceUI();
+        }
         base.OnInteractBtnClick(clicker);
     }
     protected override void Update()
@@ -68,6 +73,7 @@ public class Transformer : TransformerBase
         }
 
     }
+    
 
     public override bool SetInput(ITransformable inputItem, int quantity)
     {
@@ -108,7 +114,8 @@ public class Transformer : TransformerBase
     }
     public override void RetrieveInput(int quantity)
     {
-        inputSlot.quantity -= quantity;
+        if(quantity == -1) inputSlot.quantity = 0;
+        else inputSlot.quantity -= quantity; 
     }
     public override void RetrieveFuel(int quantity)
     {

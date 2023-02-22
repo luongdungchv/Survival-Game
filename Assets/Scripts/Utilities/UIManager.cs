@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     [Header("In game UI")]
     [SerializeField] private GameObject mapUI;
     [SerializeField] private GameObject inventoryUI, craftUI, anvilUI, furnaceUI;
-    
+
     [SerializeField] private Transform collectBtnContainer;
     [SerializeField] TransformerUI transformerUI;
     [Header("Notification UI")]
@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject interactBtnPrefab;
     [SerializeField] private GameObject mapCam;
 
-    
+
 
     public bool isUIOpen => mapUI.activeSelf ||
                 inventoryUI.activeSelf ||
@@ -58,10 +58,8 @@ public class UIManager : MonoBehaviour
         inventoryUI.SetActive(!inventoryUI.activeSelf);
         GameFunctions.ins.ToggleCursor(isUIOpen);
         if (isUIOpen) inventoryUIHandler.SetAsOpen();
-        //else inventoryUIHandler.SetAsClose();
         inventoryUIHandler.UpdateUI();
         inventoryUIHandler.ChangeMoveIconQuantity(0);
-        //Time.timeScale = inventoryUI.activeSelf ? 0 : 1;
     }
     public void ToggleCraftUI()
     {
@@ -87,6 +85,17 @@ public class UIManager : MonoBehaviour
         if (isUIOpen && !furnaceUI.activeSelf) return;
         furnaceUI.SetActive(!furnaceUI.activeSelf);
         GameFunctions.ins.ToggleCursor(isUIOpen);
+        if (!Client.ins.isHost && !furnaceUI.activeSelf)
+        {
+            var closePacket = new FurnaceClientMsgPacket()
+            {
+                playerId = NetworkPlayer.localPlayer.id,
+                objId = Transformer.currentOpen.GetComponentInParent<NetworkSceneObject>().id,
+                action = "close",
+            };
+            Client.ins.SendTCPPacket(closePacket);
+        }
+        TransformerBase.currentOpen.isOpen = furnaceUI.activeSelf;
         if (isUIOpen)
         {
             furnaceUIHandler.SetAsOpen();
@@ -98,12 +107,25 @@ public class UIManager : MonoBehaviour
         furnaceUIHandler.UpdateUI();
         furnaceUIHandler.CheckAndDropItem();
         furnaceUIHandler.ChangeMoveIconQuantity(0);
-        // Debug.Log("click2");
+        
         RefreshFurnaceUI();
     }
-    public void ToggleFurnaceUI(Transformer toggler)
+    public void ToggleFurnaceUI(bool state)
     {
-        ToggleFurnaceUI();
+        if (isUIOpen && !furnaceUI.activeSelf) return;
+        furnaceUI.SetActive(state);
+        GameFunctions.ins.ToggleCursor(isUIOpen);
+        if (isUIOpen)
+        {
+            furnaceUIHandler.SetAsOpen();
+        }
+        else
+        {
+            Transformer.currentOpen = null;
+        }
+        furnaceUIHandler.UpdateUI();
+        furnaceUIHandler.CheckAndDropItem();
+        furnaceUIHandler.ChangeMoveIconQuantity(0);
         RefreshFurnaceUI();
     }
     public void RefreshFurnaceUI()
@@ -131,31 +153,36 @@ public class UIManager : MonoBehaviour
         //Debug.Log(lostConnectionPanel);
         ThreadManager.ExecuteOnMainThread(() =>
         {
-            if(lostConnectionPanel != null) lostConnectionPanel.SetActive(true);
+            if (lostConnectionPanel != null) lostConnectionPanel.SetActive(true);
             GameFunctions.ins.ShowCursor();
         });
     }
-    public void ShowDiePanel(){
+    public void ShowDiePanel()
+    {
         GameFunctions.ins.ShowCursor();
-        IEnumerator ShowDelay(){
+        IEnumerator ShowDelay()
+        {
             yield return new WaitForSeconds(showDelay);
             diePanel.SetActive(true);
         }
         StartCoroutine(ShowDelay());
     }
-    public void ShowGameOverPanel(){
+    public void ShowGameOverPanel()
+    {
         GameFunctions.ins.ShowCursor();
-        IEnumerator ShowDelay(){
+        IEnumerator ShowDelay()
+        {
             yield return new WaitForSeconds(showDelay);
             gameOverPanel.SetActive(true);
             diePanel.SetActive(false);
         }
         StartCoroutine(ShowDelay());
     }
-    public void LeaveGame(){
+    public void LeaveGame()
+    {
         Client.ins.LeaveGame();
         SceneManager.LoadScene(0);
-        
+
     }
 
 }

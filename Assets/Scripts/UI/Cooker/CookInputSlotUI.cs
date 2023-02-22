@@ -51,7 +51,7 @@ public class CookInputSlotUI : MonoBehaviour, IPointerClickHandler
             var inputItem = currentTransformer.inputSlot.inputItem as Item;
             var inputQuantity = currentTransformer.inputSlot.quantity;
             iih.movingItem.InitReplaceAction(inputItem.itemName, inputQuantity);
-            currentTransformer.RetrieveInput(inputQuantity);
+            currentTransformer.RetrieveInput(-1);
             CheckIconVisibility();
         }
     }

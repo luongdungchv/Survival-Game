@@ -10,6 +10,14 @@ public class TransformerBase : InteractableObject
     public InputSlot inputSlot;
     public FuelSlot fuelSlot;
     public OutputSlot outputSlot;
+    [SerializeField] private bool _isOpen;
+    public bool isOpen {
+        get => _isOpen;
+        set{
+            _isOpen = value;
+            Debug.Log(value);
+        }
+    }
     [SerializeField] protected int maxInputCap, maxOutputCap;
 
     protected bool isInCookingState;
@@ -45,6 +53,14 @@ public class TransformerBase : InteractableObject
         if (inputSlot == null) return 0;
         var currentItem = inputSlot.inputItem;
         return AddInput(currentItem, quantity);
+    }
+    public void Open(){
+        UIManager.ins.ToggleFurnaceUI(true);
+        this.isOpen = true;
+    }
+    public void Close(){
+        UIManager.ins.ToggleFurnaceUI(false);
+        this.isOpen = false;
     }
     public virtual void RetrieveInput(int quantity)
     {

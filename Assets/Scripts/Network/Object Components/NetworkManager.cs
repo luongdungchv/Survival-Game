@@ -44,6 +44,7 @@ public class NetworkManager : MonoBehaviour
         handler.AddHandler(PacketType.ChestInteraction, HandleChestInteraction);
         handler.AddHandler(PacketType.FurnaceServerUpdate, HandleFurnaceServerUpdate);
         handler.AddHandler(PacketType.FurnaceClientMsg, HandleFurnaceClientMsg);
+        handler.AddHandler(PacketType.InventoryInteraction, HandleInventoryPacket);
         handler.AddHandler(PacketType.ItemDropObjInteraction, HandleSceneObjInteraction);
         handler.AddHandler(PacketType.DestroyObject, HandleDestroyObject);
         handler.AddHandler(PacketType.ItemDrop, HandleDropItem);
@@ -54,12 +55,12 @@ public class NetworkManager : MonoBehaviour
     }
     private void HandleMovePlayer(Packet _packet)
     {
-        
+
         try
         {
             var movePacket = _packet as MovePlayerPacket;
             var player = playerList[movePacket.id];
-            if(player.GetComponent<PlayerStats>().isDead) return;
+            if (player.GetComponent<PlayerStats>().isDead) return;
             player.HandlePlayerState(movePacket);
         }
         catch
@@ -109,7 +110,7 @@ public class NetworkManager : MonoBehaviour
         else
         {
             tick += 1;
-            if(tick > 1024) tick = 0;
+            if (tick > 1024) tick = 0;
             inputPacket.tick = tick;
         }
         //Debug.Log(inputPacket.tick);
@@ -191,7 +192,7 @@ public class NetworkManager : MonoBehaviour
             var prefab = objMapper.GetPrefab(dropPacket.objSpawnId);
             var drop = Instantiate(prefab.gameObject, dropPacket.spawnPos, Quaternion.identity).GetComponentInChildren<ItemDrop>();
             drop.SetQuantity(dropPacket.quantity);
-            
+
             var itemBase = Item.GetItem(dropPacket.itemBase);
             drop.SetBase(itemBase);
             drop.displayName = itemBase.dropDisplayName;
@@ -237,7 +238,8 @@ public class NetworkManager : MonoBehaviour
         {
             Destroy(sceneObjects[objId].gameObject);
         }
-        if(client.isHost){
+        if (client.isHost)
+        {
             client.SendTCPPacket(packet);
         }
     }
@@ -261,7 +263,7 @@ public class NetworkManager : MonoBehaviour
         {
             obj.GetComponentInChildren<Chest>().Open(playerList[chestPacket.playerId]);
         }
-    if (client.isHost)
+        if (client.isHost)
         {
             client.SendTCPPacket(chestPacket);
         }
@@ -282,7 +284,6 @@ public class NetworkManager : MonoBehaviour
         if (action == "take_dmg")
         {
             var objComponent = obj.GetComponent<IDamagable>();
-            //objComponent.OnDamage(treePacket.actionParams[0],)
             var hitData = new PlayerHitData(incomingDmg, tool, playerList[playerId].GetComponent<PlayerStats>(), false);
             objComponent.OnDamage(hitData);
 
@@ -296,15 +297,26 @@ public class NetworkManager : MonoBehaviour
     {
         var packet = _packet as FurnaceClientMsgPacket;
         var action = packet.action;
-        var obj = sceneObjects[packet.objId].GetComponentInChildren<Transformer>();
+        var obj = sceneObjects[packet.objId].GetComponentInChildren<TransformerBase>();
         Debug.Log($"action: {action}, active: {sceneObjects[packet.objId].transform.parent} {obj.gameObject.activeInHierarchy}");
         switch (action)
         {
             case "set_input":
                 {
-                    var inputItem = Item.GetItem(packet.actionParams[0]) as ITransformable;
+                    var item = Item.GetItem(packet.actionParams[0]);
+                    var inputItem = item as ITransformable;
                     var quantity = int.Parse(packet.actionParams[1]);
-                    obj.SetInput(inputItem, quantity);
+                    if (!obj.SetInput(inputItem, quantity) && client.isHost)
+                    {
+                        var returnPacket = new RawActionPacket(PacketType.InventoryInteraction)
+                        {
+                            playerId = packet.playerId,
+                            objId = "0",
+                            action = "add_item",
+                            actionParams = new string[] { item.itemName, quantity.ToString() },
+                        };
+                        client.SendTCPPacket(returnPacket);
+                    }
                     break;
                 }
             case "add_input":
@@ -346,6 +358,30 @@ public class NetworkManager : MonoBehaviour
                     obj.RetrieveOutput(quantity);
                     break;
                 }
+            case "open":
+                {
+                    if (client.isHost)
+                    {
+                        if (!obj.isOpen)
+                        {
+                            client.SendTCPPacket(packet);
+                            obj.isOpen = true;
+                        }
+                    }
+                    else if (packet.playerId == NetworkPlayer.localPlayer.id)
+                        obj.Open();
+
+                    break;
+                }
+            case "close":
+                {
+                    if (client.isHost)
+                    {
+                        Debug.Log("host");
+                        obj.isOpen = false;
+                    }
+                    break;
+                }
         }
 
     }
@@ -382,6 +418,17 @@ public class NetworkManager : MonoBehaviour
         obj.ReceiveProgressInfo(packet.cookedUnit, packet.remainingUnit);
         UIManager.ins.RefreshFurnaceUI();
     }
+    public void HandleInventoryPacket(Packet packet)
+    {
+        var inventoryPacket = packet as RawActionPacket;
+        var playerId = inventoryPacket.playerId;
+        var args = inventoryPacket.actionParams;
+        var action = inventoryPacket.action;
+        if (action == "add_item" && playerId == NetworkPlayer.localPlayer.id)
+        {
+            Inventory.ins.Add(args[0], int.Parse(args[1]));
+        }
+    }
     public void HandlePlayerDisconnect(Packet _packet)
     {
         var packet = _packet as RawActionPacket;
@@ -391,19 +438,21 @@ public class NetworkManager : MonoBehaviour
             playerList.Remove(packet.playerId);
         }
     }
-    public void HandlePlayerInteraction(Packet packet){
+    public void HandlePlayerInteraction(Packet packet)
+    {
         var playerPacket = packet as RawActionPacket;
         var action = playerPacket.action;
         var playerId = playerPacket.playerId;
         var args = playerPacket.actionParams;
-        
+
         var player = playerList[playerId].GetComponent<PlayerStats>();
-        if(player.isDead) return;
-        
-        if(action == "take_damage"){
+        if (player.isDead) return;
+
+        if (action == "take_damage")
+        {
             var dmg = int.Parse(args[0]);
             player.TakeDamage(dmg);
-            if(client.isHost) client.SendTCPPacket(playerPacket);
+            if (client.isHost) client.SendTCPPacket(playerPacket);
         }
     }
     public void HandleEnemyState(Packet packet)
@@ -411,33 +460,39 @@ public class NetworkManager : MonoBehaviour
         var updatePacket = packet as RawActionPacket;
         var action = updatePacket.action;
         var args = updatePacket.actionParams;
-        if(sceneObjects.TryGetValue(updatePacket.objId, out var netObj)){
+        if (sceneObjects.TryGetValue(updatePacket.objId, out var netObj))
+        {
             var stats = netObj.GetComponent<EnemyStats>();
             var animator = netObj.GetComponent<Animator>();
-            if(action == "set_target"){
+            if (action == "set_target")
+            {
                 stats.target = playerList[args[0]].transform;
                 SetTrigger(animator, "chase");
             }
-            else if(action == "idle"){
+            else if (action == "idle")
+            {
                 SetTrigger(animator, "idle");
             }
-            else if(action == "patrol"){
+            else if (action == "patrol")
+            {
                 stats.targetPos = new Vector3(
-                    float.Parse(args[0]),  
-                    float.Parse(args[1]),  
+                    float.Parse(args[0]),
+                    float.Parse(args[1]),
                     float.Parse(args[2])
                 );
                 SetTrigger(animator, "patrol");
             }
-            else if(action == "attack"){
+            else if (action == "attack")
+            {
                 SetTrigger(animator, "atk");
             }
         }
-        void SetTrigger(Animator animator, string trigger){
+        void SetTrigger(Animator animator, string trigger)
+        {
             animator.ResetTrigger("atk");
             animator.ResetTrigger("idle");
             animator.ResetTrigger("chase");
-            animator.ResetTrigger("patrol");   
+            animator.ResetTrigger("patrol");
             animator.SetTrigger(trigger);
         }
     }
@@ -458,7 +513,8 @@ public class NetworkManager : MonoBehaviour
         sceneObjects.Remove(id);
         return true;
     }
-    public void SetRoomUIManager(RoomUIManager manager){
+    public void SetRoomUIManager(RoomUIManager manager)
+    {
         this.roomUI = manager;
     }
     IEnumerator LoadSceneDelay(float duration)
@@ -468,11 +524,13 @@ public class NetworkManager : MonoBehaviour
         SceneManager.LoadScene("Test_PlayerStats");
         gameStarted = true;
     }
-    private IEnumerator LoadScene(int buildIndex){
+    private IEnumerator LoadScene(int buildIndex)
+    {
         var asyncOperation = SceneManager.LoadSceneAsync(buildIndex);
         this.roomUI.OpenLoadingPanel();
         Debug.Log("scene load");
-        while(!asyncOperation.isDone){
+        while (!asyncOperation.isDone)
+        {
             this.roomUI.SetLoadingProgress(asyncOperation.progress);
             yield return null;
         }

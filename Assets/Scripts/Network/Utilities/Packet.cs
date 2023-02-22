@@ -367,6 +367,7 @@ public class FurnaceClientMsgPacket : Packet
     public FurnaceClientMsgPacket()
     {
         this.command = PacketType.FurnaceClientMsg;
+        actionParams = new string[0];
     }
     public override string GetString()
     {
@@ -490,5 +491,5 @@ public enum PacketType
     FurnaceServerUpdate, FurnaceClientMsg,
     ItemDrop, RoomInteraction,
     SpawnEnemy, UpdateEnemy,PowerupInteraction,
-    ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject, PlayerDisconnect, PlayerInteraction,
+    ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject, PlayerDisconnect, PlayerInteraction, InventoryInteraction
 }

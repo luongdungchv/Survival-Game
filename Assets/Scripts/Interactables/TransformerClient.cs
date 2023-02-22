@@ -18,10 +18,15 @@ public class TransformerClient : TransformerBase
     protected override void OnInteractBtnClick(Button clicker)
     {
         currentOpen = this;
-        UIManager.ins.ToggleFurnaceUI();
+        var openPacket = new FurnaceClientMsgPacket(){
+            playerId = NetworkPlayer.localPlayer.id,
+            objId = this.GetComponentInParent<NetworkSceneObject>().id,
+            action = "open",
+        };
+        Client.ins.SendTCPPacket(openPacket);
         base.OnInteractBtnClick(clicker);
     }
-    public override void SetInput(ITransformable inputItem, int quantity)
+    public override bool SetInput(ITransformable inputItem, int quantity)
     {
         var setInputPacket = new FurnaceClientMsgPacket()
         {
@@ -32,6 +37,7 @@ public class TransformerClient : TransformerBase
         };
         Debug.Log($"set_input pack: {setInputPacket.GetString()}");
         Client.ins.SendTCPPacket(setInputPacket);
+        return true;
 
     }
     public void SetInput(int quantity)
