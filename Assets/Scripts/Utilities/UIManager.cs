@@ -155,7 +155,7 @@ public class UIManager : MonoBehaviour
     public void LeaveGame(){
         Client.ins.LeaveGame();
         SceneManager.LoadScene(0);
-        Item.ClearItems();
+        
     }
 
 }

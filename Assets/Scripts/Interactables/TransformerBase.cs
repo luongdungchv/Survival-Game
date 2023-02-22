@@ -36,10 +36,9 @@ public class TransformerBase : InteractableObject
         return val;
     }
 
-    public virtual void SetInput(ITransformable inputItem, int quantity)
+    public virtual bool SetInput(ITransformable inputItem, int quantity)
     {
-
-
+        return default;
     }
     public int AddInput(int quantity)
     {

@@ -145,6 +145,7 @@ public class Inventory : MonoBehaviour
     {
         items[slotIndex] = new ItemSlot(quantity, item);
         ReloadInHandModel(true);
+        iih?.UpdateUI();
         return true;
     }
     public bool Move(int startIndex, int startQuantity, int endIndex, int endQuantity)

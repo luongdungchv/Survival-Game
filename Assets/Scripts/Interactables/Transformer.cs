@@ -69,8 +69,9 @@ public class Transformer : TransformerBase
 
     }
 
-    public override void SetInput(ITransformable inputItem, int quantity)
+    public override bool SetInput(ITransformable inputItem, int quantity)
     {
+        if(cookedUnit > 0) return false;
         var redundant = quantity - maxInputCap;
 
         inputSlot = new InputSlot()
@@ -86,6 +87,7 @@ public class Transformer : TransformerBase
                 quantity = 0
             };
             cookRoutine = StartCoroutine(CookEnum());
+            return true;
         }
 
         else if (inputSlot.inputItem.goalItem.itemName != outputSlot.item.itemName)
@@ -94,13 +96,15 @@ public class Transformer : TransformerBase
             {
                 StopCoroutine(cookRoutine);
                 isInCookingState = false;
+                return true;
             }
         }
         else if (inputSlot.inputItem.goalItem.itemName == outputSlot.item.itemName)
         {
             cookRoutine = StartCoroutine(CookEnum());
+            return true;
         }
-
+        return false;
     }
     public override void RetrieveInput(int quantity)
     {
@@ -115,6 +119,12 @@ public class Transformer : TransformerBase
         outputSlot.quantity -= quantity;
         if (outputSlot.quantity <= 0 && inputSlot.quantity > 0 && !isInCookingState)
         {
+            if (outputSlot.quantity == 0 && inputSlot.inputItem != null && inputSlot.quantity != 0)
+                outputSlot = new OutputSlot()
+                {
+                    item = inputSlot.inputItem.goalItem,
+                    quantity = 0
+                };
             cookRoutine = StartCoroutine(CookEnum());
         }
     }
@@ -179,6 +189,7 @@ public class Transformer : TransformerBase
             if (inputSlot == null || outputSlot == null || fuelSlot == null) break;
             if (inputSlot.inputItem == null || outputSlot.item == null || fuelSlot.fuel == null) break;
             if (fuelSlot.quantity <= 0 && remainingUnit == 0 && cookedUnit == 0) break;
+            if (outputSlot.item != null && outputSlot.item != (inputSlot.inputItem.goalItem)) break;
             if (outputSlot.quantity == maxOutputCap || (inputSlot.quantity == 0 && !isItemInCook)) break;
 
             if (remainingUnit == 0 && fuelSlot.quantity > 0)
@@ -199,7 +210,7 @@ public class Transformer : TransformerBase
                     outputSlot.quantity++;
                     isItemInCook = false;
                 }
-                else
+                else if (remainingUnit > 0)
                 {
                     remainingUnit--;
                     cookedUnit++;

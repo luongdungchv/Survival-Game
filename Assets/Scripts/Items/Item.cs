@@ -24,6 +24,8 @@ public class Item : MonoBehaviour
     public bool stackable = true;
     protected virtual void Awake()
     {
+        if(itemMapper.ContainsKey(this.itemName))
+            itemMapper.Remove(this.itemName);
         itemMapper.Add(itemName, this);
     }
     public ItemDrop Drop(Vector3 dropPos, int quantity)
