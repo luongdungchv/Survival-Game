@@ -54,12 +54,15 @@ public class UIManager : MonoBehaviour
     }
     public void ToggleInventoryUI()
     {
+         Debug.Log("inventory");
         if (isUIOpen && !inventoryUI.activeSelf) return;
         inventoryUI.SetActive(!inventoryUI.activeSelf);
         GameFunctions.ins.ToggleCursor(isUIOpen);
         if (isUIOpen) inventoryUIHandler.SetAsOpen();
         inventoryUIHandler.UpdateUI();
+        inventoryUIHandler.DropMovingItem();
         inventoryUIHandler.ChangeMoveIconQuantity(0);
+       
     }
     public void ToggleCraftUI()
     {
@@ -68,7 +71,8 @@ public class UIManager : MonoBehaviour
         GameFunctions.ins.ToggleCursor(isUIOpen);
         if (isUIOpen) craftUIHandler.SetAsOpen();
         craftUIHandler.UpdateUI();
-        craftUIHandler.CheckAndDropItem();
+        //craftUIHandler.CheckAndDropItem();
+        craftUIHandler.DropMovingItem();
         craftUIHandler.ChangeMoveIconQuantity(0);
     }
     public void ToggleAnvilUI()
@@ -78,6 +82,7 @@ public class UIManager : MonoBehaviour
         GameFunctions.ins.ToggleCursor(isUIOpen);
         if (isUIOpen) anvilUIHandler.SetAsOpen();
         anvilUIHandler.UpdateUI();
+        craftUIHandler.DropMovingItem();
         anvilUIHandler.ChangeMoveIconQuantity(0);
     }
     public void ToggleFurnaceUI()
@@ -105,7 +110,7 @@ public class UIManager : MonoBehaviour
             Transformer.currentOpen = null;
         }
         furnaceUIHandler.UpdateUI();
-        furnaceUIHandler.CheckAndDropItem();
+        furnaceUIHandler.DropMovingItem();
         furnaceUIHandler.ChangeMoveIconQuantity(0);
         
         RefreshFurnaceUI();

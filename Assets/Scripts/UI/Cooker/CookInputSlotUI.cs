@@ -21,8 +21,8 @@ public class CookInputSlotUI : MonoBehaviour, IPointerClickHandler
     {
         if (iih.isItemMoving)
         {
-            if (!(iih.movingItem.movingItem is ITransformable)) return;
-            var moving = iih.movingItem;
+            if (!(iih.movingItemHolder.movingItem is ITransformable)) return;
+            var moving = iih.movingItemHolder;
             var movingName = moving.movingItem.itemName;
 
             if (currentTransformer.inputSlot.inputItem == null || currentTransformer.inputSlot.quantity == 0)
@@ -50,7 +50,7 @@ public class CookInputSlotUI : MonoBehaviour, IPointerClickHandler
         {
             var inputItem = currentTransformer.inputSlot.inputItem as Item;
             var inputQuantity = currentTransformer.inputSlot.quantity;
-            iih.movingItem.InitReplaceAction(inputItem.itemName, inputQuantity);
+            iih.movingItemHolder.InitReplaceAction(inputItem.itemName, inputQuantity);
             currentTransformer.RetrieveInput(-1);
             CheckIconVisibility();
         }

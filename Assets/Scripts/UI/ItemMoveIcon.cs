@@ -16,6 +16,7 @@ public class ItemMoveIcon : MonoBehaviour
     public InventorySlotUI sourceSlot;
     public Canvas canvas;
     private Texture2D _icon;
+    public string action;
     public Texture2D icon
     {
         get => _icon;
@@ -74,7 +75,7 @@ public class ItemMoveIcon : MonoBehaviour
             quantity += (int)Input.mouseScrollDelta.y;
             sourceSlot.quantity -= (int)Input.mouseScrollDelta.y;
 
-            int baseItemQuantity = inventory.items[sourceSlot.itemIndex].quantity;
+            int baseItemQuantity = inventory.itemSlots[sourceSlot.itemIndex].quantity;
             sourceSlot.quantity = Mathf.Clamp(sourceSlot.quantity, 0, Mathf.Min(baseItemQuantity, inventory.maxInventorySlot) - 1);
             quantity = Mathf.Clamp(quantity, 1, Mathf.Min(baseItemQuantity, inventory.maxInventorySlot));
         }
@@ -82,6 +83,7 @@ public class ItemMoveIcon : MonoBehaviour
 
     public void InitMoveAction(InventorySlotUI source)
     {
+        action = "move";
         quantity = source.quantity;
         source.quantity = 0;
         icon = source.icon;
@@ -91,6 +93,7 @@ public class ItemMoveIcon : MonoBehaviour
     }
     public void InitReplaceAction(string itemName, int quantity)
     {
+        action = "replace";
         var itemData = Item.GetItem(itemName);
         Debug.Log(itemName);
         movingItem = itemData;

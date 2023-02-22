@@ -23,7 +23,7 @@ public class Inventory : MonoBehaviour
     }
     [SerializeField] private Transform dropPos;
     public int maxInventorySlot => _maxInventorySlot;
-    public ItemSlot[] items;
+    public ItemSlot[] itemSlots;
     private Dictionary<string, int> itemQuantities;
     private StateMachine fsm;
     InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
@@ -31,7 +31,7 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         ins = this;
-        items = new ItemSlot[28];
+        itemSlots = new ItemSlot[28];
         itemQuantities = new Dictionary<string, int>();
         //iih.Init();
         InventoryInteractionHandler.InitAllInstances();
@@ -82,9 +82,9 @@ public class Inventory : MonoBehaviour
 
         int nullIndex = -1;
         bool equippable = itemData is IEquippable;
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < itemSlots.Length; i++)
         {
-            if (items[i] == null)
+            if (itemSlots[i] == null)
             {
                 if (!equippable && i < equipSlotCount) continue;
                 nullIndex = i;
@@ -95,7 +95,7 @@ public class Inventory : MonoBehaviour
         if (!stackable)
         {
             if (nullIndex == -1 || quantity != 1) return false;
-            items[nullIndex] = new ItemSlot(1, itemData);
+            itemSlots[nullIndex] = new ItemSlot(1, itemData);
             ReloadInHandModel();
             iih?.UpdateUI();
             return true;
@@ -103,11 +103,11 @@ public class Inventory : MonoBehaviour
         }
 
         List<Vector2Int> itemSlotList = new List<Vector2Int>();
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < itemSlots.Length; i++)
         {
-            if (items[i] != null && items[i].itemData.itemName == itemData.itemName && items[i].quantity < maxInventorySlot)
+            if (itemSlots[i] != null && itemSlots[i].itemData.itemName == itemData.itemName && itemSlots[i].quantity < maxInventorySlot)
             {
-                itemSlotList.Add(new Vector2Int(items[i].quantity, i));
+                itemSlotList.Add(new Vector2Int(itemSlots[i].quantity, i));
             }
         }
 
@@ -126,11 +126,11 @@ public class Inventory : MonoBehaviour
         if (quantity > 0)
         {
             if (nullIndex == -1) return false;
-            items[nullIndex] = new ItemSlot(quantity, itemData);
+            itemSlots[nullIndex] = new ItemSlot(quantity, itemData);
         }
         foreach (var i in itemSlotList)
         {
-            items[i.y].quantity = i.x;
+            itemSlots[i.y].quantity = i.x;
         }
         ReloadInHandModel();
         iih?.UpdateUI();
@@ -143,34 +143,35 @@ public class Inventory : MonoBehaviour
     }
     public bool Replace(Item item, int quantity, int slotIndex)
     {
-        items[slotIndex] = new ItemSlot(quantity, item);
+        itemSlots[slotIndex] = new ItemSlot(quantity, item);
         ReloadInHandModel(true);
         iih?.UpdateUI();
         return true;
     }
     public bool Move(int startIndex, int startQuantity, int endIndex, int endQuantity)
     {
-        var itemData = items[startIndex].itemData;
+        Debug.Log(itemSlots[startIndex]);
+        var itemData = itemSlots[startIndex].itemData;
         bool equippable = itemData is IEquippable;
         if (!equippable && endIndex < equipSlotCount) return false;
 
-        if (startQuantity != 0) items[startIndex].quantity = startQuantity;
-        else items[startIndex] = null;
+        if (startQuantity != 0) itemSlots[startIndex].quantity = startQuantity;
+        else itemSlots[startIndex] = null;
 
-        if (endQuantity != 0) items[endIndex] = new ItemSlot(endQuantity, itemData);
-        else items[endIndex] = null;
-        ReloadInHandModel();
+        if (endQuantity != 0) itemSlots[endIndex] = new ItemSlot(endQuantity, itemData);
+        else itemSlots[endIndex] = null;
+        ReloadInHandModel(true);
         iih?.UpdateUI();
         return true;
     }
     public bool Remove(string itemName, int quantity)
     {
         List<Vector2Int> itemSlotList = new List<Vector2Int>();
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < itemSlots.Length; i++)
         {
-            if (items[i] != null && items[i].itemData.itemName == itemName && items[i].quantity <= maxInventorySlot)
+            if (itemSlots[i] != null && itemSlots[i].itemData.itemName == itemName && itemSlots[i].quantity <= maxInventorySlot)
             {
-                itemSlotList.Add(new Vector2Int(items[i].quantity, i));
+                itemSlotList.Add(new Vector2Int(itemSlots[i].quantity, i));
             }
         }
         for (int i = 0; i < itemSlotList.Count; i++)
@@ -190,10 +191,10 @@ public class Inventory : MonoBehaviour
         {
             if (i.x == 0)
             {
-                items[i.y] = null;
+                itemSlots[i.y] = null;
                 continue;
             }
-            items[i.y].quantity = i.x;
+            itemSlots[i.y].quantity = i.x;
         }
         iih?.UpdateUI();
         return true;
@@ -201,13 +202,13 @@ public class Inventory : MonoBehaviour
     public int Remove(int itemIndex, int quantity)
     {
         if (itemIndex < 0) return -1;
-        var item = items[itemIndex];
+        var item = itemSlots[itemIndex];
         if (item == null || item.itemData == null) return -1;
         item.quantity -= quantity;
         if (item.quantity <= 0)
         {
             if (item.itemData is IEquippable) (item.itemData as IEquippable).OnUnequip();
-            items[itemIndex] = null;
+            itemSlots[itemIndex] = null;
         }
         iih?.UpdateUI();
         ReloadInHandModel(true);
@@ -215,19 +216,19 @@ public class Inventory : MonoBehaviour
     }
     public Item GetSlotItem(int itemIndex)
     {
-        var itemSlot = items[itemIndex];
+        var itemSlot = itemSlots[itemIndex];
         if (itemSlot == null) return null;
         return itemSlot.itemData;
     }
     public int GetSlotQuantity(int itemIndex){
-        var itemSlot = items[itemIndex];
+        var itemSlot = itemSlots[itemIndex];
         if (itemSlot == null) return -1;
         return itemSlot.quantity;
     }
     public int GetItemQuantity(string itemName)
     {
         int res = 0;
-        foreach (var i in items)
+        foreach (var i in itemSlots)
         {
             if (i == null || i.itemData == null || i.itemData.itemName != itemName) continue;
             res += i.quantity;
@@ -244,7 +245,7 @@ public class Inventory : MonoBehaviour
                 {
                     Debug.Log(_currentEquipIndex);
                     iih.GetUISlot(i).Highlight(true);
-                    if (items[i] == null || items[i].itemData == null)
+                    if (itemSlots[i] == null || itemSlots[i].itemData == null)
                     {
                         PlayerEquipment.ins.rightHandItem = null;
                         var packet = new UpdateEquippingPacket();
@@ -253,23 +254,23 @@ public class Inventory : MonoBehaviour
                         continue;
                     }
 
-                    var equippableItem = items[i].itemData as IEquippable;
+                    var equippableItem = itemSlots[i].itemData as IEquippable;
                     equippableItem.OnEquip();
-                    PlayerEquipment.ins.rightHandItem = items[i].itemData;
+                    PlayerEquipment.ins.rightHandItem = itemSlots[i].itemData;
                 }
             }
         }
         PlayerEquipment.ins.currentEquipIndex = _currentEquipIndex;
-        for (int i = 0; i < equipSlotCount; i++)
+        for (int i = 0; i < itemSlots.Length; i++)
         {
             if (i != _currentEquipIndex)
             {
                 iih.GetUISlot(i).Highlight(false);
-                if (items[i] == null || items[i].itemData == null)
+                if (itemSlots[i] == null || itemSlots[i].itemData == null || !(itemSlots[i].itemData is IEquippable) || itemSlots[i].itemData == itemSlots[_currentEquipIndex].itemData)
                 {
                     continue;
                 }
-                var equippableItem = items[i].itemData as IEquippable;
+                var equippableItem = itemSlots[i].itemData as IEquippable;
                 var currentModel = (PlayerEquipment.ins.rightHandItem as IEquippable)?.inHandModel;
                 if (currentModel == null || equippableItem.inHandModel != currentModel)
                 {
@@ -277,10 +278,13 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
+        var movingItem = iih.movingItemHolder.movingItem;
+        if(movingItem is IEquippable && movingItem != itemSlots[_currentEquipIndex].itemData && iih.isItemMoving) 
+            (movingItem as IEquippable).OnUnequip();
     }
     public bool DropItem(int itemIndex, int quantity, Vector3 dropPostion)
     {
-        var dropSlot = items[itemIndex];
+        var dropSlot = itemSlots[itemIndex];
         if (dropSlot == null) return false;
         dropSlot.quantity -= quantity;
         if(dropSlot.itemData is IEquippable) 
@@ -288,9 +292,9 @@ public class Inventory : MonoBehaviour
         dropSlot.itemData.Drop(dropPostion, quantity);
         if (dropSlot.quantity <= 0)
         {
-            items[itemIndex] = null;
+            itemSlots[itemIndex] = null;
         }
-        Debug.Log(items[itemIndex]);
+        Debug.Log(itemSlots[itemIndex]);
         ReloadInHandModel(true);
         return true;
     }

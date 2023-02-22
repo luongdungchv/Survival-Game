@@ -141,7 +141,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 122
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &2515371608670357319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +215,8 @@ MonoBehaviour:
   displayName: Rock
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
+  distanceThreshold: 10
+  isPlayerTouch: 0
   quantity: 0
   meshTex: {fileID: 0}
   outlineColor: {r: 1, g: 0.9646237, b: 0, a: 0}

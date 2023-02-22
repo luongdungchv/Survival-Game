@@ -13,7 +13,7 @@ public class InventoryInteractionHandler : MonoBehaviour
     [SerializeField] private Transform equipmentContainer, bag;
     //private InventorySlotUI _sourceItem;
     private Inventory inventory => Inventory.ins;
-    public ItemMoveIcon movingItem => _movingItem;
+    public ItemMoveIcon movingItemHolder => _movingItem;
     public bool isItemMoving => _movingItem.gameObject.activeSelf;
 
     public InventoryInteractionHandler()
@@ -61,10 +61,10 @@ public class InventoryInteractionHandler : MonoBehaviour
     }
     public void UpdateUI()
     {
-        for (int i = 0; i < inventory.items.Length; i++)
+        for (int i = 0; i < inventory.itemSlots.Length; i++)
         {
             if (i >= slots.Count) break;
-            var itemVal = inventory.items[i];
+            var itemVal = inventory.itemSlots[i];
 
             if (i < slots.Count) slots[i].itemIndex = i;
             if (itemVal != null)
@@ -113,10 +113,21 @@ public class InventoryInteractionHandler : MonoBehaviour
     }
     public void CheckAndDropItem()
     {
-        if (movingItem.sourceSlot == null && movingItem.movingItem != null && movingItem.quantity != 0)
+        if (movingItemHolder.sourceSlot == null && movingItemHolder.movingItem != null && movingItemHolder.quantity != 0)
         {
-            Debug.Log(movingItem.quantity);
-            movingItem.movingItem.Drop(NetworkPlayer.localPlayer.transform.position + Vector3.up * 2, movingItem.quantity);
+            Debug.Log(movingItemHolder.quantity);
+            movingItemHolder.movingItem.Drop(NetworkPlayer.localPlayer.transform.position + Vector3.up * 2, movingItemHolder.quantity);
+        }
+    }
+    public void DropMovingItem()
+    {
+        Debug.Log("drop");
+
+        if (isItemMoving && movingItemHolder.action == "replace")
+        {
+            Debug.Log("drop");
+            var dropPos = NetworkPlayer.localPlayer.transform.position + Vector3.up * 5;
+            movingItemHolder.movingItem.Drop(dropPos, movingItemHolder.quantity);
         }
     }
 }

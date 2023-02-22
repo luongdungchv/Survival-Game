@@ -40,12 +40,12 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
     {
         if (iih.isItemMoving)
         {
-            if (inventory.isEquipSlot(itemIndex) && !(iih.movingItem.movingItem is IEquippable)) return;
+            if (inventory.isEquipSlot(itemIndex) && !(iih.movingItemHolder.movingItem is IEquippable)) return;
 
 
             var thisSlotItem = inventory.GetSlotItem(itemIndex);
             var thisSlotQuantity = inventory.GetSlotQuantity(itemIndex);
-            var movingItem = iih.movingItem.movingItem;
+            var movingItem = iih.movingItemHolder.movingItem;
 
 
             // if (thisSlotItem != null && movingItem != null)
@@ -54,30 +54,32 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
             // }
             if (thisSlotItem != null && thisSlotQuantity != 0 && thisSlotItem.itemName != movingItem.itemName)
             {
-                if (iih.movingItem.sourceSlot == null)
+                if (iih.movingItemHolder.sourceSlot == null)
                 {
                     inventory.Replace(movingItem, this.quantity, itemIndex);
-                    iih.movingItem.InitReplaceAction(thisSlotItem.itemName, thisSlotQuantity);
+                    iih.movingItemHolder.InitReplaceAction(thisSlotItem.itemName, thisSlotQuantity);
                 }
                 else
                 {
-                    inventory.Move(iih.movingItem.sourceIndex, iih.movingItem.sourceSlot.quantity, this.itemIndex, this.quantity);
-                    iih.movingItem.InitReplaceAction(thisSlotItem.itemName, thisSlotQuantity);
+                    var sourceIndex = iih.movingItemHolder.sourceIndex;
+                    var sourceQuantity = iih.movingItemHolder.sourceSlot.quantity;
+                    iih.movingItemHolder.InitReplaceAction(thisSlotItem.itemName, thisSlotQuantity);
+                    inventory.Move(sourceIndex, sourceQuantity, this.itemIndex, this.quantity);
                 }
                 return;
             }
-            if (iih.movingItem.sourceSlot == null)
+            if (iih.movingItemHolder.sourceSlot == null)
             {
 
-                var redundant = this.AddQuantity(iih.movingItem.quantity, iih.movingItem.icon);
+                var redundant = this.AddQuantity(iih.movingItemHolder.quantity, iih.movingItemHolder.icon);
                 inventory.Replace(movingItem, this.quantity, itemIndex);
                 iih.ChangeMoveIconQuantity(redundant);
                 iih.ChangeSourceItem(this);
             }
             else
             {
-                var redundant = AddQuantity(iih.movingItem.quantity, iih.movingItem.icon);
-                inventory.Move(iih.movingItem.sourceIndex, iih.movingItem.sourceSlot.quantity, itemIndex, quantity);
+                var redundant = AddQuantity(iih.movingItemHolder.quantity, iih.movingItemHolder.icon);
+                inventory.Move(iih.movingItemHolder.sourceIndex, iih.movingItemHolder.sourceSlot.quantity, itemIndex, quantity);
                 iih.ChangeMoveIconQuantity(redundant);
                 iih.ChangeSourceItem(this);
             }
@@ -104,7 +106,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
     {
         var image = this.GetComponent<RawImage>();
         if (mode) image.color = Color.yellow;
-        else image.color = Color.grey;
+        else image.color = new Color(0.3752225f, 0.3752225f, 0.3752225f);
 
     }
 

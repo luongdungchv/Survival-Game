@@ -29,7 +29,7 @@ public class CraftSlotUI : MonoBehaviour, IPointerClickHandler
             var remove = Inventory.ins.Remove(matName, craftData[matName]);
             if (remove)
             {
-                iih.movingItem.InitReplaceAction(itemName, quantity);
+                iih.movingItemHolder.InitReplaceAction(itemName, quantity);
             }
         }
         Refresh();

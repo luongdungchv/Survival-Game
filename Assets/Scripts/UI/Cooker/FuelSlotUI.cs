@@ -21,8 +21,8 @@ public class FuelSlotUI : MonoBehaviour, IPointerClickHandler
     {
         if (iih.isItemMoving)
         {
-            if (!(iih.movingItem.movingItem is IFuel)) return;
-            var moving = iih.movingItem;
+            if (!(iih.movingItemHolder.movingItem is IFuel)) return;
+            var moving = iih.movingItemHolder;
             var movingName = moving.movingItem.itemName;
 
             if (currentTransformer.fuelSlot.fuel == null || currentTransformer.fuelSlot.quantity == 0)
@@ -50,7 +50,7 @@ public class FuelSlotUI : MonoBehaviour, IPointerClickHandler
             if (currentTransformer.fuelSlot == null || currentTransformer.fuelSlot.quantity == 0) return;
             var fuelItem = currentTransformer.fuelSlot.fuel as Item;
             var fuelQuantity = currentTransformer.fuelSlot.quantity;
-            iih.movingItem.InitReplaceAction(fuelItem.itemName, fuelQuantity);
+            iih.movingItemHolder.InitReplaceAction(fuelItem.itemName, fuelQuantity);
             currentTransformer.RetrieveFuel(fuelQuantity);
             CheckIconVisibility();
         }

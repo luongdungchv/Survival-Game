@@ -41,7 +41,7 @@ public class CookOutputSlotUI : MonoBehaviour, IPointerClickHandler
         if (iih.isItemMoving || currentCooker.outputSlot == null || currentCooker.outputSlot.quantity == 0)
             return;
         var quantity = currentCooker.outputSlot.quantity;
-        iih.movingItem.InitReplaceAction(currentCooker.outputSlot.item.itemName, quantity);
+        iih.movingItemHolder.InitReplaceAction(currentCooker.outputSlot.item.itemName, quantity);
         currentCooker.RetrieveOutput(quantity);
         CheckIconVisibility();
     }

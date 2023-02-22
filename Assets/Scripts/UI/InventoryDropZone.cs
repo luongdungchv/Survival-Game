@@ -7,11 +7,11 @@ public class InventoryDropZone : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!iih.isItemMoving) return;
-        if (iih.movingItem.sourceSlot != null)
+        if (iih.movingItemHolder.sourceSlot != null)
         {
 
-            var dropPos = NetworkPlayer.localPlayer.transform.position + Vector3.up * 2;
-            var dropComplete = Inventory.ins.DropItem(iih.movingItem.sourceSlot.itemIndex, iih.movingItem.quantity, dropPos);
+            var dropPos = NetworkPlayer.localPlayer.transform.position + Vector3.up * 5;
+            var dropComplete = Inventory.ins.DropItem(iih.movingItemHolder.sourceSlot.itemIndex, iih.movingItemHolder.quantity, dropPos);
             if (dropComplete)
             {
                 iih.ChangeMoveIconQuantity(0);
