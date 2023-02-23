@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,8 @@ using UnityEngine;
 
 public class Packet
 {
+    public PacketType command;
+    public PacketEncodeMode encodeMode = PacketEncodeMode.String;
     public static Packet ResolvePacket(string msg)
     {
         var cmd = msg.Substring(0, msg.IndexOf(" "));
@@ -90,7 +93,6 @@ public class Packet
                 }
         }
 
-
     }
     public virtual string GetString()
     {
@@ -100,27 +102,36 @@ public class Packet
     {
         return null;
     }
-    public PacketType command;
+    
 }
 public class MovePlayerPacket : Packet
 {
     public Vector3 position;
     public string id;
-    public int anim;
-    public int tick;
+    public byte anim;
     public MovePlayerPacket()
     {
         this.command = PacketType.MovePlayer;
+        this.encodeMode = PacketEncodeMode.Bytes;
     }
     public override string GetString()
-        => $"{(int)command} {id} {position.x.ToString("0.00")} {position.y.ToString("0.00")} {position.z.ToString("0.00")} {anim} {tick}";
+        => $"{(int)command} {id} {position.x.ToString("0.00")} {position.y.ToString("0.00")} {position.z.ToString("0.00")} {anim}";
 
-    public override byte[] GetBytes() => Encoding.ASCII.GetBytes(this.GetString());
+    public override byte[] GetBytes(){
+        var buffer = new List<byte>();
+        buffer.AddRange(Encoding.ASCII.GetBytes($"{(int)command} "));
+        buffer.Add(byte.Parse(id));
+        buffer.AddRange(BitConverter.GetBytes(position.x));
+        buffer.AddRange(BitConverter.GetBytes(position.y));
+        buffer.AddRange(BitConverter.GetBytes(position.z));
+        buffer.Add(anim);
+        return buffer.ToArray();
+    }
     public void WriteData(string _id, Vector3 _position, int _anim)
     {
         this.id = _id;
         this.position = _position;
-        this.anim = _anim;
+        this.anim = (byte)_anim;
     }
     public void WriteData(string msg)
     {
@@ -129,9 +140,19 @@ public class MovePlayerPacket : Packet
         {
             this.id = split[1];
             this.position = new Vector3(float.Parse(split[2]), float.Parse(split[3]), float.Parse(split[4]));
-            this.anim = int.Parse(split[5]);
-            this.tick = int.Parse(split[6]);
+            this.anim = byte.Parse(split[5]);
+            //this.tick = int.Parse(split[6]);
         }
+    }
+    public void WriteData(byte[] buffer){
+        this.id = buffer[0].ToString();       
+         
+        var positionX = BitConverter.ToSingle(buffer, 1);
+        var positionY = BitConverter.ToSingle(buffer, 5);
+        var positionZ = BitConverter.ToSingle(buffer, 9);
+        this.position = new Vector3(positionX, positionY, positionZ);
+        
+        this.anim = buffer[13];
     }
 }
 public class SpawnPlayerPacket : Packet
@@ -492,4 +513,7 @@ public enum PacketType
     ItemDrop, RoomInteraction,
     SpawnEnemy, UpdateEnemy,PowerupInteraction,
     ChestInteraction, ItemDropObjInteraction, OreInteraction, DestroyObject, PlayerDisconnect, PlayerInteraction, InventoryInteraction
+}
+public enum PacketEncodeMode{
+    String, Bytes
 }

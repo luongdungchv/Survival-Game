@@ -49,9 +49,9 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        var currentTick = inputReader.currentTick;
-        var statePayload = new StatePayload(rb.position, currentTick);
-        netPlayer.AddStatePayload(statePayload);
+        // var currentTick = inputReader.currentTick;
+        // var statePayload = new StatePayload(rb.position, currentTick);
+        // netPlayer.AddStatePayload(statePayload);
     }
     public void SyncCamera()
     {

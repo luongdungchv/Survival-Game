@@ -23,9 +23,6 @@ public class ClientHandle : MonoBehaviour
     {
         ThreadManager.ExecuteOnMainThread(() =>
         {
-            //Debug.Log(msg);
-            if(msg == "ack") return;
-            if (msg.Substring(0, 2) == "11") Debug.Log(msg);
             var packet = Packet.ResolvePacket(msg);
             handlers[packet.command](packet);
         });

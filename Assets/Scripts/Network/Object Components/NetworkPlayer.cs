@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,46 +17,41 @@ public class NetworkPlayer : NetworkObject
     private Coroutine lerpPosRoutine, rotationCoroutine;
     private Vector3 lastPosition;
     public Queue<MovePlayerPacket> pendingStatePackets;
-    public StatePayload[] stateBuffer = new StatePayload[1024];
 
     private Rigidbody rb;
     private InputReceiver inputReceiver;
     private NetworkMovement netMovement;
     private StateMachine fsm;
-
-    private Vector3 lastServerPos;
-    private Vector3 lastClientPos;
+    private Vector3 desiredPosition;
+    private PlayerStats stats;
 
     private Vector2 movementInputVector => inputReceiver.movementInputVector;
     private bool sprint => inputReceiver.sprint;
     private bool jump => inputReceiver.jumpPress;
     private Vector2 camDir => inputReceiver.camDir;
+    private float moveSpeed => stats.speed;
     private void Awake()
     {
         if (isLocalPlayer) localPlayer = this;
-        stateBuffer = new StatePayload[1024];
 
         fsm = GetComponent<StateMachine>();
         inputReceiver = GetComponent<InputReceiver>();
         rb = GetComponent<Rigidbody>();
         netMovement = GetComponent<NetworkMovement>();
+        stats = GetComponent<PlayerStats>();
+        
         lastPosition = transform.position;
         timeTest = Time.realtimeSinceStartup;
         pendingStatePackets = new Queue<MovePlayerPacket>();
 
-        lastServerPos = transform.position;
-        lastClientPos = transform.position;
     }
     private void FixedUpdate()
     {
         BroadcastState();
-        if (!Client.ins.isHost && pendingStatePackets.Count > 0)
-        {
-            var packet = pendingStatePackets.Dequeue();
-            //Debug.Log(packet.position);
-            // ReceivePlayerState(packet);
-            //HandlePlayerState(packet);
-        }
+        // if(!isLocalPlayer){
+        //     var position = Vector3.Lerp(rb.position, desiredPosition, Time.deltaTime * moveSpeed);
+        //     rb.MovePosition(position);
+        // }
     }
     private void Update()
     {
@@ -89,6 +85,7 @@ public class NetworkPlayer : NetworkObject
             //rb.MovePosition(_position);
             if (lerpPosRoutine != null) StopCoroutine(lerpPosRoutine);
             lerpPosRoutine = StartCoroutine(LerpPosition(_position, 0.0833f));
+            this.desiredPosition = _position;
         }
         else
         {
@@ -107,44 +104,15 @@ public class NetworkPlayer : NetworkObject
             {
                 inputReceiver.attack = false;
             }
+            Debug.Log(packet.anim);
             fsm.ChangeState(AnimationMapper.GetAnimationName(packet.anim));
         }
     }
-    private int lastServerTick;
     public void HandlePlayerState(MovePlayerPacket packet)
     {
         if (!isLocalPlayer)
         {
             ReceivePlayerState(packet);
-        }
-        else
-        {
-
-            // if (packet.tick >= InputReader.ins.currentTick) return;
-            // var serverPosition = packet.position;
-            // var clientPosition = stateBuffer[packet.tick].position;
-            // var diff = Vector3.Distance(serverPosition, clientPosition);
-
-            // var serverDir = serverPosition - lastServerPos;
-            // var clientDir = clientPosition - lastClientPos;
-            // var diffAngle = Vector3.Angle(serverDir, clientDir);
-            // //Debug.Log($"reconciliation: {diff} {serverPosition} {clientPosition} {InputReader.ins.currentTick} {packet.tick}");
-            // if (diff >= 0.5f)
-            // {
-            //     if (packet.tick - lastServerTick > 1)
-            //     {
-            //         Debug.Log($"{packet.tick} {lastServerTick}");
-            //     }
-
-            // }
-
-            // if ((diff >= 1.2f && diffAngle > 4 && clientPosition != Vector3.zero) || (diff >= 4.2f && clientPosition != Vector3.zero))
-            // {
-            //     Debug.Log($"reconciliation: {diff} {serverPosition} {clientPosition} {InputReader.ins.currentTick} {packet.tick}");
-            //     HandleReconciliation(packet.tick, packet);
-
-            // }
-            // lastServerTick = packet.tick;
         }
     }
     private IEnumerator LerpPosition(Vector3 to, float duration)
@@ -174,39 +142,8 @@ public class NetworkPlayer : NetworkObject
         var pos = rb.position;
         var movePacket = new MovePlayerPacket();
         movePacket.WriteData(id, pos, AnimationMapper.GetAnimationIndex(fsm.currentState));
-        movePacket.tick = inputReceiver.tick;
+        Debug.Log(movePacket.GetString());
         Client.ins.SendUDPPacket(movePacket);
-    }
-    private void HandleReconciliation(int bufferIndex, MovePlayerPacket correctPacket)
-    {
-        var correctedState = new StatePayload(correctPacket.position, correctPacket.tick);
-        InputReader.ins.currentTick = correctedState.tick;
-        rb.position = correctedState.position;
-
-    }
-    public void AddPacket(MovePlayerPacket packet)
-    {
-        pendingStatePackets.Enqueue(packet);
-    }
-    public void AddStatePayload(StatePayload payload)
-    {
-        if (payload.tick < 0) return;
-        stateBuffer[payload.tick] = payload;
-        //Debug.Log(payload.position + payload.tick.ToString());
-    }
-}
-public struct StatePayload
-{
-    public Vector3 position;
-    public int tick;
-    public StatePayload(Vector3 position, int tick)
-    {
-        this.position = position;
-        this.tick = tick;
-
-    }
-    public StatePayload(MovePlayerPacket packet) : this(packet.position, packet.tick)
-    {
-    }
+    } 
 
 }

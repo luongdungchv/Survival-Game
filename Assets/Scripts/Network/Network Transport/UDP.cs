@@ -20,17 +20,18 @@ public class UDP
     public void Connect(string hostName, int port)
     {
         socket = new UdpClient(0);
-        //socket.AllowNatTraversal(true);
         Debug.Log(GetSocketEP());
         socket.Connect(hostName, port);
         this.hostName = hostName;
         this.port = port;
         socket.BeginReceive(UDPReceiveCallback, null);
-        //UDPReceiveAsync();
     }
     public bool Send(string msg)
     {
-        var data = Encoding.ASCII.GetBytes(msg);
+        return this.Send(Encoding.ASCII.GetBytes(msg));
+    }
+    public bool Send(byte[] data)
+    {
         try
         {
             socket.BeginSend(data, data.Length, null, null);

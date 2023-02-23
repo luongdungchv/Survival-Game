@@ -78,7 +78,7 @@ public class NetworkManager : MonoBehaviour
             playerList.Add(player.id, player);
             if (client.isHost)
             {
-                player.GetComponent<Rigidbody>().useGravity = true;
+                //splayer.GetComponent<Rigidbody>().useGravity = true;
                 client.SendTCPPacket(spawnPacket);
             }
         }
