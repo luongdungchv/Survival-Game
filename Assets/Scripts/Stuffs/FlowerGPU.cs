@@ -103,7 +103,7 @@ public class FlowerGPU : MonoBehaviour
             var corner = new Vector2(camPos.x + arr1[i], camPos.z + arr2[i]);
             var flooredChunkWidth = Mathf.FloorToInt(chunkWidth);
             var chunkPos = new Vector2((Mathf.FloorToInt(corner.x) / chunkWidth) * chunkWidth, (Mathf.FloorToInt(corner.y) / chunkWidth) * chunkWidth);
-            if (!chunkToRender.Contains(chunks[chunkPos]))
+            if (chunks.ContainsKey(chunkPos) && !chunkToRender.Contains(chunks[chunkPos]))
                 chunkToRender.Add(chunks[chunkPos]);
         }
 
@@ -113,6 +113,7 @@ public class FlowerGPU : MonoBehaviour
             chosenData.AddRange(chunkToRender[i].props);
         }
         instanceBuffer?.Release();
+        if(chosenData.Count == 0) return;
         instanceBuffer = new ComputeBuffer(chosenData.Count, InstanceData.size);
         instanceBuffer.SetData(chosenData);
         int kernelIndex = compute.FindKernel("CSMain");
@@ -122,7 +123,6 @@ public class FlowerGPU : MonoBehaviour
         compute.SetVector("camPos", Camera.main.transform.position);
         compute.SetFloat("culledDist", culledDist);
         
-        if(chosenData.Count == 0) return;
         compute.Dispatch(0, Mathf.CeilToInt(chosenData.Count / 64), 1, 1);
 
         ComputeBuffer.CopyCount(renderBuffer, argsBuffer, 4);

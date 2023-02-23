@@ -149,7 +149,7 @@ public class GrassSpawnerGPU : MonoBehaviour
             var corner = new Vector2(camPos.x + arr1[i], camPos.z + arr2[i]);
             var flooredChunkWidth = Mathf.FloorToInt(chunkWidth);
             var chunkPos = new Vector2((Mathf.FloorToInt(corner.x) / flooredChunkWidth) * flooredChunkWidth, (Mathf.FloorToInt(corner.y) / flooredChunkWidth) * flooredChunkWidth);
-            if (!chunkToRender.Contains(chunks[chunkPos]))
+            if (chunks.ContainsKey(chunkPos) && !chunkToRender.Contains(chunks[chunkPos]))
                 chunkToRender.Add(chunks[chunkPos]);
         }
 
@@ -159,6 +159,7 @@ public class GrassSpawnerGPU : MonoBehaviour
             Array.Copy(chunkToRender[i].props, 0, chosenData, i * grassCountPerChunk, grassCountPerChunk);
         }
         shaderPropsBuffer?.Release();
+        if(chosenData.Length == 0) return;
         shaderPropsBuffer = new ComputeBuffer(chosenData.Length, ShaderProps.Size());
         shaderPropsBuffer.SetData(chosenData);
 
@@ -171,7 +172,7 @@ public class GrassSpawnerGPU : MonoBehaviour
         compute.SetVector("camPos", Camera.main.transform.position);
         compute.SetFloat("culledDist", culledDistance);
         
-        if(chosenData.Length == 0) return;
+        
 
         compute.Dispatch(0, Mathf.CeilToInt(chosenData.Length / 64), 1, 1);
 
