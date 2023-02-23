@@ -46,7 +46,7 @@ public class PlayerDmgDealer : MonoBehaviour
         var isKnockback = Random.Range(1, 101) <= knockbackRate;
         receiver.OnDamage(new PlayerHitData(baseDmg, tool, dealer, isCrit, isKnockback));
     }
-    public void SetProps(float dmg, string tool, PlayerStats dealer, IDamagable receiver)
+    public void SetProps(float dmg, string tool, PlayerStats dealer, IDamagable receiver, bool isCrit = false, bool isKnockback = false)
     {
         this.baseDmg = dmg;
         this.dealer = dealer;

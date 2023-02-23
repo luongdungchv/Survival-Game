@@ -277,14 +277,16 @@ public class NetworkManager : MonoBehaviour
         var playerId = packet.playerId;
         var tool = packet.actionParams[0];
         var incomingDmg = float.Parse(packet.actionParams[1]);
-
-
+        
+        var isCrit = int.Parse(packet.actionParams[2]) != 0;
+        var isKnockback = int.Parse(packet.actionParams[3]) != 0;
+        
         var obj = sceneObjects[packet.objId];
         Debug.Log("Tree packet: " + packet.ToString());
         if (action == "take_dmg")
         {
             var objComponent = obj.GetComponent<IDamagable>();
-            var hitData = new PlayerHitData(incomingDmg, tool, playerList[playerId].GetComponent<PlayerStats>(), false);
+            var hitData = new PlayerHitData(incomingDmg, tool, playerList[playerId].GetComponent<PlayerStats>(), isCrit, isKnockback);
             objComponent.OnDamage(hitData);
 
         }
