@@ -48,10 +48,7 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
             var movingItem = iih.movingItemHolder.movingItem;
 
 
-            // if (thisSlotItem != null && movingItem != null)
-            // {
-            //     return;
-            // }
+            
             if (thisSlotItem != null && thisSlotQuantity != 0 && thisSlotItem.itemName != movingItem.itemName)
             {
                 if (iih.movingItemHolder.sourceSlot == null)

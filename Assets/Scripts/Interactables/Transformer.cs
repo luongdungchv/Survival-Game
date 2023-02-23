@@ -77,7 +77,7 @@ public class Transformer : TransformerBase
 
     public override bool SetInput(ITransformable inputItem, int quantity)
     {
-        if(cookedUnit > 0) return false;
+        if(cookedUnit > 0 && inputItem != inputSlot.inputItem) return false;
         var redundant = quantity - maxInputCap;
 
         inputSlot = new InputSlot()

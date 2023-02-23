@@ -28,12 +28,15 @@ public class CookInputSlotUI : MonoBehaviour, IPointerClickHandler
             if (currentTransformer.inputSlot.inputItem == null || currentTransformer.inputSlot.quantity == 0)
             {
                 if (!(moving.movingItem is ITransformable)) return;
-                currentTransformer.SetInput(moving.movingItem as ITransformable, moving.quantity);
-                Debug.Log($"moving quantity: {moving.quantity}");
-                Inventory.ins.Remove(movingName, moving.quantity);
-                moving.quantity = 0;
-                CheckIconVisibility();
-                icon.texture = moving.icon;
+                if (currentTransformer.SetInput(moving.movingItem as ITransformable, moving.quantity))
+                {
+                    Debug.Log($"moving quantity: {moving.quantity}");
+                    Inventory.ins.Remove(movingName, moving.quantity);
+                    moving.quantity = 0;
+                    CheckIconVisibility();
+                    icon.texture = moving.icon;
+                }
+
                 return;
             }
 

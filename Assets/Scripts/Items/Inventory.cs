@@ -39,6 +39,9 @@ public class Inventory : MonoBehaviour
         //     this.Add(i.item, i.quantity);
         // }
         Add("knife", 1);
+        Add("mithril_sword", 1);
+        Add("mithril_axe", 1);
+        Add("mithril_pickaxe", 1);
         Add("sus_shroom", 20);
         Add("craft_table", 1);
         Add("furnace", 1);
@@ -49,9 +52,6 @@ public class Inventory : MonoBehaviour
         Add("coal_ore", 30);
         Add("iron_ore", 30);
         Add("mithril_ore", 30);
-        Add("mithril_sword", 1);
-        Add("mithril_axe", 1);
-        Add("mithril_pickaxe", 1);
     }
     private void Start()
     {
@@ -63,11 +63,20 @@ public class Inventory : MonoBehaviour
     {
         var mouseScroll = InputReader.ins.MouseScroll();
         var state = fsm.currentState.name;
-        if (mouseScroll != 0 && (state == "Idle" || state == "Move" || state == "Dash" || state == "Sprint"))
+        
+        var animator = fsm.GetComponent<Animator>();
+        var isSlashing = animator.GetBool("slash");
+        var isChopping = animator.GetBool("chop");
+        var isMining = animator.GetBool("mine");
+        var isCutting = animator.GetBool("cut");
+        
+        var canChangeEquipment = !isSlashing && !isChopping && !isMining && !isCutting;
+        
+        if (mouseScroll != 0 && canChangeEquipment)
         {
             currentEquipIndex += mouseScroll;
         }
-        if (InputReader.ins.inputNum != -1 && (state == "Idle" || state == "Move" || state == "Dash" || state == "Sprint"))
+        if (InputReader.ins.inputNum != -1 && canChangeEquipment)
         {
             currentEquipIndex = InputReader.ins.inputNum - 1;
         }
