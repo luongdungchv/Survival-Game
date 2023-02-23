@@ -156,7 +156,6 @@ public class NetworkManager : MonoBehaviour
             {
                 var playerName = args[i].Substring(0, args[i].Length - 1);
                 var playerReadyState = int.Parse(args[i].Substring(args[i].Length - 1)) != 0 && i != 2;
-                Debug.Log(args[i] + playerReadyState + args[i].Substring(args[i].Length - 1));
                 room.AddPlayer(args[i], playerReadyState);
             }
             room.localPlayerId = room.playerCount - 1;
