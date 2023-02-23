@@ -123,9 +123,9 @@ public class InputReader : MonoBehaviour
         var inputPacket = inputBuffer.Dequeue();
         this.movementInputVector = inputPacket.inputVector;
         this.currentTick = inputPacket.tick;
-        if(!Client.ins.isHost){
-            Client.ins.SendUDPPacket(inputPacket);
-        }
+        // if(!Client.ins.isHost){
+        //     Client.ins.SendUDPPacket(inputPacket);
+        // }
     }
     private bool GetKey(KeyCode key)
     {

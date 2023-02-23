@@ -26,6 +26,7 @@ public class Client : MonoBehaviour
     public string hostName => server;
     private void Awake()
     {
+        Screen.SetResolution(960, 540, FullScreenMode.Windowed);
         if (ins == null) ins = this;
         else
         {

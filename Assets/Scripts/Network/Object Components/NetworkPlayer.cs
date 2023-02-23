@@ -120,31 +120,31 @@ public class NetworkPlayer : NetworkObject
         else
         {
 
-            if (packet.tick >= InputReader.ins.currentTick) return;
-            var serverPosition = packet.position;
-            var clientPosition = stateBuffer[packet.tick].position;
-            var diff = Vector3.Distance(serverPosition, clientPosition);
+            // if (packet.tick >= InputReader.ins.currentTick) return;
+            // var serverPosition = packet.position;
+            // var clientPosition = stateBuffer[packet.tick].position;
+            // var diff = Vector3.Distance(serverPosition, clientPosition);
 
-            var serverDir = serverPosition - lastServerPos;
-            var clientDir = clientPosition - lastClientPos;
-            var diffAngle = Vector3.Angle(serverDir, clientDir);
-            //Debug.Log($"reconciliation: {diff} {serverPosition} {clientPosition} {InputReader.ins.currentTick} {packet.tick}");
-            if (diff >= 0.5f)
-            {             
-                if (packet.tick - lastServerTick > 1)
-                {          
-                    Debug.Log($"{packet.tick} {lastServerTick}");
-                }
-                
-            }
+            // var serverDir = serverPosition - lastServerPos;
+            // var clientDir = clientPosition - lastClientPos;
+            // var diffAngle = Vector3.Angle(serverDir, clientDir);
+            // //Debug.Log($"reconciliation: {diff} {serverPosition} {clientPosition} {InputReader.ins.currentTick} {packet.tick}");
+            // if (diff >= 0.5f)
+            // {
+            //     if (packet.tick - lastServerTick > 1)
+            //     {
+            //         Debug.Log($"{packet.tick} {lastServerTick}");
+            //     }
 
-            if ((diff >= 1.2f && diffAngle > 4 && clientPosition != Vector3.zero) || (diff >= 4.2f && clientPosition != Vector3.zero))
-            {
-                Debug.Log($"reconciliation: {diff} {serverPosition} {clientPosition} {InputReader.ins.currentTick} {packet.tick}");
-                HandleReconciliation(packet.tick, packet);
+            // }
 
-            }
-            lastServerTick = packet.tick;
+            // if ((diff >= 1.2f && diffAngle > 4 && clientPosition != Vector3.zero) || (diff >= 4.2f && clientPosition != Vector3.zero))
+            // {
+            //     Debug.Log($"reconciliation: {diff} {serverPosition} {clientPosition} {InputReader.ins.currentTick} {packet.tick}");
+            //     HandleReconciliation(packet.tick, packet);
+
+            // }
+            // lastServerTick = packet.tick;
         }
     }
     private IEnumerator LerpPosition(Vector3 to, float duration)
@@ -171,15 +171,11 @@ public class NetworkPlayer : NetworkObject
 
     private void BroadcastState()
     {
-        if (Client.ins.isHost)
-        {
-            var pos = rb.position;
-            var movePacket = new MovePlayerPacket();
-            movePacket.WriteData(id, pos, AnimationMapper.GetAnimationIndex(fsm.currentState));
-            movePacket.tick = inputReceiver.tick;
-            Client.ins.SendUDPPacket(movePacket);
-            //Client.ins.SendUDPMessage(movePacket.GetString());
-        }
+        var pos = rb.position;
+        var movePacket = new MovePlayerPacket();
+        movePacket.WriteData(id, pos, AnimationMapper.GetAnimationIndex(fsm.currentState));
+        movePacket.tick = inputReceiver.tick;
+        Client.ins.SendUDPPacket(movePacket);
     }
     private void HandleReconciliation(int bufferIndex, MovePlayerPacket correctPacket)
     {
