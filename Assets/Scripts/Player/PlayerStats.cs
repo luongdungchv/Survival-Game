@@ -113,7 +113,7 @@ public class PlayerStats : MonoBehaviour
         }
         isRegeneratingStamina = false;
     }
-    private void Perish()
+    public void Perish()
     {
         Debug.Log("die");
         TriggerRagdoll();
@@ -121,6 +121,11 @@ public class PlayerStats : MonoBehaviour
         var allPlayers = NetworkManager.ins.GetAllPlayers();
         if (netPlayer.isLocalPlayer)
         {
+            var diePacket = new RawActionPacket(PacketType.PlayerInteraction){
+                playerId = netPlayer.id,
+                action = "die",  
+            };
+            Client.ins.SendTCPPacket(diePacket);
             foreach (var i in allPlayers)
             {
                 var isDead = i.Value.GetComponent<PlayerStats>().isDead;
@@ -130,7 +135,7 @@ public class PlayerStats : MonoBehaviour
                     return;
                 }
             }
-            UIManager.ins.ShowGameOverPanel();
+            UIManager.ins.ShowGameOverPanel();         
         }
         else if (NetworkPlayer.localPlayer.GetComponent<PlayerStats>().isDead)
         {
@@ -142,9 +147,9 @@ public class PlayerStats : MonoBehaviour
                     return;
                 }
             }
-
             UIManager.ins.ShowGameOverPanel();
         }
+        
     }
     public void TakeDamage(float dmg)
     {
@@ -158,7 +163,6 @@ public class PlayerStats : MonoBehaviour
         if (_hp <= 0)
         {
             _hp = 0;
-
             this.Perish();
         }
     }
@@ -244,6 +248,7 @@ public class PlayerStats : MonoBehaviour
             {
                 rb.isKinematic = false;
                 rb.useGravity = true;
+                rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
             }
 
         }

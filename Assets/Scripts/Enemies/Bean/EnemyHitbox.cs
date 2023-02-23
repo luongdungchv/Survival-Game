@@ -21,7 +21,6 @@ public class EnemyHitbox : HitBox
             var playerStats = hit.collider.GetComponent<PlayerStats>();
             if (Client.ins.isHost)
             {
-
                 playerStats.TakeDamage(damage);
             }
 

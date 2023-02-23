@@ -48,15 +48,6 @@ public class NetworkPlayer : NetworkObject
     private void FixedUpdate()
     {
         BroadcastState();
-        // if(!isLocalPlayer){
-        //     var position = Vector3.Lerp(rb.position, desiredPosition, Time.deltaTime * moveSpeed);
-        //     rb.MovePosition(position);
-        // }
-    }
-    private void Update()
-    {
-
-
     }
     public void ReceivePlayerState(MovePlayerPacket packet)
     {
@@ -142,7 +133,6 @@ public class NetworkPlayer : NetworkObject
         var pos = rb.position;
         var movePacket = new MovePlayerPacket();
         movePacket.WriteData(id, pos, AnimationMapper.GetAnimationIndex(fsm.currentState));
-        Debug.Log(movePacket.GetString());
         Client.ins.SendUDPPacket(movePacket);
     } 
 

@@ -450,10 +450,17 @@ public class NetworkManager : MonoBehaviour
 
         if (action == "take_damage")
         {
-            var dmg = int.Parse(args[0]);
-            player.TakeDamage(dmg);
+            if (playerId == NetworkPlayer.localPlayer.id)
+            {
+                var dmg = int.Parse(args[0]);
+                player.TakeDamage(dmg);
+            }
             if (client.isHost) client.SendTCPPacket(playerPacket);
         }
+        else if(action == "die"){
+            player.Perish();
+        }
+
     }
     public void HandleEnemyState(Packet packet)
     {
