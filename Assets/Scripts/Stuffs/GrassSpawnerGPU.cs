@@ -170,6 +170,8 @@ public class GrassSpawnerGPU : MonoBehaviour
         compute.SetMatrix("vp", VP);
         compute.SetVector("camPos", Camera.main.transform.position);
         compute.SetFloat("culledDist", culledDistance);
+        
+        if(chosenData.Length == 0) return;
 
         compute.Dispatch(0, Mathf.CeilToInt(chosenData.Length / 64), 1, 1);
 
