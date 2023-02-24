@@ -49,6 +49,9 @@ public class Inventory : MonoBehaviour
         Add("oak_wood", 30);
         Add("birch_wood", 25);
         Add("cherry_wood", 30);
+        Add("pine_wood", 30);
+        Add("mithril_bar", 64);
+        Add("mithril_bar", 64);
         Add("coal_ore", 30);
         Add("iron_ore", 30);
         Add("mithril_ore", 30);

@@ -52,6 +52,8 @@ public class NetworkManager : MonoBehaviour
         handler.AddHandler(PacketType.RoomInteraction, HandleRoomInteraction);
         handler.AddHandler(PacketType.UpdateEnemy, HandleEnemyState);
         handler.AddHandler(PacketType.PlayerInteraction, HandlePlayerInteraction);
+        handler.AddHandler(PacketType.ShipInteraction, HandleShipInteraction);
+
     }
     private void HandleMovePlayer(Packet _packet)
     {
@@ -276,10 +278,10 @@ public class NetworkManager : MonoBehaviour
         var playerId = packet.playerId;
         var tool = packet.actionParams[0];
         var incomingDmg = float.Parse(packet.actionParams[1]);
-        
+
         var isCrit = int.Parse(packet.actionParams[2]) != 0;
         var isKnockback = int.Parse(packet.actionParams[3]) != 0;
-        
+
         var obj = sceneObjects[packet.objId];
         Debug.Log("Tree packet: " + packet.ToString());
         if (action == "take_dmg")
@@ -458,10 +460,57 @@ public class NetworkManager : MonoBehaviour
             }
             if (client.isHost) client.SendTCPPacket(playerPacket);
         }
-        else if(action == "die"){
+        else if (action == "die")
+        {
             player.Perish();
         }
 
+    }
+    public void HandleShipInteraction(Packet packet)
+    {
+        var shipPacket = packet as RawActionPacket;
+        var playerId = shipPacket.playerId;
+
+        var action = shipPacket.action;
+        var args = shipPacket.actionParams;
+
+
+        if (action == "set_item")
+        {
+            var itemName = args[0];
+            var itemQuantity = int.Parse(args[1]);
+            //if (playerId != NetworkPlayer.localPlayer.id)
+            ShipRepair.ins.SetItem(Item.GetItem(itemName), itemQuantity);
+            if (Client.ins.isHost)
+            {
+                client.SendTCPPacket(shipPacket);
+            }
+        }
+        else if (action == "open")
+        {
+            if (Client.ins.isHost)
+            {
+                if (!ShipRepair.ins.isOpen)
+                {
+                    ShipRepair.ins.isOpen = true;
+                    client.SendTCPPacket(packet);
+                }
+            }
+            else
+            {
+                if (playerId == NetworkPlayer.localPlayer.id)
+                {
+                    UIManager.ins.ToggleShipRepairUI(true);
+                }
+            }
+        }
+        else if (action == "close")
+        {
+            if (Client.ins.isHost)
+            {
+                ShipRepair.ins.isOpen = false;
+            }
+        }
     }
     public void HandleEnemyState(Packet packet)
     {

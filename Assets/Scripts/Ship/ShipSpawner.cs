@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ShipSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject shipPrefab;
+    [SerializeField] private GameObject ship;
     private CustomRandom randomObject;
     
     private List<Tuple<Vector2Int, Vector2Int>> boundMap;
@@ -30,7 +30,8 @@ public class ShipSpawner : MonoBehaviour
     private void SpawnRandomly(){
         var randomPos = this.GetRandomPos();
         var randomRotation = Quaternion.Euler(0, randomObject.Next(0, 360), 0);
-        var ship = Instantiate(shipPrefab, randomPos, randomRotation);
+        ship.transform.position = randomPos;
+        ship.transform.rotation = randomRotation;
         Debug.Log(randomPos);
     }
     private Vector3 GetRandomPos(){

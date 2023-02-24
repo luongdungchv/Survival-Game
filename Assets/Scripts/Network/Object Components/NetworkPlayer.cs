@@ -95,7 +95,6 @@ public class NetworkPlayer : NetworkObject
             {
                 inputReceiver.attack = false;
             }
-            Debug.Log(packet.anim);
             fsm.ChangeState(AnimationMapper.GetAnimationName(packet.anim));
         }
     }

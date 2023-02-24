@@ -1,18 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ShipFuel : MonoBehaviour
+public class ShipFuel : InteractableObject
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Transform playerBoardPos;
+    protected override void OnInteractBtnClick(Button clicker)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        NetworkPlayer.localPlayer.transform.position = playerBoardPos.position;
+        base.OnInteractBtnClick(clicker);
     }
 }

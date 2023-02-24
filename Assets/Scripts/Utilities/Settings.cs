@@ -169,24 +169,24 @@ public class Settings : MonoBehaviour
                 break;
         }
         
-        // Debug.Log(Screen.resolutions[Screen.resolutions.Length - 1]);
-        // switch (this.currentData.resolution)
-        // {
-        //     case 1:
-        //         Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
-        //         break;
-        //     case 2:
-        //         Screen.SetResolution(1280, 720, FullScreenMode.FullScreenWindow);
-        //         QualitySettings.lodBias = 1.5f;
-        //         break; 
-        //     case 3:
-        //         Screen.SetResolution(960, 540, FullScreenMode.FullScreenWindow);
-        //         break;
-        //     case 0:
-        //         var nativeResolution = Screen.resolutions[Screen.resolutions.Length - 1];
-        //         Screen.SetResolution(nativeResolution.width, nativeResolution.height, FullScreenMode.FullScreenWindow);
-        //         break;
-        // }
+        Debug.Log(Screen.resolutions[Screen.resolutions.Length - 1]);
+        switch (this.currentData.resolution)
+        {
+            case 1:
+                Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+                break;
+            case 2:
+                Screen.SetResolution(1280, 720, FullScreenMode.FullScreenWindow);
+                QualitySettings.lodBias = 1.5f;
+                break; 
+            case 3:
+                Screen.SetResolution(960, 540, FullScreenMode.FullScreenWindow);
+                break;
+            case 0:
+                var nativeResolution = Screen.resolutions[Screen.resolutions.Length - 1];
+                Screen.SetResolution(nativeResolution.width, nativeResolution.height, FullScreenMode.FullScreenWindow);
+                break;
+        }
         
         OnSettingChange.Invoke();
     }

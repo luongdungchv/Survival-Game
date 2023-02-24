@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     public static UIManager ins;
     [Header("In game UI")]
     [SerializeField] private GameObject mapUI;
-    [SerializeField] private GameObject inventoryUI, craftUI, anvilUI, furnaceUI;
+    [SerializeField] private GameObject inventoryUI, craftUI, anvilUI, furnaceUI, shipRepairUI;
 
     [SerializeField] private Transform collectBtnContainer;
     [SerializeField] TransformerUI transformerUI;
@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float showDelay;
     [Header("UI Handlers")]
     [SerializeField] private InventoryInteractionHandler inventoryUIHandler;
-    [SerializeField] private InventoryInteractionHandler craftUIHandler, anvilUIHandler, furnaceUIHandler;
+    [SerializeField] private InventoryInteractionHandler craftUIHandler, anvilUIHandler, furnaceUIHandler, shipRepairUIHandler;
     [Header("Others")]
     [SerializeField] private GameObject interactBtnPrefab;
     [SerializeField] private GameObject mapCam;
@@ -36,7 +36,8 @@ public class UIManager : MonoBehaviour
                 furnaceUI.activeSelf ||
                 lostConnectionPanel.activeSelf ||
                 diePanel.activeSelf ||
-                gameOverPanel.activeSelf;
+                gameOverPanel.activeSelf ||
+                shipRepairUI.activeSelf;
 
     private InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
 
@@ -55,7 +56,6 @@ public class UIManager : MonoBehaviour
     }
     public void ToggleInventoryUI()
     {
-        Debug.Log("inventory");
         if (isUIOpen && !inventoryUI.activeSelf) return;
         inventoryUI.SetActive(!inventoryUI.activeSelf);
         GameFunctions.ins.ToggleCursor(isUIOpen);
@@ -90,7 +90,7 @@ public class UIManager : MonoBehaviour
         else if(currentOpenUI == anvilUI && !anvilUI.activeSelf) currentOpenUI = null;
         
         anvilUIHandler.UpdateUI();
-        craftUIHandler.DropMovingItem();
+        anvilUIHandler.DropMovingItem();
         anvilUIHandler.ChangeMoveIconQuantity(0);
     }
     public void ToggleFurnaceUI()
@@ -149,12 +149,45 @@ public class UIManager : MonoBehaviour
         furnaceUIHandler.ChangeMoveIconQuantity(0);
         RefreshFurnaceUI();
     }
+    public void ToggleShipRepairUI(){
+        if (isUIOpen && !shipRepairUI.activeSelf) return;
+        
+        shipRepairUI.SetActive(!shipRepairUI.activeSelf);
+        GameFunctions.ins.ToggleCursor(isUIOpen);
+        
+        if(!shipRepairUI.activeSelf && !Client.ins.isHost){
+            var closePacket = new RawActionPacket(PacketType.ShipInteraction){
+                playerId = NetworkPlayer.localPlayer.id,
+                objId = "0",
+                action = "close"  
+            };
+            Client.ins.SendTCPPacket(closePacket);
+        }
+        
+        if(shipRepairUI.activeSelf) currentOpenUI = shipRepairUI;
+        else if(currentOpenUI == shipRepairUI && !shipRepairUI.activeSelf) currentOpenUI = null;
+        
+        shipRepairUIHandler.UpdateUI();
+        shipRepairUIHandler.DropMovingItem();
+        shipRepairUIHandler.ChangeMoveIconQuantity(0);
+    }
+    public void ToggleShipRepairUI(bool state){
+        if (isUIOpen && !shipRepairUI.activeSelf) return;
+        shipRepairUI.SetActive(state);
+        GameFunctions.ins.ToggleCursor(isUIOpen);
+        if(shipRepairUI.activeSelf) currentOpenUI = shipRepairUI;
+        else if(currentOpenUI == shipRepairUI && !shipRepairUI.activeSelf) currentOpenUI = null;
+        shipRepairUIHandler.UpdateUI();
+        shipRepairUIHandler.DropMovingItem();
+        shipRepairUIHandler.ChangeMoveIconQuantity(0);
+    }
     public void ToggleOffCurrentUI(){
         if(currentOpenUI == mapUI) ToggleMapUI();
         if(currentOpenUI == inventoryUI) ToggleInventoryUI();
         if(currentOpenUI == craftUI) ToggleCraftUI();
         if(currentOpenUI == furnaceUI) ToggleFurnaceUI();
         if(currentOpenUI == anvilUI) ToggleAnvilUI();
+        if(currentOpenUI == shipRepairUI) ToggleShipRepairUI();
     }
     public void RefreshFurnaceUI()
     {
