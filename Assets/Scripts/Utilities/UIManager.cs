@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TransformerUI transformerUI;
     [Header("Notification UI")]
     [SerializeField] private GameObject lostConnectionPanel;
-    [SerializeField] private GameObject diePanel, gameOverPanel;
+    [SerializeField] private GameObject diePanel, gameOverPanel, victoryPanel;
     [SerializeField] private float showDelay;
     [Header("UI Handlers")]
     [SerializeField] private InventoryInteractionHandler inventoryUIHandler;
@@ -239,11 +239,20 @@ public class UIManager : MonoBehaviour
         }
         StartCoroutine(ShowDelay());
     }
+    public void ShowVictoryPanel(){
+        GameFunctions.ins.ShowCursor();
+        IEnumerator ShowDelay()
+        {
+            yield return new WaitForSeconds(showDelay);
+            victoryPanel.SetActive(true);
+            diePanel.SetActive(false);
+        }
+        StartCoroutine(ShowDelay());
+    }
     public void LeaveGame()
     {
         Client.ins.LeaveGame();
         SceneManager.LoadScene(0);
-
     }
 
 }

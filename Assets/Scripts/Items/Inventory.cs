@@ -49,7 +49,8 @@ public class Inventory : MonoBehaviour
         Add("oak_wood", 30);
         Add("birch_wood", 25);
         Add("cherry_wood", 30);
-        Add("pine_wood", 30);
+        Add("pine_wood", 64);
+        Add("pine_wood", 64);
         Add("mithril_bar", 64);
         Add("mithril_bar", 64);
         Add("coal_ore", 30);
@@ -66,15 +67,15 @@ public class Inventory : MonoBehaviour
     {
         var mouseScroll = InputReader.ins.MouseScroll();
         var state = fsm.currentState.name;
-        
+
         var animator = fsm.GetComponent<Animator>();
         var isSlashing = animator.GetBool("slash");
         var isChopping = animator.GetBool("chop");
         var isMining = animator.GetBool("mine");
         var isCutting = animator.GetBool("cut");
-        
+
         var canChangeEquipment = !isSlashing && !isChopping && !isMining && !isCutting;
-        
+
         if (mouseScroll != 0 && canChangeEquipment)
         {
             currentEquipIndex += mouseScroll;
@@ -232,7 +233,8 @@ public class Inventory : MonoBehaviour
         if (itemSlot == null) return null;
         return itemSlot.itemData;
     }
-    public int GetSlotQuantity(int itemIndex){
+    public int GetSlotQuantity(int itemIndex)
+    {
         var itemSlot = itemSlots[itemIndex];
         if (itemSlot == null) return -1;
         return itemSlot.quantity;
@@ -291,7 +293,7 @@ public class Inventory : MonoBehaviour
             }
         }
         var movingItem = iih.movingItemHolder.movingItem;
-        if(movingItem is IEquippable && movingItem != itemSlots[_currentEquipIndex].itemData && iih.isItemMoving) 
+        if (movingItem is IEquippable && movingItem != itemSlots[_currentEquipIndex].itemData && iih.isItemMoving)
             (movingItem as IEquippable).OnUnequip();
     }
     public bool DropItem(int itemIndex, int quantity, Vector3 dropPostion)
@@ -299,7 +301,7 @@ public class Inventory : MonoBehaviour
         var dropSlot = itemSlots[itemIndex];
         if (dropSlot == null) return false;
         dropSlot.quantity -= quantity;
-        if(dropSlot.itemData is IEquippable) 
+        if (dropSlot.itemData is IEquippable)
             (dropSlot.itemData as IEquippable).OnUnequip();
         dropSlot.itemData.Drop(dropPostion, quantity);
         if (dropSlot.quantity <= 0)

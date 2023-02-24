@@ -83,7 +83,7 @@ public class ShipRepair : InteractableObject
                 return;
             }
         }
-        Debug.Log("Victory");
+        UIManager.ins.ShowVictoryPanel();
     }
     [System.Serializable]
     public class RepairDetail
