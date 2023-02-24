@@ -14,9 +14,9 @@ public class ShipSpawner : MonoBehaviour
         var seed = MapGenerator.ins.seed;
         randomObject = new CustomRandom(seed);
         
-        var bound_1 = new Vector2Int(-100, 1600);
-        var bound_2 = new Vector2Int(-100, 0);
-        var bound_3 = new Vector2Int(1500, 1600);
+        var bound_1 = new Vector2Int(-60, 1560);
+        var bound_2 = new Vector2Int(-60, 0);
+        var bound_3 = new Vector2Int(1500, 1560);
         
         
         boundMap = new List<Tuple<Vector2Int, Vector2Int>>();
