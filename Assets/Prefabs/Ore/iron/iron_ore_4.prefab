@@ -202,10 +202,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 50
+  hp: 100
   itemName: iron_ore
-  minDrop: 5
-  maxDrop: 10
+  minDrop: 1
+  maxDrop: 3
   requiredTools:
   - wooden_pickaxe
   - iron_pickaxe
@@ -255,4 +255,5 @@ MonoBehaviour:
   uiElement: {fileID: 0}
   projection: 90
   uiWorldPos: {fileID: 0}
+  distanceThreshold: 50
   canvas: {fileID: 0}

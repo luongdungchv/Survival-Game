@@ -9,6 +9,7 @@ public class PlayerDmgDealer : MonoBehaviour
     private string tool;
     private PlayerStats dealer;
     private IDamagable receiver;
+    private bool isCrit, isKnockback;
     private void Start()
     {
         ins = this;
@@ -16,35 +17,7 @@ public class PlayerDmgDealer : MonoBehaviour
 
     public void Excute()
     {
-        float chosenCritRate = 5;
-        float chosenCritDmg = 150;
-        if (tool.Contains("_sword"))
-        {
-            chosenCritRate = dealer.enemyCritRate;
-            chosenCritDmg = dealer.enemyCritDmg;
-        }
-        else if (tool.Contains("_axe"))
-        {
-            chosenCritRate = dealer.treeCritRate;
-            chosenCritDmg = dealer.treeCritDmg;
-        }
-        else if (tool.Contains("_pickaxe"))
-        {
-            chosenCritRate = dealer.oreCritRate;
-            chosenCritDmg = dealer.oreCritDmg;
-        }
-        var prob = Random.Range(0, 10000);
-        var isCrit = false;
-        if (prob <= chosenCritRate * 100)
-        {
-            baseDmg *= chosenCritDmg / 100;
-            baseDmg = Mathf.Round(baseDmg);
-            isCrit = true;
-        }
-        
-        var knockbackRate = dealer.knockbackRate;
-        var isKnockback = Random.Range(1, 101) <= knockbackRate;
-        receiver.OnDamage(new PlayerHitData(baseDmg, tool, dealer, isCrit, isKnockback));
+        receiver.OnDamage(new PlayerHitData(baseDmg, tool, dealer, this.isCrit, this.isKnockback));
     }
     public void SetProps(float dmg, string tool, PlayerStats dealer, IDamagable receiver, bool isCrit = false, bool isKnockback = false)
     {
@@ -52,5 +25,7 @@ public class PlayerDmgDealer : MonoBehaviour
         this.dealer = dealer;
         this.receiver = receiver;
         this.tool = tool;
+        this.isCrit = isCrit;
+        this.isKnockback = isKnockback;
     }
 }

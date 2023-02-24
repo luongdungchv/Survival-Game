@@ -179,14 +179,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 60
+  hp: 100
   itemName: birch_wood
-  minDrop: 5
-  maxDrop: 10
+  minDrop: 4
+  maxDrop: 8
   requiredTools:
   - iron_axe
   - golden_axe
   - mithril_axe
+  - wooden_axe
 --- !u!65 &3000244215514675106
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -228,6 +229,7 @@ MonoBehaviour:
   uiElement: {fileID: 0}
   projection: 90
   uiWorldPos: {fileID: 6048749518601571763}
+  distanceThreshold: 20
   canvas: {fileID: 0}
 --- !u!1 &5811782731103381385
 GameObject:

@@ -101,8 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 50
   itemName: coal_ore
-  minDrop: 5
-  maxDrop: 10
+  minDrop: 1
+  maxDrop: 3
   requiredTools:
   - iron_pickaxe
   - mithril_pickaxe

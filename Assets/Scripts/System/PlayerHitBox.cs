@@ -16,12 +16,12 @@ public class PlayerHitBox : HitBox
             float currentBaseDmg = PlayerAttack.ins.currentBaseDmg;
             var dmgDealer = GetComponentInParent<PlayerStats>();
             
-            var isCrit = GetCritHit(dmgDealer, currentBaseDmg);
+            var isCrit = GetCritHit(dmgDealer, ref currentBaseDmg);
             var isKnockback = GetKnockback(dmgDealer);
             
             if (Client.ins.isHost)
             {
-                PlayerDmgDealer.ins.SetProps(currentBaseDmg, currentTool, dmgDealer, target);
+                PlayerDmgDealer.ins.SetProps(currentBaseDmg, currentTool, dmgDealer, target, isCrit, isKnockback);
                 PlayerDmgDealer.ins.Excute();
             }
 
@@ -43,7 +43,7 @@ public class PlayerHitBox : HitBox
         }
         return false;
     }
-    private bool GetCritHit(PlayerStats dealer, float baseDmg){
+    private bool GetCritHit(PlayerStats dealer, ref float baseDmg){
         float chosenCritRate = 5;
         float chosenCritDmg = 150;
         if (tool.Contains("_sword"))

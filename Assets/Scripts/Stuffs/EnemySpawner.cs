@@ -24,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
     {
         var possibility = Random.Range(1, 2001);
         Debug.Log(possibility);
-        if (possibility < 10)
+        if (possibility < 11)
         {
             var enemyGroup = enemyGroups[0];
             var randX = Random.Range(origin.x - spawnExtend.x, origin.x + spawnExtend.x);
@@ -46,7 +46,7 @@ public class EnemySpawner : MonoBehaviour
         if(!Client.ins.isHost) return;
         //if(stop) return;
         
-        if(DayNightCircle.time < 1.2f) return;
+        if(DayNightCircle.time < 1.1f) return;
         if(elapsed > tickDuration){
             int numLoop = (int)(elapsed / tickDuration);
             for(int i = 0; i < numLoop; i++){
@@ -65,7 +65,7 @@ public class EnemySpawner : MonoBehaviour
     {
         foreach (var i in group.enemyList)
         {
-            for (int j = 0; j < i.number; j++)
+            for (int j = 0; j < Random.Range(1, i.number + 1); j++)
             {
                 var randX = Random.Range(origin.x - group.groupExtend.x, origin.x + group.groupExtend.x);
                 var randZ = Random.Range(origin.y - group.groupExtend.y, origin.y + group.groupExtend.y);

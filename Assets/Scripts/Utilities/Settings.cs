@@ -177,7 +177,6 @@ public class Settings : MonoBehaviour
                 break;
             case 2:
                 Screen.SetResolution(1280, 720, FullScreenMode.FullScreenWindow);
-                QualitySettings.lodBias = 1.5f;
                 break; 
             case 3:
                 Screen.SetResolution(960, 540, FullScreenMode.FullScreenWindow);

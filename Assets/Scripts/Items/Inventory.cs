@@ -39,10 +39,10 @@ public class Inventory : MonoBehaviour
         //     this.Add(i.item, i.quantity);
         // }
         Add("knife", 1);
+        Add("sus_shroom", 10);
         Add("mithril_sword", 1);
         Add("mithril_axe", 1);
         Add("mithril_pickaxe", 1);
-        Add("sus_shroom", 20);
         Add("craft_table", 1);
         Add("furnace", 1);
         Add("anvil", 1);
@@ -55,7 +55,9 @@ public class Inventory : MonoBehaviour
         Add("mithril_bar", 64);
         Add("coal_ore", 30);
         Add("iron_ore", 30);
+        Add("iron_bar", 30);
         Add("mithril_ore", 30);
+        Add("anvil", 1);
     }
     private void Start()
     {
@@ -292,8 +294,9 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
+        if(itemSlots[_currentEquipIndex] == null || itemSlots[_currentEquipIndex].itemData == null) return;
         var movingItem = iih.movingItemHolder.movingItem;
-        if (movingItem is IEquippable && movingItem != itemSlots[_currentEquipIndex].itemData && iih.isItemMoving)
+        if (iih.isItemMoving && movingItem is IEquippable && movingItem != itemSlots[_currentEquipIndex].itemData)
             (movingItem as IEquippable).OnUnequip();
     }
     public bool DropItem(int itemIndex, int quantity, Vector3 dropPostion)

@@ -46,14 +46,14 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
             var thisSlotItem = inventory.GetSlotItem(itemIndex);
             var thisSlotQuantity = inventory.GetSlotQuantity(itemIndex);
             var movingItem = iih.movingItemHolder.movingItem;
-
+            
 
             
             if (thisSlotItem != null && thisSlotQuantity != 0 && thisSlotItem.itemName != movingItem.itemName)
             {
                 if (iih.movingItemHolder.sourceSlot == null)
                 {
-                    inventory.Replace(movingItem, this.quantity, itemIndex);
+                    inventory.Replace(movingItem, iih.movingItemHolder.quantity, itemIndex);
                     iih.movingItemHolder.InitReplaceAction(thisSlotItem.itemName, thisSlotQuantity);
                 }
                 else
@@ -70,8 +70,8 @@ public class InventorySlotUI : MonoBehaviour, IPointerClickHandler
             {
 
                 var redundant = this.AddQuantity(iih.movingItemHolder.quantity, iih.movingItemHolder.icon);
-                inventory.Replace(movingItem, this.quantity, itemIndex);
                 iih.ChangeMoveIconQuantity(redundant);
+                inventory.Replace(movingItem, this.quantity, itemIndex);
                 iih.ChangeSourceItem(this);
             }
             else

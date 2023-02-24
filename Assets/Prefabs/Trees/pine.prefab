@@ -405,12 +405,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 50
+  hp: 210
   itemName: pine_wood
   minDrop: 4
   maxDrop: 8
   requiredTools:
-  - knife
+  - mithril_axe
 --- !u!65 &6918578912785741625
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -452,6 +452,7 @@ MonoBehaviour:
   uiElement: {fileID: 0}
   projection: 90
   uiWorldPos: {fileID: 1696102859863120085}
+  distanceThreshold: 50
   canvas: {fileID: 0}
 --- !u!1 &7500736744069739280
 GameObject:

@@ -94,13 +94,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 60
+  hp: 168
   itemName: cherry_wood
-  minDrop: 5
-  maxDrop: 10
+  minDrop: 4
+  maxDrop: 8
   requiredTools:
   - mithril_axe
   - iron_axe
+  - golden_axe
 --- !u!114 &3058947960247095860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +130,7 @@ MonoBehaviour:
   uiElement: {fileID: 0}
   projection: 90
   uiWorldPos: {fileID: 1194572057194470171}
+  distanceThreshold: 50
   canvas: {fileID: 0}
 --- !u!1 &7572858872737512849
 GameObject:

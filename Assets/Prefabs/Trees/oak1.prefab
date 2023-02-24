@@ -164,8 +164,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 60
   itemName: oak_wood
-  minDrop: 5
-  maxDrop: 10
+  minDrop: 4
+  maxDrop: 8
   requiredTools:
   - wooden_axe
   - iron_axe
@@ -213,6 +213,7 @@ MonoBehaviour:
   uiElement: {fileID: 0}
   projection: 90
   uiWorldPos: {fileID: 4810499554830683263}
+  distanceThreshold: 50
   canvas: {fileID: 0}
 --- !u!1 &6190995225659721204
 GameObject:

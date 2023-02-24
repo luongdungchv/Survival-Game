@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
@@ -25,6 +26,10 @@ public class RoomUIManager : MonoBehaviour
             startOrReadyBtn.onClick.AddListener(client.StartGame);
             seedInputField.onValueChanged.AddListener((val) =>
             {
+                if(val == ""){
+                    client.mapSeed = 0;
+                    return;
+                }
                 client.mapSeed = int.Parse(val);
             });
         }
