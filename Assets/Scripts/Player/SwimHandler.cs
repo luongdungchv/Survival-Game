@@ -23,7 +23,6 @@ public class SwimHandler : MonoBehaviour
 
     private float swimSpeed => stats.swimSpeed;
     private float swimFastSpeed => stats.swimFastSpeed;
-    // Start is called before the first frame update
     void Start()
     {
 
@@ -34,7 +33,6 @@ public class SwimHandler : MonoBehaviour
         stats = GetComponent<PlayerStats>();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (Physics.Raycast(castPos.position, Vector3.up, out hit, rayLength, rayMask))
@@ -53,10 +51,8 @@ public class SwimHandler : MonoBehaviour
             }
             if (length < threshold - 0.2f && fsm.currentState.name.Contains("Swim"))
             {
-                Debug.Log($"reach edge, start: {castPos.position} || end: {hit.point}");
                 fsm.ChangeState("Idle");
             }
-            if (Input.GetKeyDown(KeyCode.I)) Debug.Log(length);
         }
     }
     public void PerformSwim(StateInitializer init)
@@ -93,8 +89,7 @@ public class SwimHandler : MonoBehaviour
             {
 
             }
-            //Debug.Log(targetRotation.eulerAngles);
-            //transform.rotation = targetRotation;
+            
             Vector3 camForward = new Vector3(camHolder.forward.x, 0, camHolder.forward.z).normalized;
             Vector3 camRight = new Vector3(camHolder.right.x, 0, camHolder.right.z).normalized;
 
@@ -109,7 +104,6 @@ public class SwimHandler : MonoBehaviour
         }
         else
         {
-            //animator.SetFloat("move", 0);
             if (rotationCoroutine != null)
             {
                 StopCoroutine(rotationCoroutine);
@@ -124,7 +118,6 @@ public class SwimHandler : MonoBehaviour
             }
         }
         float yMove = rb.velocity.y;
-        //if (!Client.ins.isHost) return;
         rb.velocity = new Vector3(moveDir.x, 0, moveDir.z);
     }
     public void StartSwimming()

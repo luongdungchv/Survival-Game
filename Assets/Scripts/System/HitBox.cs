@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 public class HitBox : MonoBehaviour
@@ -9,7 +7,6 @@ public class HitBox : MonoBehaviour
     protected ParticleSystem atkVfx;
     [SerializeField] protected ParticleSystem hitVfx;
     [SerializeField] private LayerMask mask;
-    // Start is called before the first frame update
     private void Awake()
     {
         hitbox = GetComponent<BoxCollider>();

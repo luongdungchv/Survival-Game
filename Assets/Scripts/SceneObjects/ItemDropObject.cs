@@ -17,13 +17,11 @@ public class ItemDropObject : MonoBehaviour, IDamagable
     private void OnDamage(PlayerStats player, float incomingDmg, string tool, bool isCrit)
     {
         if (!requiredTools.Contains(tool)) incomingDmg = 0;
-        //if (inputPriority < priority) return;
         hp -= incomingDmg;
         var isDealerLocalPlayer = player.GetComponent<NetworkPlayer>().isLocalPlayer;
         FixedSizeUI hpBar;
         if ((TryGetComponent<FixedSizeUI>(out hpBar)) && isDealerLocalPlayer)
         {
-            //hpBar.SetElementValue(Mathf.InverseLerp(0, maxHP, hp));
             var popup = dmgPopupPool.Release();
             var critLevel = isCrit ? 1 : 0;
             var popupPos = hpBar.uiWorldPos == null ? transform.position : hpBar.uiWorldPos.position;

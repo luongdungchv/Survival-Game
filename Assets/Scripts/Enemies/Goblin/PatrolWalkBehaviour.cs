@@ -19,7 +19,6 @@ namespace Enemy.Low
             var randY = Random.Range(patrolCenter.z - patrolArea.y, patrolCenter.z + patrolArea.y);
             target = animator.transform.right * randX + animator.transform.forward * randY;
             
-            //target = Vector3.zero;
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
@@ -28,7 +27,6 @@ namespace Enemy.Low
             if (disttoTarget <= 0.5f)
             {
                 animator.SetTrigger("idle");
-                //return;
             }
             var rb = animator.GetComponent<Rigidbody>();
             rb.velocity = dirToTarget.normalized;

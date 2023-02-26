@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class Placer : MonoBehaviour
 {
@@ -14,16 +13,12 @@ public class Placer : MonoBehaviour
         {
             placeHolder.transform.position = hit.point + hit.normal * placingHeight;
             var rotateToSlope = Quaternion.FromToRotation(Vector3.up, hit.normal);
-            //placeHolder.transform.rotation = rotateToSlope;
 
             var slopeTangent = Vector3.Cross(hit.normal, player.transform.forward);
             var placerForward = Vector3.Cross(hit.normal, slopeTangent);
             Debug.DrawLine(hit.point + hit.normal, hit.point + hit.normal + placerForward * 10, Color.magenta);
-            //Debug.Log(placerForward);
 
             placeHolder.transform.LookAt(placeHolder.transform.position + placerForward, hit.normal);
-            //placeHolder.transform.Rotate(0, 180, 0);
-            //placeHolder.transform.LookAt();
         }
     }
     public void ConfirmPosition()
@@ -44,17 +39,5 @@ public class Placer : MonoBehaviour
             NetworkManager.ins.SpawnRequest(id, netPrefab, placeHolder.transform.position, rotation, "0");
         }
     }
-    public void SetData(Color tint, Mesh mesh, Texture2D colorTex, GameObject prefab)
-    {
-        // this.prefab = prefab;
-        // var phRenderer = placeHolder.GetComponent<Renderer>();
-        // var phFilter = placeHolder.GetComponent<MeshFilter>();
 
-        // phRenderer.sharedMaterial.mainTexture = colorTex;
-        // phRenderer.sharedMaterial.SetColor("_Color", tint);
-        // phFilter.mesh = mesh;
-
-        //Debug.Log(phRenderer);
-
-    }
 }

@@ -23,7 +23,6 @@ namespace Enemy.Bean
             navAgent.isStopped = true;
             target = stats.target;
             targetStats = target.GetComponent<PlayerStats>();
-            Debug.Log(target);
             if (Client.ins.isHost)
             {
                 if (Client.ins.isHost)

@@ -115,7 +115,6 @@ public class PlayerStats : MonoBehaviour
     }
     public void Perish()
     {
-        Debug.Log("die");
         TriggerRagdoll();
         this.isDead = true;
         var allPlayers = NetworkManager.ins.GetAllPlayers();
@@ -153,7 +152,6 @@ public class PlayerStats : MonoBehaviour
     }
     public void TakeDamage(float dmg)
     {
-        Debug.Log("player take dmg");
         _hp -= dmg;
         if (netPlayer.isLocalPlayer)
         {

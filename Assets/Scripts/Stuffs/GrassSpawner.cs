@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
 
 public class GrassSpawner : MonoBehaviour
@@ -8,7 +5,6 @@ public class GrassSpawner : MonoBehaviour
     [SerializeField] private GameObject[] grassPrefabs;
     [SerializeField] private float grassCount, castHeight;
     [SerializeField] private LayerMask mask;
-    // Start is called before the first frame update
     void Start()
     {
         var terrainTypes = GetComponent<MapGenerator>().terrainTypes;
@@ -18,7 +14,6 @@ public class GrassSpawner : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -38,10 +33,8 @@ public class GrassSpawner : MonoBehaviour
                     if (hitInfo.point.y < skipHeight) continue;
                     var hitNormal = hitInfo.normal;
                     var randomIndex = Random.Range(0, grassPrefabs.Length);
-                    //Debug.Log(randomIndex);
 
                     var grassInstance = Instantiate(grassPrefabs[randomIndex], hitInfo.point, Quaternion.FromToRotation(Vector3.up, hitNormal));
-                    //var grassInstance = Instantiate(grassPrefabs[randomIndex], hitInfo.point, Quaternion.identity);
 
                     grassInstance.transform.position += new Vector3(0, Random.Range(-0.5f, 0.5f));
                     grassInstance.transform.Rotate(0, Random.Range(0, 180), 0);

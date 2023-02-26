@@ -35,15 +35,11 @@ public class ScriptCullingManager : MonoBehaviour
         // result.Capacity = cullingList.Length;
         // var handle = cullingJob.Schedule(cullingList.Length, Mathf.CeilToInt(cullingList.Length / 10f));
         // handle.Complete();
-        // // if (start) 
-        // //     foreach(var i in result) Debug.Log(math.distance(NetworkPlayer.localPlayer.transform.position, i.position));
-        // //Debug.Log(result.Length);
         // foreach(var i in result){
         //     objList[i.index].GetComponent<FixedSizeUI>().UpdateMethod();
         // }
         // start = false;
         
-        // //Debug.Log(result.Length);
         // result.Dispose();
     }
     public void AddToCullingList(GameObject cullingObj, float distance){

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class BushesSpawner : MonoBehaviour
 {
@@ -12,7 +9,6 @@ public class BushesSpawner : MonoBehaviour
     [SerializeField] private LayerMask mask;
     private CustomRandom randObj;
     private HashSet<Vector2Int> regionOccupation;
-    // Start is called before the first frame update
     void Start()
     {
         regionOccupation = new HashSet<Vector2Int>();
@@ -20,7 +16,6 @@ public class BushesSpawner : MonoBehaviour
         Spawn();
     }
 
-    // Update is called once per frame
     void Update()
     {
 

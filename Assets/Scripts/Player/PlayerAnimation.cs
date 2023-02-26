@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    // Start is called before the first frame update
     [SerializeField] private Image bloodOverlay;
     Coroutine animationBlendCoroutine;
     private Dictionary<string, Coroutine> animBlendCoroutineDict;
@@ -19,7 +18,6 @@ public class PlayerAnimation : MonoBehaviour
     private float dashTime => stats.dashTime;
     void Start()
     {
-        //animator = GetComponent<Animator>();
         movementSystem = GetComponent<PlayerMovement>();
         atkSystem = GetComponent<PlayerAttack>();
         animBlendCoroutineDict = new Dictionary<string, Coroutine>();
@@ -47,7 +45,6 @@ public class PlayerAnimation : MonoBehaviour
     public void Run()
     {
         BlendAnimation("move", 1, 0.4f);
-        //animator.SetFloat("move", 1);
     }
     public void Jump()
     {
@@ -55,7 +52,6 @@ public class PlayerAnimation : MonoBehaviour
     }
     public void CancelJump()
     {
-        //Debug.Log("cancelJump");
         animator.SetBool("jump", false);
     }
     public void Idle()

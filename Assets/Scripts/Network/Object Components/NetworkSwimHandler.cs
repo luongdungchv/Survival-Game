@@ -56,8 +56,6 @@ public class NetworkSwimHandler : MonoBehaviour
             }
             if (length < threshold - 0.2f && isSwimming)
             {
-                Debug.Log($"reach edge, start: {castPos.position} || end: {hit.point}");
-
                 SwimNormal.SetLock("Move", false);
                 SwimNormal.SetLock("Idle", false);
                 SwimIdle.SetLock("Move", false);

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,7 +10,6 @@ public class InventoryInteractionHandler : MonoBehaviour
     [SerializeField] private ItemMoveIcon _movingItem;
     [SerializeField] private List<InventorySlotUI> slots, equipSlots;
     [SerializeField] private Transform equipmentContainer, bag;
-    //private InventorySlotUI _sourceItem;
     private Inventory inventory => Inventory.ins;
     public ItemMoveIcon movingItemHolder => _movingItem;
     public bool isItemMoving => _movingItem.gameObject.activeSelf;
@@ -21,23 +19,6 @@ public class InventoryInteractionHandler : MonoBehaviour
         currentOpen = this;
 
         OnInit.AddListener(Init);
-    }
-    private void Start()
-    {
-
-    }
-    private void Awake()
-    {
-        // if (slots == null || slots.Count == 0) InitSlots();
-        // UpdateUI();
-    }
-    private void OnEnable()
-    {
-
-    }
-    private void Update()
-    {
-
     }
     public void Init()
     {
@@ -56,7 +37,6 @@ public class InventoryInteractionHandler : MonoBehaviour
     }
     public void ChangeSourceItem(InventorySlotUI newSource)
     {
-        //this._sourceItem = newSource;
         this._movingItem.sourceSlot = newSource;
     }
     public void UpdateUI()
@@ -115,17 +95,13 @@ public class InventoryInteractionHandler : MonoBehaviour
     {
         if (movingItemHolder.sourceSlot == null && movingItemHolder.movingItem != null && movingItemHolder.quantity != 0)
         {
-            Debug.Log(movingItemHolder.quantity);
             movingItemHolder.movingItem.Drop(NetworkPlayer.localPlayer.transform.position + Vector3.up * 2, movingItemHolder.quantity);
         }
     }
     public void DropMovingItem()
     {
-        Debug.Log("drop");
-
         if (isItemMoving && movingItemHolder.action == "replace")
         {
-            Debug.Log("drop");
             var dropPos = NetworkPlayer.localPlayer.transform.position + Vector3.up * 5;
             movingItemHolder.movingItem.Drop(dropPos, movingItemHolder.quantity);
         }

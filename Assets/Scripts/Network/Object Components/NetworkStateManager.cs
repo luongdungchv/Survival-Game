@@ -32,7 +32,6 @@ public class NetworkStateManager : MonoBehaviour
         });
         InAir.OnEnter.AddListener(() =>
         {
-            //if (Client.ins.isHost) InAir.lockState = true;
             netMovement.JumpServer();
             animSystem.Jump();
         });
@@ -42,14 +41,12 @@ public class NetworkStateManager : MonoBehaviour
         {
             animSystem.CancelJump();
             animSystem.Run();
-            Debug.Log("sprint");
         });
         SwimIdle.OnEnter.AddListener(() =>
         {
             animSystem.CancelJump();
             netSwim.StopSwimServer();
             animSystem.SwimIdle();
-            Debug.Log("swim idle");
         });
         SwimNormal.OnEnter.AddListener(() =>
         {
@@ -78,7 +75,6 @@ public class NetworkStateManager : MonoBehaviour
         });
         SwimIdle.OnFixedUpdate.AddListener(netSwim.SwimDetect);
         SwimNormal.OnFixedUpdate.AddListener(netSwim.SwimServer);
-        //Idle.OnFixedUpdate.AddListener(() => { });
 
     }
     private void FixedUpdate()
@@ -139,7 +135,6 @@ public class NetworkStateManager : MonoBehaviour
 
         stateDictionary.Add(SwimIdle.name, SwimIdle);
 
-        //        stateDictionary.Add(SwimFast.name, SwimFast);
 
     }
     private void InitializeStates()
@@ -161,8 +156,6 @@ public class NetworkStateManager : MonoBehaviour
         SwimIdle = ScriptableObject.CreateInstance("State") as State;
         SwimIdle.name = "SwimIdle";
 
-        //Idle.transitions.AddRange()
-        // SwimFast = stateDictionary["SwimFast"];
     }
     private void InitializeStates2()
     {
@@ -192,15 +185,7 @@ public class NetworkStateManager : MonoBehaviour
                 clonedNames.Add(clonedTransition.name);
             }
         }
-        foreach (var i in stateDictionary.Keys)
-        {
-            var state = stateDictionary[i];
-            foreach (var j in state.transitions)
-            {
-                Debug.Log(j.name + " " + state.name);
-            }
-        }
-        Debug.Log(Idle == stateDictionary["Idle"]);
+        
         Idle = stateDictionary["Idle"];
         Move = stateDictionary["Move"];
         InAir = stateDictionary["InAir"];

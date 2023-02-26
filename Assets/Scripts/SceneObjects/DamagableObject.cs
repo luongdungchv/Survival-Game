@@ -4,7 +4,6 @@ using System.Linq;
 public class DamagableObject : MonoBehaviour
 {
     [SerializeField] protected string[] requiredTools;
-    // Start is called before the first frame update
 
     public virtual void OnDamage(float incomingDmg, string tool)
     {
@@ -17,7 +16,6 @@ public class DamagableObject : MonoBehaviour
 }
 public interface IDamagable
 {
-    //void OnDamage(float incomingDmg, string tool);
     void OnDamage(IHitData hitData);
 }
 

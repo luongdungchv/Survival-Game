@@ -33,31 +33,30 @@ public class Inventory : MonoBehaviour
         ins = this;
         itemSlots = new ItemSlot[28];
         itemQuantities = new Dictionary<string, int>();
-        //iih.Init();
         InventoryInteractionHandler.InitAllInstances();
         // foreach(var i in initialItems){
         //     this.Add(i.item, i.quantity);
         // }
         Add("knife", 1);
         Add("sus_shroom", 10);
-        Add("mithril_sword", 1);
-        Add("mithril_axe", 1);
-        Add("mithril_pickaxe", 1);
-        Add("craft_table", 1);
-        Add("furnace", 1);
-        Add("anvil", 1);
-        Add("oak_wood", 30);
-        Add("birch_wood", 25);
-        Add("cherry_wood", 30);
-        Add("pine_wood", 64);
-        Add("pine_wood", 64);
-        Add("mithril_bar", 64);
-        Add("mithril_bar", 64);
-        Add("coal_ore", 30);
-        Add("iron_ore", 30);
-        Add("iron_bar", 30);
-        Add("mithril_ore", 30);
-        Add("anvil", 1);
+        // Add("mithril_sword", 1);
+        // Add("mithril_axe", 1);
+        // Add("mithril_pickaxe", 1);
+        // Add("craft_table", 1);
+        // Add("furnace", 1);
+        // Add("anvil", 1);
+        // Add("oak_wood", 30);
+        // Add("birch_wood", 25);
+        // Add("cherry_wood", 30);
+        // Add("pine_wood", 64);
+        // Add("pine_wood", 64);
+        // Add("mithril_bar", 64);
+        // Add("mithril_bar", 64);
+        // Add("coal_ore", 30);
+        // Add("iron_ore", 30);
+        // Add("iron_bar", 30);
+        // Add("mithril_ore", 30);
+        // Add("anvil", 1);
     }
     private void Start()
     {
@@ -91,7 +90,6 @@ public class Inventory : MonoBehaviour
     public bool isEquipSlot(int index) => index < equipSlotCount;
     public bool Add(Item itemData, int quantity)
     {
-        //Debug.Log(items.Length);
         if (quantity > maxInventorySlot || quantity == 0 || itemData == null) return false;
         bool stackable = itemData.stackable;
 
@@ -165,7 +163,6 @@ public class Inventory : MonoBehaviour
     }
     public bool Move(int startIndex, int startQuantity, int endIndex, int endQuantity)
     {
-        Debug.Log(itemSlots[startIndex]);
         var itemData = itemSlots[startIndex].itemData;
         bool equippable = itemData is IEquippable;
         if (!equippable && endIndex < equipSlotCount) return false;
@@ -259,7 +256,6 @@ public class Inventory : MonoBehaviour
             {
                 if (i == _currentEquipIndex)
                 {
-                    Debug.Log(_currentEquipIndex);
                     iih.GetUISlot(i).Highlight(true);
                     if (itemSlots[i] == null || itemSlots[i].itemData == null)
                     {
@@ -311,12 +307,10 @@ public class Inventory : MonoBehaviour
         {
             itemSlots[itemIndex] = null;
         }
-        Debug.Log(itemSlots[itemIndex]);
         ReloadInHandModel(true);
         return true;
     }
 
-    //[System.Serializable]
     public class ItemSlot
     {
         public int quantity;

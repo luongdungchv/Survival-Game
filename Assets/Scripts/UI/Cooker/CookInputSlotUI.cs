@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -30,7 +28,6 @@ public class CookInputSlotUI : MonoBehaviour, IPointerClickHandler
                 if (!(moving.movingItem is ITransformable)) return;
                 if (currentTransformer.SetInput(moving.movingItem as ITransformable, moving.quantity))
                 {
-                    Debug.Log($"moving quantity: {moving.quantity}");
                     Inventory.ins.Remove(movingName, moving.quantity);
                     moving.quantity = 0;
                     CheckIconVisibility();

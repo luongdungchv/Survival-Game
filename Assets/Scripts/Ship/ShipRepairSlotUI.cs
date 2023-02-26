@@ -39,7 +39,6 @@ public class ShipRepairSlotUI : MonoBehaviour, IPointerClickHandler
             if (iih.movingItemHolder.movingItem != targetItem) return;
             if (Inventory.ins.Remove(iih.movingItemHolder.movingItem.itemName, iih.movingItemHolder.quantity))
             {
-                //quantity += iih.movingItemHolder.quantity;
                 var shipRepairPacket = new RawActionPacket(PacketType.ShipInteraction)
                 {
                     playerId = NetworkPlayer.localPlayer.id,

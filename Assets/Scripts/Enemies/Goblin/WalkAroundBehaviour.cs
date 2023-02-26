@@ -19,7 +19,6 @@ namespace Enemy.Low
             rb = animator.GetComponent<Rigidbody>();
             elapsed = 0;
             duration = Random.Range(0.7f, 1.7f);
-            Debug.Log("walk around");
 
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

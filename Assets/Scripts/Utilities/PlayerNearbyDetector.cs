@@ -22,13 +22,11 @@ public class PlayerNearbyDetector : HitBox
     {
         if (!hit.collider.GetComponent<NetworkPlayer>().isLocalPlayer) return false;
         isDisplayed = true;
-        //displayer?.SetDisplay(true);
-        //Debug.Log(hit.collider.gameObject.name);
+
         return true;
     }
     protected override void OnNoHitDetect()
     {
         isDisplayed = false;
-        //displayer?.SetDisplay(false);
     }
 }

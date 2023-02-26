@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using System.Threading.Tasks;
-using UnityEngine.PlayerLoop;
 
 public class StateMachine : MonoBehaviour
 {
@@ -31,9 +27,7 @@ public class StateMachine : MonoBehaviour
 
     void Update()
     {
-        //GetComponent<Rigidbody>().AddForce(0, -46, 0);
         if (currentState != null) currentState.OnUpdate.Invoke();
-        //if(currentState.name == "Attack") Debug.Log(Time.realtimeSinceStartup);
         
     }
     private void FixedUpdate()
@@ -65,7 +59,6 @@ public class StateMachine : MonoBehaviour
             }
         }
         Debug.Log($"No Transition Found || {currentState.name}, {stateName}");
-        //OnStateChanged.Invoke(name, "");
         return false;
     }
     public bool ChangeState(State newState, bool force = false)

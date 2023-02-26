@@ -13,7 +13,6 @@ public class CameraLimiter : MonoBehaviour
    
     RaycastHit hitInfo;
     
-    // Update is called once per frame
     void Update()
     {
         Debug.DrawLine(transform.position, camTransform.position);

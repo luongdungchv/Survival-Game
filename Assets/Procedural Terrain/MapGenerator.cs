@@ -20,7 +20,6 @@ public class MapGenerator : MonoBehaviour
     private List<float> blends;
     public List<TerrainType> terrainTypes;
     private float[,] noiseMap;
-    // Start is called before the first frame update
     void Awake()
     {
         ins = this;
@@ -32,8 +31,6 @@ public class MapGenerator : MonoBehaviour
         var rand = new CustomRandom(MapGenerator.ins.seed);
 
     }
-
-    // Update is called once per frame
 
     public void UpdateTexture(float[,] noiseMap)
     {
@@ -105,7 +102,6 @@ public class MapGenerator : MonoBehaviour
     }
     public bool BelowWater(int x, int y)
     {
-        Debug.Log(noiseMap.GetLength(0));
         var noiseVal = noiseMap[x, y];
         return noiseVal * vertMaxHeight * heightCurve.Evaluate(noiseVal) < 9;
     }

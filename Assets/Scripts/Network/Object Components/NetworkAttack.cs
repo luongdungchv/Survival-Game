@@ -40,12 +40,10 @@ public class NetworkAttack : MonoBehaviour
             attackIndex++;
 
             int fxIndex = attackIndex;
-            Debug.Log(fxIndex);
 
             animSystem.PerformAttack(fxIndex, pattern.type);
 
             var displaced = pattern.displaceForward[attackIndex];
-            //movementSystem.DisplaceForward(pattern.displaceForward[attackIndex]);
 
             var delay = pattern.delayBetweenMoves[attackIndex];
             yield return new WaitForSeconds(delay);
@@ -55,7 +53,6 @@ public class NetworkAttack : MonoBehaviour
         }
         IEnumerator WaitForClick(float duration)
         {
-            //init.Attack.lockState = true;
             stateManager.Attack.LockAllTransitions();
             yield return new WaitForSeconds(duration);
             stateManager.Attack.UnlockAllTransitions();

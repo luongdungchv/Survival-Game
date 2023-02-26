@@ -18,7 +18,6 @@ public class BeanStats : EnemyStats, IPatrol, IChase, IGround
     public float walkSpeed { get => _walkSpeed; set => _walkSpeed = value; }
     public float chaseRange { get => _chaseRange; set => _chaseRange = value; }
     [HideInInspector] public Vector3 groundNormal { get => groundNormalStrategy.groundNormal; }
-    //public GameObject test;
     private RaycastGroundNormal groundNormalStrategy;
     private ChaseStrategy chaseStrategy;
 
@@ -27,13 +26,7 @@ public class BeanStats : EnemyStats, IPatrol, IChase, IGround
         base.Awake();
         this.patrolCenter = transform.position;
     }
-    private void Start()
-    {
-        //Instantiate(test, new Vector3(-17, 1.2f, 4.3f), Quaternion.identity);
-    }
-    protected override void CustomUpdate()
-    {
-        //chaseStrategy.Excute();
-    }
+
+
 
 }

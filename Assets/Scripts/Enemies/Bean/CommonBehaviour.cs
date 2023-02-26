@@ -8,7 +8,6 @@ namespace Enemy.Bean
 {
     public class CommonBehaviour : StateMachineBehaviour
     {
-        // Start is called before the first frame update
         private Dictionary<string, NetworkPlayer> playerList;
         private Transform target;
         private IPatrol patrolStats;
@@ -17,7 +16,6 @@ namespace Enemy.Bean
         private NavMeshAgent navAgent;
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            //playerList = NetworkManager.ins.GetAllPlayers();
             stats = animator.GetComponent<EnemyStats>();
             target = stats.target;
             patrolStats = animator.GetComponent<IPatrol>();
@@ -40,7 +38,6 @@ namespace Enemy.Bean
                 if (distToTarget <= stats.atkRange)
                 {
                     navAgent.isStopped = true;
-                    Debug.Log(stats.target);
                     SetTrigger(animator, "atk");
                 }
                 else if (distToTarget <= chaseStats.chaseRange && distToTarget > stats.atkRange)

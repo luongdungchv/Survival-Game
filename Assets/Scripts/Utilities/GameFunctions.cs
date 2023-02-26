@@ -1,6 +1,4 @@
-﻿//using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,20 +11,11 @@ public class GameFunctions : MonoBehaviour
     private static HashSet<string> idOccupation;
     private static CustomRandom randObj;
     private static Color[] markerColors = {Color.blue, Color.red, Color.magenta, Color.yellow};
-    //public bool test;
     private void Awake()
     {
-        //markerColors = new Color[]{Color.blue, Color.red, Color.magenta, Color.yellow};
         if (ins == null) ins = this;
         idOccupation = new HashSet<string>();
         randObj = new CustomRandom(MapGenerator.ins.seed);
-        //randObj = new CustomRandom(2);
-    }
-    private void Start()
-    {
-        //HideCursor();
-
-
     }
     private void Update()
     {
@@ -54,14 +43,6 @@ public class GameFunctions : MonoBehaviour
         {
             UIManager.ins.ToggleMapUI();
         }
-        // if (Input.GetKeyDown(KeyCode.Y))
-        // {
-        //     UIManager.ins.ToggleCraftUI();
-        // }
-        // if (Input.GetKeyDown(KeyCode.T))
-        // {
-        //     UIManager.ins.ToggleAnvilUI();
-        // }
         if(Input.GetKeyDown(KeyCode.Escape)){
             if(UIManager.ins.currentOpenUI != null) UIManager.ins.ToggleOffCurrentUI();
             else Settings.ins.ToggleSetting();
@@ -71,7 +52,6 @@ public class GameFunctions : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        Debug.Log("hide");
 
     }
     public void ShowCursor()
@@ -137,7 +117,6 @@ public class GameFunctions : MonoBehaviour
 
         Vector2 mouseRatio = new Vector2(uiPos.x / (Mathf.Abs(canvasPos.x) * 2), uiPos.y / (Mathf.Abs(canvasPos.y) * 2));
         Vector2 canvasSize = mainCanvas.GetComponent<RectTransform>().position * 2;
-        // Vector2 canvasRatio = new Vector2(canvasPos.x * 2, canvasPos.y * 2);
         uiPos.z = 0;
         uiPos = new Vector3(canvasSize.x * mouseRatio.x, canvasSize.y * mouseRatio.y);
 

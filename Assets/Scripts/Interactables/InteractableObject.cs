@@ -28,7 +28,6 @@ public class InteractableObject : MonoBehaviour
     protected virtual void Update()
     {
         if (Vector3.Distance(transform.position, playerTransform.position) > distanceThreshold) return;
-        //Debug.Log("player");
         hitbox.DetectHit();
     }
     public bool TouchDetect(RaycastHit target)

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class TransformerClient : TransformerBase
 {
-    // TODO: Handle on interact btn click
     protected override void Awake()
     {
         if (Client.ins.isHost)
@@ -35,7 +34,6 @@ public class TransformerClient : TransformerBase
             action = "set_input",
             actionParams = new string[] { (inputItem as Item).itemName, quantity.ToString() }
         };
-        Debug.Log($"set_input pack: {setInputPacket.GetString()}");
         Client.ins.SendTCPPacket(setInputPacket);
         return true;
 
@@ -89,7 +87,6 @@ public class TransformerClient : TransformerBase
             actionParams = new string[] { quantity.ToString() }
         };
         Client.ins.SendTCPPacket(retrInputPacket);
-        //TODO: Handle retrieving input on client
         inputSlot.quantity -= quantity;
     }
     public override void RetrieveFuel(int quantity)
@@ -103,7 +100,6 @@ public class TransformerClient : TransformerBase
         };
         Client.ins.SendTCPPacket(retrFuelPacket);
         fuelSlot.quantity -= quantity;
-        //TODO: Handle retrieving fuel on client
     }
     public void ReceiveOutput(Item outputItem, int quantity)
     {
@@ -131,7 +127,6 @@ public class TransformerClient : TransformerBase
         };
         Client.ins.SendTCPPacket(retrOutputPacket);
         outputSlot.quantity -= quantity;
-        //TODO: Handle retrieving output on client
     }
 
 }

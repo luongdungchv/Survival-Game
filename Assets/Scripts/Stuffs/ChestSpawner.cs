@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class ChestSpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
     [SerializeField] private int maxChestPerEdge, castHeight;
     [SerializeField] private LayerMask mask;
     [SerializeField] private List<ChestType> chestTypes;
 
     void Start()
     {
-        //if (!Client.ins.isHost) return;
         var randObj = new CustomRandom(MapGenerator.ins.seed);
         bool[,] occupationMap = new bool[maxChestPerEdge, maxChestPerEdge];
         RaycastHit hit;
@@ -38,7 +36,6 @@ public class ChestSpawner : MonoBehaviour
                     var chest = Instantiate(type.prefab, hit.point, rotateSlope);
                     var netObj = chest.AddComponent<NetworkObject>();
                     chest.transform.Rotate(0, randObj.NextFloat(0, 360), 0);
-                    //netObj.RequestSpawn(type.name, chest.transform.position, chest.transform.rotation.eulerAngles, chest.transform.localEulerAngles);
 
                 }
             }
@@ -46,7 +43,6 @@ public class ChestSpawner : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
 

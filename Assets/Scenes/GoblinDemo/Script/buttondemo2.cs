@@ -9,12 +9,10 @@ public class buttondemo2 : MonoBehaviour {
 	public GameObject rotationButtonText;
 	public int select = 0;
 	public bool rotation = false;
-	// Use this for initialization
 	void Start () {
 		setActiveUnit (0);
 	}
 
-	// Update is called once per frame
 	void Update () {
 		if (rotation) {
 			transform.Rotate(Vector3.down * Time.deltaTime * 60.0f);

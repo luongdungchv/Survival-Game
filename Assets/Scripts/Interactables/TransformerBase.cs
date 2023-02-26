@@ -15,7 +15,6 @@ public class TransformerBase : InteractableObject
         get => _isOpen;
         set{
             _isOpen = value;
-            Debug.Log(value);
         }
     }
     [SerializeField] protected int maxInputCap, maxOutputCap;

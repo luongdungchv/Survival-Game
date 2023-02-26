@@ -47,7 +47,6 @@ public class ItemDrop : InteractableObject
         {
             var netSceneObj = GetComponentInParent<NetworkSceneObject>();
             netSceneObj.DestroyObject();
-            Debug.Log(netSceneObj.id);
             Destroy(this.transform.parent.gameObject);
         }
 

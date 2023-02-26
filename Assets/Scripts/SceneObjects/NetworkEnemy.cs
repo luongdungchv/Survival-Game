@@ -14,10 +14,6 @@ public class NetworkEnemy : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         netObj = GetComponent<NetworkSceneObject>();
     }
-    private void FixedUpdate() {
-        //TODO
-        //BroadcastState();
-    }
     private void BroadcastState(){
         var statePacket = new UpdateEnemyPacket(){
             position = transform.position,
@@ -48,7 +44,6 @@ public class NetworkEnemy : MonoBehaviour
 
             }
             moveDir = moveDir.normalized;
-            //rb.MovePosition(_position);
             if (lerpPosRoutine != null) StopCoroutine(lerpPosRoutine);
             lerpPosRoutine = StartCoroutine(LerpPosition(_position, 0.0833f));
         }

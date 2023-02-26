@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class GrassSpawnerGPU : MonoBehaviour
@@ -24,7 +22,6 @@ public class GrassSpawnerGPU : MonoBehaviour
     private ShaderProps[] transformArray;
     private ShaderProps[] culledArray;
     private uint[] args;
-    // Start is called before the first frame update
     void Start()
     {
         var terrainTypes = GetComponent<MapGenerator>().terrainTypes;
@@ -49,7 +46,6 @@ public class GrassSpawnerGPU : MonoBehaviour
         transforms = new List<ShaderProps>();
         SpawnMatrix(waterHeight * maxHeight);
         InitCompute();
-        Debug.Log(Camera.main.projectionMatrix.GetRow(0));
 
         Settings.OnSettingChange.AddListener(() =>
         {
@@ -81,7 +77,6 @@ public class GrassSpawnerGPU : MonoBehaviour
                 RaycastHit hitInfo;
                 if (Physics.Raycast(castPos, Vector3.down, out hitInfo, castHeight + 500, mask))
                 {
-                    //if (hitInfo.point.y < skipHeight) continue;
                     if (hitInfo.collider.tag == "Water") continue;
                     var position = hitInfo.point;
                     var rotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
@@ -92,7 +87,6 @@ public class GrassSpawnerGPU : MonoBehaviour
                     var flooredY = Mathf.FloorToInt(y);
                     var flooredChunkWidth = Mathf.FloorToInt(chunkWidth);
                     var chunkPos = new Vector2((flooredX / flooredChunkWidth) * flooredChunkWidth, (flooredY / flooredChunkWidth) * flooredChunkWidth);
-                    //Debug.Log($"{chunkPos} {flooredX} {flooredY}");
                     var chosenChunk = chunks[chunkPos];
 
                     chosenChunk.AddProp(new ShaderProps()

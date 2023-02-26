@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class InputReceiver : MonoBehaviour
 {
-    // Start is called before the first frame update
-    // [SerializeField] private float dashTime, dashDelay;
     public Vector2 movementInputVector;
     public bool sprint;
     public bool jumpPress;
@@ -34,9 +32,6 @@ public class InputReceiver : MonoBehaviour
         if (Client.ins.isHost)
         {
             if(pendingInputPackets.Count > 0) HandleInput(pendingInputPackets.Dequeue());
-            // else {
-            //     this.movementInputVector = Vector2.zero;
-            // }
         }
     }
     public void HandleInput(InputPacket _packet)
@@ -59,13 +54,11 @@ public class InputReceiver : MonoBehaviour
         this.attack = _packet.atk;
         this.isConsumingItem = _packet.isConsumingItem;
         this.tick = _packet.tick;
-        if (this.jumpPress) Debug.Log("jump");
     }
     public void AddPacket(InputPacket packet)
     {
         pendingInputPackets?.Enqueue(packet);
     }
-    // Update is called once per frame
     IEnumerator SetDash(float duration)
     {
         this.dashcheck = true;

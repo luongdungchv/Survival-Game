@@ -33,7 +33,6 @@ public class Client : MonoBehaviour
             Destroy(ins.gameObject);
             ins = this;
         }
-        Debug.Log(NetworkPrefab.instanceCount);
         roomField.text = "12345";
         
         hostField.onValueChanged.AddListener(e => {
@@ -56,7 +55,6 @@ public class Client : MonoBehaviour
     }
     public void SendTCPPacket(Packet _packet)
     {
-        if (_packet.command == PacketType.DestroyObject) Debug.Log("Destroy msg: " + _packet.GetString());
         tcp.Send(_packet.GetString());
     }
     public void SendUDPMessage(string msg)

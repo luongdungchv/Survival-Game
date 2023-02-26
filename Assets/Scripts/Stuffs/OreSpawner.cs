@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,10 +12,8 @@ public class OreSpawner : MonoBehaviour
     [SerializeField] private Canvas mainCanvas;
     [SerializeField] private GameObject hpBarUIContainer;
 
-    //[SerializeField] private GameObject cherryPetalParticle;
     private Dictionary<Vector2Int, bool> regionsOccupation;
     private int seed;
-    // Start is called before the first frame update
     void Start()
     {
         regionsOccupation = new Dictionary<Vector2Int, bool>();
@@ -38,7 +35,6 @@ public class OreSpawner : MonoBehaviour
 
                 randPos = new Vector2Int(randPos.x * cellDist, randPos.y * cellDist);
 
-                //if (i.name == "Mithril Ore") Debug.Log(randPos);
                 float sumY = 0;
 
                 for (int j = 0; j < i.orePerRegion; j++)
@@ -52,7 +48,6 @@ public class OreSpawner : MonoBehaviour
 
 
                         sumY += hit.point.y;
-                        //if (hit.point.y < skipHeight) continue;
                         if (hit.collider.tag == "Water") continue;
 
                         var randomAngle = randObj.NextFloat(0f, 360f);
@@ -60,19 +55,12 @@ public class OreSpawner : MonoBehaviour
 
                         var randomPrefab = i.prefab[randObj.Next(0, i.prefab.Count)];
                         var ore = Instantiate(randomPrefab, hit.point, rotateToSlope);
-                        //ore.SetItemDrop<IronOre>();
 
                         var scale = randObj.NextFloat(i.minScale, i.maxScale);
                         ore.transform.localScale = Vector3.one * scale;
 
                         ore.transform.Rotate(0, randomAngle, 0);
-                        ore.transform.Translate(-ore.transform.up * scale / 8);
 
-                        // var hpBarUI = Instantiate(hpBarUIPrefab);
-                        // hpBarUI.transform.SetParent(hpBarUIContainer.transform);
-                        // var hpBarComponent = ore.GetComponent<FixedSizeUI>();
-                        // hpBarComponent.SetUIElement(hpBarUI);
-                        // hpBarComponent.canvas = mainCanvas;
                     }
                 }
             }

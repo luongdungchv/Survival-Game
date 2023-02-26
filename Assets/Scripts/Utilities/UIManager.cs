@@ -202,7 +202,6 @@ public class UIManager : MonoBehaviour
         var btnInstance = Instantiate(interactBtnPrefab);
         btnInstance.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = displayText;
         var btn = btnInstance.GetComponent<Button>();
-        //btn.onClick.AddListener(() => OnInteractBtnClick(btn));
         return btn;
     }
     public void ReturnToMainMenu()
@@ -211,7 +210,6 @@ public class UIManager : MonoBehaviour
     }
     public void ShowDisconnectPanel()
     {
-        //Debug.Log(lostConnectionPanel);
         ThreadManager.ExecuteOnMainThread(() =>
         {
             if (lostConnectionPanel != null) lostConnectionPanel.SetActive(true);

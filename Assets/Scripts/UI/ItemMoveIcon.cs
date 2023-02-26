@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -46,7 +44,6 @@ public class ItemMoveIcon : MonoBehaviour
     private void Update()
     {
         FollowMouse();
-        //Debug.Log(baseObj.position);
 
     }
     private void FollowMouse()
@@ -62,11 +59,9 @@ public class ItemMoveIcon : MonoBehaviour
         mousePosWorld = mousePosWorld - canvasPosWorld;
         Vector2 mouseRatio = new Vector2(mousePosWorld.x / (Mathf.Abs(canvasPosWorld.x) * 2), mousePosWorld.y / (Mathf.Abs(canvasPosWorld.y) * 2));
         Vector2 canvasSize = canvas.GetComponent<RectTransform>().position * 2;
-        // Vector2 canvasRatio = new Vector2(canvasPos.x * 2, canvasPos.y * 2);
         mousePosWorld.z = 0;
         mousePosWorld = new Vector3(canvasSize.x * mouseRatio.x, canvasSize.y * mouseRatio.y);
 
-        //this.GetComponent<RectTransform>().anchoredPosition = iconPos / (canvas.scaleFactor + 0.1f);
 
 
         this.GetComponent<RectTransform>().position = mousePosWorld;
@@ -95,7 +90,6 @@ public class ItemMoveIcon : MonoBehaviour
     {
         action = "replace";
         var itemData = Item.GetItem(itemName);
-        Debug.Log(itemName);
         movingItem = itemData;
         this.quantity = quantity;
         sourceSlot = null;

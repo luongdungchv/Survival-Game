@@ -80,7 +80,6 @@ public class NetworkManager : MonoBehaviour
             playerList.Add(player.id, player);
             if (client.isHost)
             {
-                //splayer.GetComponent<Rigidbody>().useGravity = true;
                 client.SendTCPPacket(spawnPacket);
             }
         }
@@ -93,7 +92,6 @@ public class NetworkManager : MonoBehaviour
         client.SetUDPRemoteHost(startPacket.udpRemoteHost);
         client.SendUDPConnectionInfo(() =>
         {
-            //StartCoroutine(LoadSceneDelay(0.5f));
             StartCoroutine(LoadScene(1));
             gameStarted = true;
         });
@@ -106,7 +104,6 @@ public class NetworkManager : MonoBehaviour
     {
         var inputPacket = _packet as InputPacket;
 
-        //tick += inputPacket.tick;
         var lastTickDiff = lastClientTick - inputPacket.tick;
         if (tick == -1 || (lastTickDiff > 0 && lastTickDiff < 500)) tick = inputPacket.tick;
         else
@@ -115,7 +112,6 @@ public class NetworkManager : MonoBehaviour
             if (tick > 1024) tick = 0;
             inputPacket.tick = tick;
         }
-        //Debug.Log(inputPacket.tick);
         var playerId = inputPacket.id;
         if (playerList.ContainsKey(playerId))
             playerList[playerId].GetComponent<InputReceiver>().AddPacket(inputPacket);
@@ -133,7 +129,6 @@ public class NetworkManager : MonoBehaviour
     public void SpawnRequest(string playerId, NetworkPrefab prefab, Vector3 position, Vector3 rotation, string objId)
     {
         var prefabId = objMapper.GetPrefabIndex(prefab);
-        Debug.Log($"Prefab id is: {prefabId}");
         if (prefabId != -1)
         {
             SpawnObjectPacket packet = new SpawnObjectPacket();
@@ -146,7 +141,6 @@ public class NetworkManager : MonoBehaviour
         var roomPacket = _packet as RoomPacket;
         var action = roomPacket.action;
         var args = roomPacket.args;
-        Debug.Log(roomPacket.action);
         if (action == "create" || action == "join")
         {
             NetworkRoom room = new NetworkRoom()
@@ -171,10 +165,8 @@ public class NetworkManager : MonoBehaviour
         {
             var playerIdToRemove = int.Parse(args[0]);
             NetworkRoom.ins.RemovePlayer(playerIdToRemove);
-            Debug.Log(NetworkRoom.ins.localPlayerId);
             if ((playerIdToRemove == NetworkRoom.ins.localPlayerId || playerIdToRemove == 0) && !gameStarted)
             {
-                //SceneManager.LoadScene("MainMenu");
                 SceneManager.LoadScene(0);
             }
         }
@@ -199,7 +191,6 @@ public class NetworkManager : MonoBehaviour
             drop.displayName = itemBase.dropDisplayName;
             drop.meshTex = itemBase.dropTexture;
             drop.outlineColor = itemBase.dropOutlineColor;
-            Debug.Log(drop);
 
             var netSceneObj = drop.GetComponentInParent<NetworkSceneObject>();
             if (dropPacket.objId == "" || dropPacket.objId == "0") dropPacket.objId = GameFunctions.GenerateId();
@@ -213,7 +204,6 @@ public class NetworkManager : MonoBehaviour
     {
         var spawnInfo = _packet as SpawnObjectPacket;
         var obj = Instantiate(objMapper.GetPrefab(spawnInfo.objPrefabIndex), spawnInfo.position, Quaternion.Euler(spawnInfo.rotation));
-        Debug.Log("spawn: " + spawnInfo.GetString() + "[" + obj.name + "]");
         var netSceneObj = obj.GetComponent<NetworkSceneObject>();
         if (spawnInfo.objId != "0")
         {
@@ -234,7 +224,6 @@ public class NetworkManager : MonoBehaviour
     {
         var packet = _packet as RawActionPacket;
         var objId = packet.objId;
-        Debug.Log("Destroy Msg: " + packet.GetString());
         if (sceneObjects.ContainsKey(objId))
         {
             Destroy(sceneObjects[objId].gameObject);
@@ -247,7 +236,6 @@ public class NetworkManager : MonoBehaviour
     public void HandleChangeEquipment(Packet _packet)
     {
         var updatePacket = _packet as UpdateEquippingPacket;
-        Debug.Log("update: " + updatePacket.GetString());
         if (playerList[updatePacket.playerId].TryGetComponent<NetworkEquipment>(out var netEquip))
         {
             netEquip.SetRightHandItem(Item.GetItem(updatePacket.itemName));
@@ -259,7 +247,6 @@ public class NetworkManager : MonoBehaviour
         var chestPacket = _packet as RawActionPacket;
         var action = chestPacket.action;
         var obj = sceneObjects[chestPacket.objId];
-        Debug.Log("Chest packet: " + chestPacket.ToString());
         if (action == "open")
         {
             obj.GetComponentInChildren<Chest>().Open(playerList[chestPacket.playerId]);
@@ -271,7 +258,6 @@ public class NetworkManager : MonoBehaviour
     }
     public void HandleSceneObjInteraction(Packet _packet)
     {
-        // actionParams: tool, incomingDmg
         var packet = _packet as RawActionPacket;
         var action = packet.action;
 
@@ -283,7 +269,6 @@ public class NetworkManager : MonoBehaviour
         var isKnockback = int.Parse(packet.actionParams[3]) != 0;
 
         var obj = sceneObjects[packet.objId];
-        Debug.Log("Tree packet: " + packet.ToString());
         if (action == "take_dmg")
         {
             var objComponent = obj.GetComponent<IDamagable>();
@@ -301,7 +286,6 @@ public class NetworkManager : MonoBehaviour
         var packet = _packet as FurnaceClientMsgPacket;
         var action = packet.action;
         var obj = sceneObjects[packet.objId].GetComponentInChildren<TransformerBase>();
-        Debug.Log($"action: {action}, active: {sceneObjects[packet.objId].transform.parent} {obj.gameObject.activeInHierarchy}");
         switch (action)
         {
             case "set_input":
@@ -380,7 +364,6 @@ public class NetworkManager : MonoBehaviour
                 {
                     if (client.isHost)
                     {
-                        Debug.Log("host");
                         obj.isOpen = false;
                     }
                     break;
@@ -479,7 +462,6 @@ public class NetworkManager : MonoBehaviour
         {
             var itemName = args[0];
             var itemQuantity = int.Parse(args[1]);
-            //if (playerId != NetworkPlayer.localPlayer.id)
             ShipRepair.ins.SetItem(Item.GetItem(itemName), itemQuantity);
             if (Client.ins.isHost)
             {
@@ -576,7 +558,6 @@ public class NetworkManager : MonoBehaviour
     }
     IEnumerator LoadSceneDelay(float duration)
     {
-        Debug.Log("load");
         yield return new WaitForSeconds(duration);
         SceneManager.LoadScene("Test_PlayerStats");
         gameStarted = true;
@@ -585,7 +566,6 @@ public class NetworkManager : MonoBehaviour
     {
         var asyncOperation = SceneManager.LoadSceneAsync(buildIndex);
         this.roomUI.OpenLoadingPanel();
-        Debug.Log("scene load");
         while (!asyncOperation.isDone)
         {
             this.roomUI.SetLoadingProgress(asyncOperation.progress);

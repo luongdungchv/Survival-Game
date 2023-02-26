@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CamShake : MonoBehaviour
@@ -10,7 +9,6 @@ public class CamShake : MonoBehaviour
     {
         if (ins == null) ins = this;
     }
-    // Start is called before the first frame update
     public void Shake(float _size, float _duration) => StartCoroutine(ShakeEnum(_size, _duration));
     public void Shake() => StartCoroutine(ShakeEnum(size, duration));
     IEnumerator ShakeEnum(float _size, float _duration)

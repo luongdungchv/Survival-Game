@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Security;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Video;
 
 [CreateAssetMenu(fileName = "New State", menuName = "State")]
 public class State : ScriptableObject
@@ -29,7 +25,6 @@ public class State : ScriptableObject
 
     public bool SetLock(string stateName, bool lockState)
     {
-        Debug.Log(lockTransitions.ContainsKey(stateName));
         if (lockTransitions.ContainsKey(stateName))
         {
             lockTransitions[stateName] = lockState;

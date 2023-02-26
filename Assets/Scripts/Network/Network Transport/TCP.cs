@@ -26,15 +26,12 @@ public class TCP
     }
     public async void Connect(string hostName, int port)
     {
-        Debug.Log($"connect {hostName} {port}");
         socket = new TcpClient();
         try
         {
             await socket.ConnectAsync(hostName, port);
-            Debug.Log(socket.Connected);
             stream = socket.GetStream();
             buffer = new byte[bufferSize];
-            //TCPReadAsync();
             stream.BeginRead(buffer, 0, bufferSize, TCPReadCallback, null);
 
         }
@@ -55,7 +52,6 @@ public class TCP
             Debug.Log(socket.Connected);
             stream = socket.GetStream();
             buffer = new byte[bufferSize];
-            //TCPReadAsync();
             stream.BeginRead(buffer, 0, bufferSize, TCPReadCallback, null);
             onSuccessCallback();
         }

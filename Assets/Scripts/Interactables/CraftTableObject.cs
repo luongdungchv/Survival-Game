@@ -8,7 +8,6 @@ public class CraftTableObject : InteractableObject, IDamagable
     protected override void OnInteractBtnClick(Button clicker)
     {
         UIManager.ins.ToggleCraftUI();
-        //base.OnInteractBtnClick(clicker);
     }
 
     public void OnDamage(IHitData hitData)

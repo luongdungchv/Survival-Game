@@ -19,7 +19,6 @@ public class Item : MonoBehaviour
     public GameObject dropPrefab;
     public Texture2D dropTexture;
     public Color dropOutlineColor;
-    //public GameObject inHandModel;
     public Texture2D icon;
     public bool stackable = true;
     protected virtual void Awake()
@@ -46,7 +45,6 @@ public class Item : MonoBehaviour
 
         if (Client.ins.isHost)
         {
-            Debug.Log("Dropping");
             var dropNetObj = Instantiate(dropPrefab, dropPos, Quaternion.identity).GetComponent<NetworkSceneObject>();
             dropNetObj.GenerateId();
 
@@ -59,7 +57,6 @@ public class Item : MonoBehaviour
             drop.SetQuantity(quantity);
             drop.SetBase(this);
             dropPacket.objId = dropNetObj.id;
-            Debug.Log("objId " + dropPacket.objId);
         }
         Client.ins.SendTCPPacket(dropPacket);
         return drop;

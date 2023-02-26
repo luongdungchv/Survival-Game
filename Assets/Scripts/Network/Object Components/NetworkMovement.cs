@@ -4,7 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(InputReceiver), typeof(Rigidbody))]
 public class NetworkMovement : MonoBehaviour
 {
-    // [SerializeField] private float speed, speedWhenConsuming, sprintSpeed, jumpSpeed, dashSpeed, maxFallingSpeed = 55;
     [SerializeField] private LayerMask slopeCheckMask;
     private NetworkPlayer netPlayer;
     private InputReceiver inputReceiver;
@@ -89,7 +88,6 @@ public class NetworkMovement : MonoBehaviour
         moveDir = transform.forward;
         currentSpeed = dashSpeed;
 
-        Debug.Log(netPlayer.id + " " + "dsash");
         moveDir = moveDir.normalized;
         if (PerformSlopeCheck(ref moveDir))
         {

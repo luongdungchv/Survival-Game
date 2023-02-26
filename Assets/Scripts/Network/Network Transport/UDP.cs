@@ -20,7 +20,6 @@ public class UDP
     public void Connect(string hostName, int port)
     {
         socket = new UdpClient(0);
-        Debug.Log(GetSocketEP());
         socket.Connect(hostName, port);
         this.hostName = hostName;
         this.port = port;
@@ -39,8 +38,6 @@ public class UDP
         }
         catch (Exception e)
         {
-            //Disconnect();
-            // Debug.Log($"Cannot send: {msg}");
             Debug.Log(e.ToString());
             return false;
         }

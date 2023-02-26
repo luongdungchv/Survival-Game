@@ -46,7 +46,6 @@ public class ShipRepair : InteractableObject
         Client.ins.SendTCPPacket(shipRepairPacket);
     }
 
-    // Update is called once per frame
     public bool AddItem(Item repairItem, int quantity)
     {
         if (!currentDetails.ContainsKey(repairItem)) return false;
@@ -79,7 +78,6 @@ public class ShipRepair : InteractableObject
         {
             if (repairDetails[i] > currentDetails[i])
             {
-                Debug.Log("Not victory yet");
                 return;
             }
         }

@@ -8,8 +8,6 @@ public class PlayerSpawner : MonoBehaviour
     [SerializeField] private GameObject markerFullMap, markerMinimap;
     void Start()
     {
-        //yield return null;
-        //var randObj = new CustomRandom(MapGenerator.ins.seed + int.Parse(Client.ins.clientId));
         var randObj = new CustomRandom(MapGenerator.ins.seed);
         var castPos = new Vector3(randObj.NextFloat(100, 1400), 100, randObj.NextFloat(100, 1400));
 
@@ -20,12 +18,10 @@ public class PlayerSpawner : MonoBehaviour
 
         RaycastHit hit;
         bool cast = Physics.Raycast(castPos + Vector3.right * int.Parse(Client.ins.clientId) * 5, Vector3.down, out hit, 100, mask);
-        //cast = !cast || (cast && hit.point.y < skipHeight) ? false : true;
         while (hit.collider.tag == "Water")
         {
             castPos = new Vector3(randObj.NextFloat(100, 1400) + int.Parse(Client.ins.clientId) * 5, 100, randObj.NextFloat(100, 1400));
             cast = Physics.Raycast(castPos, Vector3.down, out hit, 100, mask);
-            //cast = !cast || (cast && hit.point.y < skipHeight) ? false : true;
         }
 
 
@@ -38,14 +34,12 @@ public class PlayerSpawner : MonoBehaviour
         if (!Client.ins.isHost)
         {
             var moveSystem = GetComponent<PlayerMovement>();
-            //GetComponent<Rigidbody>().useGravity = false;
         }
         SetMarkerColor(int.Parse(Client.ins.clientId));
         Client.ins.SendTCPMessage($"{(int)PacketType.SpawnPlayer} {Client.ins.clientId} {pos.x} {pos.y} {pos.z} {Client.ins.udp.port}");
         var spawnPacket = new SpawnPlayerPacket();
         spawnPacket.WriteData(Client.ins.clientId, new Vector3(pos.x, pos.y, pos.z));
 
-        //transform.position = new Vector3(504, 10, 1416);
     }
 
     public void SetMarkerColor(int id){

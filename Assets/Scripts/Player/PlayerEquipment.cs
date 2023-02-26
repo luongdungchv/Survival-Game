@@ -47,7 +47,6 @@ public class PlayerEquipment : MonoBehaviour
         }
         if (rightHandItem != null && rightHandItem.TryGetComponent<IConsumable>(out var consumableItem))
         {
-            // Debug.Log("h");
             consumeCoroutine = StartCoroutine(ConsumeEnumerator(consumableItem));
         }
     }

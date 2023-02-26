@@ -73,7 +73,6 @@ public class NetworkPlayer : NetworkObject
 
             }
             moveDir = moveDir.normalized;
-            //rb.MovePosition(_position);
             if (lerpPosRoutine != null) StopCoroutine(lerpPosRoutine);
             lerpPosRoutine = StartCoroutine(LerpPosition(_position, 0.0833f));
             this.desiredPosition = _position;

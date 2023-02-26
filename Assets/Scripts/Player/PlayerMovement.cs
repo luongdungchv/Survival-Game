@@ -26,7 +26,6 @@ public class PlayerMovement : MonoBehaviour
     private bool canDash;
     private void Start()
     {
-        //animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         attackSystem = GetComponent<PlayerAttack>();
         animManager = GetComponent<PlayerAnimation>();
@@ -46,12 +45,6 @@ public class PlayerMovement : MonoBehaviour
         camHolder.position = camHolderPos.position;
 
 
-    }
-    private void FixedUpdate()
-    {
-        // var currentTick = inputReader.currentTick;
-        // var statePayload = new StatePayload(rb.position, currentTick);
-        // netPlayer.AddStatePayload(statePayload);
     }
     public void SyncCamera()
     {
@@ -150,11 +143,6 @@ public class PlayerMovement : MonoBehaviour
     {
         animManager.Jump();
         init.InAir.lockState = true;
-        // if (Client.ins.isHost)
-        // {
-
-
-        // }
         float horizontalJump = currentSpeed == dashSpeed ? dashJumpSpeed : currentSpeed;
         var jumpVelocity = transform.forward * horizontalJump + Vector3.up * jumpSpeed;
         rb.velocity = jumpVelocity;
@@ -190,7 +178,6 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Dash()
     {
-        //if (!Client.ins.isHost) return;
         if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
         currentSpeed = dashSpeed;
         if (inputReader.movementInputVector == Vector2.zero)

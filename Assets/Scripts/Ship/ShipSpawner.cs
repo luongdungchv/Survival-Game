@@ -32,7 +32,6 @@ public class ShipSpawner : MonoBehaviour
         var randomRotation = Quaternion.Euler(0, randomObject.Next(0, 360), 0);
         ship.transform.position = randomPos;
         ship.transform.rotation = randomRotation;
-        Debug.Log(randomPos);
     }
     private Vector3 GetRandomPos(){
         var randomBound = boundMap[randomObject.Next(0, 4)];
@@ -45,7 +44,6 @@ public class ShipSpawner : MonoBehaviour
         return new Vector3(randX,11.14386f, randY);
     }
 
-    // Update is called once per frame
     void Update()
     {
         

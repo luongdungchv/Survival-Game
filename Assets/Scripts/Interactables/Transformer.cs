@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Transformer : TransformerBase
 {
-    //TODO: Transformer server client decision system
     [SerializeField] private float syncRate;
     float elapsed = 0;
     private Coroutine cookRoutine;
@@ -33,7 +32,6 @@ public class Transformer : TransformerBase
     {
         currentOpen = this;
         if(!isOpen){
-            Debug.Log("open");
             isOpen = true;
             UIManager.ins.ToggleFurnaceUI();
         }
@@ -190,7 +188,6 @@ public class Transformer : TransformerBase
     {
 
         isInCookingState = true;
-        Debug.Log(inputSlot?.quantity);
         while (true)
         {
             if (inputSlot == null || outputSlot == null || fuelSlot == null) break;

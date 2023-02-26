@@ -10,7 +10,6 @@ public class MeshGenerator
         int width = noiseMap.GetLength(0);
 
         float unit = (float)worldWidth / (float)width;
-        //unit = 1;
 
         Vector3[] verts = new Vector3[width * width];
         Vector2[] uv = new Vector2[width * width];
@@ -35,8 +34,6 @@ public class MeshGenerator
             }
             tmpY += unit;
         }
-        //Debug.Log(tmpX);
-
         for (int y = 0; y < width - 1; y++)
         {
             for (int x = 0; x < width - 1; x++)
@@ -61,10 +58,8 @@ public class MeshGenerator
     public static MeshData[] GenerateMeshes(float[,] noiseMap, float maxHeight, AnimationCurve heightCurve, int worldWidth)
     {
         int width = noiseMap.GetLength(0);
-        Debug.Log(width);
 
         float unit = (float)worldWidth / (float)width;
-        //unit = 1;
 
         Vector3[] verts = new Vector3[width * width];
         Vector2[] uv = new Vector2[width * width];
@@ -89,8 +84,6 @@ public class MeshGenerator
             }
             tmpY += unit;
         }
-        //Debug.Log(tmpX);
-
         for (int y = 0; y < width - 1; y++)
         {
             for (int x = 0; x < width - 1; x++)
@@ -119,16 +112,6 @@ public class MeshGenerator
                 var selectedVert = verts[y * width + x];
                 selectedVert = new Vector3(xOdd * unit, selectedVert.y, yOdd * unit);
                 var selectedUV = uv[y * width + x];
-
-                //Debug.Log($"{meshIndexX} {meshIndexY}");
-
-
-                // if (y != 0 && y % 4 == 0)
-                // {
-                //     meshDatas[(meshIndexY - 1) * meshWidth + meshIndexX].AddVert(selectedVert);
-                //     meshDatas[(meshIndexY - 1) * meshWidth + meshIndexX].AddUV(selectedUV);
-                // }
-
             }
         }
 

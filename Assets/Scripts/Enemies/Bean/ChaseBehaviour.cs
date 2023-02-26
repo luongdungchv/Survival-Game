@@ -42,12 +42,7 @@ namespace Enemy.Bean
                 navAgent.destination = target.position;
             }
             catch{
-                Debug.Log("destroyed: " + animator.GetComponent<NetworkSceneObject>().id);
             }
-            // var distance = Vector3.Distance(animator.transform.position, target.position);
-            // if(distance > chaseStats.chaseRange){
-            //     animator.SetTrigger("patrol");
-            // }
         }
     }
 }

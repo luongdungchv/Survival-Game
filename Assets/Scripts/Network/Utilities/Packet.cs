@@ -26,7 +26,6 @@ public class Packet
                 {
                     var packet = new SpawnPlayerPacket();
                     packet.WriteData(msg);
-                    Debug.Log("Spawn player: " + msg);
                     return packet;
                 }
             case PacketType.StartGame:
@@ -56,7 +55,6 @@ public class Packet
             case PacketType.FurnaceServerUpdate:
                 {
                     var packet = new FurnaceUpdatePacket();
-                    //Debug.Log(msg);
                     packet.WriteData(msg);
                     return packet;
                 }
@@ -86,7 +84,6 @@ public class Packet
             }
             default:
                 {
-                    //                    Debug.Log("msg: " + msg);
                     var packet = new RawActionPacket(parsedCmd);
                     packet.WriteData(msg);
                     return packet;
@@ -141,7 +138,6 @@ public class MovePlayerPacket : Packet
             this.id = split[1];
             this.position = new Vector3(float.Parse(split[2]), float.Parse(split[3]), float.Parse(split[4]));
             this.anim = byte.Parse(split[5]);
-            //this.tick = int.Parse(split[6]);
         }
     }
     public void WriteData(byte[] buffer){
@@ -373,7 +369,6 @@ public class FurnaceUpdatePacket : Packet
             this.fuelItem = itemSplit[1];
             this.outputItem = itemSplit[2];
 
-            //var cookProgressSplit = split[4].Split('|');
             this.cookedUnit = (int)(split[4][0]) - 33;
             this.remainingUnit = (int)(split[4][1]) - 33;
         }

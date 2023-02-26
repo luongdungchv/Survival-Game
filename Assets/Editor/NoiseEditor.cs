@@ -17,8 +17,6 @@ public class NoiseEditor : Editor
             {
 
             }
-            //await obj.MeshUpdate();
         }
-        //obj.UpdateMesh();
     }
 }

@@ -10,7 +10,6 @@ namespace Enemy.Low
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             animator.SetBool("atk", false);
-            Debug.Log("switch");
             var stats = animator.GetComponent<EnemyStats>();
             var distToTarget = stats.distanceToTarget;
 

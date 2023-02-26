@@ -27,7 +27,6 @@ public class Flower : MonoBehaviour
             for (int j = 0; j < size; j++)
             {
                 float noiseVal = noiseMap[i, j];
-                // tex.SetPixel(i, j, noiseVal > threshold ? Color.white : Color.black);
                 tex.SetPixel(i, j, testColors[(int)noiseVal]);
                 if (noiseVal > threshold)
                 {
@@ -64,7 +63,6 @@ public class Flower : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 float noiseVal = noiseMap[x, y];
-                //bool isConnected = false;
                 if (noiseVal > 0)
                 {
                     if (x > 0 && noiseMap[x - 1, y] > 0)

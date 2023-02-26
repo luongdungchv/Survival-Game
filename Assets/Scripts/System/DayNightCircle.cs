@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements.Experimental;
 
 public class DayNightCircle : MonoBehaviour
 {
@@ -16,22 +14,14 @@ public class DayNightCircle : MonoBehaviour
     
     private static DayNightCircle ins;
     public static float time => ins.value;
-    // Start is called before the first frame update
     private void Awake() {
         ins = this;
     }
     void Start()
     {
-
         StartCoroutine(Circulate(dayTime));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-
-    }
     IEnumerator Circulate(float duration)
     {
         value += Time.deltaTime / duration;

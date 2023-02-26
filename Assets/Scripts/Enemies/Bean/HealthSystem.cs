@@ -25,7 +25,6 @@ namespace Enemy.Bean
             if(currentHP <= 0){
                 Destroy(this.gameObject);
                 var coins = Random.Range(minCoinsDrop, maxCoinsDrop + 1);
-                Debug.Log("coins drop: " + coins);
                 var netPlayer = playerHitData.dealer.GetComponent<NetworkPlayer>();
                 if(netPlayer.isLocalPlayer)
                     playerHitData.dealer.coins += coins;

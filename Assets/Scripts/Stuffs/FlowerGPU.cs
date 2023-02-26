@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Net.Cache;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class FlowerGPU : MonoBehaviour
 {
@@ -17,7 +15,6 @@ public class FlowerGPU : MonoBehaviour
     private List<InstanceData> datas;
     private int chunkWidth;
     private int instancePerChunk;
-    //private renderInstances
     private ComputeBuffer argsBuffer, instanceBuffer, renderBuffer;
     private Bounds bounds;
     private uint[] args;
@@ -25,7 +22,6 @@ public class FlowerGPU : MonoBehaviour
 
     private void Start()
     {
-        //SpawnFlower();
         bounds = new Bounds(transform.position, Vector3.one * (10000));
 
         Settings.OnSettingChange.AddListener(() =>
@@ -63,10 +59,6 @@ public class FlowerGPU : MonoBehaviour
 
     public void InitBuffers()
     {
-        // var dataArray = datas.ToArray();
-        // instanceBuffer = new ComputeBuffer(datas.Count, InstanceData.size);
-        // instanceBuffer.SetData(dataArray);
-
         renderBuffer = new ComputeBuffer(instanceCount, InstanceData.size, ComputeBufferType.Append);
         renderBuffer.SetCounterValue(0);
 
@@ -78,7 +70,6 @@ public class FlowerGPU : MonoBehaviour
         args[3] = (uint)mesh.GetBaseVertex(0);
         argsBuffer.SetData(args);
 
-        //compute.SetBuffer(0, "instanceBuffer", instanceBuffer);
         compute.SetBuffer(0, "renderBuffer", renderBuffer);
 
         flowerMat.SetBuffer("instDatas", renderBuffer);
@@ -128,11 +119,6 @@ public class FlowerGPU : MonoBehaviour
         ComputeBuffer.CopyCount(renderBuffer, argsBuffer, 4);
         Graphics.DrawMeshInstancedIndirect(mesh, 0, flowerMat, bounds, argsBuffer);
         renderBuffer.SetCounterValue(0);
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log(instanceBuffer.count);
-            Debug.Log(instanceCount);
-        }
     }
 
     private void GenerateInstanceData()
@@ -199,7 +185,6 @@ public class FlowerGPU : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 float noiseVal = noiseMap[x, y];
-                //bool isConnected = false;
                 if (noiseVal > 0)
                 {
                     if (x > 0 && noiseMap[x - 1, y] > 0)

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class InputReader : MonoBehaviour
 {
@@ -41,7 +39,6 @@ public class InputReader : MonoBehaviour
     }
     public int inputNum;
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -61,13 +58,11 @@ public class InputReader : MonoBehaviour
                 if (Char.IsDigit(i))
                 {
                     inputNum = int.Parse(i.ToString());
-                    Debug.Log(inputNum);
                     break;
                 }
             }
         }
         else inputNum = -1;
-        //Debug.Log(movementInputVector);
         if (SprintPress()) sprint = true;
         if (SprintRelease()) sprint = false;
 
@@ -79,28 +74,6 @@ public class InputReader : MonoBehaviour
             {
                 currentTick++;
                 currentTick = currentTick % 1024;
-                // if (Client.ins.isHost)
-                // {
-                //     movementInputVector = tmpMoveVector;
-                // }
-                // else
-                // {
-                    
-                //     movementInputVector = tmpMoveVector;
-                //     var camDir = new Vector2(localCamHolder.forward.x, localCamHolder.forward.z).normalized;
-                //     var inputPacket = new InputPacket(){
-                //         id = Client.ins.clientId,
-                //         inputVector = tmpMoveVector,
-                //         camDir = camDir,
-                //         sprint =  sprint && localPlayerStats.stamina > 0,
-                //         jump = JumpPress(),
-                //         atk = SlashPress(),
-                //         isConsumingItem = localPlayerEquipment.isConsumingItem,
-                //         tick = currentTick                       
-                //     };
-                //     //inputPacket.WriteData(Client.ins.clientId, tmpMoveVector, sprint && localPlayerStats.stamina > 0, JumpPress(), camDir, SlashPress(), localPlayerEquipment.isConsumingItem);
-                //     Client.ins.SendUDPPacket(inputPacket);
-                // }
                 var camDir = new Vector2(localCamHolder.forward.x, localCamHolder.forward.z).normalized;
                 var inputPacket = new InputPacket(){
                         id = Client.ins.clientId,
@@ -123,9 +96,6 @@ public class InputReader : MonoBehaviour
         var inputPacket = inputBuffer.Dequeue();
         this.movementInputVector = inputPacket.inputVector;
         this.currentTick = inputPacket.tick;
-        // if(!Client.ins.isHost){
-        //     Client.ins.SendUDPPacket(inputPacket);
-        // }
     }
     private bool GetKey(KeyCode key)
     {

@@ -43,7 +43,6 @@ Shader "Attack/NormalSlash"
                 float4 col = pow(tex2D(_MainTex, i.uv), _Power);
                 
                 return i.color * col * i.color.a;
-                //return 0;
             }
             ENDCG
         }

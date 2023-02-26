@@ -8,7 +8,6 @@ public class AnvilObject : InteractableObject, IDamagable
     protected override void OnInteractBtnClick(Button clicker)
     {
         UIManager.ins.ToggleAnvilUI();
-        //base.OnInteractBtnClick(clicker);
     }
 
     public void OnDamage(IHitData hitData)

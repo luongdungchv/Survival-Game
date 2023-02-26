@@ -40,13 +40,6 @@ public class Settings : MonoBehaviour
         SaveData();
         ToggleSetting();
     }
-    private void Update()
-    {
-        // if (Input.GetKeyDown(KeyCode.Escape))
-        // {
-        //     ToggleSetting();
-        // }
-    }
 
     public void ToggleSetting()
     {
@@ -96,7 +89,6 @@ public class Settings : MonoBehaviour
     }
     public void SaveData()
     {
-        //return;
         ToggleSetting();
         PlayerPrefs.SetString("setting", JsonUtility.ToJson(this.currentData));
         switch (this.currentData.anisotropicFiltering)
@@ -169,7 +161,6 @@ public class Settings : MonoBehaviour
                 break;
         }
         
-        Debug.Log(Screen.resolutions[Screen.resolutions.Length - 1]);
         switch (this.currentData.resolution)
         {
             case 1:

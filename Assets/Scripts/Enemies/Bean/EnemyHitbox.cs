@@ -30,7 +30,6 @@ public class EnemyHitbox : HitBox
                 playerId = netPlayer.id,
                 actionParams = new string[] { damage.ToString() }
             };
-            Debug.Log(dmgPlayerPacket.ToString());
             Client.ins.SendTCPPacket(dmgPlayerPacket);
 
             return true;

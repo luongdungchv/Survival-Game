@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StateInitializer : MonoBehaviour
@@ -98,7 +97,6 @@ public class StateInitializer : MonoBehaviour
         else if (!animSystem.animator.GetBool("dash"))
         {
             var curStateName = fsm.currentState.name;
-            //bool dash = animSystem.animator.GetBool("dash");
             if (!curStateName.Contains("Swim") && animSystem.animator.GetFloat("swim") < 0.001f)
             {
                 fsm.ChangeState(Idle);
@@ -117,12 +115,10 @@ public class StateInitializer : MonoBehaviour
     }
     private async void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.transform.parent?.gameObject.name);
         if (fsm.currentState.name == "InAir")
         {
             InAir.lockState = false;
             animSystem.CancelJump();
-            Debug.Log("touch");
             var moveParam = animSystem.animator.GetFloat("move");
             if (moveParam < 0.1f)
             {

@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Enemy.Base;
-using Enemy.Bean;
-using System.ComponentModel;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -23,8 +20,7 @@ public class EnemySpawner : MonoBehaviour
     public void AttemptToSpawn(Vector2 origin)
     {
         var possibility = Random.Range(1, 2001);
-        Debug.Log(possibility);
-        if (possibility < 11)
+        if (possibility < 9)
         {
             var enemyGroup = enemyGroups[0];
             var randX = Random.Range(origin.x - spawnExtend.x, origin.x + spawnExtend.x);
@@ -44,7 +40,6 @@ public class EnemySpawner : MonoBehaviour
     }
     private void Update() {
         if(!Client.ins.isHost) return;
-        //if(stop) return;
         
         if(DayNightCircle.time < 1.1f) return;
         if(elapsed > tickDuration){
@@ -80,7 +75,6 @@ public class EnemySpawner : MonoBehaviour
                     var spawnPosition = hit.point + Vector3.up * 2;
                     var enemy = Instantiate(i.enemy, spawnPosition, Quaternion.identity);
                     var objId = enemy.GetComponent<NetworkSceneObject>().GenerateId();
-                    Debug.Log(objId);
                     var spawnPacket = new SpawnEnemyPacket(){
                         spawnPosition =   spawnPosition,
                         enemyNetId = objId

@@ -10,7 +10,6 @@ public class PlayerAttack : MonoBehaviour
     public float currentBaseDmg => _currentWield.baseDmg;
     public Tool currentWield { set => _currentWield = value; }
     [SerializeField] private List<ParticleSystem> slashFXList;
-    //[SerializeField] private DamageDealer attacker;
 
     PlayerMovement movementSystem;
     PlayerAnimation animManager;
@@ -21,7 +20,6 @@ public class PlayerAttack : MonoBehaviour
 
     Coroutine mouseWaitCountdown;
     Coroutine animCountdown;
-    // Start is called before the first frame update
     void Start()
     {
         animManager = GetComponent<PlayerAnimation>();
@@ -62,7 +60,6 @@ public class PlayerAttack : MonoBehaviour
             attackIndex++;
 
             int fxIndex = attackIndex;
-            //            Debug.Log(fxIndex);
 
             animManager.PerformAttack(fxIndex, pattern.type);
 
@@ -96,7 +93,6 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    //Used as animation event
     public void DetectHit(int hitIndex)
     {
         if (GetComponent<NetworkPlayer>().isLocalPlayer) pattern.DetectHit(hitIndex);

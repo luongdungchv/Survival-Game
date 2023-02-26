@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -27,7 +26,6 @@ public class DamagePopup : MonoBehaviour, IPoolObject
     public void OnPooled()
     {
         this.gameObject.SetActive(false);
-        //        Debug.Log("pooled");
     }
 
     public void OnReleased()
@@ -36,7 +34,6 @@ public class DamagePopup : MonoBehaviour, IPoolObject
     }
     public void Popup(Vector3 position, string text, int critLevel)
     {
-        Debug.Log($"Incoming DMG: {text}, Crit: {critLevel}");
         tmp.text = text;
         if (critLevel == 1)
         {

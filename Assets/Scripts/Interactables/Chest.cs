@@ -66,9 +66,6 @@ public class Chest : InteractableObject
     private void DropFood()
     {
         var foodDrop = Item.GetItem("food").Drop(transform.position + Vector3.up * 2, chestLevel + 1);
-        // var dropComponent = foodDrop.GetComponentInChildren<ItemDrop>();
-        // dropComponent.SetQuantity(chestLevel + 1);
-        // dropComponent.SetBase(Item.GetItem("food"));
         var randX = Random.Range(-1f, 1f);
         var randZ = Random.Range(-1f, 1f);
         var randDir = new Vector3(randX, 1, randZ);

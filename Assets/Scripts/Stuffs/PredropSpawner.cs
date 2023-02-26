@@ -1,9 +1,5 @@
 using System.Collections.Generic;
-using System.Net.Cache;
-using System.Runtime.Serialization.Json;
-using System.Security.AccessControl;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 public class PredropSpawner : MonoBehaviour
 {

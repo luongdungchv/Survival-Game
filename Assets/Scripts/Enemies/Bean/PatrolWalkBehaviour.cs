@@ -71,9 +71,7 @@ namespace Enemy.Bean
             var randX = Random.Range(patrolCenter.x - patrolArea.x, patrolCenter.x + patrolArea.x);
             var randY = Random.Range(patrolCenter.z - patrolArea.y, patrolCenter.z + patrolArea.y);
             var castPos = new Vector3(randX, 100, randY);
-            // targetPos = new Vector3(randX, animator.transform.position.y, randY);
-            // var dirToTarget = targetPos - animator.transform.position;
-            // var disttoTarget = dirToTarget.magnitude;
+
             if (Physics.Raycast(castPos, Vector3.down, out var hit, 110, mask))
             {
                 if (hit.collider.tag == "Water") return false;

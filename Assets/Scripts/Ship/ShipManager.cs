@@ -22,7 +22,6 @@ public class ShipManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     public bool AddItem(Item repairItem, int quantity){
         if(!currentDetails.ContainsKey(repairItem)) return false;
         currentDetails[repairItem] += quantity;
@@ -32,11 +31,9 @@ public class ShipManager : MonoBehaviour
     private void CheckVictory(){
         foreach(var i in repairDetails.Keys){
             if(repairDetails[i] > currentDetails[i]){
-                Debug.Log("Not victory yet");
                 return;
             }
         }
-        Debug.Log("Victory");
     }
     public class RepairDetail{
         public Item item;
