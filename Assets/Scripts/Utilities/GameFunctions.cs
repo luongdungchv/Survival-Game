@@ -47,6 +47,9 @@ public class GameFunctions : MonoBehaviour
             if(UIManager.ins.currentOpenUI != null) UIManager.ins.ToggleOffCurrentUI();
             else Settings.ins.ToggleSetting();
         }
+        if(InputReader.ins.OpenCommandPanelPress()){
+            UIManager.ins.ToggleCommandUI();
+        }
     }
     public void HideCursor()
     {

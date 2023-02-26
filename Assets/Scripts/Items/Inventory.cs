@@ -81,7 +81,7 @@ public class Inventory : MonoBehaviour
         {
             currentEquipIndex += mouseScroll;
         }
-        if (InputReader.ins.inputNum != -1 && canChangeEquipment)
+        if (!UIManager.ins.isUIOpen && InputReader.ins.inputNum != -1 && canChangeEquipment)
         {
             currentEquipIndex = InputReader.ins.inputNum - 1;
         }

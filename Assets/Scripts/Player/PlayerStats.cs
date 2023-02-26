@@ -215,6 +215,18 @@ public class PlayerStats : MonoBehaviour
     {
         DecreaseStatmina(sprintStaminaReduce * Time.deltaTime);
     }
+    public void SetInvincible(bool state){
+        if(state){
+            _stamina = int.MaxValue;
+            _hungerPoint = int.MaxValue;
+            _hp = int.MaxValue;
+        }
+        else{
+            _stamina = maxStamina;
+            _hungerPoint = maxHungerPoint;
+            _hp = maxHP;
+        }
+    }
     private void UpdateBar(Slider bar, Coroutine processor, float ceil, float value, float duration)
     {
         IEnumerator UpdateBarEnum()

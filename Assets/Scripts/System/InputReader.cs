@@ -137,6 +137,9 @@ public class InputReader : MonoBehaviour
     {
         return Input.GetKeyDown(interactKey) && !UIManager.ins.isUIOpen && !Cursor.visible;
     }
+    public bool OpenCommandPanelPress(){
+        return Input.GetKeyDown(KeyCode.Return) && !UIManager.ins.isUIOpen && !Cursor.visible;
+    }
     public bool OpenMapPress()
     {
         return Input.GetKeyDown(openMapKey);

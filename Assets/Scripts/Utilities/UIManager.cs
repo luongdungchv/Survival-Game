@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TransformerUI transformerUI;
     [Header("Notification UI")]
     [SerializeField] private GameObject lostConnectionPanel;
-    [SerializeField] private GameObject diePanel, gameOverPanel, victoryPanel;
+    [SerializeField] private GameObject diePanel, gameOverPanel, victoryPanel, commandPanel;
     [SerializeField] private float showDelay;
     [Header("UI Handlers")]
     [SerializeField] private InventoryInteractionHandler inventoryUIHandler;
@@ -37,7 +37,8 @@ public class UIManager : MonoBehaviour
                 lostConnectionPanel.activeSelf ||
                 diePanel.activeSelf ||
                 gameOverPanel.activeSelf ||
-                shipRepairUI.activeSelf;
+                shipRepairUI.activeSelf ||
+                commandPanel.activeSelf;
 
     private InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
 
@@ -188,6 +189,11 @@ public class UIManager : MonoBehaviour
         if(currentOpenUI == furnaceUI) ToggleFurnaceUI();
         if(currentOpenUI == anvilUI) ToggleAnvilUI();
         if(currentOpenUI == shipRepairUI) ToggleShipRepairUI();
+    }
+    public void ToggleCommandUI(){
+        Debug.Log("0000");
+        this.commandPanel.SetActive(!commandPanel.activeSelf);
+        GameFunctions.ins.ToggleCursor(isUIOpen);
     }
     public void RefreshFurnaceUI()
     {
