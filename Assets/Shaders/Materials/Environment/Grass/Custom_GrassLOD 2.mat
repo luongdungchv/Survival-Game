@@ -69,7 +69,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Scale: 4.6
-    - _SmoothnessState: 0.23619318
+    - _SmoothnessState: 0.5705643
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

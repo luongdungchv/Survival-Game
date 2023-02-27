@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 8422354027114626030}
   - component: {fileID: 1717651126304400885}
   - component: {fileID: 2576003361220874209}
-  m_Layer: 0
+  - component: {fileID: -1962046016805885919}
+  m_Layer: 12
   m_Name: craft_table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,22 +125,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 60
-  itemName: 
-  minDrop: 0
-  maxDrop: 0
-  requiredTools:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  itemName: craft_table
+  minDrop: 1
+  maxDrop: 1
+  requiredTools: []
 --- !u!114 &2576003361220874209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +142,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 
+--- !u!114 &-1962046016805885919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5497741677720493458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4330de342e37bc4490b88879bf87f10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiElement: {fileID: 0}
+  projection: 0
+  uiWorldPos: {fileID: 0}
+  distanceThreshold: 20
+  canvas: {fileID: 0}
 --- !u!1 &7218167282159271395
 GameObject:
   m_ObjectHideFlags: 0

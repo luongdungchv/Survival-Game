@@ -411,6 +411,7 @@ MonoBehaviour:
   maxDrop: 8
   requiredTools:
   - mithril_axe
+  dmgPopupPos: {fileID: 1696102859863120085}
 --- !u!65 &6918578912785741625
 BoxCollider:
   m_ObjectHideFlags: 0

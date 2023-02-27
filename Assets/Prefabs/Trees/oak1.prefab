@@ -172,6 +172,7 @@ MonoBehaviour:
   - mithril_axe
   - golden_axe
   - knife
+  dmgPopupPos: {fileID: 4810499554830683263}
 --- !u!65 &1654392395457581537
 BoxCollider:
   m_ObjectHideFlags: 0

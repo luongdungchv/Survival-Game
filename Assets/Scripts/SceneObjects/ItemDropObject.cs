@@ -7,6 +7,7 @@ public class ItemDropObject : MonoBehaviour, IDamagable
     [SerializeField] private string itemName;
     [SerializeField] private int minDrop, maxDrop;
     [SerializeField] private string[] requiredTools;
+    [SerializeField] private Transform dmgPopupPos;
     private Item itemBase => Item.GetItem(itemName);
     private float maxHP;
     private ObjectPool<DamagePopup> dmgPopupPool => PoolManager.ins.dmgPopupPool;
@@ -16,15 +17,14 @@ public class ItemDropObject : MonoBehaviour, IDamagable
     }
     private void OnDamage(PlayerStats player, float incomingDmg, string tool, bool isCrit)
     {
-        if (!requiredTools.Contains(tool)) incomingDmg = 0;
+        if (requiredTools.Length > 0 && !requiredTools.Contains(tool)) incomingDmg = 0;
         hp -= incomingDmg;
         var isDealerLocalPlayer = player.GetComponent<NetworkPlayer>().isLocalPlayer;
-        FixedSizeUI hpBar;
-        if ((TryGetComponent<FixedSizeUI>(out hpBar)) && isDealerLocalPlayer)
+        if (isDealerLocalPlayer)
         {
             var popup = dmgPopupPool.Release();
             var critLevel = isCrit ? 1 : 0;
-            var popupPos = hpBar.uiWorldPos == null ? transform.position : hpBar.uiWorldPos.position;
+            var popupPos = dmgPopupPos == null ? transform.position : dmgPopupPos.position;
             popup.Popup(popupPos, incomingDmg.ToString(), critLevel);
         }
         if (hp <= 0)

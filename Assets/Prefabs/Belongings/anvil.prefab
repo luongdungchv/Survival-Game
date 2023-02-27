@@ -61,6 +61,8 @@ MonoBehaviour:
   displayName: Anvil
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
+  distanceThreshold: 5
+  isPlayerTouch: 0
   hp: 50
 --- !u!114 &8724790784760172828
 MonoBehaviour:
@@ -91,7 +93,10 @@ GameObject:
   - component: {fileID: 8312587990439880805}
   - component: {fileID: 8018499606669565494}
   - component: {fileID: -3478755811802216476}
-  m_Layer: 0
+  - component: {fileID: 7720195457457753160}
+  - component: {fileID: 4589462061181714842}
+  - component: {fileID: 7082308849416103307}
+  m_Layer: 12
   m_Name: anvil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,3 +192,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803badd55b024644399b1b75458fc1a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7720195457457753160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312587990439880806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fafe2b71e76c23a409285a7111a748f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
+--- !u!114 &4589462061181714842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312587990439880806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 60
+  itemName: anvil
+  minDrop: 1
+  maxDrop: 1
+  requiredTools: []
+--- !u!114 &7082308849416103307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312587990439880806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4330de342e37bc4490b88879bf87f10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiElement: {fileID: 0}
+  projection: 0
+  uiWorldPos: {fileID: 0}
+  distanceThreshold: 20
+  canvas: {fileID: 0}

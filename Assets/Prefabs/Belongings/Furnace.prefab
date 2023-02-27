@@ -14,7 +14,9 @@ GameObject:
   - component: {fileID: 5644345518066122211}
   - component: {fileID: 6062679688848879219}
   - component: {fileID: 5858688082048399009}
-  m_Layer: 0
+  - component: {fileID: 1954839837278591774}
+  - component: {fileID: 2637354228271908921}
+  m_Layer: 12
   m_Name: Furnace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,6 +125,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 
+--- !u!114 &1954839837278591774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426130791308642496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c052a115919aa8b41bcbfa925527b6f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 60
+  itemName: furnace
+  minDrop: 1
+  maxDrop: 1
+  requiredTools: []
+--- !u!114 &2637354228271908921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426130791308642496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4330de342e37bc4490b88879bf87f10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiElement: {fileID: 0}
+  projection: 0
+  uiWorldPos: {fileID: 0}
+  distanceThreshold: 20
+  canvas: {fileID: 0}
 --- !u!1 &3659717180466992281
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,6 +208,8 @@ MonoBehaviour:
   displayName: Furnace
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
+  distanceThreshold: 5
+  isPlayerTouch: 0
   inputSlot:
     quantity: 0
   fuelSlot:
@@ -179,6 +217,7 @@ MonoBehaviour:
   outputSlot:
     item: {fileID: 0}
     quantity: 0
+  _isOpen: 0
   maxInputCap: 64
   maxOutputCap: 64
   syncRate: 0.25
@@ -197,6 +236,8 @@ MonoBehaviour:
   displayName: Furnace
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
+  distanceThreshold: 5
+  isPlayerTouch: 0
   inputSlot:
     quantity: 0
   fuelSlot:
@@ -204,6 +245,7 @@ MonoBehaviour:
   outputSlot:
     item: {fileID: 0}
     quantity: 0
+  _isOpen: 0
   maxInputCap: 64
   maxOutputCap: 64
 --- !u!65 &6954463552060133387
