@@ -41,6 +41,9 @@ public class StateInitializer : MonoBehaviour
             animSystem.SwimIdle();
             swimSystem.StopSwimming();
         });
+        SwimIdle.OnUpdate.AddListener(() => {
+            swimSystem.PerformSwimIdling();
+        });
 
         SwimNormal.OnEnter.AddListener(() => swimSystem.StartSwimming());
         SwimNormal.OnUpdate.AddListener(() => swimSystem.PerformSwim(this));

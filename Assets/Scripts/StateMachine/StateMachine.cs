@@ -42,11 +42,13 @@ public class StateMachine : MonoBehaviour
         {
             return false;
         }
-
-        if (stateName == currentState.name || currentState.CheckLock(stateName))
+        if (stateName == currentState.name)
         {
             return false;
-        };
+        }
+        if (currentState.CheckLock(stateName) && !force){
+            return false;
+        }
         foreach (var i in currentState.transitions)
         {
             if (i.name == stateName)

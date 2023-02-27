@@ -23,6 +23,7 @@ public class SwimHandler : MonoBehaviour
 
     private float swimSpeed => stats.swimSpeed;
     private float swimFastSpeed => stats.swimFastSpeed;
+    private float swimHeight;
     void Start()
     {
 
@@ -43,6 +44,7 @@ public class SwimHandler : MonoBehaviour
             {
                 var rb = GetComponent<Rigidbody>();
                 transform.position += Vector3.down * (threshold - length);
+                swimHeight = transform.position.y;
                 rb.useGravity = false;
                 GetComponent<StateInitializer>().InAir.lockState = false;
                 rb.velocity = new Vector3(0, 0, 0);
@@ -61,13 +63,13 @@ public class SwimHandler : MonoBehaviour
         var inputReader = init.inputReader;
         float xMove = inputReader.movementInputVector.x;
         float zMove = inputReader.movementInputVector.y;
+        if(transform.position.y < swimHeight - 0.1f)
+            transform.position = new Vector3(transform.position.x, swimHeight, transform.position.z);
 
         Vector3 moveDir = Vector3.zero;
 
         if (xMove != 0 || zMove != 0)
         {
-
-
             if (inputReader.sprint && swimFastSpeed != currentSpeed)
             {
                 animSystem.SwimNormal();
@@ -135,6 +137,10 @@ public class SwimHandler : MonoBehaviour
         attackSystem.StopAnimationCountdown();
         attackSystem.ResetAttack();
 
+    }
+    public void PerformSwimIdling(){
+        if(transform.position.y < swimHeight - 0.1f)
+            transform.position = new Vector3(transform.position.x, swimHeight, transform.position.z);
     }
     IEnumerator LerpRotation(Quaternion from, Quaternion to, float duration)
     {

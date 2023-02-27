@@ -8,6 +8,7 @@ public class ShipFuel : InteractableObject
     [SerializeField] private Transform playerBoardPos;
     protected override void OnInteractBtnClick(Button clicker)
     {
+        NetworkPlayer.localPlayer.GetComponent<StateMachine>().ChangeState("Idle", true);
         NetworkPlayer.localPlayer.transform.position = playerBoardPos.position;
         base.OnInteractBtnClick(clicker);
     }

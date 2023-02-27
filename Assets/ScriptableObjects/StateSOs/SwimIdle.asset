@@ -21,6 +21,10 @@ MonoBehaviour:
   OnExit:
     m_PersistentCalls:
       m_Calls: []
+  OnFixedUpdate:
+    m_PersistentCalls:
+      m_Calls: []
   transitions:
   - {fileID: 11400000, guid: 72a9a11ced1747a479ba4f6c63be0c89, type: 2}
+  - {fileID: 11400000, guid: dfb04f2e43107f24c983a95bedfc53e8, type: 2}
   lockState: 0
