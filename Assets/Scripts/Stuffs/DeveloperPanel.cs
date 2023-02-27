@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class DeveloperPanel : MonoBehaviour
 {
+    public static DeveloperPanel instance;
+    private void Awake() {
+        instance = this;
+    }
     [SerializeField] private TMP_InputField inputField;
     private void Start() {
         inputField.onSubmit.AddListener((s) => {
@@ -29,7 +33,16 @@ public class DeveloperPanel : MonoBehaviour
                 if(split[1] == "on") NetworkPlayer.localPlayer.GetComponent<PlayerStats>().SetInvincible(true);
                 else if(split[1] == "off") NetworkPlayer.localPlayer.GetComponent<PlayerStats>().SetInvincible(false);
             }
+            
+            inputField.ActivateInputField();
         });
+        inputField.ActivateInputField();
+    }
+    public void FocusInputField(){
+        inputField.ActivateInputField();
+    }
+    private void OnEnable() {
+        inputField.ActivateInputField();
     }
     private void Update() {
         if(inputField.isFocused && Input.GetKeyDown(KeyCode.Return)){

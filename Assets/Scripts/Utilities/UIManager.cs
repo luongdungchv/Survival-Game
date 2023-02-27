@@ -176,8 +176,10 @@ public class UIManager : MonoBehaviour
         if (isUIOpen && !shipRepairUI.activeSelf) return;
         shipRepairUI.SetActive(state);
         GameFunctions.ins.ToggleCursor(isUIOpen);
+        
         if(shipRepairUI.activeSelf) currentOpenUI = shipRepairUI;
         else if(currentOpenUI == shipRepairUI && !shipRepairUI.activeSelf) currentOpenUI = null;
+        
         shipRepairUIHandler.UpdateUI();
         shipRepairUIHandler.DropMovingItem();
         shipRepairUIHandler.ChangeMoveIconQuantity(0);
@@ -189,10 +191,15 @@ public class UIManager : MonoBehaviour
         if(currentOpenUI == furnaceUI) ToggleFurnaceUI();
         if(currentOpenUI == anvilUI) ToggleAnvilUI();
         if(currentOpenUI == shipRepairUI) ToggleShipRepairUI();
+        if(currentOpenUI == commandPanel) ToggleCommandUI();
     }
     public void ToggleCommandUI(){
-        Debug.Log("0000");
         this.commandPanel.SetActive(!commandPanel.activeSelf);
+        
+        if(this.commandPanel.activeSelf) currentOpenUI = this.commandPanel;
+        else if(currentOpenUI == this.commandPanel && !this.commandPanel.activeSelf) 
+            currentOpenUI = null;  
+        DeveloperPanel.instance.FocusInputField();
         GameFunctions.ins.ToggleCursor(isUIOpen);
     }
     public void RefreshFurnaceUI()
