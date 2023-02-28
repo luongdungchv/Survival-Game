@@ -122,9 +122,9 @@ Material:
     - _SrcBlend: 1
     - _StarScale: 30
     - _StarScale2: 0.6
-    - _State: 0.06045254
+    - _State: 0.052046802
     - _SunDisk: 2
-    - _SunMoonState: 0.03022627
+    - _SunMoonState: 0.026023401
     - _SunSize: 0.07
     - _SunSizeConvergence: 3.52
     - _UVOffset: 0
@@ -133,8 +133,8 @@ Material:
     m_Colors:
     - _Color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GroundColor: {r: 0.53807974, g: 0.43717483, b: 0.4628548, a: 1}
-    - _SkyColor: {r: 0.20722792, g: 0.513195, b: 0.7292793, a: 1}
+    - _GroundColor: {r: 0.48998022, g: 0.37856814, b: 0.4497528, a: 1}
+    - _SkyColor: {r: 0.18004937, g: 0.44510853, b: 0.6894921, a: 1}
     - _SkyColor1: {r: 0, g: 0, b: 0, a: 0}
     - _SkyTint: {r: 0.08627449, g: 0.99215686, b: 0.9660577, a: 1}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

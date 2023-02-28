@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4330439843965730164
 Transform:
@@ -172,6 +172,8 @@ MonoBehaviour:
   displayName: Orange Shroom
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
+  distanceThreshold: 10
+  isPlayerTouch: 0
   quantity: 0
   meshTex: {fileID: 0}
   outlineColor: {r: 0, g: 0, b: 0, a: 0}

@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 1325110253226600903}
   - component: {fileID: 4804482160015140560}
   m_Layer: 12
-  m_Name: Plane.001
+  m_Name: leaves
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6237592541367473355
 Transform:
@@ -313,7 +313,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8754313870261092565
 Transform:
@@ -391,11 +391,11 @@ GameObject:
   - component: {fileID: 3181301430919211136}
   - component: {fileID: 6939582690378360590}
   m_Layer: 12
-  m_Name: tree
+  m_Name: trunk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &7839116811145329967
 Transform:

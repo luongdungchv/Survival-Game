@@ -21,7 +21,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3910880429807919612
 Transform:
@@ -107,6 +107,7 @@ MonoBehaviour:
   - mithril_pickaxe
   - iron_pickaxe
   - golden_pickaxe
+  dmgPopupPos: {fileID: 0}
 --- !u!64 &2822575159435316010
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -183,7 +184,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1460056758154405412
 Transform:
