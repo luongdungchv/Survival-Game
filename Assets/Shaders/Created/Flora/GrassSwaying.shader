@@ -36,6 +36,7 @@ Shader "Environment/Flora/Grass Swaying"
             float3 worldPos;
             float2 uv2;
             float3 localPos;
+            float test;
         };
         struct appdata{
             float4 vertex: POSITION;
@@ -58,8 +59,9 @@ Shader "Environment/Flora/Grass Swaying"
             
             float2 offsetX = worldPos.xy / _Scale + float2(_Time.y, 0);
             float perlinVal = perlinNoise(offsetX) - 0.5;
-            float4 newPos = data.vertex + float4(perlinVal * data.texcoord1.y, 0, 0, 0);
+            float4 newPos = data.vertex + float4((perlinVal * data.color.x), 0, 0, 0);
             data.vertex = newPos;
+            o.test = data.color.x;
         }
         
         void surf (Input i, inout SurfaceOutputStandard o)
@@ -67,7 +69,8 @@ Shader "Environment/Flora/Grass Swaying"
             
             fixed4 c = tex2D (_MainTex, i.uv_MainTex) * _Color;
             
-            o.Albedo = lerp(_BotColor, _TopColor, i.uv_MainTex.y);
+            //o.Albedo = lerp(_BotColor, _TopColor, i.uv_MainTex.y);
+            o.Albedo = i.test;
             
             o.Metallic = _Metallic;
             o.Smoothness = lerp(0.1, _Glossiness, _SmoothnessState);

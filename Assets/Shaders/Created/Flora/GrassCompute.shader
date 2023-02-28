@@ -48,6 +48,7 @@
             float4 vertex: POSITION;
             float2 texcoord: TEXCOORD0;
             float3 normal: NORMAL;
+            float3 color: COLOR0;
             UNITY_VERTEX_INPUT_INSTANCE_ID
             uint id : SV_VertexID;
             uint inst : SV_InstanceID;
@@ -77,7 +78,7 @@
                 float3 worldPos = mul(props[data.inst].trs, data.vertex).xyz;        
                 float2 offsetX = worldPos.xy / _Scale + float2(_Time.y, 0);
                 float perlinVal = perlinNoise(offsetX) - 0.5;
-                float4 newPos = float4(worldPos, data.vertex.z) + float4(perlinVal * data.texcoord.y, 0, 0, 0);
+                float4 newPos = float4(worldPos, data.vertex.z) + float4(perlinVal * data.color.x, 0, 0, 0);
                 data.vertex = newPos;
                 //data.vertex = float4(worldPos, 1);
                 data.normal = props[data.inst].normal;

@@ -30,7 +30,7 @@ public class GrassSpawner : MonoBehaviour
                 RaycastHit hitInfo;
                 if (Physics.Raycast(castPos, Vector3.down, out hitInfo, castHeight + 500, mask))
                 {
-                    if (hitInfo.point.y < skipHeight) continue;
+                    if (hitInfo.point.y < skipHeight || hitInfo.collider.tag == "Water") continue;
                     var hitNormal = hitInfo.normal;
                     var randomIndex = Random.Range(0, grassPrefabs.Length);
 

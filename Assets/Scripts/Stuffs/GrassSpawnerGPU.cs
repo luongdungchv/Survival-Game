@@ -22,6 +22,7 @@ public class GrassSpawnerGPU : MonoBehaviour
     private ShaderProps[] transformArray;
     private ShaderProps[] culledArray;
     private uint[] args;
+    private int chunkCheckDistance;
     void Start()
     {
         var terrainTypes = GetComponent<MapGenerator>().terrainTypes;
@@ -55,8 +56,10 @@ public class GrassSpawnerGPU : MonoBehaviour
             {
                 settingData = JsonUtility.FromJson<SettingData>(settingJson);
             }
-            int[] options = { 0, 40, 65 };
-            this.culledDistance = options[settingData.lod];
+            int[] cullOptions = { 0, 40, 65 };
+            int[] checkOptions = {0, 29, 46};
+            this.culledDistance = cullOptions[settingData.lod];
+            this.chunkCheckDistance = checkOptions[settingData.lod];
         });
 
     }
@@ -134,7 +137,7 @@ public class GrassSpawnerGPU : MonoBehaviour
         Matrix4x4 VP = P * V;
 
         var camPos = Camera.main.transform.position;
-        int chunkCheckDistance = 35;
+        
         float[] arr1 = { chunkCheckDistance, chunkCheckDistance, -chunkCheckDistance, -chunkCheckDistance };
         float[] arr2 = { chunkCheckDistance, -chunkCheckDistance, chunkCheckDistance, -chunkCheckDistance };
         List<GrassChunk> chunkToRender = new List<GrassChunk>();
