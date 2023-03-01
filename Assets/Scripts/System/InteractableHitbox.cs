@@ -11,7 +11,6 @@ public class InteractableHitbox : HitBox
     protected override void OnNoHitDetect()
     {
         owner.ExitDetect();
-
     }
     public void SetOwner(InteractableObject owner)
     {

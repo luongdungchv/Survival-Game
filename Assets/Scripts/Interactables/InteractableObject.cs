@@ -9,7 +9,7 @@ public class InteractableObject : MonoBehaviour
     public string displayName;
     [SerializeField] protected GameObject interactBtnPrefab;
     [SerializeField] protected bool interactable = true;
-    [SerializeField] private float distanceThreshold = 5;
+    [SerializeField] private float distanceThreshold = 10;
     private InteractableHitbox hitbox;
     private Transform playerTransform;
 
@@ -20,6 +20,7 @@ public class InteractableObject : MonoBehaviour
     {
         hitbox = GetComponent<InteractableHitbox>();
         hitbox.SetOwner(this);
+        distanceThreshold = 10;
     }
     protected virtual void Start()
     {
@@ -55,7 +56,6 @@ public class InteractableObject : MonoBehaviour
         {
             Destroy(btnInstance);
             isPlayerTouch = false;
-
         }
     }
     protected virtual void OnInteractBtnClick(Button clicker)

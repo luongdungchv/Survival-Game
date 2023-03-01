@@ -76,9 +76,11 @@
             UNITY_INITIALIZE_OUTPUT(Input,o);
             #ifdef SHADER_API_D3D11
                 float3 worldPos = mul(props[data.inst].trs, data.vertex).xyz;        
-                float2 offsetX = worldPos.xy / _Scale + float2(_Time.y, 0);
+                float2 offsetX = worldPos.xy / _Scale + float2(_Time.y / 1.5, 0);
+                float2 offsetY = worldPos.xy / _Scale + float2(0, _Time.y / 1.5);
                 float perlinVal = perlinNoise(offsetX) - 0.5;
-                float4 newPos = float4(worldPos, data.vertex.z) + float4(perlinVal * data.color.x, 0, 0, 0);
+                float perlinVal2 = perlinNoise(offsetY) - 0.5;
+                float4 newPos = float4(worldPos, data.vertex.z) + float4(perlinVal * data.color.x, perlinVal2 * data.color.x, 0, 0);
                 data.vertex = newPos;
                 //data.vertex = float4(worldPos, 1);
                 data.normal = props[data.inst].normal;

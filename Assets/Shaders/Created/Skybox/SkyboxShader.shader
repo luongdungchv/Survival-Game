@@ -96,7 +96,7 @@
                 o.worldPosBase = mul(unity_ObjectToWorld, v.vertex).xyz;
                 o.worldPos = normalize(o.worldPosBase);
                 float3 worldPos = normalize(mul(unity_ObjectToWorld, v.vertex).xyz);               
-                o.normal = abs(v.normal);
+                o.normal = normalize(mul(v.normal, (float3x3)unity_WorldToObject));
                 return o;
             }
             
@@ -134,9 +134,8 @@
                 float part1 = atan2(i.worldPos.x, i.worldPos.z) / ( PI * 2 );
                 float part2 = asin(i.worldPos.y) * 2 / PI;
                 float2 uv0 = float2(part1, part2);
-                //return i.worldPos.z;
+                float2 starUV = float2(atan2(i.worldPos.x, i.worldPos.z) / ( PI * 1.2 ), asin(i.worldPos.y) * 2 / PI);
                 
-                //return tex2D(_MainTex, uv0);
                 
                 float2 cloudUV = uv0 * _CloudScatter + float2(_Time.y * _CloudSpeed, 0);
                 float2 cloudUV1 = uv0 * _CloudScatter - float2(_Time.y * _CloudSpeed2, 0);
@@ -162,7 +161,10 @@
                 //float worleyVal = saturate(worleyNoise(i.uv * _StarScale));
                 //float worleyVal = saturate(tex2D(_StarTexture, uv0));
                 //float starrySky = pow(1 - worleyVal, _Power); 
-                float starrySky = tex2D(_StarTexture, uv0) * 2;
+                
+                
+                                
+                float4 starrySky = tex2D(_StarTexture, starUV) * 2;
                 //return starrySky * 2;
                 //return starrySky;
                 starrySky = lerp(0, starrySky, _SunMoonState);

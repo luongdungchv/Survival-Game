@@ -20,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
     public void AttemptToSpawn(Vector2 origin)
     {
         var possibility = Random.Range(1, 2001);
-        if (possibility < 9)
+        if (possibility < 8)
         {
             var enemyGroup = enemyGroups[0];
             var randX = Random.Range(origin.x - spawnExtend.x, origin.x + spawnExtend.x);

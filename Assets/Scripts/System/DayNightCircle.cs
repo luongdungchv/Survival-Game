@@ -11,6 +11,7 @@ public class DayNightCircle : MonoBehaviour
     [SerializeField] private Material[] grassMats;
     [SerializeField] private Color ambientSideColor, ambientSkyColor;
     [SerializeField] private float dayTime;
+    [SerializeField] private GameObject flare;
     
     private static DayNightCircle ins;
     public static float time => ins.value;
@@ -40,7 +41,12 @@ public class DayNightCircle : MonoBehaviour
             i.SetFloat("_SmoothnessState", smoothnessParam);
         }
         
-
+        var alteredAngle = Mathf.Lerp(-30, 30, rotationParam);
+        var currentAngle = Vector3.Angle(-transform.forward, -Vector3.forward);
+        currentAngle += alteredAngle;
+        var flareDirection = new Vector3(0, Mathf.Sin(currentAngle * Mathf.Deg2Rad), Mathf.Cos(currentAngle * Mathf.Deg2Rad));
+        flareDirection *= 1000;
+        flare.transform.position = flareDirection;
 
         if (value >= 2) value = 0;
         yield return null;
