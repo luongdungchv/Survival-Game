@@ -33,6 +33,9 @@ public class DeveloperPanel : MonoBehaviour
                 if(split[1] == "on") NetworkPlayer.localPlayer.GetComponent<PlayerStats>().SetInvincible(true);
                 else if(split[1] == "off") NetworkPlayer.localPlayer.GetComponent<PlayerStats>().SetInvincible(false);
             }
+            else if(split[0] == "to_ship"){
+                ShipFuel.ins.TeleportToShip();
+            }
             
             inputField.ActivateInputField();
         });

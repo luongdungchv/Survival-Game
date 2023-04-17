@@ -37,22 +37,39 @@ public class ShipRepairSlotUI : MonoBehaviour, IPointerClickHandler
         if (iih.isItemMoving)
         {
             if (iih.movingItemHolder.movingItem != targetItem) return;
-            if (Inventory.ins.Remove(iih.movingItemHolder.movingItem.itemName, iih.movingItemHolder.quantity))
+            var shipRepairPacket = new RawActionPacket(PacketType.ShipInteraction)
             {
-                var shipRepairPacket = new RawActionPacket(PacketType.ShipInteraction)
-                {
-                    playerId = NetworkPlayer.localPlayer.id,
-                    objId = "0",
-                    action = "set_item",
-                    actionParams = new string[] { targetItem.itemName, (quantity + iih.movingItemHolder.quantity).ToString() }
-                };
+                playerId = NetworkPlayer.localPlayer.id,
+                objId = "0",
+                action = "set_item",
+                actionParams = new string[] { targetItem.itemName, (quantity + iih.movingItemHolder.quantity).ToString() }
+            };
+            if (iih.movingItemHolder.action == "replace")
+            {
                 if (Client.ins.isHost)
                 {
                     repairManager.SetItem(targetItem, quantity + iih.movingItemHolder.quantity);
                 }
-                
                 Client.ins.SendTCPPacket(shipRepairPacket);
                 this.UpdateUI();
+                iih.ChangeMoveIconQuantity(0);
+                return;
+            }
+            if (Inventory.ins.Remove(iih.movingItemHolder.movingItem.itemName, iih.movingItemHolder.quantity))
+            {
+
+                if (Client.ins.isHost)
+                {
+                    repairManager.SetItem(targetItem, quantity + iih.movingItemHolder.quantity);
+                }
+
+                Client.ins.SendTCPPacket(shipRepairPacket);
+                this.UpdateUI();
+                iih.ChangeMoveIconQuantity(0);
+            }
+            else
+            {
+                Debug.Log("cannot");
                 iih.ChangeMoveIconQuantity(0);
             }
         }

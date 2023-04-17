@@ -29,6 +29,7 @@ public class Settings : MonoBehaviour
         resolutionSetting.onValueChanged.AddListener(this.OnResolutionSettingChange);
         
         string settingJson = PlayerPrefs.GetString("setting", "");
+        Debug.Log(settingJson);
         if (settingJson == "")
         {
             currentData = new SettingData();

@@ -100,7 +100,6 @@ MonoBehaviour:
   maxDrop: 8
   requiredTools:
   - mithril_axe
-  - iron_axe
   - golden_axe
   dmgPopupPos: {fileID: 1194572057194470171}
 --- !u!114 &3058947960247095860

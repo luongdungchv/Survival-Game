@@ -114,6 +114,7 @@ public class FlowerGPU : MonoBehaviour
         compute.SetVector("camPos", Camera.main.transform.position);
         compute.SetFloat("culledDist", culledDist);
         
+        Debug.Log(chosenData.Count);
         compute.Dispatch(0, Mathf.CeilToInt(chosenData.Count / 64), 1, 1);
 
         ComputeBuffer.CopyCount(renderBuffer, argsBuffer, 4);

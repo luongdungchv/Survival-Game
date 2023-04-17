@@ -14,6 +14,7 @@ public class OreSpawner : MonoBehaviour
 
     private Dictionary<Vector2Int, bool> regionsOccupation;
     private int seed;
+    private int mithrilCount;
     void Start()
     {
         regionsOccupation = new Dictionary<Vector2Int, bool>();
@@ -49,7 +50,7 @@ public class OreSpawner : MonoBehaviour
 
                         sumY += hit.point.y;
                         if (hit.collider.tag == "Water") continue;
-
+                        if(i.name == "Mithril Ore") mithrilCount++;
                         var randomAngle = randObj.NextFloat(0f, 360f);
                         var rotateToSlope = Quaternion.FromToRotation(Vector3.up, hit.normal);
 
@@ -65,6 +66,7 @@ public class OreSpawner : MonoBehaviour
                 }
             }
         }
+        Debug.Log(mithrilCount);
     }
     private Vector2Int GetRandomPos(CustomRandom randObj)
     {

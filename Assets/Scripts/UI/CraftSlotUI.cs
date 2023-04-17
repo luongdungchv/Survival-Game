@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -7,11 +8,16 @@ public class CraftSlotUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] private string itemName;
     [SerializeField] private int quantity;
     [SerializeField] private RawImage icon;
+    private Color originalTint;
     private InventoryInteractionHandler iih => InventoryInteractionHandler.currentOpen;
     private Item item => Item.GetItem(itemName);
+    private static UnityEvent OnRefresh;
     private void Awake()
     {
+        if(OnRefresh == null) OnRefresh = new UnityEvent();
+        OnRefresh.AddListener(() => this.Refresh());
         icon.texture = item.icon;
+        originalTint = icon.color;
     }
     private void OnEnable()
     {
@@ -31,6 +37,7 @@ public class CraftSlotUI : MonoBehaviour, IPointerClickHandler
                 iih.movingItemHolder.InitReplaceAction(itemName, quantity);
             }
         }
+        OnRefresh.Invoke();
         Refresh();
     }
     public bool Refresh()
@@ -40,11 +47,11 @@ public class CraftSlotUI : MonoBehaviour, IPointerClickHandler
         {
             if (Inventory.ins.GetItemQuantity(mat.Key) < mat.Value)
             {
-                icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, 0.5f);
+                icon.color = new Color(originalTint.r, 0.5f, 0.5f, 0.5f);
                 return false;
             }
         }
-        icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, 1f);
+        icon.color = new Color(originalTint.r, originalTint.g, originalTint.b, 1f);
         return true;
     }
 }

@@ -156,6 +156,8 @@ public class UIManager : MonoBehaviour
         shipRepairUI.SetActive(!shipRepairUI.activeSelf);
         GameFunctions.ins.ToggleCursor(isUIOpen);
         
+        if(isUIOpen) shipRepairUIHandler.SetAsOpen();
+        
         if(!shipRepairUI.activeSelf && !Client.ins.isHost){
             var closePacket = new RawActionPacket(PacketType.ShipInteraction){
                 playerId = NetworkPlayer.localPlayer.id,

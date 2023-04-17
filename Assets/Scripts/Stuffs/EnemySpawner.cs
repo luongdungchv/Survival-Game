@@ -15,12 +15,12 @@ public class EnemySpawner : MonoBehaviour
     private float tickDuration;
     private void Start() {
         tickDuration = 1 / ticksPerSecond;
-        mask = LayerMask.GetMask("Terrain", "Water");
+        //mask = LayerMask.GetMask("Terrain", "Water");
     }
     public void AttemptToSpawn(Vector2 origin)
     {
         var possibility = Random.Range(1, 2001);
-        if (possibility < 8)
+        if (possibility < 9)
         {
             var enemyGroup = enemyGroups[0];
             var randX = Random.Range(origin.x - spawnExtend.x, origin.x + spawnExtend.x);
@@ -29,7 +29,7 @@ public class EnemySpawner : MonoBehaviour
             
             if (Physics.Raycast(castPos, Vector3.down, out var hit, castHeight + 10, mask))
             {
-                if (hit.collider.tag != "Water")
+                if (hit.collider.tag == "Terrain")
                 {
                     var spawnOrigin = new Vector2(hit.point.x, hit.point.z);
                     SpawnEnemies(enemyGroup, spawnOrigin);

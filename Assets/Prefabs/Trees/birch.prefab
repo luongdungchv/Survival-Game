@@ -187,7 +187,6 @@ MonoBehaviour:
   - iron_axe
   - golden_axe
   - mithril_axe
-  - wooden_axe
   dmgPopupPos: {fileID: 6048749518601571763}
 --- !u!65 &3000244215514675106
 BoxCollider:
