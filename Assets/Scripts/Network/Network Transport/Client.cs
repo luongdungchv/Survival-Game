@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class Client : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class Client : MonoBehaviour
     public UDP udp;
     public string hostName => server;
     public Mesh testmesh;
+    private bool isSinglePlayer = false;
     private void Awake()
     {
         //Screen.SetResolution(960, 540, FullScreenMode.Windowed);
@@ -52,22 +54,27 @@ public class Client : MonoBehaviour
     }
     public void SendTCPMessage(string msg)
     {
+        if(isSinglePlayer) return;
         tcp.Send(msg);
     }
     public void SendTCPPacket(Packet _packet)
     {
+        if(isSinglePlayer) return;
         tcp.Send(_packet.GetString());
     }
     public void SendUDPMessage(string msg)
     {
-    udp.Send(msg);
+        if(isSinglePlayer) return;
+        udp.Send(msg);
     }
     public void SendUDPPacket(Packet _packet)
     {
+        if(isSinglePlayer) return;
         udp.Send(_packet.GetString());
     }
     public void SendUDPConnectionInfo(Action sendCompleteCallback)
     {
+        if(isSinglePlayer) return;
         tcp.Send($"con {this.udp.GetSocketEP().Port}", sendCompleteCallback);
     }
     public void CreateRoom()
@@ -103,6 +110,11 @@ public class Client : MonoBehaviour
         {
             tcp.Send($"jr {id}");
         }
+    }
+    public void SinglePlayer(){
+        clientId = "0";
+        isSinglePlayer = true;
+        SceneManager.LoadScene("Test_PlayerStats");
     }
     public void Ready()
     {
