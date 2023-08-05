@@ -99,7 +99,7 @@ public class GameFunctions : MonoBehaviour
             idOccupation.Remove(id);
         }
     }
-    public Vector3 WorldToCanvasPosition(Vector3 worldPos, int projection)
+    public Vector3 WorldToOverlayCanvasPosition(Vector3 worldPos, int projection)
     {
         var camPos = mainCam.transform.worldToLocalMatrix.MultiplyPoint(worldPos).normalized;
 
@@ -109,7 +109,6 @@ public class GameFunctions : MonoBehaviour
             return -Vector3.one;
         }
         camPos = camPos * (projection / angleMultiplier);
-        if (Input.GetKeyDown(KeyCode.E)) Debug.Log(camPos);
         var uiPos = camPos - Vector3.forward * projection;
 
         var canvasPos = mainCam.ScreenToWorldPoint(new Vector3(0, 0, projection));

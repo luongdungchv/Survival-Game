@@ -57,7 +57,7 @@ public class DamagePopup : MonoBehaviour, IPoolObject
         while (t <= 1)
         {
             worldPos = Vector3.Lerp(position, destination, t);
-            rectTransform.position = GameFunctions.ins.WorldToCanvasPosition(worldPos, 90);
+            rectTransform.position = GameFunctions.ins.WorldToOverlayCanvasPosition(worldPos, 90);
             yield return null;
             t += Time.deltaTime / popupDuration;
         }
