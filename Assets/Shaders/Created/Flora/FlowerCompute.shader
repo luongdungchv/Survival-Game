@@ -25,7 +25,7 @@ Shader "Environment/Flora/Flower Compute"
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard vertex:vert
+        #pragma surface surf Lambert vertex:vert
 
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 5.0 
@@ -36,6 +36,11 @@ Shader "Environment/Flora/Flower Compute"
         sampler2D _MainTex;
         sampler2D _MainTex1;
         sampler2D _MainTex2;
+
+        sampler2D _TexList[3];
+        _TexList[0] = _MainTex1;
+        _TexList[1] = _MainTex2;
+        _TexList[2] = _MainTex3;
 
         struct Input
         {
@@ -93,7 +98,7 @@ Shader "Environment/Flora/Flower Compute"
             #endif
         }
         
-        void surf (Input i, inout SurfaceOutputStandard o)
+        void surf (Input i, inout SurfaceOutput o)
         {    
             float texId = i.texIndex;
             float4 col ;
@@ -104,8 +109,8 @@ Shader "Environment/Flora/Flower Compute"
             
             o.Albedo = col;
             //o.Emission = 0.2;
-            o.Smoothness = 0;
-            o.Metallic = 0;
+            // o.Smoothness = 0;
+            // o.Metallic = 0;
             
         }
         ENDCG

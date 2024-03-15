@@ -62,6 +62,15 @@ public class GrassSpawnerGPU : MonoBehaviour
             this.chunkCheckDistance = checkOptions[settingData.lod];
         });
 
+
+        shaderPropsBuffer = new ComputeBuffer(transforms.Count, ShaderProps.Size());
+        shaderPropsBuffer.SetData(this.transforms);
+
+        int kernelIndex = compute.FindKernel("CSMain");
+        compute.SetFloat("culledDist", culledDistance * culledDistance);
+        compute.SetBuffer(kernelIndex, "inputGrassBuffer", shaderPropsBuffer);
+        compute.SetBuffer(kernelIndex, "drawBuffer", argsBuffer);
+
     }
     void Update()
     {
@@ -86,13 +95,13 @@ public class GrassSpawnerGPU : MonoBehaviour
                     var scale = Vector3.one;
                     Matrix4x4 trs = Matrix4x4.TRS(position, rotation, scale);
 
-                    var flooredX = Mathf.FloorToInt(x);
-                    var flooredY = Mathf.FloorToInt(y);
-                    var flooredChunkWidth = Mathf.FloorToInt(chunkWidth);
-                    var chunkPos = new Vector2((flooredX / flooredChunkWidth) * flooredChunkWidth, (flooredY / flooredChunkWidth) * flooredChunkWidth);
-                    var chosenChunk = chunks[chunkPos];
+                    // var flooredX = Mathf.FloorToInt(x);
+                    // var flooredY = Mathf.FloorToInt(y);
+                    // var flooredChunkWidth = Mathf.FloorToInt(chunkWidth);
+                    // var chunkPos = new Vector2((flooredX / flooredChunkWidth) * flooredChunkWidth, (flooredY / flooredChunkWidth) * flooredChunkWidth);
+                    // var chosenChunk = chunks[chunkPos];
 
-                    chosenChunk.AddProp(new ShaderProps()
+                    transforms.Add(new ShaderProps()
                     {
                         pos = position,
                         trans = trs,
@@ -136,42 +145,10 @@ public class GrassSpawnerGPU : MonoBehaviour
         Matrix4x4 V = Camera.main.worldToCameraMatrix;
         Matrix4x4 VP = P * V;
 
-        var camPos = Camera.main.transform.position;
-        
-        float[] arr1 = { chunkCheckDistance, chunkCheckDistance, -chunkCheckDistance, -chunkCheckDistance };
-        float[] arr2 = { chunkCheckDistance, -chunkCheckDistance, chunkCheckDistance, -chunkCheckDistance };
-        List<GrassChunk> chunkToRender = new List<GrassChunk>();
-        for (int i = 0; i < arr1.Length; i++)
-        {
-            var corner = new Vector2(camPos.x + arr1[i], camPos.z + arr2[i]);
-            var flooredChunkWidth = Mathf.FloorToInt(chunkWidth);
-            var chunkPos = new Vector2((Mathf.FloorToInt(corner.x) / flooredChunkWidth) * flooredChunkWidth, (Mathf.FloorToInt(corner.y) / flooredChunkWidth) * flooredChunkWidth);
-            if (chunks.ContainsKey(chunkPos) && !chunkToRender.Contains(chunks[chunkPos]))
-                chunkToRender.Add(chunks[chunkPos]);
-        }
-
-        var chosenData = new ShaderProps[grassCountPerChunk * chunkToRender.Count];
-        for (int i = 0; i < chunkToRender.Count; i++)
-        {
-            Array.Copy(chunkToRender[i].props, 0, chosenData, i * grassCountPerChunk, grassCountPerChunk);
-        }
-        shaderPropsBuffer?.Release();
-        if(chosenData.Length == 0) return;
-        shaderPropsBuffer = new ComputeBuffer(chosenData.Length, ShaderProps.Size());
-        shaderPropsBuffer.SetData(chosenData);
-
-        PopulateArgsArray(0);
-
-        int kernelIndex = compute.FindKernel("CSMain");
-        compute.SetBuffer(kernelIndex, "inputGrassBuffer", shaderPropsBuffer);
-        compute.SetBuffer(kernelIndex, "drawBuffer", argsBuffer);
         compute.SetMatrix("vp", VP);
         compute.SetVector("camPos", Camera.main.transform.position);
-        compute.SetFloat("culledDist", culledDistance);
-        
-        
-
-        compute.Dispatch(0, Mathf.CeilToInt(chosenData.Length / 64), 1, 1);
+            
+        compute.Dispatch(0, Mathf.CeilToInt(transforms.Count / 64), 1, 1);
 
         ComputeBuffer.CopyCount(culledBuffer, argsBuffer, 4);
 
@@ -179,13 +156,6 @@ public class GrassSpawnerGPU : MonoBehaviour
         culledBuffer.SetCounterValue(0);
 
 
-    }
-    private void PopulateArgsArray(uint population)
-    {
-        args[0] = (uint)mesh.GetIndexCount(0);
-        args[1] = (population);
-        args[2] = (uint)mesh.GetIndexStart(0);
-        args[3] = (uint)mesh.GetBaseVertex(0);
     }
     private void OnApplicationQuit()
     {

@@ -15,7 +15,7 @@ Shader "Environment/Terrain/Terrain Shader"
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
         //#pragma surface surf Standard fullforwardshadows
-        #pragma surface surf Lambert fullforwardshadows
+        #pragma surface surf Standard fullforwardshadows
 
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
@@ -56,7 +56,7 @@ Shader "Environment/Terrain/Terrain Shader"
             float3 zProjection = UNITY_SAMPLE_TEX2DARRAY(baseTextures, float3(scaledWorldPos.x, scaledWorldPos.y, textureIndex)) * blendAxes.z;
             return xProjection + yProjection + zProjection;
         }
-        void surf (Input i, inout SurfaceOutput o)
+        void surf (Input i, inout SurfaceOutputStandard o)
         {
             //o.Albedo = col;
             float percentHeight = smoothstep(minHeight, maxHeight, i.worldPos.y);

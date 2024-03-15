@@ -29,7 +29,7 @@
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "Queue"="Background" "RenderType"="Background" "PreviewType"="Skybox" }
         LOD 100
 
         Pass
@@ -59,7 +59,7 @@
                 float4 vertex : SV_POSITION;
                 float3 worldPos: TEXCOORD1;
                 float3 worldPosBase: TEXCOORD2;
-                float3 normal: NORMAL;
+                float3 normal: TEXCOORD4;
             };
 
             sampler2D _MainTex;
@@ -86,6 +86,8 @@
             float _StarScale;
             float _Power;
             
+            float PI = 3.141592654;
+            
             sampler2D _StarTexture;
 
             v2f vert (appdata v)
@@ -94,17 +96,15 @@
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.worldPosBase = mul(unity_ObjectToWorld, v.vertex).xyz;
-                o.worldPos = normalize(o.worldPosBase);
-                float3 worldPos = normalize(mul(unity_ObjectToWorld, v.vertex).xyz);               
+                //o.worldPos = normalize(o.worldPosBase);
+                o.worldPos = normalize(mul((float3x3)unity_ObjectToWorld, v.vertex.xyz));               
                 o.normal = normalize(mul(v.normal, (float3x3)unity_WorldToObject));
                 return o;
             }
             
             float4 calcSunAtten(float3 lightPos, float3 worldPos){
                 float angle = lerp(-0.5236, 0.5236, _State);
-                
-                float2x2 sunMatrix = (cos(angle), sin(angle), -sin(angle), cos(angle));
-                
+                                
                 float2 sunPos = float2(lightPos.y * cos(angle) - lightPos.z * sin(angle), lightPos.y * sin(angle) + lightPos.z * cos(angle));
                 float3 delta = float3(lightPos.x, sunPos.x, sunPos.y) - worldPos;
                 float dist = length(delta);
@@ -124,6 +124,39 @@
                 newPos.z = 0;              
                 float4 col = tex2D(_MainTex, newPos.xy / _SunSize / 2 + float2(0.5, 0.5)) * spot;
                 
+                return col;
+            }
+
+            float4 triplanar(float3 positionWS, float3 normalWS){
+                float3 weights = normalWS;
+                weights = abs(weights);
+                weights = weights / (weights.x + weights.y + weights.z);
+
+                float2 uv_front = positionWS.xy;
+                float2 uv_side = positionWS.zy;
+                float2 uv_top = positionWS.zx;
+
+                fixed4 col_front = tex2D(_StarTexture, uv_front / positionWS.z);
+                fixed4 col_side = tex2D(_StarTexture, uv_side / positionWS.x);
+                fixed4 col_top = tex2D(_StarTexture, uv_top / positionWS.y);
+
+                float cos45 = 0.58;
+                col_top *= step(cos45, abs(positionWS.y)) * (abs(uv_top.x) < 1 && abs(uv_top.y) < cos45);
+                col_side *= step(cos45, abs(positionWS.x));
+                col_front *= step(cos45, abs(positionWS.z)) * (abs(uv_front.x) < cos45 && abs(uv_front.y) < cos45);
+
+                //return float4(positionWS, 1);
+                //return positionWS.z;
+                //return positionWS.y;
+                //return acos(positionWS.y);
+                //return col_top;
+
+                // col_front *= weights.z;
+				// col_side *= weights.x;
+				// col_top *= weights.y;
+                // return col_side;
+
+                fixed4 col = col_front + col_side + col_top;
                 return col;
             }
 
@@ -164,10 +197,15 @@
                 
                 
                                 
-                float4 starrySky = tex2D(_StarTexture, starUV) * 2;
+                //float4 starrySky = tex2D(_StarTexture, starUV) * 2;
                 //return starrySky * 2;
                 //return starrySky;
+                //return i.worldPos.x;
+                float4 starrySky = triplanar(i.worldPos, i.worldPos);
+                //return starrySky;
                 starrySky = lerp(0, starrySky, _SunMoonState);
+
+
                 col += starrySky;
                 
                 

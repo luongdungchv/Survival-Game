@@ -48,7 +48,10 @@ public class TreeSpawner : MonoBehaviour
                         var randomAngle = randObj.NextFloat(0f, 360f);
                         if (hit.collider.tag == "Water") continue;
                         var randomRotation = Quaternion.Euler(0, randomAngle, 0);
-                        var tree = Instantiate(i.prefab, hit.point - Vector3.up * 1.2f, randomRotation);
+
+                        var index = Random.Range(0, i.prefabList.Count);
+
+                        var tree = Instantiate(i.prefabList[index], hit.point - Vector3.up * 1.2f, randomRotation);
                         var scale = randObj.NextFloat(i.minScale, i.maxScale);
                         tree.transform.localScale = Vector3.one * scale;
                     }
@@ -88,7 +91,8 @@ public class TreeSpawner : MonoBehaviour
 public class Region
 {
     public string name;
-    public GameObject prefab, petalParticlePrefab;
+    public List<GameObject> prefabList;
+    public GameObject petalParticlePrefab;
     public float maxWidth, minWidth, regionCount, treesPerRegion, minScale, maxScale;
 
 
