@@ -24,6 +24,7 @@
         _StarScale("Star Scale", float) = 1
         _Power("Power", float) = 10
         _State("State", float) = 0
+        _Value("_Value", float) = 0
         
         _StarTexture("Star Texture", 2D) = "white"{}
     }
@@ -81,7 +82,7 @@
             float _BlendFactor;
             
             float _SunSize;
-            float _State;
+            float _State, _Value;
             float _SunMoonState;
             float _StarScale;
             float _Power;
@@ -123,6 +124,9 @@
                 float3 newPos = float3(newPosX, newPosY, newPosZ);           
                 newPos.z = 0;              
                 float4 col = tex2D(_MainTex, newPos.xy / _SunSize / 2 + float2(0.5, 0.5)) * spot;
+
+                float3 lightCol = pow(_LightColor0.xyz, 0.1);
+                if(_Value < 1) col = step(0.05, col.r) * float4(lightCol, 1);
                 
                 return col;
             }
@@ -187,7 +191,9 @@
                 float4 lightPos = -_WorldSpaceLightPos0;
                 float4 col = lerp(_GroundColor, _SkyColor, t);
                 cloudCol *= (col + 0.3);
-                col += float4(pow(_LightColor0.xyz, 0.1) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0); 
+                //return float4(pow(_LightColor0.xyz, 0.1) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0);
+                
+               
                 //return calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos);     
                 
                 ///float starCol = tex2D(_StarTexture, uv0 * _StarScale);
@@ -202,11 +208,17 @@
                 //return starrySky;
                 //return i.worldPos.x;
                 float4 starrySky = triplanar(i.worldPos, i.worldPos);
+                starrySky = pow(starrySky, 0.7);
                 //return starrySky;
                 starrySky = lerp(0, starrySky, _SunMoonState);
 
 
                 col += starrySky;
+
+                float4 sunMoon = 1 * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos);
+                float sunMoonMask = step(0.05, sunMoon.r);
+                col = (1 - sunMoonMask) * col;
+                col += sunMoon; 
                 
                 
                 col -= lerp(0, col, cloudDensity);

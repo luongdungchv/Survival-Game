@@ -179,6 +179,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 302690267079178212, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1109925258891608492, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284277252022314118, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 1338549282119369822, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_Mesh
       value: 
