@@ -19,7 +19,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5107724608620249128
 Transform:
@@ -144,7 +144,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8202996845793658932
 Transform:
@@ -188,6 +188,8 @@ MonoBehaviour:
   displayName: Oak Wood
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
+  distanceThreshold: 10
+  isPlayerTouch: 0
   quantity: 0
   meshTex: {fileID: 2800000, guid: 1f9c510d1a3d5f940a89e5fee57a44ea, type: 3}
   outlineColor: {r: 1, g: 0.9255588, b: 0, a: 0}

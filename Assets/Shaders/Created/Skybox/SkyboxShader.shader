@@ -191,28 +191,12 @@
                 float4 lightPos = -_WorldSpaceLightPos0;
                 float4 col = lerp(_GroundColor, _SkyColor, t);
                 cloudCol *= (col + 0.3);
-                //return float4(pow(_LightColor0.xyz, 0.1) * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos), 0);
-                
-               
-                //return calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos);     
-                
-                ///float starCol = tex2D(_StarTexture, uv0 * _StarScale);
-                //float worleyVal = saturate(worleyNoise(i.uv * _StarScale));
-                //float worleyVal = saturate(tex2D(_StarTexture, uv0));
-                //float starrySky = pow(1 - worleyVal, _Power); 
-                
-                
-                                
-                //float4 starrySky = tex2D(_StarTexture, starUV) * 2;
-                //return starrySky * 2;
-                //return starrySky;
-                //return i.worldPos.x;
                 float4 starrySky = triplanar(i.worldPos, i.worldPos);
-                starrySky = pow(starrySky, 0.7);
+                starrySky = pow(starrySky, 0.85);
                 //return starrySky;
                 starrySky = lerp(0, starrySky, _SunMoonState);
 
-
+                starrySky *= _Value > 1;
                 col += starrySky;
 
                 float4 sunMoon = 1 * calcSunAtten(_WorldSpaceLightPos0.xyz, i.worldPos);

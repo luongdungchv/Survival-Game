@@ -9,7 +9,7 @@ public class PredropSpawner : MonoBehaviour
 
     private CustomRandom randObj;
 
-    private void Start()
+    public  void Init()
     {
         randObj = new CustomRandom(MapGenerator.ins.seed);
         SpawnPredrop();
@@ -38,6 +38,8 @@ public class PredropSpawner : MonoBehaviour
                     var drop = instance.GetComponentInChildren<ItemDrop>();
                     drop.SetQuantity(1);
                     drop.SetBase(Item.GetItem(i.itemName));
+
+                    MapGenerator.ins.AddObjToStaticBatching(instance.transform);
                 }
             }
         }

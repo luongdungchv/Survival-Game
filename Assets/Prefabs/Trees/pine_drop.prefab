@@ -19,7 +19,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3045817575683033429
 Transform:
@@ -144,7 +144,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2099429408200111352
 Transform:
@@ -188,6 +188,8 @@ MonoBehaviour:
   displayName: Birch Wood
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
+  distanceThreshold: 10
+  isPlayerTouch: 0
   quantity: 0
   meshTex: {fileID: 2800000, guid: 1c7569df23240eb4d86028a93dd33e51, type: 3}
   outlineColor: {r: 1, g: 0.9255588, b: 0, a: 0}

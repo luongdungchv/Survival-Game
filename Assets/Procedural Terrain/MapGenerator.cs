@@ -11,7 +11,10 @@ public class MapGenerator : MonoBehaviour
     public int seed;
     [SerializeField] private int width, texSize;
     [SerializeField] private float scale, falloff;
+    [SerializeField] private Transform staticBatchingRoot;
     public float vertMaxHeight;
+
+    private List<GameObject> pendingStaticBatchingTree, pendingStaticBatchingOre, pendingStaticBatchingChest;
 
     public AnimationCurve heightCurve;
     public Vector2 offset;
@@ -30,6 +33,15 @@ public class MapGenerator : MonoBehaviour
         UpdateMesh();
         var rand = new CustomRandom(MapGenerator.ins.seed);
 
+    }
+
+    private void Start() {
+        this.GetComponent<TreeSpawner>().Init();
+        this.GetComponent<OreSpawner>().Init();
+        this.GetComponent<PredropSpawner>().Init();
+        this.GetComponent<ChestSpawner>().Init();
+        this.GetComponent<BushesSpawner>().Init();
+        DL.Utils.CoroutineUtils.Invoke(this, () => StaticBatchingUtility.Combine(this.pendingStaticBatchingTree.ToArray(), this.staticBatchingRoot.gameObject), 0);
     }
 
     public void UpdateTexture(float[,] noiseMap)
@@ -79,6 +91,14 @@ public class MapGenerator : MonoBehaviour
     {
         UpdateMesh();
         return null;
+    }
+    public void AddObjToStaticBatching(Transform obj){
+        obj.SetParent(this.staticBatchingRoot);
+        if(this.pendingStaticBatchingTree == null) pendingStaticBatchingTree = new List<GameObject>();
+        pendingStaticBatchingTree.Add(obj.gameObject);
+        for(int i = 0; i < obj.childCount; i++){
+            pendingStaticBatchingTree.Add(obj.GetChild(i).gameObject);
+        }
     }
 
     private int Compare(TerrainType x, TerrainType y)

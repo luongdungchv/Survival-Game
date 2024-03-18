@@ -15,7 +15,7 @@ public class OreSpawner : MonoBehaviour
     private Dictionary<Vector2Int, bool> regionsOccupation;
     private int seed;
     private int mithrilCount;
-    void Start()
+    public void Init()
     {
         regionsOccupation = new Dictionary<Vector2Int, bool>();
         RaycastHit hit;
@@ -61,6 +61,8 @@ public class OreSpawner : MonoBehaviour
                         ore.transform.localScale = Vector3.one * scale;
 
                         ore.transform.Rotate(0, randomAngle, 0);
+
+                        MapGenerator.ins.AddObjToStaticBatching(ore.transform);
 
                     }
                 }

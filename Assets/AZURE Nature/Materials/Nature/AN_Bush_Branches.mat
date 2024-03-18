@@ -11,7 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: c61194769c49566439e564fcdf2deff8, type: 3}
   m_ShaderKeywords: _COVERAGEOVERLAYTYPE_VERTEX_POSITION _GLOSSYREFLECTIONS_OFF
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -159,3 +159,4 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GroundColor: {r: 0.951, g: 0.5568413, b: 0.193053, a: 0}
     - _SurfaceColor: {r: 0.48900002, g: 0.40623188, b: 0.35550302, a: 0}
+  m_BuildTextureStacks: []

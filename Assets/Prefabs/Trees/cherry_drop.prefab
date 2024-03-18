@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3758901778117658034
 Transform:
@@ -61,6 +61,8 @@ MonoBehaviour:
   displayName: Cherry Wood
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
+  distanceThreshold: 10
+  isPlayerTouch: 0
   quantity: 0
   meshTex: {fileID: 2800000, guid: 79723d9c36b791f45bc0f7e08f74ba75, type: 3}
   outlineColor: {r: 1, g: 0.9255588, b: 0, a: 0}
@@ -101,7 +103,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3444157710794060701
 Transform:

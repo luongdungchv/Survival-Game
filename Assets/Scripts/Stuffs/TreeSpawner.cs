@@ -14,7 +14,7 @@ public class TreeSpawner : MonoBehaviour
     [SerializeField] private GameObject hpBarUIContainer;
     private Dictionary<Vector2Int, bool> regionsOccupation;
     private int seed;
-    void Start()
+    public void Init()
     {
         regionsOccupation = new Dictionary<Vector2Int, bool>();
         RaycastHit hit;
@@ -54,6 +54,8 @@ public class TreeSpawner : MonoBehaviour
                         var tree = Instantiate(i.prefabList[index], hit.point - Vector3.up * 1.2f, randomRotation);
                         var scale = randObj.NextFloat(i.minScale, i.maxScale);
                         tree.transform.localScale = Vector3.one * scale;
+
+                        MapGenerator.ins.AddObjToStaticBatching(tree.transform);
                     }
                 }
                 sumY /= i.treesPerRegion;

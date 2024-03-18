@@ -97,7 +97,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6068777601559999040
 Transform:
@@ -156,7 +156,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &9016844048833017602
 Transform:
@@ -183,13 +183,25 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 302690267079178212, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 1109925258891608492, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 1109925258891608492, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 1284277252022314118, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284277252022314118, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 1338549282119369822, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_Mesh
@@ -242,6 +254,10 @@ PrefabInstance:
     - target: {fileID: 6458907534031036834, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6458907534031036834, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 6777432582905398169, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_Materials.Array.data[1]

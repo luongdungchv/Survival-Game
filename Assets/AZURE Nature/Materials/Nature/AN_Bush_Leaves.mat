@@ -12,7 +12,7 @@ Material:
   m_ShaderKeywords: _COLOR2ENABLE_ON _COLOR2OVERLAYTYPE_VERTEX_POSITION_BASED _SNOWOVERLAYTYPE_WORLD_NORMAL_BASED
     _TREETYPE_BUSH _WIND_ON
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}

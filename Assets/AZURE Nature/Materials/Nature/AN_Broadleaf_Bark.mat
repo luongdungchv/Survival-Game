@@ -12,7 +12,7 @@ Material:
   m_ShaderKeywords: _COVERAGEOVERLAYTYPE_VERTEX_POSITION _INVERTCOVERAGE_ON _SMOOTHNESSCHANEL_R
     _SMOOTHNESSFROM_R
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -198,3 +198,4 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _GroundColor: {r: 0.4811321, g: 0.36026713, b: 0.27006942, a: 0}
     - _SurfaceColor: {r: 0.59, g: 0.47439185, b: 0.40662158, a: 0}
+  m_BuildTextureStacks: []

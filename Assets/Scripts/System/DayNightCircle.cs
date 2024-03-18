@@ -60,6 +60,7 @@ public class DayNightCircle : MonoBehaviour
         flareDirection *= 1000;
         //flare.transform.position = flareDirection;
         flare.transform.localRotation = Quaternion.Euler(alteredAngle, 0, 0);
+        flare.GetComponent<LensFlare>().color = lightObj.GetComponent<Light>().color;
 
         this.flare.gameObject.SetActive(value < 1);
 

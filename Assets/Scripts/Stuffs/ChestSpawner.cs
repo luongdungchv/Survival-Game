@@ -8,7 +8,7 @@ public class ChestSpawner : MonoBehaviour
     [SerializeField] private LayerMask mask;
     [SerializeField] private List<ChestType> chestTypes;
 
-    void Start()
+    public void Init()
     {
         var randObj = new CustomRandom(MapGenerator.ins.seed);
         bool[,] occupationMap = new bool[maxChestPerEdge, maxChestPerEdge];
@@ -36,7 +36,7 @@ public class ChestSpawner : MonoBehaviour
                     var chest = Instantiate(type.prefab, hit.point, rotateSlope);
                     var netObj = chest.AddComponent<NetworkObject>();
                     chest.transform.Rotate(0, randObj.NextFloat(0, 360), 0);
-
+                    MapGenerator.ins.AddObjToStaticBatching(chest.transform);
                 }
             }
         }

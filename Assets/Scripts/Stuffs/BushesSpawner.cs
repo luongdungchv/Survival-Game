@@ -9,7 +9,7 @@ public class BushesSpawner : MonoBehaviour
     [SerializeField] private LayerMask mask;
     private CustomRandom randObj;
     private HashSet<Vector2Int> regionOccupation;
-    void Start()
+    public void Init()
     {
         regionOccupation = new HashSet<Vector2Int>();
         randObj = new CustomRandom(MapGenerator.ins.seed + seedOffset);
@@ -65,6 +65,7 @@ public class BushesSpawner : MonoBehaviour
             var randomScaleFactor = randObj.NextFloat(type.minScale, type.maxScale);
             obj.transform.localScale = Vector3.one * randomScaleFactor;
             obj.transform.Rotate(0, randObj.NextFloat(0, 360), 0);
+            MapGenerator.ins.AddObjToStaticBatching(obj.transform);
         }
         return true;
     }
