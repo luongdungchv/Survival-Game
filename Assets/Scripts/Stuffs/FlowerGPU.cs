@@ -51,6 +51,10 @@ public class FlowerGPU : MonoBehaviour
         GenerateInstanceData();
         InitBuffers();
         Draw();
+
+        for(int i = 0; i < 10; i++){
+            Debug.Log(datas[i].position);
+        }
     }
     void Update()
     {
@@ -74,6 +78,11 @@ public class FlowerGPU : MonoBehaviour
 
         flowerMat.SetBuffer("instDatas", renderBuffer);
 
+        instanceBuffer = new ComputeBuffer(datas.Count, InstanceData.size);
+        instanceBuffer.SetData(datas);
+        int kernelIndex = compute.FindKernel("CSMain");
+        compute.SetBuffer(kernelIndex, "instanceBuffer", instanceBuffer);
+
     }
 
     public void Draw()
@@ -84,37 +93,29 @@ public class FlowerGPU : MonoBehaviour
         Matrix4x4 V = Camera.main.worldToCameraMatrix;
         Matrix4x4 VP = P * V;
 
-        var camPos = Camera.main.transform.position;
-        int chunkCheckDistance = 35;
-        float[] arr1 = { chunkCheckDistance, chunkCheckDistance, -chunkCheckDistance, -chunkCheckDistance };
-        float[] arr2 = { chunkCheckDistance, -chunkCheckDistance, chunkCheckDistance, -chunkCheckDistance };
-        List<FlowerChunk> chunkToRender = new List<FlowerChunk>();
-        for (int i = 0; i < arr1.Length; i++)
-        {
-            var corner = new Vector2(camPos.x + arr1[i], camPos.z + arr2[i]);
-            var flooredChunkWidth = Mathf.FloorToInt(chunkWidth);
-            var chunkPos = new Vector2((Mathf.FloorToInt(corner.x) / chunkWidth) * chunkWidth, (Mathf.FloorToInt(corner.y) / chunkWidth) * chunkWidth);
-            if (chunks.ContainsKey(chunkPos) && !chunkToRender.Contains(chunks[chunkPos]))
-                chunkToRender.Add(chunks[chunkPos]);
-        }
+        // var camPos = Camera.main.transform.position;
+        // int chunkCheckDistance = 35;
+        // float[] arr1 = { chunkCheckDistance, chunkCheckDistance, -chunkCheckDistance, -chunkCheckDistance };
+        // float[] arr2 = { chunkCheckDistance, -chunkCheckDistance, chunkCheckDistance, -chunkCheckDistance };
+        // List<FlowerChunk> chunkToRender = new List<FlowerChunk>();
+        // for (int i = 0; i < arr1.Length; i++)
+        // {
+        //     var corner = new Vector2(camPos.x + arr1[i], camPos.z + arr2[i]);
+        //     var chunkPos = new Vector2((Mathf.FloorToInt(corner.x) / chunkWidth) * chunkWidth, (Mathf.FloorToInt(corner.y) / chunkWidth) * chunkWidth);
+        //     if (chunks.ContainsKey(chunkPos) && !chunkToRender.Contains(chunks[chunkPos]))
+        //         chunkToRender.Add(chunks[chunkPos]);
+        // }
 
-        var chosenData = new List<InstanceData>();
-        for (int i = 0; i < chunkToRender.Count; i++)
-        {
-            chosenData.AddRange(chunkToRender[i].props);
-        }
-        instanceBuffer?.Release();
-        if(chosenData.Count == 0) return;
-        instanceBuffer = new ComputeBuffer(chosenData.Count, InstanceData.size);
-        instanceBuffer.SetData(chosenData);
-        int kernelIndex = compute.FindKernel("CSMain");
-        compute.SetBuffer(kernelIndex, "instanceBuffer", instanceBuffer);
-
+        // var chosenData = new List<InstanceData>();
+        // for (int i = 0; i < chunkToRender.Count; i++)
+        // {
+        //     chosenData.AddRange(chunkToRender[i].props);
+        // }        
         compute.SetMatrix("vp", VP);
         compute.SetVector("camPos", Camera.main.transform.position);
         compute.SetFloat("culledDist", culledDist);
         
-        compute.Dispatch(0, Mathf.CeilToInt(chosenData.Count / 64), 1, 1);
+        compute.Dispatch(0, Mathf.CeilToInt(datas.Count / 64), 1, 1);
 
         ComputeBuffer.CopyCount(renderBuffer, argsBuffer, 4);
         Graphics.DrawMeshInstancedIndirect(mesh, 0, flowerMat, bounds, argsBuffer);
@@ -148,10 +149,8 @@ public class FlowerGPU : MonoBehaviour
 
                         var flooredX = Mathf.FloorToInt(i);
                         var flooredY = Mathf.FloorToInt(j);
-                        var chunkPos = new Vector2((flooredX / chunkWidth) * chunkWidth, (flooredY / chunkWidth) * chunkWidth);
-                        var chosenChunk = chunks[chunkPos];
 
-                        chosenChunk.AddProp(new InstanceData()
+                        datas.Add(new InstanceData()
                         {
                             position = position,
                             trs = trs,

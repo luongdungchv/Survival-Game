@@ -37,11 +37,6 @@ Shader "Environment/Flora/Flower Compute"
         sampler2D _MainTex1;
         sampler2D _MainTex2;
 
-        sampler2D _TexList[3];
-        _TexList[0] = _MainTex1;
-        _TexList[1] = _MainTex2;
-        _TexList[2] = _MainTex3;
-
         struct Input
         {
             float2 uv_MainTex;
@@ -103,10 +98,10 @@ Shader "Environment/Flora/Flower Compute"
             float texId = i.texIndex;
             float4 col ;
             
-            if(texId == 0) col = tex2D(_MainTex, i.uv_MainTex);
-            else if(texId == 1) col = tex2D(_MainTex1, i.uv_MainTex);
-            else if (texId == 2) col = tex2D(_MainTex2, i.uv_MainTex);
-            
+            // if(texId == 0) col = tex2D(_MainTex, i.uv_MainTex);
+            // else if(texId == 1) col = tex2D(_MainTex1, i.uv_MainTex);
+            // else if (texId == 2) col = tex2D(_MainTex2, i.uv_MainTex);
+            col = tex2D(_MainTex, i.uv_MainTex);
             o.Albedo = col;
             //o.Emission = 0.2;
             // o.Smoothness = 0;
