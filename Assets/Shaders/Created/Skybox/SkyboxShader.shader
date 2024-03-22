@@ -131,6 +131,17 @@
                 return col;
             }
 
+            float4 calcSunHaloAtten(float3 lightPos, float3 worldPos){
+                float angle = lerp(-0.5236, 0.5236, _State);
+                                
+                float2 sunPos = float2(lightPos.y * cos(angle) - lightPos.z * sin(angle), lightPos.y * sin(angle) + lightPos.z * cos(angle));
+                float3 delta = float3(lightPos.x, sunPos.x, sunPos.y) - worldPos;
+                float dist = length(delta);
+                float spot = 1 - smoothstep(0.0, _SunSize * 3, dist);
+                return spot * 0.4;
+                
+            }
+
             float4 triplanar(float3 positionWS, float3 normalWS){
                 float3 weights = normalWS;
                 weights = abs(weights);
@@ -203,6 +214,7 @@
                 float sunMoonMask = step(0.05, sunMoon.r);
                 col = (1 - sunMoonMask) * col;
                 col += sunMoon; 
+                col += calcSunHaloAtten(_WorldSpaceLightPos0.xyz, i.worldPos);
                 
                 
                 col -= lerp(0, col, cloudDensity);

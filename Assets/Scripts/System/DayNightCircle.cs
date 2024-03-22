@@ -20,6 +20,7 @@ public class DayNightCircle : MonoBehaviour
     }
     void Start()
     {
+        this.value = 0;
         StartCoroutine(Circulate(dayTime));
     }
 
@@ -62,7 +63,7 @@ public class DayNightCircle : MonoBehaviour
         flare.transform.localRotation = Quaternion.Euler(alteredAngle, 0, 0);
         flare.GetComponent<LensFlare>().color = lightObj.GetComponent<Light>().color;
 
-        this.flare.gameObject.SetActive(value < 1);
+        this.flare.gameObject.SetActive(value < 1 && value > 0.14f);
 
         if (value >= 2) value = 0;
     }

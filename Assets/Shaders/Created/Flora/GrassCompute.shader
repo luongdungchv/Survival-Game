@@ -92,13 +92,14 @@
         {
             #ifdef SHADER_API_D3D11
                 int colId = i.colId;
-                float4 topCol = colId == 0 ? _TopColor : _TopColor1;
-                float4 botCol = colId == 0 ? _BotColor : _BotColor1;
+                float4 topCol = _TopColor;
+                float4 botCol = _BotColor;
                 
                 fixed4 c = tex2D (_MainTex, i.uv_MainTex) * _Color;
                 
-                o.Albedo = lerp(topCol, botCol, i.uv_MainTex.y);
+                //o.Albedo = lerp(topCol, botCol, i.uv_MainTex.y);
                 //o.Albedo = colId;
+                o.Albedo = i.uv_MainTex.y;
                 o.Emission = 0.2;
                 o.Metallic = _Metallic;
                 o.Smoothness = lerp(0.1, _Glossiness, _SmoothnessState);

@@ -5,6 +5,7 @@ using UnityEngine;
 public class GrassSpawnerGPU : MonoBehaviour
 {
     [SerializeField] private float grassCount, castHeight, fovWidth, fovHeight;
+    [SerializeField] private Vector2 grassScaleRange;
     [SerializeField] private LayerMask mask;
     [SerializeField] private Mesh mesh;
     [SerializeField] private Material grassMat;
@@ -92,7 +93,7 @@ public class GrassSpawnerGPU : MonoBehaviour
                     if (hitInfo.collider.tag == "Water") continue;
                     var position = hitInfo.point;
                     var rotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
-                    var scale = Vector3.one;
+                    var scale = Vector3.one * UnityEngine.Random.Range(grassScaleRange.x, grassScaleRange.y);
                     Matrix4x4 trs = Matrix4x4.TRS(position, rotation, scale);
 
                     // var flooredX = Mathf.FloorToInt(x);
