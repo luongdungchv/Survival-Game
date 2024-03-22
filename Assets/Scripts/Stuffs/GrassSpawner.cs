@@ -21,7 +21,6 @@ public class GrassSpawner : MonoBehaviour
     private void SpawnGrass(float skipHeight)
     {
         float grassDistance = 1500 / grassCount;
-        Vector3 startPos = transform.position;
         for (float x = 0; x <= 1500; x += grassDistance)
         {
             for (float y = 0; y <= 1500; y += grassDistance)
