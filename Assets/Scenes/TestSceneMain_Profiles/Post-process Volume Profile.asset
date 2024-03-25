@@ -29,8 +29,8 @@ MonoBehaviour:
     overrideState: 0
     value: 65472
   diffusion:
-    overrideState: 0
-    value: 7
+    overrideState: 1
+    value: 4
   anamorphicRatio:
     overrideState: 0
     value: 0
@@ -38,8 +38,8 @@ MonoBehaviour:
     overrideState: 0
     value: {r: 1, g: 1, b: 1, a: 1}
   fastMode:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 1
   dirtTexture:
     overrideState: 1
     value: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}

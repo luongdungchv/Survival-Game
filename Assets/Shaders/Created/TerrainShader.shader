@@ -66,10 +66,8 @@ Shader "Environment/Terrain/Terrain Shader"
 
             for(int j = baseColorCount - 1; j >= 0; j--){                
                 float blendStrength = smoothstep(-baseBlends[j] / 2 - epsilon, baseBlends[j] / 2, percentHeight - baseHeights[j]);
-                //float4 texColor = UNITY_SAMPLE_TEX2DARRAY(baseTextures, float3(i.worldPos.xz / _testScale, j));
                 float3 texColor = triplanar(i.worldPos, _testScale, blendAxes, j);
                 o.Albedo = o.Albedo * (1 - blendStrength) + texColor * blendStrength;   
-                //o.Smoothness = 0;            
             }
             
         }

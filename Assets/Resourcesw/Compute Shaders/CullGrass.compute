@@ -3,18 +3,26 @@
 struct Props{
     float3 pos, normal;
     float4x4 trs;
-    int color;
+    int chunkIndex;
 };
 RWStructuredBuffer<Props> inputGrassBuffer;
 RWStructuredBuffer<uint> drawBuffer;
 AppendStructuredBuffer<Props> culledGrassBuffer;
 float3 camPos;
+float4 occupiedChunkIndices;
 float culledDist;
 float4x4 vp;
 
 [numthreads(64,1,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
+    int chunkIndex = inputGrassBuffer[id.x].chunkIndex;
+    bool isChunkOccupied = 
+        chunkIndex == occupiedChunkIndices.x ||
+        chunkIndex == occupiedChunkIndices.y ||
+        chunkIndex == occupiedChunkIndices.z ||
+        chunkIndex == occupiedChunkIndices.w;
+    if(!isChunkOccupied) return;
     float4 pos = float4(inputGrassBuffer[id.x].pos, 1);
     
     float4 viewspace = mul(vp, pos);
@@ -26,7 +34,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     
     bool inView = !(x < -w || x > w|| y < -w || y > w || z < -w || z > w);
     float3 d = camPos - pos.xyz;
-    float dist = d.x*d.x + d.y*d.y + d.z*d.z;
+    float dist = d.x*d.x + d.z*d.z;
     bool withinDist = dist < culledDist;
 
     if(inView && withinDist) {

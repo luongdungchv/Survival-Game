@@ -10,9 +10,12 @@ public class MapGenerator : MonoBehaviour
     public static MapGenerator ins;
     public int seed;
     [SerializeField] private int width, texSize;
+    [SerializeField] private int chunksPerEdge;
     [SerializeField] private float scale, falloff;
     [SerializeField] private Transform staticBatchingRoot;
     public float vertMaxHeight;
+    
+    public static int MapWidth => 1500;
 
     private List<GameObject> pendingStaticBatchingTree, pendingStaticBatchingOre, pendingStaticBatchingChest;
 
@@ -124,6 +127,39 @@ public class MapGenerator : MonoBehaviour
     {
         var noiseVal = noiseMap[x, y];
         return noiseVal * vertMaxHeight * heightCurve.Evaluate(noiseVal) < 9;
+    }
+    
+    public int GetChunkIndex(Vector2 pos){
+        var chunkSize = (float)MapWidth / (float)chunksPerEdge;
+        int xIndex = (int)(pos.x / chunkSize);
+        int yIndex = (int)(pos.y / chunkSize);
+        if(yIndex < 0 || yIndex >= chunksPerEdge || xIndex < 0 || xIndex >= chunksPerEdge) return -1;
+        return yIndex * chunksPerEdge + xIndex;
+    }
+    public Vector4 GetOccupiedChunks(Vector3 playerPos, float playerRadius){
+        var res = new Vector4(-1, -1 ,-1 -1);
+        var array = new int[]{-1, -1, -1, -1};
+        
+        var offsetList = new Vector3[]{
+            new Vector3(playerRadius, 0, playerRadius),
+            new Vector3(playerRadius, 0, -playerRadius),
+            new Vector3(-playerRadius, 0, playerRadius),
+            new Vector3(-playerRadius, 0, -playerRadius),  
+        };
+        
+        int index = 0;
+        foreach(var offset in offsetList){
+            var offsetPos = playerPos + offset;
+            array[index] = GetChunkIndex(new Vector2(offsetPos.x, offsetPos.z));
+            index++;
+        }
+        
+        res.x = array[0];
+        res.y = array[1];
+        res.z = array[2];
+        res.w = array[3];
+        
+        return res;
     }
 }
 [System.Serializable]

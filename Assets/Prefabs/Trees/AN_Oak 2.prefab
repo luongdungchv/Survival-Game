@@ -201,31 +201,31 @@ PrefabInstance:
       objectReference: {fileID: -1633821710574564935, guid: 41752991b9375c24e8efc9e5ce15ac32, type: 3}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_Size
-      value: 14.125968
+      value: 15.977033
       objectReference: {fileID: 0}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_LocalReferencePoint.x
-      value: -0.17319107
+      value: 0.13761926
       objectReference: {fileID: 0}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_LocalReferencePoint.y
-      value: 6.479405
+      value: 7.3803325
       objectReference: {fileID: 0}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_LocalReferencePoint.z
-      value: -0.34201956
+      value: -0.1117363
       objectReference: {fileID: 0}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_LODs.Array.data[1].screenRelativeHeight
-      value: 0.4301923
+      value: 0.46979302
       objectReference: {fileID: 0}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_LODs.Array.data[2].renderers.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
-      value: 0.2046668
+      value: 0.10212546
       objectReference: {fileID: 0}
     - target: {fileID: 3772668584195456267, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_Mesh

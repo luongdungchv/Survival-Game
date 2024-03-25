@@ -180,8 +180,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 302690267079178212, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 302690267079178212, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1109925258891608492, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1109925258891608492, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -201,19 +209,19 @@ PrefabInstance:
       objectReference: {fileID: -1633821710574564935, guid: ce74f9d9ca628dc44a8be6a57f8be4a0, type: 3}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_Size
-      value: 14.125968
+      value: 16.315582
       objectReference: {fileID: 0}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_LocalReferencePoint.x
-      value: -0.17319107
+      value: 0.12465763
       objectReference: {fileID: 0}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_LocalReferencePoint.y
-      value: 6.479405
+      value: 7.5739465
       objectReference: {fileID: 0}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_LocalReferencePoint.z
-      value: -0.34201956
+      value: -0.072173595
       objectReference: {fileID: 0}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_LODs.Array.data[1].screenRelativeHeight
@@ -221,11 +229,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_LODs.Array.data[2].renderers.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3063374875919710382, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
-      value: 0.2046668
+      value: 0.10212546
       objectReference: {fileID: 0}
     - target: {fileID: 3772668584195456267, guid: 8027a374f0ceca94480a5bc31377188b, type: 3}
       propertyPath: m_Mesh

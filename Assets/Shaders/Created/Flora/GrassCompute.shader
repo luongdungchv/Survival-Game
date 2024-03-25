@@ -56,7 +56,7 @@
         struct Props{
             float3 pos, normal;
             float4x4 trs;
-            int colorIndex;  
+            int chunkIndex;  
         };
 
         half _Glossiness; 
@@ -84,7 +84,6 @@
                 data.vertex = newPos;
                 //data.vertex = float4(worldPos, 1);
                 data.normal = props[data.inst].normal;
-                o.colId = props[data.inst].colorIndex;
             #endif
         } 
         

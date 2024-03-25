@@ -3,6 +3,7 @@ struct InstanceData{
     float3 pos;
     float4x4 trs;
     float texIndex;  
+    int chunkIndex;
 };
 
 RWStructuredBuffer<InstanceData> instanceBuffer;
@@ -10,11 +11,19 @@ AppendStructuredBuffer<InstanceData> renderBuffer;
 
 float culledDist;
 float3 camPos;
+float4 occupiedChunkIndices;
 float4x4 vp;
 
 [numthreads(64,1,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
+    int chunkIndex = instanceBuffer[id.x].chunkIndex;
+    bool isChunkOccupied = 
+        chunkIndex == occupiedChunkIndices.x ||
+        chunkIndex == occupiedChunkIndices.y ||
+        chunkIndex == occupiedChunkIndices.z ||
+        chunkIndex == occupiedChunkIndices.w;
+    if(!isChunkOccupied) return;
     float4 pos = float4(instanceBuffer[id.x].pos, 1);
     
     float4 viewspace = mul(vp, pos);
@@ -26,7 +35,8 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     float w = clipspace.w + 0.3;
     
     bool inView = !(x < -w || x > w|| y < -w || y > w || z < -w || z > w);
-    float dist = length(camPos - pos.xyz);
+    float3 dir = camPos - pos.xyz;
+    float dist = dir.x * dir.x + dir.z * dir.z;
     bool withinDist = dist < culledDist;
     
     if(inView && withinDist) renderBuffer.Append(instanceBuffer[id.x]);

@@ -32,8 +32,9 @@ public class FlowerGPU : MonoBehaviour
             {
                 settingData = JsonUtility.FromJson<SettingData>(settingJson);
             }
-            int[] options = { 0, 40, 65 };
+            int[] options = { 0, 40, 55 };
             this.culledDist = options[settingData.lod];
+            compute.SetFloat("culledDist", culledDist * culledDist);
         });
         chunkWidth = Mathf.FloorToInt(1500 / chunkPerEdge);
         instancePerChunk = chunkWidth * chunkWidth;
@@ -113,7 +114,8 @@ public class FlowerGPU : MonoBehaviour
         // }        
         compute.SetMatrix("vp", VP);
         compute.SetVector("camPos", Camera.main.transform.position);
-        compute.SetFloat("culledDist", culledDist);
+        compute.SetFloat("culledDist", culledDist * culledDist);
+         compute.SetVector("occupiedChunkIndices", MapGenerator.ins.GetOccupiedChunks(NetworkPlayer.localPlayer.transform.position, culledDist));
         
         compute.Dispatch(0, Mathf.CeilToInt(datas.Count / 64), 1, 1);
 
@@ -146,6 +148,7 @@ public class FlowerGPU : MonoBehaviour
                         var position = hit.point + hit.normal * Random.Range(0.5f, 1f);
                         var trs = Matrix4x4.TRS(position, Quaternion.Euler(-90, 0, 0), Vector3.one * 0.1f);
                         var texIndex = (int)noiseVal - 1;
+                        var chunkIndex = MapGenerator.ins.GetChunkIndex(new Vector2(position.x, position.z));
 
                         var flooredX = Mathf.FloorToInt(i);
                         var flooredY = Mathf.FloorToInt(j);
@@ -154,7 +157,8 @@ public class FlowerGPU : MonoBehaviour
                         {
                             position = position,
                             trs = trs,
-                            texIndex = texIndex
+                            texIndex = texIndex,
+                            chunkIndex = chunkIndex
                         });
                         instanceCount++;
                     }
@@ -218,7 +222,8 @@ public struct InstanceData
     public Vector3 position;
     public Matrix4x4 trs;
     public int texIndex;
-    public static int size => sizeof(float) * 19 + sizeof(int);
+    public int chunkIndex;
+    public static int size => sizeof(float) * 19 + sizeof(int) * 2;
 }
 public class FlowerChunk
 {

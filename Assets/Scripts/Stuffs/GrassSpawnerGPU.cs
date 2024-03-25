@@ -57,10 +57,11 @@ public class GrassSpawnerGPU : MonoBehaviour
             {
                 settingData = JsonUtility.FromJson<SettingData>(settingJson);
             }
-            int[] cullOptions = { 0, 40, 65 };
+            int[] cullOptions = { 0, 40, 72 };
             int[] checkOptions = {0, 29, 46};
             this.culledDistance = cullOptions[settingData.lod];
             this.chunkCheckDistance = checkOptions[settingData.lod];
+            compute.SetFloat("culledDist", culledDistance * culledDistance);
         });
 
 
@@ -101,12 +102,15 @@ public class GrassSpawnerGPU : MonoBehaviour
                     // var flooredChunkWidth = Mathf.FloorToInt(chunkWidth);
                     // var chunkPos = new Vector2((flooredX / flooredChunkWidth) * flooredChunkWidth, (flooredY / flooredChunkWidth) * flooredChunkWidth);
                     // var chosenChunk = chunks[chunkPos];
+                    
+                    var pos2D = new Vector2(position.x, position.z);
+                    var chunkIndex = MapGenerator.ins.GetChunkIndex(pos2D);
 
                     transforms.Add(new ShaderProps()
                     {
                         pos = position,
+                        chunkIndex = chunkIndex,
                         trans = trs,
-                        colorIndex = UnityEngine.Random.Range(0, 2),
                         normal = hitInfo.normal
                     });
                 }
@@ -148,6 +152,7 @@ public class GrassSpawnerGPU : MonoBehaviour
 
         compute.SetMatrix("vp", VP);
         compute.SetVector("camPos", Camera.main.transform.position);
+        compute.SetVector("occupiedChunkIndices", MapGenerator.ins.GetOccupiedChunks(NetworkPlayer.localPlayer.transform.position, culledDistance));
             
         compute.Dispatch(0, Mathf.CeilToInt(transforms.Count / 64), 1, 1);
 
@@ -171,10 +176,10 @@ public struct ShaderProps
     public Vector3 pos, normal;
 
     public Matrix4x4 trans;
-    public int colorIndex;
+    public int chunkIndex;
     public static int Size()
     {
-        return sizeof(float) * 22 + sizeof(int);
+        return sizeof(float) * 22 + sizeof(int) * 1;
     }
 }
 public class GrassChunk

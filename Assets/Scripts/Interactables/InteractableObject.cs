@@ -14,6 +14,7 @@ public class InteractableObject : MonoBehaviour
     private Transform playerTransform;
 
     public bool isPlayerTouch;
+    private float sqrDist;
 
     private GameObject btnInstance;
     protected virtual void Awake()
@@ -21,6 +22,7 @@ public class InteractableObject : MonoBehaviour
         hitbox = GetComponent<InteractableHitbox>();
         hitbox.SetOwner(this);
         distanceThreshold = 10;
+        sqrDist = distanceThreshold * distanceThreshold;
     }
     protected virtual void Start()
     {
@@ -28,7 +30,7 @@ public class InteractableObject : MonoBehaviour
     }
     protected virtual void Update()
     {
-        if (Vector3.Distance(transform.position, playerTransform.position) > distanceThreshold) return;
+        if ((transform.position - playerTransform.position).sqrMagnitude > distanceThreshold) return;
         hitbox.DetectHit();
     }
     public bool TouchDetect(RaycastHit target)

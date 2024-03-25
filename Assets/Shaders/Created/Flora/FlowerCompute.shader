@@ -58,6 +58,7 @@ Shader "Environment/Flora/Flower Compute"
             float3 pos;
             float4x4 trs;
             int texIndex;  
+            int chunkIndex;
         };
 
         half _Glossiness;
