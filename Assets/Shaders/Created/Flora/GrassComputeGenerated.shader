@@ -33,9 +33,9 @@ Shader "Environment/Flora/Grass Compute 2"
         // ---- forward rendering base pass:
         Pass {
             Name "FORWARD"
-            Tags { "IgnoreProjector"="True" "RenderType"="Grass" "DisableBatching"="True" "LightMode" = "ForwardBase"}
+            Tags { "IgnoreProjector"="True" "RenderType"="Grass" "DisableBatching"="True" "LightMode" = "UniversalForward"}
 
-            CGPROGRAM
+            HLSLPROGRAM
             // compile directives
             #pragma vertex vert_surf
             #pragma fragment frag_surf
@@ -456,7 +456,7 @@ Shader "Environment/Flora/Grass Compute 2"
 
 
 
-            ENDCG
+            ENDHLSL
 
         }
         Pass{
@@ -464,7 +464,7 @@ Shader "Environment/Flora/Grass Compute 2"
             Cull Off   
             
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
@@ -513,7 +513,7 @@ Shader "Environment/Flora/Grass Compute 2"
                 #endif
                 return 0;
             }
-            ENDCG
+            ENDHLSL
         }
 
         
