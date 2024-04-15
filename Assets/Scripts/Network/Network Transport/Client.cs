@@ -26,7 +26,7 @@ public class Client : MonoBehaviour
     public UDP udp;
     public string hostName => server;
     public Mesh testmesh;
-    private bool isSinglePlayer = false;
+    public bool isSinglePlayer = false;
     private void Awake()
     {
         //Screen.SetResolution(960, 540, FullScreenMode.Windowed);

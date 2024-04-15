@@ -1,0 +1,15 @@
+﻿.nameOfDialogueContainer
+{
+	margin-top: 3px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+GridBackground{
+	--grid-background-color: #282828;
+	--line-color: rgba(192,196,192,0.1);
+	--thick-line-color: rgba(192,196,192,0.1);
+	--spacing: 10;
+}
+Edge{
+	color: red;
+}

@@ -5,5 +5,5 @@ using UnityEngine;
 
 public class RecurringAssetsHolderSO : ScriptableObject
 {
-    public List<DefaultAsset> assetList;
+    public List<Object> assetList;
 }

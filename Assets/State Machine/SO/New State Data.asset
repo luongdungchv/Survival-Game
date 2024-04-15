@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05354a307e1d89640846b5c296d2de2e, type: 3}
+  m_Name: New State Data
+  m_EditorClassIdentifier: 
+  stateList:
+  - name: Idle
+    index: 0
+    scriptAssetList:
+    - {fileID: 11500000, guid: 697482be4ba57dc4f9d5353389c774ec, type: 3}
+    positionInGraph:
+      serializedVersion: 2
+      x: 2900
+      y: 2980
+      width: 200
+      height: 69
+  - name: Test
+    index: 1
+    scriptAssetList:
+    - {fileID: 11500000, guid: 9e6512e5e0e49684e9ec2dbfcbf688d5, type: 3}
+    positionInGraph:
+      serializedVersion: 2
+      x: 2860
+      y: 2740
+      width: 200
+      height: 69
+  stateTransitionList:
+  - startIndex: 0
+    endIndex: 1
+  camPostion: {x: -2594.7996, y: -2483.2864}
+  zoomLevel: 1
+  entryStateIndex: 0

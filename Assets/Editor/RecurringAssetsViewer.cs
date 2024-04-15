@@ -9,7 +9,7 @@ using Microsoft.SqlServer.Server;
 public class RecurringAssetsViewer : OdinEditorWindow
 {
     //[OnValueChanged("ListValueChangeCallback")]
-    public List<DefaultAsset> assetList;
+    public List<Object> assetList;
     private RecurringAssetsHolderSO data;
 
     [MenuItem("Window/Recurring Assets")]

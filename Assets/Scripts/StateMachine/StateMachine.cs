@@ -11,10 +11,11 @@ public class StateMachine : MonoBehaviour
     }
     void Start()
     {
-        if (Client.ins.isHost && GetComponent<NetworkPlayer>().isLocalPlayer)
+        if ((Client.ins.isHost && GetComponent<NetworkPlayer>().isLocalPlayer) || Client.ins.isSinglePlayer)
         {
             OnStateChanged.AddListener((oldName, newName) =>
             {
+                Debug.Log((oldName, newName));
                 var rb = GetComponent<Rigidbody>();
                 if (newName.Contains("Swim"))
                 {

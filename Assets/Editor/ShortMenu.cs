@@ -6,31 +6,31 @@ using UnityEngine;
 
 public class ShortMenu : Editor
 {
-[MenuItem("Open Scenes/AN_Demo")]//0
+//menu item placeholder0
     public static void Option1(){
         string scenePath = 
-"Assets/AZURE Nature/Demo/AN_Demo.unity";//s0
+        "scene name placeholder0";
         EditorSceneManager.SaveOpenScenes();
         EditorSceneManager.OpenScene(scenePath);
     }
-[MenuItem("Open Scenes/MainMenuRelease")]//1
+//menu item placeholder1
     public static void Option2(){
         string scenePath = 
-"Assets/Scenes/MainMenuRelease.unity";//s1
+        "scene name placeholder1";
         EditorSceneManager.SaveOpenScenes();
         EditorSceneManager.OpenScene(scenePath);
     }
-[MenuItem("Open Scenes/Test_PlayerStats")]//2
+//menu item placeholder2
     public static void Option3(){
         string scenePath = 
-"Assets/Scenes/Test Scenes/Test_PlayerStats.unity";//s2
+        "scene name placeholder2";
         EditorSceneManager.SaveOpenScenes();
         EditorSceneManager.OpenScene(scenePath);
     }
-[MenuItem("Open Scenes/Test1")]//3
+//menu item placeholder3
     public static void Option4(){
         string scenePath = 
-        "Assets/Scenes/Test1.unity";//s3
+        "scene name placeholder3";
         EditorSceneManager.SaveOpenScenes();
         EditorSceneManager.OpenScene(scenePath);
     }

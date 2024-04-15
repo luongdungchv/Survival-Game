@@ -57,7 +57,7 @@ public class GrassSpawnerGPU : MonoBehaviour
             {
                 settingData = JsonUtility.FromJson<SettingData>(settingJson);
             }
-            int[] cullOptions = { 0, 40, 72 };
+            int[] cullOptions = { 0, 40, 74 };
             int[] checkOptions = {0, 29, 46};
             this.culledDistance = cullOptions[settingData.lod];
             this.chunkCheckDistance = checkOptions[settingData.lod];
