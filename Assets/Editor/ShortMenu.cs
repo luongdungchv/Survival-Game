@@ -6,17 +6,17 @@ using UnityEngine;
 
 public class ShortMenu : Editor
 {
-//menu item placeholder0
+[MenuItem("Open Scenes/MainMenuRelease")]//0
     public static void Option1(){
         string scenePath = 
-        "scene name placeholder0";
+        "Assets/Scenes/MainMenuRelease.unity";//s0
         EditorSceneManager.SaveOpenScenes();
         EditorSceneManager.OpenScene(scenePath);
     }
-//menu item placeholder1
+[MenuItem("Open Scenes/Test_PlayerStats")]//1
     public static void Option2(){
         string scenePath = 
-        "scene name placeholder1";
+        "Assets/Scenes/Test Scenes/Test_PlayerStats.unity";//s1
         EditorSceneManager.SaveOpenScenes();
         EditorSceneManager.OpenScene(scenePath);
     }
