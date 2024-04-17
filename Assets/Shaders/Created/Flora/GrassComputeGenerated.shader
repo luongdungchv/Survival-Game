@@ -102,13 +102,10 @@ Shader "Environment/Flora/Grass Compute 2"
                 float _SmoothnessState;
                 
                 
-                #ifdef SHADER_API_D3D11
                     StructuredBuffer<Props> props; 
-                #endif
                 void vert(inout appdata data, out Input o){
                     UNITY_SETUP_INSTANCE_ID(data)
                     UNITY_INITIALIZE_OUTPUT(Input,o);
-                    #ifdef SHADER_API_D3D11
                         float3 worldPos = mul(props[data.inst].trs, data.vertex).xyz;        
                         float2 offsetX = worldPos.xy / _Scale + float2(_Time.y / 1.5, 0);
                         float2 offsetY = worldPos.xy / _Scale + float2(0, _Time.y / 1.5);
@@ -118,12 +115,10 @@ Shader "Environment/Flora/Grass Compute 2"
                         data.vertex = newPos;
                         data.normal = props[data.inst].normal;
                         o.colId = props[data.inst].colorIndex;
-                    #endif
                 } 
                 
                 void surf (Input i, inout SurfaceOutputStandard o)
                 {
-                    #ifdef SHADER_API_D3D11
                         int colId = i.colId;
                         float4 topCol = _TopColor;
                         float4 botCol = _BotColor;
@@ -136,7 +131,6 @@ Shader "Environment/Flora/Grass Compute 2"
                         o.Smoothness = lerp(0.1, _Glossiness, _SmoothnessState);
                         
                         o.Alpha = c.a;
-                    #endif
                 }
                 
 
@@ -446,6 +440,7 @@ Shader "Environment/Flora/Grass Compute 2"
                     c += LightingStandard (o, worldViewDir, gi);
                     // fixed4 shadow = SHADOW_ATTENUATION(IN);
                     // c *= shadow;
+                    return float4(IN.worldNormal, 1);
                     return c;
                 }
 
