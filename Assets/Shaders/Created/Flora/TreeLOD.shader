@@ -8,40 +8,55 @@
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque"}
+        Tags { "RenderType"="Opaque" "LightMode"="UniversalForward" "RenderPipeline"="UniversalPipeline"}
         Blend SrcAlpha OneMinusSrcAlpha
         LOD 200
         Cull Off
-        CGPROGRAM
-        // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Lambert 
-        // Use shader model 3.0 target, to get nicer looking lighting
-        #pragma target 3.0
 
-        sampler2D _MainTex;
+        Pass{
+            Tags { "LightMode" = "UniversalForwardOnly" }
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
-        struct Input
-        {
-            float2 uv_MainTex;
-        };
+            struct Attributes{
+                float4 positionOS: POSITION;
+                float2 uv: TEXCOORD0;
+                float4 normal: NORMAL;
+            };
+            struct Varyings{
+                float4 positionCS: SV_POSITION;
+                float2 uv: TEXCOORD0;
+                float3 normalWS: TEXCOORD1;
+            };
 
-        
-        fixed4 _Color;
+            TEXTURE2D(_MainTex);
+            SAMPLER(sampler_MainTex);
+            CBUFFER_START(UnityPerMaterial)
+                uniform float4 _Color;
+            CBUFFER_END
 
-        // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-        // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-        // #pragma instancing_options assumeuniformscaling
-        UNITY_INSTANCING_BUFFER_START(Props)
-        // put more per-instance properties here
-        UNITY_INSTANCING_BUFFER_END(Props)
+            Varyings vert(Attributes vertexInput){
+                Varyings output = (Varyings)0;
+                output.positionCS = TransformObjectToHClip(vertexInput.positionOS);
+                output.uv = vertexInput.uv;
+                output.normalWS = TransformObjectToWorldNormal(vertexInput.normal);
+                return output;
+            }
 
-        void surf (Input IN, inout SurfaceOutput o)
-        {
-            fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-            o.Albedo = c.rgb;
-            clip(c.a - 0.5);
-            o.Alpha = c.a;
+            float4 frag(Varyings input): SV_Target{
+                float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
+                Light light = GetMainLight();
+                float3 lightColor = LightingLambert(light.color, light.direction, input.normalWS);
+                lightColor += float3(unity_SHAr.w, unity_SHAg.w, unity_SHAb.w);
+                color *= float4(lightColor, 1);
+                clip(color.a - 0.01);
+                return color;
+            }
+            
+            ENDHLSL
         }
-        ENDCG
     }
 }
