@@ -27,8 +27,9 @@ public class InteractableObject : MonoBehaviour
     protected virtual void Start()
     {
         playerTransform = NetworkPlayer.localPlayer.transform;
+        InteractableObserver.instance.SubscribeInteractable(this);
     }
-    protected virtual void Update()
+    public virtual void OnUpdate()
     {
         if ((transform.position - playerTransform.position).sqrMagnitude > distanceThreshold) return;
         hitbox.DetectHit();

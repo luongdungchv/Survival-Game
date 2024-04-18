@@ -36,11 +36,19 @@ public class ChestSpawner : MonoBehaviour
                     var chest = Instantiate(type.prefab, hit.point, rotateSlope);
                     var netObj = chest.AddComponent<NetworkObject>();
                     chest.transform.Rotate(0, randObj.NextFloat(0, 360), 0);
-                    MapGenerator.ins.AddObjToStaticBatching(chest.transform);
+                    this.AddObjToStaticBatching(chest.transform);
                 }
             }
         }
 
+    }
+
+    private void AddObjToStaticBatching(Transform obj){
+        MapGenerator.ins.AddObjToStaticBatching(obj);
+        for(int i = 0; i < obj.childCount; i++){
+            var child = obj.GetChild(i);
+            AddObjToStaticBatching(child); 
+        }
     }
 
     void Update()

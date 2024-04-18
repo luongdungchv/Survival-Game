@@ -114,8 +114,7 @@ public class FlowerGPU : MonoBehaviour
         // }        
         compute.SetMatrix("vp", VP);
         compute.SetVector("camPos", Camera.main.transform.position);
-        compute.SetFloat("culledDist", culledDist * culledDist);
-         compute.SetVector("occupiedChunkIndices", MapGenerator.ins.GetOccupiedChunks(NetworkPlayer.localPlayer.transform.position, culledDist));
+        compute.SetVector("occupiedChunkIndices", MapGenerator.ins.GetOccupiedChunks(NetworkPlayer.localPlayer.transform.position, culledDist));
         
         compute.Dispatch(0, Mathf.CeilToInt(datas.Count / 64), 1, 1);
 

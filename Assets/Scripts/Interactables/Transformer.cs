@@ -37,9 +37,9 @@ public class Transformer : TransformerBase
         }
         base.OnInteractBtnClick(clicker);
     }
-    protected override void Update()
+    public override void OnUpdate()
     {
-        base.Update();
+        base.OnUpdate();
         if (Client.ins.isHost)
         {
             if (elapsed >= syncRate)
