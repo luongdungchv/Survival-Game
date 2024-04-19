@@ -44,7 +44,7 @@ public class MapGenerator : MonoBehaviour
         this.GetComponent<PredropSpawner>().Init();
         this.GetComponent<ChestSpawner>().Init();
         this.GetComponent<BushesSpawner>().Init();
-        DL.Utils.CoroutineUtils.Invoke(this, () => StaticBatchingUtility.Combine(this.pendingStaticBatchingTree.ToArray(), this.staticBatchingRoot.gameObject), 0);
+        //DL.Utils.CoroutineUtils.Invoke(this, () => StaticBatchingUtility.Combine(this.pendingStaticBatchingTree.ToArray(), this.staticBatchingRoot.gameObject), 0);
     }
 
     public void UpdateTexture(float[,] noiseMap)

@@ -27,7 +27,7 @@ public class InteractableObject : MonoBehaviour
     protected virtual void Start()
     {
         playerTransform = NetworkPlayer.localPlayer.transform;
-        InteractableObserver.instance.SubscribeInteractable(this);
+//        InteractableObserver.instance.SubscribeInteractable(this);
     }
     public virtual void OnUpdate()
     {

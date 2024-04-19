@@ -241,7 +241,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1827856318406805154}
-  - component: {fileID: 6640396493665874288}
   - component: {fileID: 7541955801548863092}
   - component: {fileID: 4464608773544397408}
   - component: {fileID: 7739281730738612549}
@@ -268,29 +267,6 @@ Transform:
   - {fileID: 4713283385180596589}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &6640396493665874288
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3388537039447241905}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1.82
-  m_Direction: 1
-  m_Center: {x: -0.06, y: 0.59, z: 0.02}
 --- !u!114 &7541955801548863092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,27 +394,27 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.85
+  - screenRelativeHeight: 0.798826
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 7176807588814520596}
-  - screenRelativeHeight: 0.697
+  - screenRelativeHeight: 0.61288035
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 9029997357093325328}
-  - screenRelativeHeight: 0.559
+  - screenRelativeHeight: 0.44803813
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2679674755970538885}
-  - screenRelativeHeight: 0.403
+  - screenRelativeHeight: 0.2863844
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 8505469847670289176}
-  - screenRelativeHeight: 0.253
+  - screenRelativeHeight: 0.15449607
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 8186084716141937464}
-  - screenRelativeHeight: 0.091
+  - screenRelativeHeight: 0.05894925
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3087377966763881506}

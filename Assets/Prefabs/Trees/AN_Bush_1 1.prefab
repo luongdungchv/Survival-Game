@@ -125,7 +125,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3658878377817799816}
-  - component: {fileID: 8627848712263517234}
   - component: {fileID: 3844261629678820934}
   - component: {fileID: 4593555599963881938}
   - component: {fileID: 434206606954032051}
@@ -155,29 +154,6 @@ Transform:
   - {fileID: 2089493479011941856}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &8627848712263517234
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 332610682010275483}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.38
-  m_Height: 1.47
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.62, z: 0}
 --- !u!114 &3844261629678820934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,27 +281,27 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.85
+  - screenRelativeHeight: 0.7533907
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 1579233627819589101}
-  - screenRelativeHeight: 0.697
+  - screenRelativeHeight: 0.5461424
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2382904622762304763}
-  - screenRelativeHeight: 0.559
+  - screenRelativeHeight: 0.3944724
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3647824688401887204}
-  - screenRelativeHeight: 0.403
+  - screenRelativeHeight: 0.24642934
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 6934689380475716885}
-  - screenRelativeHeight: 0.253
+  - screenRelativeHeight: 0.14059314
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 8788852824681540043}
-  - screenRelativeHeight: 0.091
+  - screenRelativeHeight: 0.05522277
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3511518327709355473}
