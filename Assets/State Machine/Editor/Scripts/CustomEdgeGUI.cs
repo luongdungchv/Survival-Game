@@ -8,9 +8,10 @@ using System.Reflection;
 using System;
 using System.Linq;
 
-namespace DL.StateMachine
+namespace DL.StateMachine.Editor
 {public class CustomEdgeGUI : EdgeGUI
 {
+
     private HashSet<(Node, Node)> mapper = new HashSet<(Node, Node)>();
     private float arrowSize = 5f;
     private List<CustomEdge> selectedEdgeList = new List<CustomEdge>();

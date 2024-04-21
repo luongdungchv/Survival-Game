@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor.Graphs;
 using UnityEditor;
 
-namespace DL.StateMachine
+namespace DL.StateMachine.Editor
 {
     public class CustomNode : Node
     {

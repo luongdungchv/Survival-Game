@@ -1,0 +1,18 @@
+{
+    "name": "DL.StateMachine.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a3573be2164a978499c8f7e3946c8294"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

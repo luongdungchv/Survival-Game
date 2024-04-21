@@ -1,4 +1,3 @@
-
 Shader "Environment/Flora/Grass Compute 2 Test"
 {
     Properties
@@ -43,56 +42,11 @@ Shader "Environment/Flora/Grass Compute 2 Test"
             #pragma multi_compile_instancing
             #pragma target 4.5
             
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
             #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
             #pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
-            // #pragma shader_feature_local _NORMALMAP
-            // #pragma shader_feature_local _PARALLAXMAP
-            // #pragma shader_feature_local _RECEIVE_SHADOWS_OFF
-            // #pragma shader_feature_local _ _DETAIL_MULX2 _DETAIL_SCALED
-            // #pragma shader_feature_local_fragment _SURFACE_TYPE_TRANSPARENT
-            // #pragma shader_feature_local_fragment _ALPHATEST_ON
-            // #pragma shader_feature_local_fragment _ _ALPHAPREMULTIPLY_ON _ALPHAMODULATE_ON
-            // #pragma shader_feature_local_fragment _EMISSION
-            // #pragma shader_feature_local_fragment _METALLICSPECGLOSSMAP
-            // #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-            // #pragma shader_feature_local_fragment _OCCLUSIONMAP
-            // #pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
-            // #pragma shader_feature_local_fragment _ENVIRONMENTREFLECTIONS_OFF
-            // #pragma shader_feature_local_fragment _SPECULAR_SETUP
-
-            // // -------------------------------------
-            // // Universal Pipeline keywords
-            // #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
-            // #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-            // #pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
-            // #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
-            // #pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
-            // #pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
-            // #pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
-            // #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
-            // #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
-            // #pragma multi_compile_fragment _ _LIGHT_COOKIES
-            // #pragma multi_compile _ _LIGHT_LAYERS
-            // #pragma multi_compile _ _FORWARD_PLUS
-            // #include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
-            // #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
-
-
-            // // -------------------------------------
-            // // Unity defined keywords
-            // #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
-            // #pragma multi_compile _ SHADOWS_SHADOWMASK
-            // #pragma multi_compile _ DIRLIGHTMAP_COMBINED
-            // #pragma multi_compile _ LIGHTMAP_ON
-            // #pragma multi_compile _ DYNAMICLIGHTMAP_ON
-            // #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
-            // #pragma multi_compile _ LOD_FADE_CROSSFADE
-            // #pragma multi_compile_fog
-            // #pragma multi_compile_fragment _ DEBUG_DISPLAY
             #include "noise.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -159,8 +113,6 @@ Shader "Environment/Flora/Grass Compute 2 Test"
             };
 
             void vert(inout appdata data, out InputData o){
-                UNITY_SETUP_INSTANCE_ID(data)
-
                 o = (InputData)0;
 
                 float3 worldPos = mul(props[data.inst].trs, data.vertex).xyz;        
@@ -200,17 +152,14 @@ Shader "Environment/Flora/Grass Compute 2 Test"
                 v2f_surf o;
                 InputData customInputData = (InputData)0;
                 vert (v, customInputData);
-                //o.custompack0.xyz = customInputData.positionCS;
                 o.pos = float4(TransformObjectToHClip(v.vertex.xyz) );
                 o.uv = v.texcoord;
-                // float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 float3 worldPos = v.vertex.xyz;
-                //float3 worldNormal = TransformObjectToWorldNormal(v.normal.xyz);
                 float3 worldNormal = v.normal.xyz;
                 o.worldPos.xyz = worldPos;
                 o.worldNormal = worldNormal;
                 o.shadowCoord = TransformWorldToShadowCoord(worldPos);
-                o.fogCoord = ComputeFogFactor(o.pos.z);
+                o.fogCoord = InitializeInputDataFog(float4(o.worldPos.xyz, 1), ComputeFogFactor(o.pos.z));;
                 OUTPUT_LIGHTMAP_UV(v.staticLightmapUV, unity_LightmapST, o.staticLightmapUV);
                 OUTPUT_SH(o.worldNormal.xyz, o.vertexSH);
                 return o;
@@ -232,12 +181,7 @@ Shader "Environment/Flora/Grass Compute 2 Test"
 
                 #if defined(_CLEARCOAT) || defined(_CLEARCOATMAP)
                     half3 coatIndirectSpecular = GlossyEnvironmentReflection(reflectVector, brdfDataClearCoat.perceptualRoughness, occlusion);
-                    // TODO: "grazing term" causes problems on full roughness
                     half3 coatColor = EnvironmentBRDFClearCoat(brdfDataClearCoat, clearCoatMask, coatIndirectSpecular, fresnelTerm);
-
-                    // Blend with base layer using khronos glTF recommended way using NoV
-                    // Smooth surface & "ambiguous" lighting
-                    // NOTE: fresnelTerm (above) is pow4 instead of pow5, but should be ok as blend weight.
                     half coatFresnel = kDielectricSpec.x + kDielectricSpec.a * fresnelTerm;
                     return color * (1.0 - coatFresnel * clearCoatMask) + coatColor;
                 #else
@@ -246,11 +190,10 @@ Shader "Environment/Flora/Grass Compute 2 Test"
             }
 
             half4 CustomPBRLit(InputData inputData, SurfaceData surfaceData){
-                #ifdef _SPECULARHIGHLIGHTS_OFF
-                    bool specularHighlightsOff = true;
-                #else
-                    bool specularHighlightsOff = false;
-                #endif
+                bool specularHighlightsOff = false;
+                // #ifdef _SPECULARHIGHLIGHTS_OFF
+                //     specularHighlightsOff = true;
+                // #endif
 
                 BRDFData brdfData;
 
@@ -258,29 +201,12 @@ Shader "Environment/Flora/Grass Compute 2 Test"
                 InitializeBRDFData(surfaceData.albedo, surfaceData.metallic, surfaceData.specular, surfaceData.smoothness, surfaceData.alpha, brdfData);
 
                 BRDFData brdfDataClearCoat = (BRDFData)0;
-                #if defined(_CLEARCOAT) || defined(_CLEARCOATMAP)
-                    // base brdfData is modified here, rely on the compiler to eliminate dead computation by InitializeBRDFData()
-                    InitializeBRDFDataClearCoat(surfaceData.clearCoatMask, surfaceData.clearCoatSmoothness, brdfData, brdfDataClearCoat);
-                #endif
 
-                // To ensure backward compatibility we have to avoid using shadowMask input, as it is not present in older shaders
-                #if defined(SHADOWS_SHADOWMASK) && defined(LIGHTMAP_ON)
-                    half4 shadowMask = inputData.shadowMask;
-                #elif !defined (LIGHTMAP_ON)
-                    half4 shadowMask = unity_ProbesOcclusion;
-                #else
-                    half4 shadowMask = half4(1, 1, 1, 1);
-                #endif
+                //To ensure backward compatibility we have to avoid using shadowMask input, as it is not present in older shaders
+                half4 shadowMask = half4(1,1,1,1);
 
                 Light mainLight = GetMainLight(inputData.shadowCoord, inputData.positionWS, shadowMask);
 
-                #if defined(_SCREEN_SPACE_OCCLUSION)
-                    AmbientOcclusionFactor aoFactor = GetScreenSpaceAmbientOcclusion(inputData.normalizedScreenSpaceUV);
-                    mainLight.color *= aoFactor.directAmbientOcclusion;
-                    surfaceData.occlusion = min(surfaceData.occlusion, aoFactor.indirectAmbientOcclusion);
-                #endif
-
-                MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI);
                 half3 color = CustomGI(brdfData, brdfDataClearCoat, surfaceData.clearCoatMask,
                 inputData.bakedGI, surfaceData.occlusion,
                 inputData.normalWS, inputData.viewDirectionWS);
@@ -304,11 +230,6 @@ Shader "Environment/Flora/Grass Compute 2 Test"
                         surfaceData.clearCoatMask, specularHighlightsOff);
                     }
                 #endif
-
-                #ifdef _ADDITIONAL_LIGHTS_VERTEX
-                    color += inputData.vertexLighting * brdfData.diffuse;
-                #endif
-
                 color += surfaceData.emission;
 
                 return half4(color, 1);
@@ -316,8 +237,6 @@ Shader "Environment/Flora/Grass Compute 2 Test"
             }
 
             float4 frag_surf (v2f_surf IN) : SV_Target{
-                UNITY_SETUP_INSTANCE_ID(IN);
-                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);
                 // prepare and unpack data
                 Input surfIN = (Input)0;
 
@@ -328,8 +247,6 @@ Shader "Environment/Flora/Grass Compute 2 Test"
                 surfIN.localPos = IN.custompack0.xyz;
                 
                 float3 worldPos = IN.worldPos.xyz;
-                Light light = GetMainLight();
-                float3 lightDir = light.direction;
                 float3 worldViewDir = normalize(GetWorldSpaceViewDir(worldPos));
 
                 SurfaceData o = (SurfaceData)0;
@@ -358,9 +275,8 @@ Shader "Environment/Flora/Grass Compute 2 Test"
                 float4 c = 0;
 
                 c = CustomPBRLit(inputData, o);
-                return c;
-                return float4(inputData.bakedGI, 1);
                 c.rgb = MixFog(c.rgb, inputData.fogCoord);
+                return c;
             }
 
             ENDHLSL

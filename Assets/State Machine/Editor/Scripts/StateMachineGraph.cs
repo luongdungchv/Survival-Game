@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine.Profiling;
 using System.Reflection;
 
-namespace DL.StateMachine
+namespace DL.StateMachine.Editor
 {public class StateMachineGraph : GraphGUI
 {
     private TransitionMaker transitionMaker = new TransitionMaker();

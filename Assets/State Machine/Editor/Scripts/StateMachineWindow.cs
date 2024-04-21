@@ -1,20 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEngine;
+using UnityEditor.Graphs;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
 using System.CodeDom;
 using System;
 using System.Reflection;
 
-#if UNITY_EDITOR
-    using UnityEditor;
-using UnityEditor.Callbacks;
-using UnityEditor.Graphs;
-#endif
-
-namespace DL.StateMachine
+namespace DL.StateMachine.Editor
 {
     public class StateMachineWindow : EditorWindow
     {
@@ -33,9 +29,8 @@ namespace DL.StateMachine
 
         private float zoomLevel = 1;
         public Vector2 windowPosition => this.manipulator.position;
-#if UNITY_EDITOR
+
         [OnOpenAsset(0)]
-#endif
         public static bool ShowWindow(int instanceID, int line)
         {
             var asset = EditorUtility.InstanceIDToObject(instanceID);

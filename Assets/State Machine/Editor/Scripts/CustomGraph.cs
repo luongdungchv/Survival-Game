@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Graphs;
 using UnityEngine;
 
-namespace DL.StateMachine
+namespace DL.StateMachine.Editor
 {
     public class CustomGraph : Graph
     {

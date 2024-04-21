@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Graphs;
 
-namespace DL.StateMachine
+namespace DL.StateMachine.Editor
 {public class TransitionMaker
 {
     public static bool IsMakingTransition;

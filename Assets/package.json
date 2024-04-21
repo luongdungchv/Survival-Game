@@ -1,0 +1,15 @@
+{
+    "name": "com.dl.unityutils",
+    "displayName": "Unity Utilities",
+    "version": "1.0.0",
+    "unity": "2020.3",
+    "description": "Simplifies 3D meshes with ease. Works both in the editor and during runtime in builds.",
+    "type": "library",
+    "keywords": [
+        "utilities"
+    ],
+    "author": {
+        "name": "Dung Luong",
+        "url": "hhttps://github.com/luongdungchv/My_Unity_Template.git"
+    }
+}

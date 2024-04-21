@@ -21,11 +21,13 @@ public class MapGenerator : MonoBehaviour
 
     public AnimationCurve heightCurve;
     public Vector2 offset;
-    [SerializeField] private Material mapMat, terrainMat;
+    [SerializeField] private Material mapMat;
     [Range(0, 1), SerializeField]
     private List<float> blends;
     public List<TerrainType> terrainTypes;
     private float[,] noiseMap;
+
+    private Material terrainMat => GetComponent<Renderer>().sharedMaterial;
     void Awake()
     {
         ins = this;
@@ -76,7 +78,8 @@ public class MapGenerator : MonoBehaviour
         terrainMat.SetFloat("_testScale", 9);
 
         var texArray = CreateTextureArray();
-        terrainMat.SetTexture("baseTextures", texArray);
+        terrainMat.SetTexture("_BaseTextures", texArray);
+        Debug.Log(texArray);
 
     }
     public void UpdateMesh()

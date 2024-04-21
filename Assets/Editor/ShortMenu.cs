@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class ShortMenu : Editor
+public class ShortMenu: Editor
 {
 [MenuItem("Open Scenes/MainMenuRelease")]//0
     public static void Option1(){
@@ -20,10 +20,10 @@ public class ShortMenu : Editor
         EditorSceneManager.SaveOpenScenes();
         EditorSceneManager.OpenScene(scenePath);
     }
-//menu item placeholder2
+[MenuItem("Open Scenes/Test2")]//2
     public static void Option3(){
         string scenePath = 
-        "scene name placeholder2";
+        "Assets/Scenes/Test2.unity";//s2
         EditorSceneManager.SaveOpenScenes();
         EditorSceneManager.OpenScene(scenePath);
     }
