@@ -19,16 +19,45 @@ Shader "Environment/Terrain/Terrain Shader URP"
         Cull Off
 
         Pass{
-            Tags { "LightMode" = "UniversalForward" }
+            Tags { "LightMode" = "UniversalForwardOnly" }
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma require 2darray
-            #pragma multi_compile_fog
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+            #pragma shader_feature_local _NORMALMAP
+            #pragma shader_feature_local_fragment _ALPHATEST_ON
+            #pragma shader_feature_local_fragment _ALPHAPREMULTIPLY_ON
+            #pragma shader_feature_local_fragment _EMISSION
+            #pragma shader_feature_local_fragment _METALLICSPECGLOSSMAP
+            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+            #pragma shader_feature_local_fragment _OCCLUSIONMAP
+            #pragma shader_feature_local _PARALLAXMAP
+            #pragma shader_feature_local _ _DETAIL_MULX2 _DETAIL_SCALED
+            #pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
+            #pragma shader_feature_local_fragment _ENVIRONMENTREFLECTIONS_OFF
+            #pragma shader_feature_local_fragment _SPECULAR_SETUP
+            #pragma shader_feature_local _RECEIVE_SHADOWS_OFF
+
+            // -------------------------------------
+            // Universal Pipeline keywords
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-            #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
-            #pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
+            #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
+            #pragma multi_compile_fragment _ _SHADOWS_SOFT
+            #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
+            #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
+            #pragma multi_compile _ SHADOWS_SHADOWMASK
+
+            // -------------------------------------
+            // Unity defined keywords
+            #pragma multi_compile _ DIRLIGHTMAP_COMBINED
+            #pragma multi_compile _ LIGHTMAP_ON
+            #pragma multi_compile_fog
+
+            //--------------------------------------
+            // GPU Instancing
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ DOTS_INSTANCING_ON
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
@@ -89,6 +118,7 @@ Shader "Environment/Terrain/Terrain Shader URP"
                 surfData.smoothness = _Glossiness;
                 surfData.metallic = _Metallic;
                 surfData.alpha = baseMap.a;
+                surfData.occlusion = 1;
                 return surfData;
             }
 
@@ -119,77 +149,6 @@ Shader "Environment/Terrain/Terrain Shader URP"
                 
             }
 
-            half3 CustomGI(BRDFData brdfData, BRDFData brdfDataClearCoat, float clearCoatMask,
-            half3 bakedGI, half occlusion,
-            half3 normalWS, half3 viewDirectionWS)
-            {
-                half3 reflectVector = reflect(-viewDirectionWS, normalWS);
-                half NoV = saturate(dot(normalWS, viewDirectionWS));
-                half fresnelTerm = Pow4(1.0 - NoV);
-
-                half3 indirectDiffuse = bakedGI * 1;
-                half3 indirectSpecular = GlossyEnvironmentReflection(reflectVector, brdfData.perceptualRoughness, occlusion);
-
-                half3 color = EnvironmentBRDF(brdfData, indirectDiffuse, indirectSpecular, fresnelTerm);
-                return color;
-
-                #if defined(_CLEARCOAT) || defined(_CLEARCOATMAP)
-                    half3 coatIndirectSpecular = GlossyEnvironmentReflection(reflectVector, brdfDataClearCoat.perceptualRoughness, occlusion);
-                    half3 coatColor = EnvironmentBRDFClearCoat(brdfDataClearCoat, clearCoatMask, coatIndirectSpecular, fresnelTerm);
-                    half coatFresnel = kDielectricSpec.x + kDielectricSpec.a * fresnelTerm;
-                    return color * (1.0 - coatFresnel * clearCoatMask) + coatColor;
-                #else
-                    return color;
-                #endif
-            }
-
-            half4 CustomPBRLit(InputData inputData, SurfaceData surfaceData){
-                bool specularHighlightsOff = false;
-                // #ifdef _SPECULARHIGHLIGHTS_OFF
-                //     specularHighlightsOff = true;
-                // #endif
-
-                BRDFData brdfData;
-
-                // NOTE: can modify alpha
-                InitializeBRDFData(surfaceData.albedo, surfaceData.metallic, surfaceData.specular, surfaceData.smoothness, surfaceData.alpha, brdfData);
-
-                BRDFData brdfDataClearCoat = (BRDFData)0;
-
-                //To ensure backward compatibility we have to avoid using shadowMask input, as it is not present in older shaders
-                half4 shadowMask = half4(1,1,1,1);
-
-                Light mainLight = GetMainLight(inputData.shadowCoord, inputData.positionWS, shadowMask);
-
-                half3 color = CustomGI(brdfData, brdfDataClearCoat, surfaceData.clearCoatMask,
-                inputData.bakedGI, surfaceData.occlusion,
-                inputData.normalWS, inputData.viewDirectionWS);
-                color += LightingPhysicallyBased(brdfData, brdfDataClearCoat,
-                mainLight,
-                inputData.normalWS, inputData.viewDirectionWS,
-                surfaceData.clearCoatMask, specularHighlightsOff);
-                return half4(color, 1);
-
-                #ifdef _ADDITIONAL_LIGHTS
-                    uint pixelLightCount = GetAdditionalLightsCount();
-                    for (uint lightIndex = 0u; lightIndex < pixelLightCount; ++lightIndex)
-                    {
-                        Light light = GetAdditionalLight(lightIndex, inputData.positionWS, shadowMask);
-                        #if defined(_SCREEN_SPACE_OCCLUSION)
-                            light.color *= aoFactor.directAmbientOcclusion;
-                        #endif
-                        color += LightingPhysicallyBased(brdfData, brdfDataClearCoat,
-                        light,
-                        inputData.normalWS, inputData.viewDirectionWS,
-                        surfaceData.clearCoatMask, specularHighlightsOff);
-                    }
-                #endif
-                color += surfaceData.emission;
-
-                return half4(color, 1);
-                return half4(color, surfaceData.alpha);
-            }
-
             Varyings vert(Attributes vertexInput){
                 Varyings output = (Varyings)0;
                 output.positionCS = TransformObjectToHClip(vertexInput.positionOS);
@@ -207,7 +166,7 @@ Shader "Environment/Terrain/Terrain Shader URP"
                 SurfaceData surfData = InitializeSurfaceData(input);
                 InputData pbrInput = InitializePBRInput(input);
 
-                surf(pbrInput, surfData);
+                //surf(pbrInput, surfData);
 
                 // Light light = GetMainLight(input.shadowCoord);
 
@@ -226,6 +185,7 @@ Shader "Environment/Terrain/Terrain Shader URP"
                 half4 color = UniversalFragmentPBR(pbrInput, surfData);
                 color.rgb = MixFog(surfData.albedo, input.fogCoord);
                 color.a = 1;
+                //return surfData.occlusion;
 
                 return color;
             }

@@ -21,7 +21,7 @@ Shader "Custom/URP Lit"
             #pragma vertex vert
             #pragma fragment frag
 
-            #pragma exclude_renderers gles gles3 glcore
+           #pragma exclude_renderers gles gles3 glcore
             #pragma target 4.5
 
             // -------------------------------------
@@ -63,7 +63,6 @@ Shader "Custom/URP Lit"
             #pragma multi_compile _ DOTS_INSTANCING_ON
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
 
             struct Attributes{
                 float4 positionOS: POSITION;
@@ -107,42 +106,8 @@ Shader "Custom/URP Lit"
                 surfData.smoothness = _Glossiness;
                 surfData.metallic = _Metallic;
                 surfData.alpha = baseMap.a;
+                surfData.occlusion = 1;
                 return surfData;
-            }
-
-            void InitializeInputData(Varyings input, half3 normalTS, out InputData inputData)
-            {
-                inputData = (InputData)0;
-
-                #if defined(REQUIRES_WORLD_SPACE_POS_INTERPOLATOR)
-                    inputData.positionWS = input.positionWS;
-                #endif
-
-                half3 viewDirWS = SafeNormalize(input.viewDirWS);
-                #if defined(_NORMALMAP) || defined(_DETAIL)
-                    float sgn = input.tangentWS.w;      // should be either +1 or -1
-                    float3 bitangent = sgn * cross(input.normalWS.xyz, input.tangentWS.xyz);
-                    inputData.normalWS = TransformTangentToWorld(normalTS, half3x3(input.tangentWS.xyz, bitangent.xyz, input.normalWS.xyz));
-                #else
-                    inputData.normalWS = input.normalWS;
-                #endif
-
-                inputData.normalWS = NormalizeNormalPerPixel(inputData.normalWS);
-                inputData.viewDirectionWS = viewDirWS;
-
-                #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
-                    inputData.shadowCoord = input.shadowCoord;
-                #elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
-                    inputData.shadowCoord = TransformWorldToShadowCoord(inputData.positionWS);
-                #else
-                    inputData.shadowCoord = float4(0, 0, 0, 0);
-                #endif
-
-                inputData.fogCoord = input.fogFactorAndVertexLight.x;
-                inputData.vertexLighting = input.fogFactorAndVertexLight.yzw;
-                inputData.bakedGI = SAMPLE_GI(input.lightmapUV, input.vertexSH, inputData.normalWS);
-                inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
-                inputData.shadowMask = SAMPLE_SHADOWMASK(input.lightmapUV);
             }
 
             Varyings vert(Attributes vertexInput){
@@ -158,12 +123,8 @@ Shader "Custom/URP Lit"
             }
 
             float4 frag(Varyings input): SV_Target{
-                SurfaceData surfData = (SurfaceData)0;
-                InputData pbrInput = (InputData)0;
-
-                InitializeStandardLitSurfaceData(input.uv, surfData);
-                Ini
-
+                SurfaceData surfData = InitializeSurfaceData(input);
+                InputData pbrInput = InitializePBRInput(input);
                 half4 color = UniversalFragmentPBR(pbrInput, surfData);
                 color = half4(MixFog(color.rgb, input.fogCoord), color.a);
                 color *= _Color;
