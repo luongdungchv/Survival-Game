@@ -4,7 +4,7 @@ using UnityEngine;
 public class DayNightCircle : MonoBehaviour
 {
     [SerializeField] private Vector3 start, end;
-    [SerializeField] private Gradient upperColors, lowerColors, lightColors, fogColors;
+    [SerializeField] private Gradient upperColors, lowerColors, lightColors, fogColors, ambientEquatorColor;
     [SerializeField] private Transform lightObj;
     [SerializeField][Range(0, 2)] private float value;
     [SerializeField] private Material skyboxMat, waterMat;
@@ -41,6 +41,7 @@ public class DayNightCircle : MonoBehaviour
         float rotationParam = value > 1 ? value - 1 : value;
         lightObj.rotation = Quaternion.Lerp(Quaternion.Euler(start), Quaternion.Euler(end), rotationParam);
         lightObj.GetComponent<Light>().color = lightColors.Evaluate(value / 2);
+        RenderSettings.ambientEquatorColor = ambientEquatorColor.Evaluate(value / 2);
         skyboxMat.SetFloat("_Value", value);
         skyboxMat.SetFloat("_State", rotationParam);
         skyboxMat.SetColor("_SkyColor", upperColors.Evaluate(value / 2));

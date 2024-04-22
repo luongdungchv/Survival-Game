@@ -6,14 +6,11 @@ Shader "Environment/Terrain/Terrain Shader URP"
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _Glossiness ("Smoothness", Range(0, 1)) = 0.5
         _Metallic ("Metallic", Range(0, 1)) = 0.5
-        _BaseTextures("Textures Array", 2DArray) = "" {}
-
-        baseColorCount("Base Color Count", Float) = 0
         
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline"}
+        Tags { "RenderType"="Opaque" "LightMode"="UniversalForward" "RenderPipeline"="UniversalPipeline"}
         Blend SrcAlpha OneMinusSrcAlpha
         LOD 200
         Cull Off
@@ -23,6 +20,12 @@ Shader "Environment/Terrain/Terrain Shader URP"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+
+            #pragma exclude_renderers gles gles3 glcore
+            #pragma target 4.5
+
+            // -------------------------------------
+            // Material Keywords
             #pragma shader_feature_local _NORMALMAP
             #pragma shader_feature_local_fragment _ALPHATEST_ON
             #pragma shader_feature_local_fragment _ALPHAPREMULTIPLY_ON
@@ -79,7 +82,6 @@ Shader "Environment/Terrain/Terrain Shader URP"
 
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
-
             TEXTURE2D_ARRAY(_BaseTextures);
             SAMPLER(sampler_BaseTextures);
 
@@ -106,18 +108,18 @@ Shader "Environment/Terrain/Terrain Shader URP"
                 pbrInput.positionCS = input.positionCS;
                 pbrInput.fogCoord = input.fogCoord;
                 pbrInput.shadowCoord = input.shadowCoord;
-                pbrInput.normalWS = normalize(input.normalWS);
+                pbrInput.normalWS = NormalizeNormalPerPixel(input.normalWS);
                 pbrInput.viewDirectionWS = input.viewDirectionWS;
                 pbrInput.bakedGI = SAMPLE_GI(input.staticLightmapUV, input.vertexSH, pbrInput.normalWS);
                 return pbrInput;
             }
             SurfaceData InitializeSurfaceData(Varyings input){
                 SurfaceData surfData = (SurfaceData)0;
-                half4 baseMap = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
-                surfData.albedo = baseMap;
+                // half4 baseMap = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
+                // surfData.albedo = baseMap;
                 surfData.smoothness = _Glossiness;
                 surfData.metallic = _Metallic;
-                surfData.alpha = baseMap.a;
+                surfData.alpha = 1;
                 surfData.occlusion = 1;
                 return surfData;
             }
@@ -154,39 +156,22 @@ Shader "Environment/Terrain/Terrain Shader URP"
                 output.positionCS = TransformObjectToHClip(vertexInput.positionOS);
                 output.uv = vertexInput.uv;
                 output.normalWS = TransformObjectToWorldNormal(vertexInput.normal);
+                output.fogCoord = ComputeFogFactor(output.positionCS.z);
                 output.positionWS = TransformObjectToWorld(vertexInput.positionOS);
-                output.fogCoord = InitializeInputDataFog(float4(output.positionWS, 1), ComputeFogFactor(output.positionCS.z));
                 output.shadowCoord = TransformWorldToShadowCoord(output.positionWS);
                 output.viewDirectionWS = GetWorldSpaceNormalizeViewDir(output.positionWS);
                 return output;
             }
 
             float4 frag(Varyings input): SV_Target{
-                //SurfaceData surfData = (SurfaceData)0;
                 SurfaceData surfData = InitializeSurfaceData(input);
                 InputData pbrInput = InitializePBRInput(input);
-
-                //surf(pbrInput, surfData);
-
-                // Light light = GetMainLight(input.shadowCoord);
-
-                // //half NdotL = saturate(dot(input.normalWS, light.direction));
-                // half3 radiance = (light.distanceAttenuation * light.shadowAttenuation);
-                
-                // half3 lightColor = LightingLambert(light.color, light.direction, input.normalWS);
-                // lightColor += float3(unity_SHAr.w, unity_SHAg.w, unity_SHAb.w);
-
-                // //half3 lightColor = VertexLighting(input.positionWS, input.normalWS);
-                
-                // surfData.albedo *= lightColor;
-                // //surfData.albedo *= pow(light.distanceAttenuation * light.shadowAttenuation, 0.65);
-                // half4 color = half4(MixFog(surfData.albedo, input.fogCoord), 1);
-
+                surf(pbrInput, surfData);
                 half4 color = UniversalFragmentPBR(pbrInput, surfData);
-                color.rgb = MixFog(surfData.albedo, input.fogCoord);
+                color = half4(MixFog(color.rgb, input.fogCoord), color.a);
+                color *= _Color;
                 color.a = 1;
-                //return surfData.occlusion;
-
+                clip(color.a - 0.01);
                 return color;
             }
             
