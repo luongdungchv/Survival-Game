@@ -967,7 +967,7 @@ Shader "HoyoToon/Genshin/Character"
         Pass
         {
             Name "Character Pass"
-            Tags{ "LightMode" = "ForwardBase" }
+            Tags{ "LightMode" = "UniversalForward" }
             Cull [_Cull]
             Blend [_SrcBlend] [_DstBlend]
             HLSLPROGRAM
@@ -1004,7 +1004,7 @@ Shader "HoyoToon/Genshin/Character"
         Pass
         {
             Name "Outline Pass"
-            Tags{ "LightMode" = "ForwardBase" }
+            Tags{ "LightMode" = "UniversalForward" }
             Cull Front
             HLSLPROGRAM
             #pragma multi_compile_fwdbase

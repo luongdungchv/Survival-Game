@@ -82,7 +82,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Scale: 4.6
-    - _SmoothnessState: 0.4304322
+    - _SmoothnessState: 0.62570643
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -91,10 +91,10 @@ Material:
     - _WindStrength: 1
     - _ZWrite: 1
     m_Colors:
-    - _BotColor: {r: 0.61816114, g: 0.754717, b: 0.10323961, a: 1}
+    - _BotColor: {r: 0.42228213, g: 0.754717, b: 0, a: 1}
     - _BotColor1: {r: 0.2509804, g: 0.58431375, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TopColor: {r: 0.6482831, g: 0.8396226, b: 0.051486313, a: 1}
+    - _TopColor: {r: 0.54291105, g: 0.8679245, b: 0.061409745, a: 1}
     - _TopColor1: {r: 0.48138937, g: 0.6117647, b: 0, a: 1}
   m_BuildTextureStacks: []
