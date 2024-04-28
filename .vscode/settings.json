@@ -54,5 +54,5 @@
     },
     "dotnet.preferCSharpExtension": true,
     "dotnet.server.useOmnisharp": true,
-    "dotnet.defaultSolution": "Survival-Game.sln"
+    "dotnet.defaultSolution": "SurvivalGameProjectI.sln"
 }

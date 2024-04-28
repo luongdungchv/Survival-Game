@@ -6,6 +6,7 @@ Shader "Environment/Terrain/Terrain Shader URP"
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _Glossiness ("Smoothness", Range(0, 1)) = 0.5
         _Metallic ("Metallic", Range(0, 1)) = 0.5
+        _BaseTextures("Textures Array", 2DArray) = "" {}
         
     }
     SubShader
@@ -20,47 +21,18 @@ Shader "Environment/Terrain/Terrain Shader URP"
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
-            #pragma exclude_renderers gles gles3 glcore
-            #pragma target 4.5
-
-            // -------------------------------------
-            // Material Keywords
-            #pragma shader_feature_local _NORMALMAP
-            #pragma shader_feature_local_fragment _ALPHATEST_ON
-            #pragma shader_feature_local_fragment _ALPHAPREMULTIPLY_ON
-            #pragma shader_feature_local_fragment _EMISSION
-            #pragma shader_feature_local_fragment _METALLICSPECGLOSSMAP
-            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-            #pragma shader_feature_local_fragment _OCCLUSIONMAP
-            #pragma shader_feature_local _PARALLAXMAP
-            #pragma shader_feature_local _ _DETAIL_MULX2 _DETAIL_SCALED
-            #pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
-            #pragma shader_feature_local_fragment _ENVIRONMENTREFLECTIONS_OFF
-            #pragma shader_feature_local_fragment _SPECULAR_SETUP
-            #pragma shader_feature_local _RECEIVE_SHADOWS_OFF
-
-            // -------------------------------------
-            // Universal Pipeline keywords
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
-            #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-            #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
-            #pragma multi_compile_fragment _ _SHADOWS_SOFT
-            #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
-            #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
-            #pragma multi_compile _ SHADOWS_SHADOWMASK
-
-            // -------------------------------------
-            // Unity defined keywords
-            #pragma multi_compile _ DIRLIGHTMAP_COMBINED
-            #pragma multi_compile _ LIGHTMAP_ON
+            
+            #pragma require 2darray
             #pragma multi_compile_fog
-
-            //--------------------------------------
-            // GPU Instancing
             #pragma multi_compile_instancing
-            #pragma multi_compile _ DOTS_INSTANCING_ON
+            #pragma target 4.5
+            
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+            
+            #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+            #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
+            #pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
+
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
@@ -82,8 +54,10 @@ Shader "Environment/Terrain/Terrain Shader URP"
 
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
-            TEXTURE2D_ARRAY(_BaseTextures);
-            SAMPLER(sampler_BaseTextures);
+            // TEXTURE2D_ARRAY(_BaseTextures);
+            // SAMPLER(sampler_BaseTextures);
+            Texture2DArray _BaseTextures;
+            SamplerState sampler_BaseTextures;
 
             const static int maxColorCount = 8;
             const static float epsilon = 1E-4;
@@ -164,8 +138,10 @@ Shader "Environment/Terrain/Terrain Shader URP"
             }
 
             float4 frag(Varyings input): SV_Target{
+                //return _BaseTextures.Sample(sampler_BaseTextures, float3(35, 35, 0));
                 SurfaceData surfData = InitializeSurfaceData(input);
                 InputData pbrInput = InitializePBRInput(input);
+                //return half4(surfData.albedo, 1);
                 surf(pbrInput, surfData);
                 half4 color = UniversalFragmentPBR(pbrInput, surfData);
                 color = half4(MixFog(color.rgb, input.fogCoord), color.a);
