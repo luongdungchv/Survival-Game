@@ -44,9 +44,9 @@ Shader "Environment/Flora/Grass Compute 2 Test"
             
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             
-            #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-            #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
-            #pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
+           // #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+            //#pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
+           // #pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
             #include "noise.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -176,7 +176,7 @@ Shader "Environment/Flora/Grass Compute 2 Test"
                 half3 indirectDiffuse = bakedGI * 1;
                 half3 indirectSpecular = GlossyEnvironmentReflection(reflectVector, brdfData.perceptualRoughness, occlusion);
 
-                half3 color = EnvironmentBRDF(brdfData, indirectDiffuse, indirectSpecular, fresnelTerm);
+                half3 color = EnvironmentBRDF(brdfData, indirectDiffuse, half3(0,0,0), fresnelTerm);
                 return color;
 
                 #if defined(_CLEARCOAT) || defined(_CLEARCOATMAP)
