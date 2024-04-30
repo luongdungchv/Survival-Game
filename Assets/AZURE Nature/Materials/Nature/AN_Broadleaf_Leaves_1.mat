@@ -14,8 +14,8 @@ Material:
   m_ValidKeywords:
   - _COLOR2ENABLE_ON
   - _COLOR2OVERLAYTYPE_VERTEX_POSITION_BASED
+  - _FIXTHEBASEOFFOLIAGE_ON
   - _SNOWOVERLAYTYPE_WORLD_NORMAL_BASED
-  - _WIND_ON
   m_InvalidKeywords:
   - _COLOR2_ON
   - _ENABLECOLOR2_ON
@@ -153,7 +153,7 @@ Material:
     - _DirectLightOffset: 0
     - _DstBlend: 0
     - _EnableColor2: 1
-    - _Fixthebaseoffoliage: 0
+    - _Fixthebaseoffoliage: 1
     - _Float2: 0
     - _GlossMapScale: 1
     - _Glossiness: 0
@@ -189,7 +189,7 @@ Material:
     - _TranslucencyInt: 15
     - _TreeType: 0
     - _UVSec: 0
-    - _WIND: 1
+    - _WIND: 0
     - _Wind: 1
     - _WindForce: 0.327
     - _WindSpeed: 0.5

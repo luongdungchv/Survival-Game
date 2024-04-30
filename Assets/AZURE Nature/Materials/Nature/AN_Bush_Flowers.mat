@@ -12,9 +12,10 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _COLOR2ENABLE_ON
   - _COLOR2OVERLAYTYPE_VERTEX_POSITION_BASED
+  - _FIXTHEBASEOFFOLIAGE_ON
   - _SNOWOVERLAYTYPE_WORLD_NORMAL_BASED
-  - _WIND_ON
   m_InvalidKeywords:
   - _TREETYPE_BUSH
   m_LightmapFlags: 4
@@ -115,7 +116,7 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.35
     - _BumpScale: 1
-    - _Color2Enable: 0
+    - _Color2Enable: 1
     - _Color2Fade: -0.6
     - _Color2Int: 0
     - _Color2Level: 0.7
@@ -126,7 +127,7 @@ Material:
     - _DirectLightInt: 1
     - _DirectLightOffset: 0
     - _DstBlend: 0
-    - _Fixthebaseoffoliage: 0
+    - _Fixthebaseoffoliage: 1
     - _Float2: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -161,7 +162,7 @@ Material:
     - _TranslucencyInt: 5
     - _TreeType: 2
     - _UVSec: 0
-    - _WIND: 1
+    - _WIND: 0
     - _Wind: 1
     - _WindForce: 0.13
     - _WindSpeed: 0.15
@@ -171,7 +172,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color1: {r: 1, g: 0.2718148, b: 0.109803915, a: 0}
-    - _Color2: {r: 0.9380813, g: 1, b: 0, a: 0}
+    - _Color2: {r: 0.9380813, g: 1, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SnowColor: {r: 1, g: 0.7400185, b: 0, a: 0}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}

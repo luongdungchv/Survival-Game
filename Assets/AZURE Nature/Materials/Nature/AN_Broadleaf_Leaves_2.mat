@@ -12,9 +12,10 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _COLOR2OVERLAYTYPE_UV_BASED
+  - _COLOR2ENABLE_ON
+  - _COLOR2OVERLAYTYPE_VERTEX_POSITION_BASED
+  - _FIXTHEBASEOFFOLIAGE_ON
   - _SNOWOVERLAYTYPE_WORLD_NORMAL_BASED
-  - _WIND_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -98,16 +99,16 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.35
     - _BumpScale: 1
-    - _Color2Enable: 0
+    - _Color2Enable: 1
     - _Color2Fade: 0.01
     - _Color2Level: -8.46
-    - _Color2OverlayType: 1
+    - _Color2OverlayType: 0
     - _Cutoff: 0.35
     - _DetailNormalMapScale: 1
     - _DirectLightInt: 1
     - _DirectLightOffset: 0
     - _DstBlend: 0
-    - _Fixthebaseoffoliage: 0
+    - _Fixthebaseoffoliage: 1
     - _Float2: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -137,7 +138,7 @@ Material:
     - _Translucency: 2
     - _TranslucencyInt: 0
     - _UVSec: 0
-    - _WIND: 1
+    - _WIND: 0
     - _WindForce: 0.327
     - _WindSpeed: 0.5
     - _WindWavesScale: 0.25
@@ -145,7 +146,7 @@ Material:
     - __dirty: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0.20556153, g: 0.745283, b: 0.10898005, a: 0}
-    - _Color2: {r: 0.22463933, g: 0.8301887, b: 0.20754717, a: 0}
+    - _Color1: {r: 0.20556149, g: 0.745283, b: 0.10898001, a: 1}
+    - _Color2: {r: 0.2246393, g: 0.8301887, b: 0.20754713, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

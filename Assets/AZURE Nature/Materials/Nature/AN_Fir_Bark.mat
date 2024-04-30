@@ -14,7 +14,6 @@ Material:
   m_ValidKeywords:
   - _BLENDNORMALS_ON
   - _COVERAGEOVERLAYTYPE_VERTEX_POSITION
-  - _COVERAGE_ON
   m_InvalidKeywords:
   - _BLENDNORMALS1_ON
   - _BOTTOMCOVERAGE_ON
@@ -153,7 +152,7 @@ Material:
     - _BlendNormals1: 1
     - _BottomCoverage: 1
     - _BumpScale: 1
-    - _COVERAGE: 1
+    - _COVERAGE: 0
     - _CoverageContrast: 0.08
     - _CoverageFade: -0.25
     - _CoverageLevel: -1.1

@@ -12,10 +12,10 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _COLOR2ENABLE_ON
   - _COLOR2OVERLAYTYPE_VERTEX_POSITION_BASED
   - _FIXTHEBASEOFFOLIAGE_ON
   - _SNOWOVERLAYTYPE_WORLD_NORMAL_BASED
-  - _WIND_ON
   m_InvalidKeywords:
   - _COLOR2ENABLE1_ON
   - _COLOR2OVERLAYTYPE_UVBASED
@@ -134,7 +134,7 @@ Material:
     - _BumpScale: 1
     - _COLOR2: 0
     - _Color2: 0
-    - _Color2Enable: 0
+    - _Color2Enable: 1
     - _Color2Enable1: 1
     - _Color2Fade: 0.8
     - _Color2Fade1: -0.6
@@ -192,7 +192,7 @@ Material:
     - _TranslucencyInt: 0
     - _TreeType: 1
     - _UVSec: 0
-    - _WIND: 1
+    - _WIND: 0
     - _Wind: 1
     - _Wind1: 1
     - _WindForce: 0.48

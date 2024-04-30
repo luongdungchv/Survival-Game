@@ -14,8 +14,8 @@ Material:
   m_ValidKeywords:
   - _COLOR2ENABLE_ON
   - _COLOR2OVERLAYTYPE_VERTEX_POSITION_BASED
+  - _FIXTHEBASEOFFOLIAGE_ON
   - _SNOWOVERLAYTYPE_WORLD_NORMAL_BASED
-  - _WIND_ON
   m_InvalidKeywords:
   - _TREETYPE_BUSH
   m_LightmapFlags: 4
@@ -131,7 +131,7 @@ Material:
     - _DirectLightInt: 1
     - _DirectLightOffset: 0
     - _DstBlend: 0
-    - _Fixthebaseoffoliage: 0
+    - _Fixthebaseoffoliage: 1
     - _Float2: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -167,7 +167,7 @@ Material:
     - _TranslucencyInt: 7
     - _TreeType: 2
     - _UVSec: 0
-    - _WIND: 1
+    - _WIND: 0
     - _Wind: 1
     - _WindForce: 0.1
     - _WindSpeed: 0.15

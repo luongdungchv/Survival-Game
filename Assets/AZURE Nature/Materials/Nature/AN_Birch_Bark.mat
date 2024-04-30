@@ -12,8 +12,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _BLENDNORMALS_ON
   - _COVERAGEOVERLAYTYPE_VERTEX_POSITION
-  - _COVERAGE_ON
   m_InvalidKeywords:
   - _GROUNDTEXTURE_ON
   - _INVERTCOVERAGE_ON
@@ -146,11 +146,11 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _BlendNormals: 0
+    - _BlendNormals: 1
     - _BlendNormals1: 1
     - _BottomCoverage: 0
     - _BumpScale: 1
-    - _COVERAGE: 1
+    - _COVERAGE: 0
     - _CoverageContrast: 0.08
     - _CoverageFade: -0.3
     - _CoverageLevel: -1.2
