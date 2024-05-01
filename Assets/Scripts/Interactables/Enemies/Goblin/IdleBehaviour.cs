@@ -11,7 +11,7 @@ namespace Enemy.Low
         {
             elapsed = 0;
             var rb = animator.GetComponent<Rigidbody>();
-            rb.velocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
         }
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {

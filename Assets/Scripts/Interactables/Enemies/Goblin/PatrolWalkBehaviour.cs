@@ -29,7 +29,7 @@ namespace Enemy.Low
                 animator.SetTrigger("idle");
             }
             var rb = animator.GetComponent<Rigidbody>();
-            rb.velocity = dirToTarget.normalized;
+            rb.linearVelocity = dirToTarget.normalized;
         }
     }
 

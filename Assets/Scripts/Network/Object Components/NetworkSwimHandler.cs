@@ -44,7 +44,7 @@ public class NetworkSwimHandler : MonoBehaviour
                 rb.useGravity = false;
                 GetComponent<NetworkStateManager>().InAir.lockState = false;
                 GetComponent<PlayerAnimation>().CancelJump();
-                rb.velocity = new Vector3(0, 0, 0);
+                rb.linearVelocity = new Vector3(0, 0, 0);
                 isSwimming = true;
 
                 SwimNormal.SetLock("Idle", true);
@@ -111,7 +111,7 @@ public class NetworkSwimHandler : MonoBehaviour
             fsm.ChangeState(SwimIdle);
         }
 
-        rb.velocity = new Vector3(moveDir.x, 0, moveDir.z);
+        rb.linearVelocity = new Vector3(moveDir.x, 0, moveDir.z);
     }
     IEnumerator LerpRotation(Quaternion from, Quaternion to, float duration)
     {
@@ -126,6 +126,6 @@ public class NetworkSwimHandler : MonoBehaviour
 
     public void StopSwimServer()
     {
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
     }
 }

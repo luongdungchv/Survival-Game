@@ -47,7 +47,7 @@ public class SwimHandler : MonoBehaviour
                 swimHeight = transform.position.y;
                 rb.useGravity = false;
                 GetComponent<StateInitializer>().InAir.lockState = false;
-                rb.velocity = new Vector3(0, 0, 0);
+                rb.linearVelocity = new Vector3(0, 0, 0);
                 animSystem.CancelJump();
                 fsm.ChangeState("SwimIdle");
             }
@@ -119,8 +119,8 @@ public class SwimHandler : MonoBehaviour
                 lastCurrentSpeed = 0;
             }
         }
-        float yMove = rb.velocity.y;
-        rb.velocity = new Vector3(moveDir.x, 0, moveDir.z);
+        float yMove = rb.linearVelocity.y;
+        rb.linearVelocity = new Vector3(moveDir.x, 0, moveDir.z);
     }
     public void StartSwimming()
     {
@@ -154,6 +154,6 @@ public class SwimHandler : MonoBehaviour
     }
     public void StopSwimming()
     {
-        rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
     }
 }

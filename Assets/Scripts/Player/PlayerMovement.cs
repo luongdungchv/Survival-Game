@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void StopMoving()
     {
-        rb.velocity = new Vector3(0, 0, 0);
+        rb.linearVelocity = new Vector3(0, 0, 0);
         currentSpeed = 0;
     }
 
@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
         float xMove = inputReader.movementInputVector.x;
         float zMove = inputReader.movementInputVector.y;
 
-        moveDir = new Vector3(0, rb.velocity.y, 0);
+        moveDir = new Vector3(0, rb.linearVelocity.y, 0);
         bool isConsumingItem = PlayerEquipment.ins.isConsumingItem;
 
         if (xMove != 0 || zMove != 0)
@@ -113,14 +113,14 @@ public class PlayerMovement : MonoBehaviour
                 rotationCoroutine = null;
             }
             currentSpeed = 0;
-            moveDir = new Vector3(0, rb.velocity.y, 0);
+            moveDir = new Vector3(0, rb.linearVelocity.y, 0);
             if (currentSpeed != lastCurrentSpeed)
             {
                 animManager.Idle();
                 lastCurrentSpeed = 0;
             }
         }
-        rb.velocity = new Vector3(moveDir.x, moveDir.y, moveDir.z);
+        rb.linearVelocity = new Vector3(moveDir.x, moveDir.y, moveDir.z);
 
     }
     public void StartMove()
@@ -145,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
         init.InAir.lockState = true;
         float horizontalJump = currentSpeed == dashSpeed ? dashJumpSpeed : currentSpeed;
         var jumpVelocity = transform.forward * horizontalJump + Vector3.up * jumpSpeed;
-        rb.velocity = jumpVelocity;
+        rb.linearVelocity = jumpVelocity;
     }
     IEnumerator LerpRotation(Quaternion from, Quaternion to, float duration)
     {
@@ -174,7 +174,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void DisplaceForward(float magnitude)
     {
-        rb.velocity = transform.forward * magnitude;
+        rb.linearVelocity = transform.forward * magnitude;
     }
     public void Dash()
     {
@@ -184,7 +184,7 @@ public class PlayerMovement : MonoBehaviour
         {
             moveDir = transform.forward;
             PerformSlopeCheck();
-            rb.velocity = moveDir.normalized * dashSpeed;
+            rb.linearVelocity = moveDir.normalized * dashSpeed;
         }
         else
         {
@@ -205,7 +205,7 @@ public class PlayerMovement : MonoBehaviour
             Vector3 rotationVector = new Vector3(transform.rotation.x, angle + 90, transform.rotation.z);
             Quaternion targetRotation = Quaternion.Euler(rotationVector);
             transform.rotation = targetRotation;
-            rb.velocity = moveDir;
+            rb.linearVelocity = moveDir;
         }
     }
     public void FixedVerticalVel()
@@ -213,9 +213,9 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(slopeCheckPos.transform.position, Vector3.down, out hit, 0.4f, slopeCheckMask))
         {
-            var vel = rb.velocity;
+            var vel = rb.linearVelocity;
             if (vel.y < 0) vel.y = 0;
-            rb.velocity = vel;
+            rb.linearVelocity = vel;
         }
     }
 
@@ -232,7 +232,7 @@ public class PlayerMovement : MonoBehaviour
 
             return true;
         }
-        moveDir += Vector3.up * rb.velocity.y;
+        moveDir += Vector3.up * rb.linearVelocity.y;
         return false;
     }
 }

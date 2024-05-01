@@ -7,6 +7,6 @@ public class GoblinAnimEvents : MonoBehaviour
 
     public void DashAtk()
     {
-        GetComponent<Rigidbody>().velocity = transform.forward * 10;
+        GetComponent<Rigidbody>().linearVelocity = transform.forward * 10;
     }
 }

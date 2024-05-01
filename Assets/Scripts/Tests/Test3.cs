@@ -9,6 +9,6 @@ public class Test3 : MonoBehaviour
     private void FixedUpdate()
     {
         Debug.Log(rb.position);
-        GetComponent<Rigidbody>().velocity = Vector3.right * 7;
+        GetComponent<Rigidbody>().linearVelocity = Vector3.right * 7;
     }
 }

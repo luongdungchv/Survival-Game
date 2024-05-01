@@ -31,7 +31,7 @@ namespace Enemy.Low
             var dirToTarget = target.position - animator.transform.position;
             var groundNormal = (stats as IGround).groundNormal;
             var moveDir = Vector3.Cross(dirToTarget, groundNormal).normalized;
-            rb.velocity = moveDir * left * (stats as IMove).walkSpeed;
+            rb.linearVelocity = moveDir * left * (stats as IMove).walkSpeed;
             animator.transform.LookAt(target.position);
         }
         private void PlayRandom(Animator animator, string[] states)

@@ -37,11 +37,11 @@ public class NetworkMovement : MonoBehaviour
     }
     private void Update()
     {
-        if (rb.velocity.y < -maxFallingSpeed)
+        if (rb.linearVelocity.y < -maxFallingSpeed)
         {
-            var vel = rb.velocity;
+            var vel = rb.linearVelocity;
             vel.y = -maxFallingSpeed;
-            rb.velocity = vel;
+            rb.linearVelocity = vel;
         }
     }
     public void MoveServer()
@@ -54,7 +54,7 @@ public class NetworkMovement : MonoBehaviour
 
             moveDir = moveDir.normalized;
             if (PerformSlopeCheck(ref moveDir))
-                rb.velocity = moveDir * currentSpeed;
+                rb.linearVelocity = moveDir * currentSpeed;
 
             float angle = -Mathf.Atan2(moveDir.z, moveDir.x) * Mathf.Rad2Deg;
             Quaternion targetRotation = Quaternion.Euler(transform.rotation.x, angle + 90, transform.rotation.z);
@@ -80,7 +80,7 @@ public class NetworkMovement : MonoBehaviour
     {
         if (!Client.ins.isHost) return;
         groundCheck = false;
-        rb.velocity = Vector3.up * jumpSpeed + moveDir.normalized * currentSpeed;
+        rb.linearVelocity = Vector3.up * jumpSpeed + moveDir.normalized * currentSpeed;
 
     }
     public void DashServer()
@@ -91,12 +91,12 @@ public class NetworkMovement : MonoBehaviour
         moveDir = moveDir.normalized;
         if (PerformSlopeCheck(ref moveDir))
         {
-            rb.velocity = moveDir * currentSpeed;
+            rb.linearVelocity = moveDir * currentSpeed;
         }
     }
     public void StopMoveServer()
     {
-        rb.velocity = Vector3.up * rb.velocity.y;
+        rb.linearVelocity = Vector3.up * rb.linearVelocity.y;
     }
     IEnumerator LerpRotation(Quaternion from, Quaternion to, float duration)
     {

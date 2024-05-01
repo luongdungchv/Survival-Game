@@ -779,7 +779,7 @@ namespace HoyoToon
                 if (l < 1000000000) return (l / 1000000f).ToString("n2") + " MB";
                 else return (l / 1000000000f).ToString("n2") + " GB";
             }
-
+            [Obsolete]
             public static (long size, string format) CalcSize(Texture t)
             {
                 string add = "";

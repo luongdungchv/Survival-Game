@@ -79,7 +79,7 @@ public class NetworkPlayer : NetworkObject
         }
         else
         {
-            rb.velocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
             if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
         }
         if (TryGetComponent<PlayerMovement>(out var movement))
