@@ -22,6 +22,7 @@ public class Client : MonoBehaviour
     [SerializeField] private int port, tcpBufferSize;
     [SerializeField] Button joinRoomBtn;
     [SerializeField] private TMP_InputField roomField, hostField;
+    [SerializeField] private Gradient gradient;
     public TCP tcp;
     public UDP udp;
     public string hostName => server;

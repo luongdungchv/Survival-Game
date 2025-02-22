@@ -9,11 +9,11 @@ Shader "Environment/Flora/Grass Compute 2 Test"
         
         _Scale ("Noise Scale", float) = 1
         
+        _TipColor ("Tip Color", Color) = (1,1,1,1)
         _TopColor ("Top Color", Color) = (1,1,1,1)
         _BotColor ("Bot Color", Color) = (1,1,1,1)
         
-        _TopColor1 ("Top Color", Color) = (1,1,1,1)
-        _BotColor1 ("Bot Color", Color) = (1,1,1,1)
+        _AOColor ("Ambien Occlusion Color", Color) = (1,1,1,1)
         
         _BlendFactor("Blend Factor", float) = 0.5
         _SmoothnessState("Smoothness State", float) = 0
@@ -95,7 +95,7 @@ Shader "Environment/Flora/Grass Compute 2 Test"
                 uniform half _Metallic;
                 uniform float4 _Color; 
                 uniform float _Scale;
-                uniform float4 _TopColor, _BotColor, _TopColor1, _BotColor1;
+                uniform float4 _TopColor, _BotColor, _TipColor, _AOColor;
                 uniform float _BlendFactor;
                 uniform float _SmoothnessState;
                 StructuredBuffer<Props> props; 
@@ -128,14 +128,21 @@ Shader "Environment/Flora/Grass Compute 2 Test"
             } 
             void surf (Input i, inout SurfaceData o)
             {
-                int colId = i.colId;
                 float4 topCol = _TopColor;
                 float4 botCol = _BotColor;
                 
                 float4 c = tex2D (_MainTex, i.uv_MainTex) * _Color;
                 
                 float4 shadowAtten = MainLightRealtimeShadow(i.shadowCoord);
-                o.albedo = lerp(topCol, botCol, i.uv_MainTex.y).xyz;
+                float value = i.uv_MainTex.y;
+
+                float4 col = (0,0,0,0);
+
+                if (value < 0.2) col = lerp(_AOColor, _BotColor, smoothstep(0, 0.2, value));
+                else if(value >= 0.2 && value < 0.65) col = lerp(_BotColor, _TopColor, smoothstep(0.2, 0.7, value));
+                else if(value >= 0.65) col = lerp(_TopColor, _TipColor, saturate(smoothstep(0.65, 1, value)));
+
+                o.albedo = col.xyz;
                 o.emission = 0.2;
                 o.metallic = _Metallic;
                 o.smoothness = lerp(0.1, _Glossiness, _SmoothnessState);         

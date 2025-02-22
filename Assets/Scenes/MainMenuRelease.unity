@@ -2571,7 +2571,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1048375
 --- !u!114 &440390766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8890,6 +8890,36 @@ MonoBehaviour:
   joinRoomBtn: {fileID: 452120185}
   roomField: {fileID: 1414527230}
   hostField: {fileID: 1213131114}
+  gradient:
+    serializedVersion: 2
+    key0: {r: 0.6946673, g: 0.9811321, b: 0.33784264, a: 1}
+    key1: {r: 0.69411767, g: 0.98039216, b: 0.3372549, a: 1}
+    key2: {r: 0.43988392, g: 0.9056604, b: 0.021359911, a: 0}
+    key3: {r: 0.3792518, g: 0.6509434, b: 0, a: 0}
+    key4: {r: 0.22915167, g: 0.4056604, b: 0, a: 0}
+    key5: {r: 0.23137255, g: 0.40784314, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 3277
+    ctime2: 9830
+    ctime3: 55705
+    ctime4: 62258
+    ctime5: 65535
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: 0
+    m_NumColorKeys: 6
+    m_NumAlphaKeys: 2
   testmesh: {fileID: 0}
   isSinglePlayer: 0
 --- !u!1 &1939738555

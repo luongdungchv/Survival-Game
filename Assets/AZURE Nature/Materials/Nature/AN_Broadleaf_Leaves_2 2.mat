@@ -100,13 +100,13 @@ Material:
     - _AlphaCutoff: 0.35
     - _BumpScale: 1
     - _Color2Enable: 1
-    - _Color2Fade: 0.01
+    - _Color2Fade: -0.05
     - _Color2Level: -8.46
     - _Color2OverlayType: 0
     - _Cutoff: 0.35
     - _DetailNormalMapScale: 1
-    - _DirectLightInt: 1
-    - _DirectLightOffset: 0
+    - _DirectLightInt: 2
+    - _DirectLightOffset: 0.12
     - _DstBlend: 0
     - _Fixthebaseoffoliage: 1
     - _Float2: 0
@@ -136,7 +136,7 @@ Material:
     - _TransScattering: 1
     - _TransShadow: 1
     - _Translucency: 2
-    - _TranslucencyInt: 0
+    - _TranslucencyInt: 5
     - _UVSec: 0
     - _WIND: 0
     - _WindForce: 0.327
