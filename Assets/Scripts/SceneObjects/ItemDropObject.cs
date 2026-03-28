@@ -20,6 +20,7 @@ public class ItemDropObject : MonoBehaviour, IDamagable
         if (requiredTools.Length > 0 && !requiredTools.Contains(tool)) incomingDmg = 0;
         hp -= incomingDmg;
         var isDealerLocalPlayer = player.GetComponent<NetworkPlayer>().isLocalPlayer;
+        Debug.LogError((1, isDealerLocalPlayer));
         if (isDealerLocalPlayer)
         {
             var popup = dmgPopupPool.Release();

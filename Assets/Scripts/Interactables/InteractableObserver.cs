@@ -14,8 +14,17 @@ public class InteractableObserver : MonoBehaviour
     public void SubscribeInteractable(InteractableObject obj){
         this.interactables.Add(obj);
         posList.Add(obj.transform.position);
+        obj.OnDespawned += OnInteractableDespawned;
     }
-    
+
+    private void OnInteractableDespawned(InteractableObject obj)
+    {
+        obj.OnDespawned -= OnInteractableDespawned;
+        var index = this.interactables.IndexOf(obj);
+        this.interactables.RemoveAt(index);
+        this.posList.RemoveAt(index);
+    }
+
     private void Awake() {
         instance = this;
         this.interactables = new List<InteractableObject>();

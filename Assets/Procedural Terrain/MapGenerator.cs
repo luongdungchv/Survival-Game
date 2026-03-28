@@ -93,6 +93,12 @@ public class MapGenerator : MonoBehaviour
         GetComponent<MeshCollider>().sharedMesh = mesh;
         //GetComponent<NavMeshSurface>().BuildNavMesh();
     }
+
+    void OnValidate()
+    {
+        var baseColors = terrainTypes.Select(n => n.color).ToArray();
+        terrainMat.SetColorArray("baseColors", baseColors);
+    }
     public Task MeshUpdate()
     {
         UpdateMesh();

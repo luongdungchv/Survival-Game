@@ -119,7 +119,7 @@ Shader "Environment/Terrain/Terrain Shader URP"
 
                 for(int j = baseColorCount - 1; j >= 0; j--){                
                     float blendStrength = smoothstep(-baseBlends[j] / 2 - epsilon, baseBlends[j] / 2, percentHeight - baseHeights[j]);
-                    float3 texColor = triplanar(i.positionWS, _testScale, blendAxes, j);
+                    float3 texColor = triplanar(i.positionWS, _testScale, blendAxes, j) * baseColors[j];
                     o.albedo = o.albedo * (1 - blendStrength) + texColor * blendStrength;   
                 }
                 

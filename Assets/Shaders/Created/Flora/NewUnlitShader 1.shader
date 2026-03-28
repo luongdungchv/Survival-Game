@@ -17,6 +17,12 @@ Shader "Environment/Flora/Grass Compute 2 Test"
         
         _BlendFactor("Blend Factor", float) = 0.5
         _SmoothnessState("Smoothness State", float) = 0
+        
+        _WindMap("Wind Map", 2D) = "white"{}
+        _VerticalFadeRate("Vertical Fade Rate", Float) = 1
+        _WindTiling("Wind Tiling", Vector) = (1,1,1,1)
+        _WindStrength("Wind Strength", Float) = 1
+        _WindSpeed("Wind Speed", Float) = 1
     }
     SubShader
     {
@@ -98,8 +104,17 @@ Shader "Environment/Flora/Grass Compute 2 Test"
                 uniform float4 _TopColor, _BotColor, _TipColor, _AOColor;
                 uniform float _BlendFactor;
                 uniform float _SmoothnessState;
+                uniform float _VerticalFadeRate;
+                uniform float _WindStrength;
+                uniform float _WindSpeed;
+                uniform half2 _WindTiling;
+                uniform float4 _WindMap_ST;
+            
                 StructuredBuffer<Props> props; 
             CBUFFER_END
+
+            sampler2D _WindMap;
+            
             struct v2f_surf {
                 float4 pos: SV_POSITION;
                 float3 worldNormal : TEXCOORD0;
@@ -115,30 +130,34 @@ Shader "Environment/Flora/Grass Compute 2 Test"
             void vert(inout appdata data, out InputData o){
                 o = (InputData)0;
 
-                float3 worldPos = mul(props[data.inst].trs, data.vertex).xyz;        
-                float2 offsetX = worldPos.xy / _Scale + float2(_Time.y / 1.5, 0);
-                float2 offsetY = worldPos.xy / _Scale + float2(0, _Time.y / 1.5);
-                float perlinVal = perlinNoise(offsetX) - 0.5;
-                float perlinVal2 = perlinNoise(offsetY) - 0.5;
-                float4 newPos = float4(worldPos, data.vertex.z) + float4(perlinVal * data.color.x, perlinVal2 * data.color.x, 0, 0);
-                data.vertex = newPos;
+                float3 worldPos = mul(props[data.inst].trs, data.vertex).xyz;
+                
+                float2 windUV = worldPos.xz + float2(_Time.y, _Time.y) * _WindSpeed;
+                windUV *= _WindTiling.xy;
+
+                float2 noiseVal = tex2Dlod(_WindMap, float4(TRANSFORM_TEX(windUV, _WindMap), 0, 0)) * _WindStrength;
+                //half noiseVal = perlinNoise(TRANSFORM_TEX(windUV, _WindMap));
+                float windStrength = length(noiseVal);
+                
+                float vertFade = data.vertex.y;
+                vertFade *= _VerticalFadeRate;
+                vertFade = saturate(vertFade);
+
+                windStrength = lerp(0, windStrength, vertFade);
+                
+                data.vertex = float4(worldPos, data.vertex.z) + normalize(float4(1, 0, 1, 0)) * windStrength;
                 data.normal = props[data.inst].normal;
                 o.shadowCoord = TransformWorldToShadowCoord(data.vertex.xyz);
                 
             } 
             void surf (Input i, inout SurfaceData o)
             {
-                float4 topCol = _TopColor;
-                float4 botCol = _BotColor;
-                
                 float4 c = tex2D (_MainTex, i.uv_MainTex) * _Color;
-                
-                float4 shadowAtten = MainLightRealtimeShadow(i.shadowCoord);
                 float value = i.uv_MainTex.y;
 
-                float4 col = (0,0,0,0);
+                float4 col = 0;
 
-                if (value < 0.2) col = lerp(_AOColor, _BotColor, smoothstep(0, 0.2, value));
+                if (value < 0.2) col = lerp(_AOColor, _BotColor, smoothstep(-0.1, 0.2, value));
                 else if(value >= 0.2 && value < 0.65) col = lerp(_BotColor, _TopColor, smoothstep(0.2, 0.7, value));
                 else if(value >= 0.65) col = lerp(_TopColor, _TipColor, saturate(smoothstep(0.65, 1, value)));
 

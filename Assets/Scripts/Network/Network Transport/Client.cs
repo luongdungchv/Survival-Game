@@ -115,6 +115,7 @@ public class Client : MonoBehaviour
     public void SinglePlayer(){
         clientId = "0";
         isSinglePlayer = true;
+        this.isHost = true;
         SceneManager.LoadScene("Test_PlayerStats");
     }
     public void Ready()

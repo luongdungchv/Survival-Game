@@ -2,6 +2,7 @@
     "default_texture_type": 0,
     "showRenderQueue": true,
     "showManualReloadButton": false,
+    "showColorspaceWarnings": true,
     "allowCustomLockingRenaming": false,
     "autoMarkPropertiesAnimated": true,
     "texturePackerCompressionWithAlphaOverwrite": -1,
@@ -18,5 +19,5 @@
     "forceAsyncCompilationPreview": true,
     "fixKeywordsWhenLocking": true,
     "saveAfterLockUnlock": true,
-    "verion": "1.0"
+    "verion": "2.56.5"
 }

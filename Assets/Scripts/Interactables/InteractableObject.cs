@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -16,6 +17,8 @@ public class InteractableObject : MonoBehaviour
     public bool isPlayerTouch;
     private float sqrDist;
 
+    public event Action<InteractableObject> OnDespawned;
+
     private GameObject btnInstance;
     protected virtual void Awake()
     {
@@ -27,7 +30,7 @@ public class InteractableObject : MonoBehaviour
     protected virtual void Start()
     {
         playerTransform = NetworkPlayer.localPlayer.transform;
-//        InteractableObserver.instance.SubscribeInteractable(this);
+        InteractableObserver.instance.SubscribeInteractable(this);
     }
     public virtual void OnUpdate()
     {
@@ -64,5 +67,10 @@ public class InteractableObject : MonoBehaviour
     protected virtual void OnInteractBtnClick(Button clicker)
     {
         Destroy(clicker.gameObject);
+    }
+
+    void OnDestroy()
+    {
+        OnDespawned?.Invoke(this);
     }
 }

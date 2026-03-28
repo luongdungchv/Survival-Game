@@ -12,7 +12,6 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _COLOR2ENABLE_ON
   - _COLOR2OVERLAYTYPE_VERTEX_POSITION_BASED
   - _FIXTHEBASEOFFOLIAGE_ON
   - _SNOWOVERLAYTYPE_WORLD_NORMAL_BASED
@@ -99,14 +98,14 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.35
     - _BumpScale: 1
-    - _Color2Enable: 1
+    - _Color2Enable: 0
     - _Color2Fade: 0.01
     - _Color2Level: -8.46
     - _Color2OverlayType: 0
     - _Cutoff: 0.35
     - _DetailNormalMapScale: 1
-    - _DirectLightInt: 2.4
-    - _DirectLightOffset: 0.052
+    - _DirectLightInt: 4.08
+    - _DirectLightOffset: 0
     - _DstBlend: 0
     - _Fixthebaseoffoliage: 1
     - _Float2: 0
@@ -136,7 +135,7 @@ Material:
     - _TransScattering: 1
     - _TransShadow: 1
     - _Translucency: 2
-    - _TranslucencyInt: 3
+    - _TranslucencyInt: 10.8
     - _UVSec: 0
     - _WIND: 0
     - _WindForce: 0.327
@@ -146,7 +145,7 @@ Material:
     - __dirty: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0.20556149, g: 0.745283, b: 0.10898001, a: 1}
-    - _Color2: {r: 0.2246393, g: 0.8301887, b: 0.20754713, a: 1}
+    - _Color1: {r: 0.27953833, g: 0.4113207, b: 0, a: 1}
+    - _Color2: {r: 0.020979166, g: 1, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

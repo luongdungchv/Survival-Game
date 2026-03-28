@@ -17,9 +17,11 @@ public class PlayerHitBox : HitBox
             
             var isCrit = GetCritHit(dmgDealer, ref currentBaseDmg);
             var isKnockback = GetKnockback(dmgDealer);
-            
+
+            Debug.LogError((0));
             if (Client.ins.isHost)
             {
+                Debug.LogError((1));
                 PlayerDmgDealer.ins.SetProps(currentBaseDmg, currentTool, dmgDealer, target, isCrit, isKnockback);
                 PlayerDmgDealer.ins.Excute();
             }

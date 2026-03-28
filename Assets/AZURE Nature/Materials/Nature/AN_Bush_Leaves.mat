@@ -126,7 +126,7 @@ Material:
     - _AlphaCutoff: 0.35
     - _BumpScale: 1
     - _Color2Enable: 1
-    - _Color2Fade: 0.28
+    - _Color2Fade: 0.34
     - _Color2Int: 0.3
     - _Color2Level: -1.1
     - _Color2OverlayType: 0
@@ -169,7 +169,7 @@ Material:
     - _TransScattering: 1
     - _TransShadow: 1
     - _Translucency: 2
-    - _TranslucencyInt: 10
+    - _TranslucencyInt: 12.7
     - _TreeType: 2
     - _UVSec: 0
     - _WIND: 0
@@ -181,7 +181,7 @@ Material:
     - __dirty: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0.33176792, g: 0.90943396, b: 0.16301166, a: 0}
+    - _Color1: {r: 0.36075956, g: 0.5320754, b: 0.003011704, a: 0}
     - _Color2: {r: 0.3715646, g: 0.67058825, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SnowColor: {r: 1, g: 0.7400185, b: 0, a: 0}
