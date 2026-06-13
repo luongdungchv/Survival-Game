@@ -1,0 +1,39 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Dacodelaac.Events
+{
+    [CreateAssetMenu(menuName = "Event/Play Audio Event")]
+    public class PlayAudioEvent : BaseEvent<AudioClip>, ISerializationCallbackReceiver
+    {
+        Dictionary<AudioClip, float> lastTimePlayDict = new Dictionary<AudioClip, float>();
+        
+        public override void Raise(AudioClip value)
+        {
+            if (!lastTimePlayDict.ContainsKey(value))
+            {
+                lastTimePlayDict.Add(value, 0);
+            }
+            if (Time.time - lastTimePlayDict[value] < 0.1f)
+            {
+                return;
+            }
+            lastTimePlayDict[value] = Time.time;
+            base.Raise(value);
+        }
+
+        public void RaiseRandom(AudioClip[] audioClips)
+        {
+            Raise(audioClips[Random.Range(0, audioClips.Length)]);
+        }
+        
+        public void OnBeforeSerialize()
+        {
+        }
+
+        public void OnAfterDeserialize()
+        {
+            lastTimePlayDict = new Dictionary<AudioClip, float>();
+        }
+    }
+}

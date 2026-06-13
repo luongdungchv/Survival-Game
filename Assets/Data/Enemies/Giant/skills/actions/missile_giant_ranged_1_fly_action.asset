@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e1f5e2d18b4583aa9114c49cb9a489, type: 3}
+  m_Name: missile_giant_ranged_1_fly_action
+  m_EditorClassIdentifier: 
+  id: 
+  pools: {fileID: 11400000, guid: d0cc5e2268490194eb9059b0595342cf, type: 2}
+  ticker: {fileID: 11400000, guid: 5e569b47adef45c46ad404d98c125f82, type: 2}
+  earlyTick: 0
+  tick: 0
+  lateTick: 0
+  fixedTick: 0
+  displayText:
+    text: 
+  objectEventData: {fileID: 0}
+  triggerEvent: {fileID: 0}
+  stopEvent: {fileID: 0}
+  flyRange: 50
+  speed: 7
+  extendRange: 0
+  startingOffset: {x: 0, y: 0, z: 0}
+  limitHeight: 9
+  hitObstacleFeedback: {fileID: 0}
+  hitFxPrefab: {fileID: 0}

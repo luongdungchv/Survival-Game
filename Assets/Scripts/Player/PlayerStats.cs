@@ -1,12 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using BoxHead2.Actor;
+using BoxHead2.Combat;
+using BoxHead2.SubActions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : MonoBehaviour, IDamageTaker
 {
     public static PlayerStats ins;
 
@@ -45,6 +49,9 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float _stamina, _hungerPoint;
     [SerializeField] private bool isRegeneratingStamina, isRegeneratingHunger;
     [SerializeField] private RectTransform test;
+
+    [SerializeField] private Transform lockPivot;
+    
     private StateMachine fsm => GetComponent<StateMachine>();
     private InputReader inputReader => InputReader.ins;
     private PlayerAnimation animSystem => GetComponent<PlayerAnimation>();
@@ -54,6 +61,7 @@ public class PlayerStats : MonoBehaviour
 
     private Coroutine lerpHPBar, lerpStaminaBar, lerpHungerBar;
     private int currentCoins;
+    
     public int coins
     {
         get => currentCoins;
@@ -81,6 +89,7 @@ public class PlayerStats : MonoBehaviour
         _hungerPoint = maxHungerPoint;
 
         coins = 8;
+        Initialized = true;
     }
     void Update()
     {
@@ -152,6 +161,7 @@ public class PlayerStats : MonoBehaviour
     }
     public void TakeDamage(float dmg)
     {
+        Debug.LogError(dmg);
         _hp -= dmg;
         if (netPlayer.isLocalPlayer)
         {
@@ -262,5 +272,45 @@ public class PlayerStats : MonoBehaviour
             }
 
         }
+    }
+
+    public ActorType Type => ActorType.Ally;
+    public bool CanBeTarget => true;
+    public Transform Transform => transform;
+    public Vector3 LockPosition => this.lockPivot.position;
+    public Vector3 Position => transform.position;
+    public bool Destroyed => Alive;
+    public bool Alive => _hp > 0;
+    public bool IsStaggering => false;
+    public bool IsCinch => false;
+    public bool Initialized { get; set; }
+    public HitInfo TakeDamage(CombinedDamageData combinedDamageData)
+    {
+        this.TakeDamage(combinedDamageData.Damage);
+        return new HitInfo { HitType = HitType.None, Damage = combinedDamageData.Damage };
+    }
+
+    public void InstantDead(CombinedDamageForceData damageForceData)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ApplyTrueDamage(float damage, ActorType actorType)
+    {
+        this.TakeDamage(damage);
+    }
+
+    public float Heal(HealData healData)
+    {
+        RegenerateHP(healData.Amount);
+        return healData.Amount;
+    }
+
+    public event Action<float, float> OnHpChanged;
+    public event Action OnStatusEffectChanged;
+    public event Action<StatusEffectType, int> OnStatusEffectDmgTaken;
+    public void WakeUpAttack()
+    {
+        
     }
 }

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ccac0e845c04dc882fa3718e2eb957a, type: 3}
+  m_Name: team_ally
+  m_EditorClassIdentifier: 
+  id: 
+  pools: {fileID: 11400000, guid: d0cc5e2268490194eb9059b0595342cf, type: 2}
+  ticker: {fileID: 11400000, guid: 5e569b47adef45c46ad404d98c125f82, type: 2}
+  earlyTick: 0
+  tick: 0
+  lateTick: 0
+  fixedTick: 0
+  allyCollection: {fileID: 11400000, guid: 100d8617baede674a8c9bd2b71b3dffa, type: 2}
+  enemyCollection: {fileID: 11400000, guid: edadadc243fa83d409cef596386eedc9, type: 2}
+  breakableCollection: {fileID: 0}
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  allyLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  hitBoxLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  enemyHitBoxLayer:
+    serializedVersion: 2
+    m_Bits: 262144
+  index: 0

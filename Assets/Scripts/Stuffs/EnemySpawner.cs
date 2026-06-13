@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Enemy.Base;
+using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -9,18 +11,27 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private LayerMask mask;
     [SerializeField] private Vector2 spawnExtend;
     [SerializeField] private float ticksPerSecond;
+    [SerializeField] private int spawnChance = 9;
     private bool stop;
     
     private float elapsed = 0;
     private float tickDuration;
+    
+    private DifficultyManager difficultyManager => DifficultyManager.Instance;
+    
     private void Start() {
         tickDuration = 1 / ticksPerSecond;
         //mask = LayerMask.GetMask("Terrain", "Water");
     }
-    public void AttemptToSpawn(Vector2 origin)
+    public void AttemptToSpawn(Vector2 origin, bool isNight = false)
     {
         var possibility = Random.Range(1, 2001);
-        if (possibility < 9)
+        var spawnChance = 0;
+        if (difficultyManager != null)
+        {
+            spawnChance = isNight ? difficultyManager.GetNightTimeSpawnChance() : difficultyManager.DayTimeSpawnChance;
+        }
+        if (possibility < spawnChance)
         {
             var enemyGroup = enemyGroups[0];
             var randX = Random.Range(origin.x - spawnExtend.x, origin.x + spawnExtend.x);
@@ -41,7 +52,7 @@ public class EnemySpawner : MonoBehaviour
     private void Update() {
         if(!Client.ins.isHost) return;
         
-        if(DayNightCircle.time < 1.1f) return;
+        if(!DayNightCircle.ins.IsNight) return;
         if(elapsed > tickDuration){
             int numLoop = (int)(elapsed / tickDuration);
             for(int i = 0; i < numLoop; i++){

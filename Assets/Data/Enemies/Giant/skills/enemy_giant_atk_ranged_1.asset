@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad58fd497a854e17a83a3757255e39f7, type: 3}
+  m_Name: enemy_giant_atk_ranged_1
+  m_EditorClassIdentifier: 
+  id: 
+  pools: {fileID: 11400000, guid: d0cc5e2268490194eb9059b0595342cf, type: 2}
+  ticker: {fileID: 11400000, guid: 5e569b47adef45c46ad404d98c125f82, type: 2}
+  earlyTick: 0
+  tick: 0
+  lateTick: 0
+  fixedTick: 0
+  title: Goblin
+  type: 0
+  icon: {fileID: 0}
+  desc: 
+  triggerChanged: 0
+  ignoreDamageForce: 0
+  canRecast: 0
+  canRollCancel: 0
+  turnOffWeapon: 1
+  turnOnRangeWeapon: 0
+  canInvisible: 0
+  aimAssistAngle: 180
+  cooldown: 0
+  needCoolDownFirstTime: 0
+  range: 25
+  radius: 1
+  rootMotionMult: 1
+  skillPartialActions: []
+  delayAttack: 0
+  notCoolDownWhenPerforming: 0
+  canPerformingUseSkill: 0
+  rangeBonus: 0
+  radiusBonus: 0
+  _reduceCoolDown: 0
+  animation: atk_1
+  animSpeed: 1
+  animFade: 1
+  trackingSpeed: 5
+  trackingSnapOnBegin: 0
+  trackingSnapOnShoot: 0
+  stickManSnapOnShoot: 1
+  showAimLine: 0
+  snapDirectionToTarget: 0
+  snapDirectionToTargetMinYAngle: 0
+  clampRangeOnSnapDirection: 0
+  randomRange: 0
+  shootForward: 0
+  shootTime: 1
+  shootTimeDelay: 0.1
+  shootTimeSpread: 5
+  shootTimeDamageBonus: 0
+  shootTimeRangeBonus: 0
+  spreadAngleStep: 0
+  randomAngleStep: 0
+  spreadCount: 1
+  randomSpreadCount: 0
+  spreadDamageBonus: 0
+  useCurrentWeapon: 1
+  attachConfigs:
+  - Slot: 2
+    WeaponPrefab: {fileID: 0}
+  randomMissile: 0
+  missileData:
+  - missilePrefab: {fileID: 8341125650713526139, guid: a50e1f8294ed6744682a5ed53c05be1d, type: 3}
+    flyAction: {fileID: 11400000, guid: 4c8e1d6fa7a00f547a5045381c04d752, type: 2}
+    hitAction: {fileID: 11400000, guid: ca05092acf8deda459c5d171df4b2a54, type: 2}
+    shootAction: {fileID: 0}
+    despawnAction: {fileID: 0}
+  selfKnockBack: 0
+  prepareFeedback: {fileID: 0}
+  shootFeedback: {fileID: 0}
+  shootTimeDisplayText:
+    text: 
+  shootDisplayText:
+    text: 
+  indicatorPrefab: {fileID: 0}
+  launchPosOffset: {x: 0, y: 0, z: 0}
+  indicatorPerSpread: 0

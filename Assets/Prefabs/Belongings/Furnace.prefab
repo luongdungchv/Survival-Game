@@ -30,13 +30,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 426130791308642496}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 295.72458, y: 74.571594, z: 372.73602}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6011359701813265767}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &426130791308642510
 MeshFilter:
@@ -57,6 +58,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -95,9 +97,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 426130791308642496}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 3.5, y: 5.743502, z: 3.5}
   m_Center: {x: 0, y: 1.8998401, z: 0.0067236423}
 --- !u!114 &6062679688848879219
@@ -142,6 +152,7 @@ MonoBehaviour:
   minDrop: 1
   maxDrop: 1
   requiredTools: []
+  dmgPopupPos: {fileID: 0}
 --- !u!114 &2637354228271908921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,12 +197,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3659717180466992281}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 426130791308642509}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7418213147263605782
 MonoBehaviour:
@@ -208,7 +220,7 @@ MonoBehaviour:
   displayName: Furnace
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
-  distanceThreshold: 5
+  distanceThreshold: 10
   isPlayerTouch: 0
   inputSlot:
     quantity: 0
@@ -256,9 +268,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3659717180466992281}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 7, y: 5.8936462, z: 7}
   m_Center: {x: 0, y: 1.98, z: 0}
 --- !u!114 &8198296315576429243
@@ -277,3 +297,4 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 256
+  logDetect: 0

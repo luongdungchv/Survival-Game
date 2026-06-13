@@ -34,16 +34,22 @@ public class InteractableObject : MonoBehaviour
     }
     public virtual void OnUpdate()
     {
-        if ((transform.position - playerTransform.position).sqrMagnitude > distanceThreshold) return;
+        var length = (transform.position - playerTransform.position).sqrMagnitude;
+        if (length > sqrDist)
+        {
+            return;
+        }
         hitbox.DetectHit();
     }
     public bool TouchDetect(RaycastHit target)
     {
         if (!interactable) return false;
+        Debug.LogError(target.collider.name);
         var netPlayer = target.collider.GetComponent<NetworkPlayer>();
+        if (netPlayer == null) return false;
         if (!netPlayer.isLocalPlayer) return false;
         if (isPlayerTouch) return true;
-        if (target.collider.tag == "Player" && !isPlayerTouch)
+        if (target.collider.CompareTag("Player") && !isPlayerTouch)
         {
             btnInstance = Instantiate(interactBtnPrefab);
             btnInstance.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = displayName;

@@ -1,0 +1,219 @@
+﻿using System.Collections.Generic;
+
+namespace BoxHead2.Utils
+{
+    public static class EventName
+    {
+        public const string LastTaskProperties = "last_task_properties";
+        public const string EarnResource = "earn_resource";
+        public const string SpendResource = "spend_resource";
+        public const string TaskStart = "task_start";
+        public const string TaskEnd = "task_end";
+        public const string TutorialComplete = "tutorial_complete";
+        public const string AdsImpression = "ads_impression";
+        public const string AdsCompleted = "ads_complete";
+        public const string AdsRequest = "ads_request";
+        public const string AdsClick = "ads_click";
+        public const string IapShow = "iap_show";
+        public const string IapClick = "iap_click";
+        public const string IapComplete = "iap_complete";
+        public const string IapXsollaComplete = "iap_purchase_success_xsolla";
+        public const string TalentUnlock = "talent_unlock";
+        public const string TalentReset = "talent_reset";
+        public const string Gacha = "gacha";
+        public const string StartMissionInfo = "player_start_mission_info";
+        public const string RuneAdd = "rune_add";
+        public const string RuneRemove = "rune_remove";
+        public const string RuneMerge = "rune_merge";
+        public const string EssenceMerge = "essence_material_merge";
+        public const string RuneReforge = "rune_reforge";
+        public const string TradingShopBuy = "trading_shop_buy";
+        public const string CharacterUnlock = "character_unlock";
+        public const string RatingClick = "rating_click";
+
+        public const string DungeonStart = "dungeon_start";
+        public const string DungeonEnd = "dungeon_end";
+        public const string DungeonRetry = "dungeon_win_lose";
+        
+        //Event Databuckets
+        public const string MissionStartIndex = "mission_start_{0}";
+        public const string MissionStart = "mission_start";
+        public const string MissionEnd = "mission_end";
+        public const string MissionExit = "mission_exit";
+        public const string MissionReopen = "mission_reopen";
+        public const string IapSuccess = "iap_purchase_success";
+        public const string IapFailed = "iap_purchase_failed";
+        public const string FeatureFirstShow = "feature_first_show";
+        public const string FeatureOpen = "feature_open";
+        public const string FeatureClose = "feature_close";
+        public const string TowerStart = "tower_start";
+        public const string TowerEnd = "tower_end";
+        
+        public static readonly Dictionary<string, double> CurrencyRate = new()
+        {
+            { "USD", 1 },
+            { "AED", 3.6725 },
+            { "AFN", 71.0577 },
+            { "ALL", 85.2861 },
+            { "AMD", 385.7476 },
+            { "ANG", 1.79 },
+            { "AOA", 920.3104 },
+            { "ARS", 1167.33 },
+            { "AUD", 1.5515 },
+            { "AWG", 1.79 },
+            { "AZN", 1.7001 },
+            { "BAM", 1.6924 },
+            { "BBD", 2.0 },
+            { "BDT", 122.2782 },
+            { "BGN", 1.6937 },
+            { "BHD", 0.376 },
+            { "BIF", 2973.6291 },
+            { "BMD", 1.0 },
+            { "BND", 1.2879 },
+            { "BOB", 6.9257 },
+            { "BRL", 5.5082 },
+            { "BSD", 1.0 },
+            { "BTN", 86.6299 },
+            { "BWP", 13.4834 },
+            { "BYN", 3.1511 },
+            { "BZD", 2.0 },
+            { "CAD", 1.3742 },
+            { "CDF", 2881.9061 },
+            { "CHF", 0.8148 },
+            { "CLP", 941.5507 },
+            { "CNY", 7.1829 },
+            { "COP", 4083.5753 },
+            { "CRC", 505.324 },
+            { "CUP", 24.0 },
+            { "CVE", 95.4121 },
+            { "CZK", 21.5444 },
+            { "DJF", 177.721 },
+            { "DKK", 6.4448 },
+            { "DOP", 59.3793 },
+            { "DZD", 130.3108 },
+            { "EGP", 50.6761 },
+            { "ERN", 15.0 },
+            { "ETB", 135.2022 },
+            { "EUR", 0.866 },
+            { "FJD", 2.2718 },
+            { "FKP", 0.7413 },
+            { "FOK", 6.4475 },
+            { "GBP", 0.741 },
+            { "GEL", 2.7251 },
+            { "GGP", 0.7413 },
+            { "GHS", 10.5536 },
+            { "GIP", 0.7413 },
+            { "GMD", 72.742 },
+            { "GNF", 8699.1114 },
+            { "GTQ", 7.6928 },
+            { "GYD", 209.1936 },
+            { "HKD", 7.8502 },
+            { "HNL", 26.1256 },
+            { "HRK", 6.5196 },
+            { "HTG", 131.2218 },
+            { "HUF", 349.5889 },
+            { "IDR", 16497.8184 },
+            { "ILS", 3.4493 },
+            { "IMP", 0.7413 },
+            { "INR", 86.6275 },
+            { "IQD", 1308.878 },
+            { "IRR", 42481.3357 },
+            { "ISK", 124.5497 },
+            { "JEP", 0.7413 },
+            { "JMD", 159.7836 },
+            { "JOD", 0.709 },
+            { "JPY", 146.3374 },
+            { "KES", 129.2445 },
+            { "KGS", 87.3334 },
+            { "KHR", 4028.7296 },
+            { "KID", 1.549 },
+            { "KMF", 425.699 },
+            { "KRW", 1378.2745 },
+            { "KWD", 0.3064 },
+            { "KYD", 0.8333 },
+            { "KZT", 521.9567 },
+            { "LAK", 21701.3228 },
+            { "LBP", 89500.0 },
+            { "LKR", 300.6377 },
+            { "LRD", 200.0816 },
+            { "LSL", 17.9293 },
+            { "LYD", 5.4496 },
+            { "MAD", 9.1414 },
+            { "MDL", 17.1834 },
+            { "MGA", 4432.9623 },
+            { "MKD", 53.439 },
+            { "MMK", 2098.6023 },
+            { "MNT", 3604.9387 },
+            { "MOP", 8.0856 },
+            { "MRU", 39.7112 },
+            { "MUR", 45.6588 },
+            { "MVR", 15.4451 },
+            { "MWK", 1741.8448 },
+            { "MXN", 19.1583 },
+            { "MYR", 4.2922 },
+            { "MZN", 63.6285 },
+            { "NAD", 17.9293 },
+            { "NGN", 1549.4864 },
+            { "NIO", 36.8126 },
+            { "NOK", 10.1019 },
+            { "NPR", 138.6078 },
+            { "NZD", 1.6767 },
+            { "OMR", 0.3845 },
+            { "PAB", 1.0 },
+            { "PEN", 3.5991 },
+            { "PGK", 4.1369 },
+            { "PHP", 57.4899 },
+            { "PKR", 283.8015 },
+            { "PLN", 3.7113 },
+            { "PYG", 8012.5126 },
+            { "QAR", 3.64 },
+            { "RON", 4.3857 },
+            { "RSD", 102.1455 },
+            { "RUB", 78.4397 },
+            { "RWF", 1447.436 },
+            { "SAR", 3.75 },
+            { "SBD", 8.553 },
+            { "SCR", 14.5087 },
+            { "SDG", 454.1131 },
+            { "SEK", 9.6416 },
+            { "SGD", 1.2876 },
+            { "SHP", 0.7413 },
+            { "SLE", 22.4663 },
+            { "SLL", 22466.2843 },
+            { "SOS", 571.3929 },
+            { "SRD", 38.8154 },
+            { "SSP", 4707.8474 },
+            { "STN", 21.1998 },
+            { "SYP", 12916.623 },
+            { "SZL", 17.9293 },
+            { "THB", 32.8501 },
+            { "TJS", 9.8801 },
+            { "TMT", 3.5001 },
+            { "TND", 2.9251 },
+            { "TOP", 2.385 },
+            { "TRY", 39.7058 },
+            { "TTD", 6.7978 },
+            { "TVD", 1.549 },
+            { "TWD", 29.6002 },
+            { "TZS", 2627.7058 },
+            { "UAH", 41.8874 },
+            { "UGX", 3604.672 },
+            { "UYU", 40.9591 },
+            { "UZS", 12372.5125 },
+            { "VES", 105.4527 },
+            { "VND", 26123.2016 },
+            { "VUV", 119.2362 },
+            { "WST", 2.6868 },
+            { "XAF", 567.5986 },
+            { "XCD", 2.7 },
+            { "XCG", 1.79 },
+            { "XDR", 0.7348 },
+            { "XOF", 567.5986 },
+            { "XPF", 103.2578 },
+            { "YER", 242.7048 },
+            { "ZAR", 17.9286 },
+            { "ZMW", 23.2169 },
+            { "ZWL", 26.9965 },
+        };
+    }
+}

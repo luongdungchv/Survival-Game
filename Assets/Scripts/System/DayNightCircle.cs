@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class DayNightCircle : MonoBehaviour
 {
+    public static DayNightCircle ins;
+    
     [SerializeField] private Vector3 start, end;
     [SerializeField] private Gradient upperColors, lowerColors, lightColors, fogColors, ambientEquatorColor;
     [SerializeField] private Transform lightObj;
@@ -12,24 +14,33 @@ public class DayNightCircle : MonoBehaviour
     [SerializeField] private Color ambientSideColor, ambientSkyColor;
     [SerializeField] private float dayTime;
     [SerializeField] private GameObject flare;
+    [SerializeField] private float nightTimeValue;
+
+    private int day;
     
-    private static DayNightCircle ins;
     public static float time => ins.value;
+    
+    public bool IsNight => value >= nightTimeValue;
+    public int CurrentDay => this.day;
+    
     private void Awake() {
         ins = this;
     }
     void Start()
     {
         this.value = 0;
+        this.day = 0;
         StartCoroutine(Circulate(dayTime));
     }
 
     IEnumerator Circulate(float duration)
     {
-        value += Time.deltaTime / duration;
-        this.ConfigMaterial();
-        yield return null;
-        StartCoroutine(Circulate(duration));
+        while (true)
+        {
+            value += Time.deltaTime / duration;
+            this.ConfigMaterial();
+            yield return null;
+        }
     }
 
 
@@ -66,6 +77,10 @@ public class DayNightCircle : MonoBehaviour
 
         this.flare.gameObject.SetActive(value < 1 && value > 0.14f);
 
-        if (value >= 2) value = 0;
+        if (value >= 2)
+        {
+            value = 0;
+            day++;
+        }
     }
 }

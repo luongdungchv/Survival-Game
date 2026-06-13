@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1bf562427b44ef582ef8aee23ff4dfc, type: 3}
+  m_Name: enemy_boss_giant_config_detail
+  m_EditorClassIdentifier: 
+  id: 
+  pools: {fileID: 11400000, guid: d0cc5e2268490194eb9059b0595342cf, type: 2}
+  ticker: {fileID: 11400000, guid: 5e569b47adef45c46ad404d98c125f82, type: 2}
+  earlyTick: 0
+  tick: 0
+  lateTick: 0
+  fixedTick: 0
+  aiPrefab: {fileID: 1041595585739356975, guid: 15deb6308cff07f4490dfa3a49c7bc0e, type: 3}
+  weapon: {fileID: 0}
+  specialSkills: []
+  skillCombos:
+  - skillName: atk 1
+    weight: 1
+    initialCooldown: 0
+    cooldown: 0
+    condition:
+      use: 1
+      conditions: []
+    skills:
+    - {fileID: 11400000, guid: e24a08742a2d5bc4db511b1602084709, type: 2}
+    isSameAllyUse: 0

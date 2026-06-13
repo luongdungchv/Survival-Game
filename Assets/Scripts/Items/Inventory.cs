@@ -90,6 +90,7 @@ public class Inventory : MonoBehaviour
     public bool isEquipSlot(int index) => index < equipSlotCount;
     public bool Add(Item itemData, int quantity)
     {
+        Debug.LogError((itemData.itemName));
         if (quantity > maxInventorySlot || quantity == 0 || itemData == null) return false;
         bool stackable = itemData.stackable;
 

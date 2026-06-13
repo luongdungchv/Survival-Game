@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b1f3384e59c5b844bcc0514bc984d47, type: 3}
+  m_Name: enemy_goblin_feedback
+  m_EditorClassIdentifier: 
+  id: 
+  pools: {fileID: 11400000, guid: d0cc5e2268490194eb9059b0595342cf, type: 2}
+  ticker: {fileID: 11400000, guid: 5e569b47adef45c46ad404d98c125f82, type: 2}
+  earlyTick: 0
+  tick: 0
+  lateTick: 0
+  fixedTick: 0
+  appearFeedback: {fileID: 0}
+  idleFeedback: {fileID: 0}
+  footFeedback: {fileID: 0}
+  jumpFeedback: {fileID: 0}
+  jumpLandingFeedback: {fileID: 0}
+  getHitFeedback: {fileID: 0}
+  deadFeedback: {fileID: 0}
+  staggerFeedback: {fileID: 0}
+  rollFeedback: {fileID: 0}
+  reviveFeedback: {fileID: 0}
+  healFeedback: {fileID: 0}
+  stealthEnterFeedback: {fileID: 0}
+  stealthExitFeedback: {fileID: 0}

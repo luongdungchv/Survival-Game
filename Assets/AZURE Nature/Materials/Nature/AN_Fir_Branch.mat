@@ -140,7 +140,7 @@ Material:
     - _Color2Fade1: -0.6
     - _Color2Int: 0
     - _Color2Intensity: 1
-    - _Color2Level: -0.24
+    - _Color2Level: 0.19
     - _Color2Level1: 0.7
     - _Color2OverlayType: 0
     - _Color2Power: 0
@@ -205,8 +205,8 @@ Material:
     - __dirty: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0.18262173, g: 0.6603774, b: 0, a: 0}
-    - _Color2: {r: 0.1597293, g: 0.44339612, b: 0.044339478, a: 0}
+    - _Color1: {r: 0.45887768, g: 0.7372549, b: 0, a: 0}
+    - _Color2: {r: 0.35758612, g: 0.5999999, b: 0.05320751, a: 0}
     - _Color3: {r: 0, g: 0, b: 0, a: 0}
     - _CoverageColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

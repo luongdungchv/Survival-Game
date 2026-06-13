@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f5647be53204fcfa55392c545924fea, type: 3}
+  m_Name: enemy_giant_atk_melee
+  m_EditorClassIdentifier: 
+  id: 
+  pools: {fileID: 11400000, guid: d0cc5e2268490194eb9059b0595342cf, type: 2}
+  ticker: {fileID: 11400000, guid: 5e569b47adef45c46ad404d98c125f82, type: 2}
+  earlyTick: 0
+  tick: 0
+  lateTick: 0
+  fixedTick: 0
+  title: Goblin
+  type: 0
+  icon: {fileID: 0}
+  desc: 
+  triggerChanged: 0
+  ignoreDamageForce: 0
+  canRecast: 0
+  canRollCancel: 0
+  turnOffWeapon: 1
+  turnOnRangeWeapon: 0
+  canInvisible: 0
+  aimAssistAngle: 180
+  cooldown: 0
+  needCoolDownFirstTime: 0
+  range: 3
+  radius: 1
+  rootMotionMult: 1
+  skillPartialActions: []
+  delayAttack: 0
+  notCoolDownWhenPerforming: 0
+  canPerformingUseSkill: 0
+  rangeBonus: 0
+  radiusBonus: 0
+  _reduceCoolDown: 0
+  animation: atk_1
+  clip: {fileID: 7400000, guid: 5b9ea35aedae46b4fb66a9072f3b781e, type: 2}
+  animSpeed: 1
+  animFade: 1
+  moveTowardSpeed: 0
+  deceleration: 5
+  trackingSpeed: 5
+  rotateOffset: {x: 0, y: 0, z: 0}
+  useCurrentWeapon: 0
+  attachConfigs: []
+  extraDamageFrame: 0
+  hurtBoxResetInterval: -1
+  hurtBoxGroupPrefabs:
+  - {fileID: 7303953758914594196, guid: a2fc4492bf127f8408b5eb405a4ff2d0, type: 3}
+  damageLayer: 2
+  meleeHitsData:
+  - damageConfig:
+      damageType: 1
+      damageScaleType: 0
+      canNotEvade: 0
+      canNotFireStatusEvent: 0
+      canOverrideDotDamageByWeapon: 0
+      damage: 1
+      damageBonus: 0
+      criticalChance: 0
+      staggerChance: 0
+      staggerDuration: 0
+      slowChance: 0
+      slowDuration: 0
+      slowValue: 0
+      backDamageBonus: 0
+      extendDamageDotDuration: 0
+      attackId: 0
+      damageForceData:
+        type: 0
+        duration: 0
+        force: 0
+        reverse: 0
+        preventPullEscape: 0
+        overrideCurrentDamageForce: 0
+        addToCurrentDamageForce: 0
+      StatusDamageEffectDatas: []
+    trailFxPrefab: {fileID: 0}
+    trailSpeed: 0
+    specificWeaponSlots: []
+    attackIndicatorData:
+      attackIndicatorPrefab: {fileID: 0}
+      updateRadius: 1
+      radius: 0
+      updatePosition: 1
+      positionOffset: {x: 0, y: 0, z: 0}
+      rotationOffset: {x: 0, y: 0, z: 0}
+  beginTrailFeedback: {fileID: 0}
+  hitFxPrefab: {fileID: 0}
+  hitFeedback:
+    hitWood: {fileID: 0}
+    hitMetal: {fileID: 0}
+    hitMeat: {fileID: 0}
+  feedbackFxPrefab: []
+  feedbacks: []
+  feedbacksOffset: []
+  dynamicDashAttack: 0
+  minDashAttackRange: 1
+  dashFrontOffset: -1
+  dashAttackRange: 6
+  onHitSubAction: []

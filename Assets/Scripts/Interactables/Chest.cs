@@ -29,11 +29,15 @@ public class Chest : InteractableObject
         var coins = NetworkPlayer.localPlayer.GetComponent<PlayerStats>().coins;
         if (coins >= baseCost * chestLevel)
         {
-            openChestPacket.WriteData(Client.ins.clientId, netObj.id, "open", null);
-            Client.ins.SendTCPPacket(openChestPacket);
             if (Client.ins.isHost)
             {
                 Open(NetworkPlayer.localPlayer);
+            }
+
+            if (!Client.ins.isSinglePlayer)
+            {
+                openChestPacket.WriteData(Client.ins.clientId, netObj.id, "open", null);
+                Client.ins.SendTCPPacket(openChestPacket);
             }
         }
     }

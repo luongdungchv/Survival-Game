@@ -32,7 +32,7 @@ public class GameFunctions : MonoBehaviour
             if (interactBtnContainer.childCount > 0)
             {
                 var btn = interactBtnContainer.GetChild(0).GetComponent<Button>();
-                btn.onClick.Invoke();
+                btn.onClick?.Invoke();
             }
         }
         if (InputReader.ins.OpenInventoryPress())

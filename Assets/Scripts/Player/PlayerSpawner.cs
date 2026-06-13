@@ -18,15 +18,15 @@ public class PlayerSpawner : MonoBehaviour
 
         RaycastHit hit;
         bool cast = Physics.Raycast(castPos + Vector3.right * int.Parse(Client.ins.clientId) * 5, Vector3.down, out hit, 100, mask);
-        while (hit.collider.tag == "Water")
+        while (hit.collider != null && hit.collider.CompareTag("Water"))
         {
             castPos = new Vector3(randObj.NextFloat(100, 1400) + int.Parse(Client.ins.clientId) * 5, 100, randObj.NextFloat(100, 1400));
             cast = Physics.Raycast(castPos, Vector3.down, out hit, 100, mask);
         }
-
-
+        
         transform.position = hit.point + Vector3.up * 3;
         var pos = transform.position;
+        if (cast) Debug.LogError((hit.point, pos));
 
         GetComponent<NetworkPlayer>().id = Client.ins.clientId;
         GetComponent<NetworkPlayer>().port = Client.ins.udp.port;

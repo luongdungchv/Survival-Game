@@ -13,6 +13,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private int chunksPerEdge;
     [SerializeField] private float scale, falloff;
     [SerializeField] private Transform staticBatchingRoot;
+    [SerializeField] private bool suppressInit;
     public float vertMaxHeight;
     
     public static int MapWidth => 1500;
@@ -32,6 +33,7 @@ public class MapGenerator : MonoBehaviour
     {
         ins = this;
         seed = Client.ins.mapSeed;
+        if (this.suppressInit) return;
         var mesh = GetComponent<MeshFilter>().mesh;
         var verts = mesh.vertices;
 
@@ -41,6 +43,7 @@ public class MapGenerator : MonoBehaviour
     }
 
     private void Start() {
+        if (this.suppressInit) return;
         this.GetComponent<TreeSpawner>().Init();
         this.GetComponent<OreSpawner>().Init();
         this.GetComponent<PredropSpawner>().Init();
@@ -49,7 +52,7 @@ public class MapGenerator : MonoBehaviour
         //DL.Utils.CoroutineUtils.Invoke(this, () => StaticBatchingUtility.Combine(this.pendingStaticBatchingTree.ToArray(), this.staticBatchingRoot.gameObject), 0);
     }
 
-    public void UpdateTexture(float[,] noiseMap)
+    private void UpdateTexture(float[,] noiseMap)
     {
 
         int width = noiseMap.GetLength(0);
@@ -82,7 +85,7 @@ public class MapGenerator : MonoBehaviour
         Debug.Log(texArray);
 
     }
-    public void UpdateMesh()
+    private void UpdateMesh()
     {
         var randObj = new CustomRandom(seed);
         var offsetVector = new Vector2(randObj.NextFloat(0, 1000), randObj.NextFloat(0, 1000));

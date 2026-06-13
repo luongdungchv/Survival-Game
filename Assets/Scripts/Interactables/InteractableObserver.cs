@@ -11,6 +11,8 @@ public class InteractableObserver : MonoBehaviour
     public static InteractableObserver instance;
     [SerializeField] private List<InteractableObject> interactables;
     [SerializeField] private NativeList<Vector3> posList;
+    [SerializeField] private float sqrDist = 30f;
+    
     public void SubscribeInteractable(InteractableObject obj){
         this.interactables.Add(obj);
         posList.Add(obj.transform.position);
@@ -37,7 +39,7 @@ public class InteractableObserver : MonoBehaviour
             stateList = scheduleBuffer,
             posList = posBuffer,
             playerPos = NetworkPlayer.localPlayer.transform.position,
-            threshold = 10
+            threshold = sqrDist
         };
         var handle = job.Schedule(interactables.Count, Mathf.CeilToInt(interactables.Count / 8));
         handle.Complete();

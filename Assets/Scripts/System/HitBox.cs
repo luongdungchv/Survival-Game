@@ -7,10 +7,16 @@ public class HitBox : MonoBehaviour
     protected ParticleSystem atkVfx;
     [SerializeField] protected ParticleSystem hitVfx;
     [SerializeField] private LayerMask mask;
+    [SerializeField] private bool logDetect;
+
+    private RaycastHit[] hitBuffer;
+    
     private void Awake()
     {
         hitbox = GetComponent<BoxCollider>();
         atkVfx = GetComponentInChildren<ParticleSystem>();
+        
+        hitBuffer = new RaycastHit[10];
 
     }
 
@@ -23,14 +29,20 @@ public class HitBox : MonoBehaviour
         var size = hitboxWorldSize.x;
         halfExtents.x = 0;
         atkVfx?.Play();
-        var hits = Physics.BoxCastAll(origin, halfExtents, transform.right, transform.rotation, size, mask);
-        if (hits != null && hits.Length > 0)
+        if (this.logDetect) Debug.LogError(1);
+        var count = Physics.BoxCastNonAlloc(origin, halfExtents, transform.right, this.hitBuffer, transform.rotation, size, mask);
+        if (count > 0)
         {
             var canBreak = false;
-            foreach (var hit in hits)
+            for(int i = 0; i < count; i++)
+            {
+                var hit = hitBuffer[i];
+                Debug.LogError((2, hit.collider.name));
                 if (OnHitDetect(hit)) canBreak = true;
+            }
             if (canBreak) return;
         }
+        if (this.logDetect) Debug.LogError(3);
         OnNoHitDetect();
     }
     protected virtual bool OnHitDetect(RaycastHit hit)

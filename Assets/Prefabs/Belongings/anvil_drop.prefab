@@ -70,7 +70,7 @@ MonoBehaviour:
   displayName: Iron Ore
   interactBtnPrefab: {fileID: 6167012487497421208, guid: 8d1f655654d8187408d1b69e144dc88c, type: 3}
   interactable: 1
-  distanceThreshold: 5
+  distanceThreshold: 10
   isPlayerTouch: 0
   quantity: 0
   meshTex: {fileID: 0}
@@ -93,6 +93,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 256
+  logDetect: 0
 --- !u!1 &8127416175118292734
 GameObject:
   m_ObjectHideFlags: 0

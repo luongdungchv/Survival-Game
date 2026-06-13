@@ -1,0 +1,335 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1205384991665844165
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5535732632029834434}
+  - component: {fileID: 886907926343717380}
+  m_Layer: 0
+  m_Name: hurtbox (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5535732632029834434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205384991665844165}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.37, y: 1.25, z: 1.09}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5169982171910315722}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &886907926343717380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205384991665844165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e3f5609890843eba17b8970add95847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identity: {fileID: 0}
+  pools: {fileID: 11400000, guid: d0cc5e2268490194eb9059b0595342cf, type: 2}
+  ticker: {fileID: 11400000, guid: 5e569b47adef45c46ad404d98c125f82, type: 2}
+  initOnStart: 0
+  earlyTick: 0
+  tick: 0
+  lateTick: 0
+  fixedTick: 0
+  cleanUpOnDestroy: 0
+  radius: 1.3
+  damageScale: 1
+  insideRadiusRatio: -1
+  insideDamageScale: 1
+  overrideInsideDamageForce: 0
+  insideDamageForce:
+    type: 0
+    duration: 0
+    force: 0
+    reverse: 0
+    preventPullEscape: 0
+    overrideCurrentDamageForce: 0
+    addToCurrentDamageForce: 0
+  explosionForce: 0
+  startFrame: 17
+  endFrame: 18
+--- !u!1 &2285672120592190253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1255734843923477764}
+  - component: {fileID: 2698651792820735521}
+  m_Layer: 0
+  m_Name: hurtbox (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1255734843923477764
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2285672120592190253}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.44, y: 1.25, z: 2.31}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5169982171910315722}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2698651792820735521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2285672120592190253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e3f5609890843eba17b8970add95847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identity: {fileID: 0}
+  pools: {fileID: 11400000, guid: d0cc5e2268490194eb9059b0595342cf, type: 2}
+  ticker: {fileID: 11400000, guid: 5e569b47adef45c46ad404d98c125f82, type: 2}
+  initOnStart: 0
+  earlyTick: 0
+  tick: 0
+  lateTick: 0
+  fixedTick: 0
+  cleanUpOnDestroy: 0
+  radius: 1.3
+  damageScale: 1
+  insideRadiusRatio: -1
+  insideDamageScale: 1
+  overrideInsideDamageForce: 0
+  insideDamageForce:
+    type: 0
+    duration: 0
+    force: 0
+    reverse: 0
+    preventPullEscape: 0
+    overrideCurrentDamageForce: 0
+    addToCurrentDamageForce: 0
+  explosionForce: 0
+  startFrame: 16
+  endFrame: 17
+--- !u!1 &3791676047566535442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3245337034350880646}
+  - component: {fileID: 6184160067614419602}
+  m_Layer: 0
+  m_Name: hurtbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3245337034350880646
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3791676047566535442}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.33, y: 2.19, z: -1.45}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5169982171910315722}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6184160067614419602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3791676047566535442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e3f5609890843eba17b8970add95847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identity: {fileID: 0}
+  pools: {fileID: 11400000, guid: d0cc5e2268490194eb9059b0595342cf, type: 2}
+  ticker: {fileID: 11400000, guid: 5e569b47adef45c46ad404d98c125f82, type: 2}
+  initOnStart: 0
+  earlyTick: 0
+  tick: 0
+  lateTick: 0
+  fixedTick: 0
+  cleanUpOnDestroy: 0
+  radius: 1.3
+  damageScale: 1
+  insideRadiusRatio: -1
+  insideDamageScale: 1
+  overrideInsideDamageForce: 0
+  insideDamageForce:
+    type: 0
+    duration: 0
+    force: 0
+    reverse: 0
+    preventPullEscape: 0
+    overrideCurrentDamageForce: 0
+    addToCurrentDamageForce: 0
+  explosionForce: 0
+  startFrame: 11
+  endFrame: 13
+--- !u!1 &4663222558703799132
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1124492406896413873}
+  - component: {fileID: 1810893459566216274}
+  m_Layer: 0
+  m_Name: hurtbox (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1124492406896413873
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4663222558703799132}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.33, y: 1.79, z: 0.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5169982171910315722}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1810893459566216274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4663222558703799132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e3f5609890843eba17b8970add95847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identity: {fileID: 0}
+  pools: {fileID: 11400000, guid: d0cc5e2268490194eb9059b0595342cf, type: 2}
+  ticker: {fileID: 11400000, guid: 5e569b47adef45c46ad404d98c125f82, type: 2}
+  initOnStart: 0
+  earlyTick: 0
+  tick: 0
+  lateTick: 0
+  fixedTick: 0
+  cleanUpOnDestroy: 0
+  radius: 1.3
+  damageScale: 1
+  insideRadiusRatio: -1
+  insideDamageScale: 1
+  overrideInsideDamageForce: 0
+  insideDamageForce:
+    type: 0
+    duration: 0
+    force: 0
+    reverse: 0
+    preventPullEscape: 0
+    overrideCurrentDamageForce: 0
+    addToCurrentDamageForce: 0
+  explosionForce: 0
+  startFrame: 14
+  endFrame: 16
+--- !u!1 &8134488488266565103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5169982171910315722}
+  - component: {fileID: 7303953758914594196}
+  m_Layer: 0
+  m_Name: hurtbox_goblin_atk_melee
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5169982171910315722
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8134488488266565103}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3245337034350880646}
+  - {fileID: 1124492406896413873}
+  - {fileID: 1255734843923477764}
+  - {fileID: 5535732632029834434}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7303953758914594196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8134488488266565103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8922a65dd6684abeb7535f77d6663687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identity: {fileID: 0}
+  pools: {fileID: 11400000, guid: d0cc5e2268490194eb9059b0595342cf, type: 2}
+  ticker: {fileID: 11400000, guid: 5e569b47adef45c46ad404d98c125f82, type: 2}
+  initOnStart: 0
+  earlyTick: 0
+  tick: 0
+  lateTick: 0
+  fixedTick: 0
+  cleanUpOnDestroy: 0

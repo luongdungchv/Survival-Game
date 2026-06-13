@@ -118,6 +118,15 @@ public class Client : MonoBehaviour
         this.isHost = true;
         SceneManager.LoadScene("Test_PlayerStats");
     }
+
+    public void PlayTestLevel()
+    {
+        clientId = "0";
+        isSinglePlayer = true;
+        this.isHost = true;
+        SceneManager.LoadScene("Test Level");
+    }
+    
     public void Ready()
     {
         tcp.Send("rd");
